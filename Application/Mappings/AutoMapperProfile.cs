@@ -1,0 +1,48 @@
+﻿using AutoMapper;
+using WebApplication1.Application.DTOs.AnalyticsDTOs;
+using WebApplication1.Application.DTOs.LandingPageConfigDTOs;
+using WebApplication1.Application.DTOs.OrderDTOs;
+using WebApplication1.Application.DTOs.MediaDTOs;
+using WebApplication1.Application.DTOs.PostDTOs;
+using WebApplication1.Application.DTOs.ProductDTOs;
+using WebApplication1.Application.DTOs.ProvinceDTOs;
+using WebApplication1.Application.DTOs.UIBlockDTOs;
+using WebApplication1.Domain.Entities;
+
+namespace WebApplication1.Application.Mappings;
+
+public class AutoMapperProfile : Profile
+{
+    public AutoMapperProfile()
+    {
+        CreateMap<Province, ProvinceDto>();
+        CreateMap<ProvinceCreateDto, Province>();
+        CreateMap<ProvinceUpdateDto, Province>();
+
+        CreateMap<LandingPageConfig, LandingPageConfigDto>();
+        CreateMap<LandingPageConfigCreateDto, LandingPageConfig>();
+        CreateMap<LandingPageConfigUpdateDto, LandingPageConfig>();
+
+        CreateMap<UIBlock, UIBlockDto>();
+        CreateMap<UIBlockCreateDto, UIBlock>();
+        CreateMap<UIBlockUpdateDto, UIBlock>();
+
+        CreateMap<Product, ProductDto>();
+        CreateMap<ProductCreateDto, Product>();
+        CreateMap<ProductUpdateDto, Product>();
+
+        CreateMap<Order, OrderDto>();
+        CreateMap<OrderItem, OrderItemDto>();
+
+        CreateMap<Post, PostDto>();
+        CreateMap<PostCreateDto, Post>();
+        CreateMap<PostUpdateDto, Post>();
+
+        CreateMap<MediaItem, MediaItemDto>();
+        CreateMap<MediaItemCreateDto, MediaItem>();
+        CreateMap<MediaItemUpdateDto, MediaItem>();
+
+        CreateMap<AnalyticsEvent, AnalyticsEventDto>();
+        CreateMap<AnalyticsEventCreateDto, AnalyticsEvent>();
+    }
+}
