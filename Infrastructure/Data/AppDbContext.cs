@@ -111,9 +111,11 @@ public class AppDbContext : DbContext
             entity.HasIndex(x => x.Email).IsUnique();
             entity.Property(x => x.Role)
                 .HasConversion<int>()
-                .HasDefaultValue(UserRole.Customer);
+                .HasDefaultValue(UserRole.Customer)
+                .HasSentinel(UserRole.Customer);
             entity.Property(x => x.IsApproved)
-                .HasDefaultValue(true);
+                .HasDefaultValue(true)
+                .HasSentinel(true);
         });
 
         modelBuilder.Entity<Order>(entity =>
