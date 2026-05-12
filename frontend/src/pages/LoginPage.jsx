@@ -29,7 +29,7 @@ export default function LoginPage() {
 
   return (
     <MainLayout>
-      <section className="section">
+      <section className="section auth-bg">
         <div className="container auth-container">
           <div className="auth-card">
             <h2>Đăng nhập</h2>

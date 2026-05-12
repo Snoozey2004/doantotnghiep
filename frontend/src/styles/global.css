@@ -53,21 +53,22 @@ a {
 .header-left {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 24px;
 }
 
 .logo {
   font-weight: 700;
   font-size: 1.2rem;
   color: #0f172a;
+  white-space: nowrap;
 }
 
 .header-nav {
   display: flex;
-  gap: 18px;
+  gap: 16px;
   color: #334155;
   font-weight: 500;
-  flex-wrap: wrap;
+  white-space: nowrap;
 }
 
 .header-right {
@@ -89,8 +90,8 @@ a {
 .header-search input {
   border: none;
   outline: none;
-  min-width: 220px;
-  font-size: 0.95rem;
+  width: 260px;
+  font-size: 0.9rem;
   color: #0f172a;
 }
 
@@ -110,22 +111,37 @@ a {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
-.home-hero {
+.home-wrapper {
   position: relative;
-  background: url("/homepage.png") center/cover no-repeat;
-  color: #f8fafc;
-  overflow: hidden;
-  min-height: calc(100vh - 140px);
-  display: flex;
-  align-items: center;
-  padding: 0;
+  background: url("/homepage.png") center/cover fixed no-repeat;
+  min-height: 100vh;
 }
 
-.home-hero::after {
+.home-wrapper::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(120deg, rgba(15, 23, 42, 0.78), rgba(30, 64, 175, 0.58));
+  pointer-events: none;
+  z-index: 0;
+}
+
+.home-wrapper > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-wrapper .section-title h2 {
+  color: #fff;
+}
+
+.home-hero {
+  position: relative;
+  color: #f8fafc;
+  min-height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  padding: 0;
 }
 
 .home-hero .container {
@@ -350,7 +366,7 @@ a {
 }
 
 .dashboard-section {
-  background: #f1f5f9;
+  background: transparent;
 }
 
 .dashboard-grid {
@@ -559,9 +575,40 @@ a {
   color: #64748b;
 }
 
+.auth-bg {
+  position: relative;
+  background: url("/homepage.png") center/cover fixed no-repeat;
+  min-height: calc(100vh - 80px);
+}
+
+.auth-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(15, 23, 42, 0.78), rgba(30, 64, 175, 0.58));
+  z-index: 0;
+}
+
+.auth-bg > .container {
+  position: relative;
+  z-index: 1;
+}
+
 .auth-container {
   display: grid;
   place-items: center;
+  min-height: inherit;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .auth-card {
@@ -572,6 +619,7 @@ a {
   box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
   display: grid;
   gap: 16px;
+  animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .auth-card h2 {
