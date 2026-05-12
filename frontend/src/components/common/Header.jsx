@@ -25,7 +25,7 @@ export default function Header() {
       <div className="container header-content">
         <div className="header-left">
           <Link to="/" className="logo">
-            Vietnam Identity
+            Vietnam Local Identity
           </Link>
           <nav className="header-nav">
             <Link to="/">Trang chủ</Link>
@@ -37,7 +37,7 @@ export default function Header() {
         </div>
         <div className="header-right">
           <form className="header-search" onSubmit={handleSearchSubmit}>
-            <input type="text" placeholder="Tìm nhanh tỉnh thành hoặc nội dung" />
+            <input type="text" placeholder="Tìm tỉnh thành, nội dung..." />
             <button type="submit" className="btn btn-primary btn-sm">
               Tìm kiếm
             </button>
@@ -52,8 +52,8 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Link to="/login">Login</Link>
-                <Link to="/register">Register</Link>
+                <Link to="/login">Đăng nhập</Link>
+                <Link to="/register">Đăng ký</Link>
               </>
             )}
           </div>

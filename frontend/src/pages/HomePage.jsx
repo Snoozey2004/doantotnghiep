@@ -78,7 +78,8 @@ export default function HomePage() {
 
   return (
     <MainLayout>
-      <section className="section home-hero">
+      <div className="home-wrapper">
+        <section className="section home-hero">
         <div className="container reveal" ref={ref}>
           <div className="hero-home">
             <div>
@@ -238,6 +239,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </div>
     </MainLayout>
   );
 }

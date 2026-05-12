@@ -26,7 +26,7 @@ export default function RegisterPage() {
 
   return (
     <MainLayout>
-      <section className="section">
+      <section className="section auth-bg">
         <div className="container auth-container">
           <div className="auth-card">
             <h2>Đăng ký</h2>
