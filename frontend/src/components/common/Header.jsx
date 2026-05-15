@@ -1,5 +1,5 @@
 ﻿import { Link } from "react-router-dom";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function Header() {
   const authState = useMemo(() => {
@@ -8,6 +8,8 @@ export default function Header() {
     const role = localStorage.getItem("userRole");
     return { token, name, role };
   }, []);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const accountRef = useRef(null);
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
@@ -19,6 +21,17 @@ export default function Header() {
     localStorage.removeItem("userName");
     window.location.reload();
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (accountRef.current && !accountRef.current.contains(event.target)) {
+        setIsAccountOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <header className="site-header">
@@ -44,12 +57,34 @@ export default function Header() {
           </form>
           <div className="header-auth">
             {authState.token ? (
-              <>
-                <span>Hi, {authState.name || "Admin"}</span>
-                <button type="button" className="btn btn-sm" onClick={handleLogout}>
-                  Logout
+              <div className="account-menu" ref={accountRef}>
+                <button
+                  type="button"
+                  className="btn btn-sm account-trigger"
+                  onClick={() => setIsAccountOpen((prev) => !prev)}
+                >
+                  Hi, {authState.name || "Admin"}
                 </button>
-              </>
+                <div className={`account-dropdown ${isAccountOpen ? "is-open" : ""}`}>
+                  <Link to="/account">Tài khoản</Link>
+                  {(authState.role === "0" || authState.role === "3") && (
+                    <Link to="/admin">Dashboard</Link>
+                  )}
+                  {authState.role === "0" && (
+                    <Link to="/admin/users">Users</Link>
+                  )}
+                  {(authState.role === "0" || authState.role === "3") && (
+                    <Link to="/admin/posts">Posts</Link>
+                  )}
+                  {(authState.role === "0" || authState.role === "3") && (
+                    <Link to="/admin/media">Media</Link>
+                  )}
+                  {(authState.role === "0" || authState.role === "3") && (
+                    <Link to="/admin/landing">Landing Config</Link>
+                  )}
+                  <button type="button" onClick={handleLogout}>Logout</button>
+                </div>
+              </div>
             ) : (
               <>
                 <Link to="/login">Đăng nhập</Link>

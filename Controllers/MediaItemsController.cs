@@ -10,10 +10,12 @@ namespace WebApplication1.Controllers;
 public class MediaItemsController : ControllerBase
 {
     private readonly IMediaItemService _mediaService;
+    private readonly IAuditLogService _auditLogService;
 
-    public MediaItemsController(IMediaItemService mediaService)
+    public MediaItemsController(IMediaItemService mediaService, IAuditLogService auditLogService)
     {
         _mediaService = mediaService;
+        _auditLogService = auditLogService;
     }
 
     [HttpGet]
@@ -37,11 +39,23 @@ public class MediaItemsController : ControllerBase
         return Ok(items);
     }
 
+    [HttpGet("search")]
+    public async Task<ActionResult<List<MediaItemDto>>> Search(
+        [FromQuery] Guid? provinceId,
+        [FromQuery] string? mediaType,
+        [FromQuery] bool? isFeatured,
+        CancellationToken cancellationToken)
+    {
+        var items = await _mediaService.SearchAsync(provinceId, mediaType, isFeatured, cancellationToken);
+        return Ok(items);
+    }
+
     [HttpPost]
     [Authorize(Roles = "Admin,Editor")]
     public async Task<ActionResult<MediaItemDto>> Create([FromBody] MediaItemCreateDto dto, CancellationToken cancellationToken)
     {
         var item = await _mediaService.CreateAsync(dto, cancellationToken);
+        await _auditLogService.LogAsync($"Media item created: {item.Id} - {item.Title}", cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = item.Id }, item);
     }
 
@@ -50,6 +64,26 @@ public class MediaItemsController : ControllerBase
     public async Task<ActionResult<MediaItemDto>> Update(Guid id, [FromBody] MediaItemUpdateDto dto, CancellationToken cancellationToken)
     {
         var item = await _mediaService.UpdateAsync(id, dto, cancellationToken);
+        if (item is not null)
+        {
+            await _auditLogService.LogAsync($"Media item updated: {item.Id} - {item.Title}", cancellationToken);
+        }
+        return item is null ? NotFound() : Ok(item);
+    }
+
+    [HttpPut("{id:guid}/highlight")]
+    [Authorize(Roles = "Admin,Editor")]
+    public async Task<ActionResult<MediaItemDto>> UpdateHighlight(Guid id, [FromBody] MediaItemHighlightUpdateDto dto, CancellationToken cancellationToken)
+    {
+        var item = await _mediaService.UpdateHighlightsAsync(id, dto, cancellationToken);
+        return item is null ? NotFound() : Ok(item);
+    }
+
+    [HttpPut("{id:guid}/tags")]
+    [Authorize(Roles = "Admin,Editor")]
+    public async Task<ActionResult<MediaItemDto>> UpdateTags(Guid id, [FromBody] MediaItemTagUpdateDto dto, CancellationToken cancellationToken)
+    {
+        var item = await _mediaService.UpdateTagsAsync(id, dto, cancellationToken);
         return item is null ? NotFound() : Ok(item);
     }
 
@@ -58,6 +92,10 @@ public class MediaItemsController : ControllerBase
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var deleted = await _mediaService.DeleteAsync(id, cancellationToken);
+        if (deleted)
+        {
+            await _auditLogService.LogAsync($"Media item deleted: {id}", cancellationToken);
+        }
         return deleted ? NoContent() : NotFound();
     }
 }

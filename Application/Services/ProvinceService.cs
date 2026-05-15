@@ -35,6 +35,64 @@ public class ProvinceService : IProvinceService
         return province is null ? null : _mapper.Map<ProvinceDto>(province);
     }
 
+    public async Task<List<ProvinceDto>> SearchAsync(string? keyword, string? region, CancellationToken cancellationToken)
+    {
+        var provinces = await _provinceRepository.SearchAsync(keyword, region, cancellationToken);
+        return _mapper.Map<List<ProvinceDto>>(provinces);
+    }
+
+    public async Task<List<ProvinceRelatedDto>> GetRelatedAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var relatedProvinces = await _provinceRepository.GetRelatedAsync(id, cancellationToken);
+        return _mapper.Map<List<ProvinceRelatedDto>>(relatedProvinces);
+    }
+
+    public async Task<ProvinceDto?> UpdateHighlightsAsync(Guid id, ProvinceHighlightUpdateDto dto, CancellationToken cancellationToken)
+    {
+        var province = await _provinceRepository.GetByIdAsync(id, cancellationToken);
+        if (province is null)
+        {
+            return null;
+        }
+
+        province.IsHighlighted = dto.IsHighlighted;
+        province.HighlightOrder = dto.HighlightOrder;
+        await _provinceRepository.UpdateAsync(province, cancellationToken);
+        return _mapper.Map<ProvinceDto>(province);
+    }
+
+    public async Task<ProvinceDto?> UpdateTagsAsync(Guid id, ProvinceTagUpdateDto dto, CancellationToken cancellationToken)
+    {
+        var province = await _provinceRepository.GetByIdAsync(id, cancellationToken);
+        if (province is null)
+        {
+            return null;
+        }
+
+        province.Tags = dto.Tags;
+        await _provinceRepository.UpdateAsync(province, cancellationToken);
+        return _mapper.Map<ProvinceDto>(province);
+    }
+
+    public async Task<ProvinceAdminStatsDto?> GetStatsAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var province = await _provinceRepository.GetByIdAsync(id, cancellationToken);
+        if (province is null)
+        {
+            return null;
+        }
+
+        var stats = await _provinceRepository.GetStatsAsync(id, cancellationToken);
+        return new ProvinceAdminStatsDto
+        {
+            ProvinceId = id,
+            PostCount = stats.PostCount,
+            MediaCount = stats.MediaCount,
+            HighlightedPostCount = stats.HighlightedPostCount,
+            HighlightedMediaCount = stats.HighlightedMediaCount
+        };
+    }
+
     public async Task<ProvinceDto> CreateAsync(ProvinceCreateDto dto, CancellationToken cancellationToken)
     {
         var province = _mapper.Map<Province>(dto);

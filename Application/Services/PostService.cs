@@ -43,6 +43,43 @@ public class PostService : IPostService
         return _mapper.Map<List<PostDto>>(posts);
     }
 
+    public async Task<List<PostDto>> SearchAsync(string? keyword, Guid? provinceId, string? category, CancellationToken cancellationToken)
+    {
+        var posts = await _postRepository.SearchAsync(keyword, provinceId, category, cancellationToken);
+        return _mapper.Map<List<PostDto>>(posts);
+    }
+
+    public async Task<PostDto?> UpdateHighlightsAsync(Guid id, PostHighlightUpdateDto dto, CancellationToken cancellationToken)
+    {
+        var post = await _postRepository.GetByIdAsync(id, cancellationToken);
+        if (post is null)
+        {
+            return null;
+        }
+
+        post.IsHighlighted = dto.IsHighlighted;
+        post.HighlightOrder = dto.HighlightOrder;
+        post.LastUpdatedAt = DateTime.UtcNow;
+        post.RevisionNumber += 1;
+        await _postRepository.UpdateAsync(post, cancellationToken);
+        return _mapper.Map<PostDto>(post);
+    }
+
+    public async Task<PostDto?> UpdateTagsAsync(Guid id, PostTagUpdateDto dto, CancellationToken cancellationToken)
+    {
+        var post = await _postRepository.GetByIdAsync(id, cancellationToken);
+        if (post is null)
+        {
+            return null;
+        }
+
+        post.Tags = dto.Tags;
+        post.LastUpdatedAt = DateTime.UtcNow;
+        post.RevisionNumber += 1;
+        await _postRepository.UpdateAsync(post, cancellationToken);
+        return _mapper.Map<PostDto>(post);
+    }
+
     public async Task<PostDto> CreateAsync(PostCreateDto dto, CancellationToken cancellationToken)
     {
         var province = await _provinceRepository.GetByIdAsync(dto.ProvinceId, cancellationToken);
@@ -52,8 +89,11 @@ public class PostService : IPostService
         }
 
         var post = _mapper.Map<Post>(dto);
+        var createdAt = DateTime.UtcNow;
         post.Id = Guid.NewGuid();
-        post.CreatedAt = DateTime.UtcNow;
+        post.CreatedAt = createdAt;
+        post.RevisionNumber = 1;
+        post.LastUpdatedAt = createdAt;
         await _postRepository.AddAsync(post, cancellationToken);
         return _mapper.Map<PostDto>(post);
     }
@@ -67,6 +107,8 @@ public class PostService : IPostService
         }
 
         _mapper.Map(dto, post);
+        post.LastUpdatedAt = DateTime.UtcNow;
+        post.RevisionNumber = post.RevisionNumber + 1;
         await _postRepository.UpdateAsync(post, cancellationToken);
         return _mapper.Map<PostDto>(post);
     }

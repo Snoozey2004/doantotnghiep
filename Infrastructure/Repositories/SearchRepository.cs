@@ -20,7 +20,12 @@ public class SearchRepository : ISearchRepository
 
         if (!string.IsNullOrWhiteSpace(keyword))
         {
-            query = query.Where(p => p.Name.ToLower().Contains(keyword.ToLower()) || p.Description.ToLower().Contains(keyword.ToLower()));
+            var lowered = keyword.ToLower();
+            query = query.Where(p => p.Name.ToLower().Contains(lowered)
+                || p.Description.ToLower().Contains(lowered)
+                || p.Overview.ToLower().Contains(lowered)
+                || p.KeyFeatures.ToLower().Contains(lowered)
+                || p.Tags.ToLower().Contains(lowered));
         }
 
         if (!string.IsNullOrWhiteSpace(region))

@@ -36,6 +36,31 @@ public class MediaItemRepository : IMediaItemRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<List<MediaItem>> SearchAsync(Guid? provinceId, string? mediaType, bool? isFeatured, CancellationToken cancellationToken)
+    {
+        var query = _dbContext.MediaItems
+            .AsNoTracking()
+            .AsQueryable();
+
+        if (provinceId.HasValue)
+        {
+            query = query.Where(m => m.ProvinceId == provinceId.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(mediaType))
+        {
+            var lowered = mediaType.ToLower();
+            query = query.Where(m => m.MediaType.ToLower() == lowered);
+        }
+
+        if (isFeatured.HasValue)
+        {
+            query = query.Where(m => m.IsFeatured == isFeatured.Value);
+        }
+
+        return await query.OrderBy(m => m.SortOrder).ToListAsync(cancellationToken);
+    }
+
     public async Task AddAsync(MediaItem item, CancellationToken cancellationToken)
     {
         _dbContext.MediaItems.Add(item);

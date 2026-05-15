@@ -21,7 +21,7 @@ export default function HomePage() {
     { name: "Quy Nhơn", position: [13.782, 109.219] },
     { name: "Sa Pa", position: [22.3364, 103.8438] }
   ];
-  const [provinces, setProvinces] = useState([]);
+    const [provinces, setProvinces] = useState([]);
   const [loading, setLoading] = useState(true);
   const ref = useRevealOnScroll();
   const featuredTags = ["#VănHóa", "#LễHội", "#ẨmThực", "#DuLịch"];
@@ -47,10 +47,10 @@ export default function HomePage() {
   ];
   const heroGalleryItems = loading || provinces.length === 0 ? heroGalleryFallback : provinces.slice(0, 3);
   const highlights = provinces.slice(0, 6);
-  const featuredContent = provinces.slice(0, 4).map((province, index) => ({
-    id: province.id,
-    title: province.name,
-    imageUrl: province.imageUrl,
+    const featuredContent = provinces.slice(0, 4).map((province, index) => ({
+        id: province.id,
+        title: province.name,
+        imageUrl: province.imageUrl,
     tag: featuredTags[index % featuredTags.length],
     description: province.description
   }));

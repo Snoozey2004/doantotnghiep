@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using WebApplication1.Application.DTOs.SearchDTOs;
+using WebApplication1.Application.DTOs.ProductDTOs;
+using WebApplication1.Application.DTOs.ProvinceDTOs;
 using WebApplication1.Application.Interfaces.Repositories;
 using WebApplication1.Application.Interfaces.Services;
 
@@ -23,8 +25,8 @@ public class SearchService : ISearchService
 
         return new SearchResultDto
         {
-            Provinces = _mapper.Map<List<Application.DTOs.ProvinceDTOs.ProvinceDto>>(provinces),
-            Products = _mapper.Map<List<Application.DTOs.ProductDTOs.ProductDto>>(products)
+            Provinces = _mapper.Map<List<ProvinceDto>>(provinces),
+            Products = _mapper.Map<List<ProductDto>>(products)
         };
     }
 }

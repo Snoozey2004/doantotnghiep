@@ -10,10 +10,12 @@ namespace WebApplication1.Controllers;
 public class PostsController : ControllerBase
 {
     private readonly IPostService _postService;
+    private readonly IAuditLogService _auditLogService;
 
-    public PostsController(IPostService postService)
+    public PostsController(IPostService postService, IAuditLogService auditLogService)
     {
         _postService = postService;
+        _auditLogService = auditLogService;
     }
 
     [HttpGet]
@@ -44,11 +46,23 @@ public class PostsController : ControllerBase
         return Ok(posts);
     }
 
+    [HttpGet("search")]
+    public async Task<ActionResult<List<PostDto>>> Search(
+        [FromQuery] string? keyword,
+        [FromQuery] Guid? provinceId,
+        [FromQuery] string? category,
+        CancellationToken cancellationToken)
+    {
+        var posts = await _postService.SearchAsync(keyword, provinceId, category, cancellationToken);
+        return Ok(posts);
+    }
+
     [HttpPost]
     [Authorize(Roles = "Admin,Editor")]
     public async Task<ActionResult<PostDto>> Create([FromBody] PostCreateDto dto, CancellationToken cancellationToken)
     {
         var post = await _postService.CreateAsync(dto, cancellationToken);
+        await _auditLogService.LogAsync($"Post created: {post.Id} - {post.Title}", cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = post.Id }, post);
     }
 
@@ -57,6 +71,26 @@ public class PostsController : ControllerBase
     public async Task<ActionResult<PostDto>> Update(Guid id, [FromBody] PostUpdateDto dto, CancellationToken cancellationToken)
     {
         var post = await _postService.UpdateAsync(id, dto, cancellationToken);
+        if (post is not null)
+        {
+            await _auditLogService.LogAsync($"Post updated: {post.Id} - {post.Title}", cancellationToken);
+        }
+        return post is null ? NotFound() : Ok(post);
+    }
+
+    [HttpPut("{id:guid}/highlight")]
+    [Authorize(Roles = "Admin,Editor")]
+    public async Task<ActionResult<PostDto>> UpdateHighlight(Guid id, [FromBody] PostHighlightUpdateDto dto, CancellationToken cancellationToken)
+    {
+        var post = await _postService.UpdateHighlightsAsync(id, dto, cancellationToken);
+        return post is null ? NotFound() : Ok(post);
+    }
+
+    [HttpPut("{id:guid}/tags")]
+    [Authorize(Roles = "Admin,Editor")]
+    public async Task<ActionResult<PostDto>> UpdateTags(Guid id, [FromBody] PostTagUpdateDto dto, CancellationToken cancellationToken)
+    {
+        var post = await _postService.UpdateTagsAsync(id, dto, cancellationToken);
         return post is null ? NotFound() : Ok(post);
     }
 
@@ -65,6 +99,10 @@ public class PostsController : ControllerBase
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var deleted = await _postService.DeleteAsync(id, cancellationToken);
+        if (deleted)
+        {
+            await _auditLogService.LogAsync($"Post deleted: {id}", cancellationToken);
+        }
         return deleted ? NoContent() : NotFound();
     }
 }

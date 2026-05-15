@@ -37,6 +37,38 @@ public class MediaItemService : IMediaItemService
         return _mapper.Map<List<MediaItemDto>>(items);
     }
 
+    public async Task<List<MediaItemDto>> SearchAsync(Guid? provinceId, string? mediaType, bool? isFeatured, CancellationToken cancellationToken)
+    {
+        var items = await _mediaRepository.SearchAsync(provinceId, mediaType, isFeatured, cancellationToken);
+        return _mapper.Map<List<MediaItemDto>>(items);
+    }
+
+    public async Task<MediaItemDto?> UpdateHighlightsAsync(Guid id, MediaItemHighlightUpdateDto dto, CancellationToken cancellationToken)
+    {
+        var item = await _mediaRepository.GetByIdAsync(id, cancellationToken);
+        if (item is null)
+        {
+            return null;
+        }
+
+        item.IsHighlighted = dto.IsHighlighted;
+        await _mediaRepository.UpdateAsync(item, cancellationToken);
+        return _mapper.Map<MediaItemDto>(item);
+    }
+
+    public async Task<MediaItemDto?> UpdateTagsAsync(Guid id, MediaItemTagUpdateDto dto, CancellationToken cancellationToken)
+    {
+        var item = await _mediaRepository.GetByIdAsync(id, cancellationToken);
+        if (item is null)
+        {
+            return null;
+        }
+
+        item.Tags = dto.Tags;
+        await _mediaRepository.UpdateAsync(item, cancellationToken);
+        return _mapper.Map<MediaItemDto>(item);
+    }
+
     public async Task<MediaItemDto> CreateAsync(MediaItemCreateDto dto, CancellationToken cancellationToken)
     {
         var province = await _provinceRepository.GetByIdAsync(dto.ProvinceId, cancellationToken);

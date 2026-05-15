@@ -1,15 +1,16 @@
-﻿using WebApplication1.Application.Interfaces.Repositories;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using WebApplication1.Application.Interfaces.Repositories;
 using WebApplication1.Application.Interfaces.Services;
 using WebApplication1.Application.Mappings;
 using WebApplication1.Application.Services;
-using WebApplication1.Infrastructure.Data;
-using WebApplication1.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Enums;
+using WebApplication1.Infrastructure.Data;
+using WebApplication1.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,10 +78,14 @@ builder.Services.AddScoped<IMediaItemService, MediaItemService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IUIBlockService, UIBlockService>();
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IFileStorageService, FileStorageService>();
+builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 
 var app = builder.Build();
 
 await SeedDefaultAdminAsync(app.Services, builder.Configuration);
+await SeedSampleDataAsync(app.Services);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -89,7 +94,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+static async Task SeedSampleDataAsync(IServiceProvider services)
+{
+    using var scope = services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await DataSeeder.SeedAsync(dbContext, CancellationToken.None);
+}
+
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseCors("Frontend");
 
