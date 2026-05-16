@@ -1,62 +1,54 @@
-﻿import { Link } from "react-router-dom";
-import { useMemo } from "react";
+﻿import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { authApi } from "../../api/authApi";
 
 export default function Header() {
-  const authState = useMemo(() => {
-    const token = localStorage.getItem("accessToken");
-    const name = localStorage.getItem("userName");
-    const role = localStorage.getItem("userRole");
-    return { token, name, role };
-  }, []);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    Boolean(localStorage.getItem("accessToken"))
+  );
 
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-  };
+  useEffect(() => {
+    setIsAuthenticated(Boolean(localStorage.getItem("accessToken")));
+  }, [location.pathname]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("userRole");
-    localStorage.removeItem("userName");
-    window.location.reload();
+  const handleLogout = async () => {
+    try {
+      await authApi.logout();
+    } catch {
+    } finally {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("userRole");
+      localStorage.removeItem("userName");
+      setIsAuthenticated(false);
+      navigate("/");
+    }
   };
 
   return (
     <header className="site-header">
       <div className="container header-content">
-        <div className="header-left">
-          <Link to="/" className="logo">
-            Vietnam Local Identity
-          </Link>
-          <nav className="header-nav">
-            <Link to="/">Trang chủ</Link>
-            <Link to="/">Tỉnh/Thành phố</Link>
-            <Link to="/">Nội dung</Link>
-            <Link to="/">Media</Link>
-            {(authState.role === "Admin" || authState.role === "Editor") && <Link to="/admin">Dashboard</Link>}
-          </nav>
-        </div>
+        <Link to="/" className="logo">
+          Vietnam Identity
+        </Link>
+        <nav className="header-nav">
+        </nav>
         <div className="header-right">
-          <form className="header-search" onSubmit={handleSearchSubmit}>
-            <input type="text" placeholder="Tìm tỉnh thành, nội dung..." />
-            <button type="submit" className="btn btn-primary btn-sm">
-              Tìm kiếm
+          {isAuthenticated ? (
+            <button type="button" className="header-link" onClick={handleLogout}>
+              Đăng xuất
             </button>
-          </form>
-          <div className="header-auth">
-            {authState.token ? (
-              <>
-                <span>Hi, {authState.name || "Admin"}</span>
-                <button type="button" className="btn btn-sm" onClick={handleLogout}>
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link to="/login">Đăng nhập</Link>
-                <Link to="/register">Đăng ký</Link>
-              </>
-            )}
-          </div>
+          ) : (
+            <>
+              <Link to="/login" className="header-link">
+                Đăng nhập
+              </Link>
+              <Link to="/register" className="header-cta">
+                Đăng ký
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>
