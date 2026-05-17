@@ -1,72 +1,86 @@
 ﻿import { useEffect, useState } from "react";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import L from "leaflet";
-import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import MainLayout from "../layouts/MainLayout.jsx";
 import { provinceApi } from "../api/provinceApi";
-import Loading from "../components/common/Loading.jsx";
-import useRevealOnScroll from "../hooks/useRevealOnScroll";
+import VietnamMap from "../components/map/VietnamMap.jsx";
+import phoImage from "../../Images/pho-bo-ha-noi.jpeg";
+import hueImage from "../../Images/bunbohue.jpg";
+import halongImage from "../../Images/nha-hang-hai-san-nha-trang.jpg";
+import thangLongImage from "../../Images/caphethainguyen.jpg";
 
 export default function HomePage() {
-  const redDotIcon = L.divIcon({
-    className: "map-red-dot",
-    iconSize: [12, 12]
-  });
-  const mapMarkers = [
-    { name: "Hà Nội", position: [21.0278, 105.8342] },
-    { name: "Hồ Chí Minh", position: [10.8231, 106.6297] },
-    { name: "Đà Nẵng", position: [16.0544, 108.2022] },
-    { name: "Huế", position: [16.4637, 107.5909] },
-    { name: "Đà Lạt", position: [11.9404, 108.4583] },
-    { name: "Quy Nhơn", position: [13.782, 109.219] },
-    { name: "Sa Pa", position: [22.3364, 103.8438] }
-  ];
   const [provinces, setProvinces] = useState([]);
   const [loading, setLoading] = useState(true);
-  const ref = useRevealOnScroll();
-  const featuredTags = ["#VănHóa", "#LễHội", "#ẨmThực", "#DuLịch"];
-  const heroGalleryFallback = [
+  const featuredSpecialties = [
     {
-      id: "hero-1",
-      name: "Điểm đến nổi bật",
-      description: "Khám phá văn hóa, lễ hội và trải nghiệm bản địa.",
-      imageUrl: "/dsvn-vinh-ha-long.png"
+      title: "Phở Hà Nội",
+      location: "Hà Nội",
+      description: "Hương vị thanh ngọt, tinh tế của thủ đô nghìn năm văn hiến.",
+      image: phoImage
     },
     {
-      id: "hero-2",
-      name: "Hành trình di sản",
-      description: "Gợi ý điểm đến di sản và trải nghiệm địa phương.",
-      imageUrl: "/dsvn-co-do-hue.png"
+      title: "Bún bò Huế",
+      location: "Huế",
+      description: "Đậm đà, cay nồng và đầy tính nghệ thuật cung đình.",
+      image: hueImage
     },
     {
-      id: "hero-3",
-      name: "Khám phá ẩm thực",
-      description: "Tổng hợp đặc sản và tinh hoa ẩm thực vùng miền.",
-      imageUrl: "/am-thuc-viet-nam-2-1751938296.jpg"
+      title: "Hải sản Nha Trang",
+      location: "Khánh Hòa",
+      description: "Tươi ngon từ biển xanh và nhịp sống rực rỡ miền Trung.",
+      image: halongImage
+    },
+    {
+      title: "Cà phê Tây Nguyên",
+      location: "Đắk Lắk",
+      description: "Hương thơm mạnh mẽ, lưu giữ tinh thần đại ngàn.",
+      image: thangLongImage
     }
   ];
-  const heroGalleryItems = loading || provinces.length === 0 ? heroGalleryFallback : provinces.slice(0, 3);
-  const highlights = provinces.slice(0, 6);
-  const featuredContent = provinces.slice(0, 4).map((province, index) => ({
-    id: province.id,
-    title: province.name,
-    imageUrl: province.imageUrl,
-    tag: featuredTags[index % featuredTags.length],
-    description: province.description
-  }));
-  const suggestions = [
+
+  const regionHighlights = [
     {
-      title: "Tỉnh có nhiều lễ hội nhất",
-      description: "Khám phá lịch trình lễ hội đặc sắc và câu chuyện bản sắc vùng miền."
+      title: "Miền Bắc",
+      description: "Di sản nghìn năm, ẩm thực tinh tế, sắc màu lễ hội.",
+      image: halongImage
     },
     {
-      title: "Điểm du lịch nổi bật miền Trung",
-      description: "Tổng hợp địa điểm du lịch nổi bật, phù hợp cho hành trình 3-5 ngày."
+      title: "Miền Trung",
+      description: "Đất kinh kỳ, biển xanh và hương vị đậm đà.",
+      image: hueImage
     },
     {
-      title: "Ẩm thực đặc trưng miền Nam",
-      description: "Gợi ý món ăn đặc sản và trải nghiệm ẩm thực địa phương."
+      title: "Tây Nguyên",
+      description: "Cồng chiêng, cà phê và bản sắc đại ngàn.",
+      image: thangLongImage
+    },
+    {
+      title: "Miền Nam",
+      description: "Sôi động, phóng khoáng, giao thoa văn hóa.",
+      image: phoImage
+    },
+    {
+      title: "Đồng bằng sông Cửu Long",
+      description: "Sông nước hiền hòa và đặc sản miền Tây.",
+      image: halongImage
     }
+  ];
+
+  const galleryItems = [
+    { title: "Ẩm thực đường phố", image: phoImage },
+    { title: "Cố đô Huế", image: hueImage },
+    { title: "Kỳ quan vịnh Hạ Long", image: halongImage },
+    { title: "Di sản Thăng Long", image: thangLongImage },
+    { title: "Làng nghề truyền thống", image: phoImage },
+    { title: "Lễ hội văn hóa", image: hueImage }
+  ];
+
+  const floatingSpecialties = [
+    { name: "Phở Hà Nội", icon: "🍜", position: "left-6 top-8" },
+    { name: "Bún bò Huế", icon: "🌶️", position: "right-6 top-32" },
+    { name: "Bánh mì Hội An", icon: "🥖", position: "left-1/2 top-1/2" },
+    { name: "Hải sản Nha Trang", icon: "🦐", position: "right-4 bottom-32" },
+    { name: "Cà phê Tây Nguyên", icon: "☕", position: "left-6 bottom-20" }
   ];
 
   useEffect(() => {
@@ -78,167 +92,141 @@ export default function HomePage() {
 
   return (
     <MainLayout>
-      <div className="home-wrapper">
-        <section className="section home-hero">
-        <div className="container reveal" ref={ref}>
-          <div className="hero-home">
-            <div>
-              <span className="badge">Vietnam Identity Platform</span>
-              <h1>Hệ thống quản lý và giới thiệu bản sắc địa phương Việt Nam</h1>
+      <div className="home-landing">
+        <section className="hero-landing">
+          <div className="hero-shell hero-shell--map">
+            <motion.div
+              className="hero-intro hero-intro--left"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <span className="hero-eyebrow">Khám phá Việt Nam</span>
+              <h1>Khám phá hương vị Việt Nam</h1>
               <p>
-                Tổng hợp dữ liệu văn hóa, lịch sử, du lịch và đặc sản với trải nghiệm dashboard hiện đại, hỗ trợ khám phá
-                từng địa phương theo góc nhìn trực quan.
+                34 tỉnh thành – hàng trăm đặc sản mang đậm bản sắc địa phương.
               </p>
-              <div className="hero-actions">
-                <a href="#provinces" className="btn btn-primary">
-                  Khám phá tỉnh thành
-                </a>
-                <a href="#map" className="btn btn-outline">
-                  Xem bản đồ Việt Nam
-                </a>
+              <p>
+                Hành trình khám phá ẩm thực, văn hóa và bản sắc địa phương Việt Nam thông
+                qua từng tỉnh thành.
+              </p>
+              <div className="hero-stats">
+                <div>
+                  <strong>34</strong>
+                  <span>Tỉnh thành</span>
+                </div>
+                <div>
+                  <strong>100+</strong>
+                  <span>Đặc sản</span>
+                </div>
+                <div>
+                  <strong>1</strong>
+                  <span>Bản đồ tương tác</span>
+                </div>
+              </div>
+            </motion.div>
+            <div className="map-hero">
+              <div className="map-frame">
+                <div className="map-glow" />
+                <VietnamMap provinces={loading ? [] : provinces} />
               </div>
             </div>
-            <div className="hero-gallery">
-              {heroGalleryItems.map((province) => (
-                <div key={province.id} className="hero-gallery-card">
-                  {province.imageUrl ? (
-                    <img src={province.imageUrl} alt={province.name} />
-                  ) : (
-                    <div className="hero-gallery-placeholder" />
-                  )}
-                  <div>
-                    <strong>{province.name}</strong>
-                    <p>{province.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
-        </div>
-      </section>
-
-      <section className="section dashboard-section">
-        <div className="container">
-          <div className="section-title">
-            <h2>Thống kê tổng quan</h2>
-          </div>
-          <div className="grid dashboard-grid">
-            <div className="card dashboard-card">
-              <h3>{provinces.length || 63}</h3>
-              <p>Tổng số tỉnh/thành</p>
+        </section>
+        <section className="features-section">
+          <div className="container">
+            <div className="section-heading">
+              <span className="section-kicker">Đặc sản nổi bật</span>
+              <h2>Những hương vị làm nên bản sắc Việt Nam</h2>
+              <p>
+                Từ Bắc chí Nam, mỗi vùng đất đều có câu chuyện riêng được kể qua từng món
+                ăn, nguyên liệu và cách thưởng thức.
+              </p>
             </div>
-            <div className="card dashboard-card">
-              <h3>248</h3>
-              <p>Tổng bài viết nội dung</p>
-            </div>
-            <div className="card dashboard-card">
-              <h3>1.2K</h3>
-              <p>Tổng hình ảnh / video</p>
-            </div>
-            <div className="card dashboard-card">
-              <h3>146</h3>
-              <p>Đặc sản / du lịch / lễ hội</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section" id="provinces">
-        <div className="container">
-          <div className="section-title">
-            <h2>Danh sách tỉnh/thành nổi bật</h2>
-          </div>
-          {loading ? (
-            <Loading />
-          ) : (
-            <div className="grid landing-grid">
-              {highlights.map((province) => (
-                <div key={province.id} className="card card-hover province-card">
-                  <img src={province.imageUrl} alt={province.name} />
-                  <div className="province-card-body">
-                    <div className="tag">{province.region || "Miền Bắc"}</div>
-                    <h3>{province.name}</h3>
-                    <p>{province.description}</p>
-                    <Link to={`/province/${province.slug}`} className="btn btn-primary btn-sm">
-                      Xem chi tiết
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <div className="section-title">
-            <h2>Nội dung nổi bật</h2>
-          </div>
-          {loading ? (
-            <Loading />
-          ) : (
-            <div className="grid feature-grid">
-              {featuredContent.map((item) => (
-                <div key={item.id} className="card feature-card">
-                  <img src={item.imageUrl} alt={item.title} />
-                  <div>
-                    <span className="tag">{item.tag}</span>
+            <div className="features-grid">
+              {featuredSpecialties.map((item) => (
+                <motion.article
+                  key={item.title}
+                  className="feature-card card-hover"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <div
+                    className="feature-image"
+                    style={{ backgroundImage: `url(${item.image})` }}
+                  />
+                  <div className="feature-body">
+                    <span>{item.location}</span>
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
+                    <button className="text-link">Khám phá</button>
                   </div>
-                </div>
+                </motion.article>
               ))}
             </div>
-          )}
-        </div>
-      </section>
-
-      <section className="section" id="map">
-        <div className="container">
-          <div className="section-title">
-            <h2>Bản đồ Việt Nam</h2>
           </div>
-          <div className="map-card">
-            <div>
-              <h3>Khám phá bản đồ theo khu vực</h3>
-              <p>Nhấn vào từng tỉnh để mở dữ liệu văn hóa, du lịch, ẩm thực và lịch sử nổi bật.</p>
-              <div className="map-legend">
-                <span>Miền Bắc</span>
-                <span>Miền Trung</span>
-                <span>Miền Nam</span>
-              </div>
+        </section>
+        <section className="region-section">
+          <div className="container">
+            <div className="section-heading">
+              <span className="section-kicker">Khám phá theo vùng</span>
+              <h2>Những vùng đất kể câu chuyện văn hóa Việt</h2>
+              <p>
+                Mỗi vùng miền mang sắc thái riêng về văn hóa, ẩm thực, cảnh quan và con
+                người.
+              </p>
             </div>
-            <MapContainer className="map-container" center={[16.0471, 108.206]} zoom={5} scrollWheelZoom={false}>
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              {mapMarkers.map((marker) => (
-                <Marker key={marker.name} position={marker.position} icon={redDotIcon}>
-                  <Popup>{marker.name}</Popup>
-                </Marker>
+            <div className="region-grid">
+              {regionHighlights.map((region) => (
+                <motion.article
+                  key={region.title}
+                  className="region-card"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <div
+                    className="region-image"
+                    style={{ backgroundImage: `url(${region.image})` }}
+                  />
+                  <div className="region-body">
+                    <h3>{region.title}</h3>
+                    <p>{region.description}</p>
+                  </div>
+                </motion.article>
               ))}
-            </MapContainer>
+            </div>
           </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <div className="section-title">
-            <h2>Gợi ý khám phá</h2>
+        </section>
+        <section className="gallery-section">
+          <div className="container">
+            <div className="section-heading">
+              <span className="section-kicker">Gallery văn hóa</span>
+              <h2>Khoảnh khắc Việt Nam đầy cảm hứng</h2>
+              <p>
+                Những hình ảnh cinematic tái hiện đời sống, lễ hội và cảnh đẹp Việt Nam.
+              </p>
+            </div>
+            <div className="gallery-grid">
+              {galleryItems.map((item) => (
+                <motion.figure
+                  key={item.title}
+                  className="gallery-card"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <img src={item.image} alt={item.title} />
+                  <figcaption className="gallery-overlay">{item.title}</figcaption>
+                </motion.figure>
+              ))}
+            </div>
           </div>
-          <div className="grid suggestion-grid">
-            {suggestions.map((suggestion) => (
-              <div key={suggestion.title} className="card suggestion-card">
-                <h3>{suggestion.title}</h3>
-                <p>{suggestion.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
       </div>
     </MainLayout>
   );

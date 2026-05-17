@@ -2,5 +2,6 @@
 
 export const postApi = {
   getByProvince: (provinceId) =>
-    axiosClient.get(`/api/posts/province/${provinceId}`).then((res) => res.data)
+    axiosClient.get(`/api/posts/province/${provinceId}`).then((res) => res.data),
+  create: (payload) => axiosClient.post("/api/posts", payload).then((res) => res.data)
 };

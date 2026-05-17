@@ -1,8 +1,11 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout.jsx";
 import { provinceApi } from "../api/provinceApi";
 import { landingConfigApi } from "../api/landingConfigApi";
 import { uiBlockApi } from "../api/uiBlockApi";
+import { mediaApi } from "../api/mediaApi";
+import { postApi } from "../api/postApi";
+import { productApi } from "../api/productApi";
 
 const defaultBlock = {
   blockType: "hero",
@@ -32,6 +35,32 @@ export default function AdminDashboard() {
   const [blockForm, setBlockForm] = useState(defaultBlock);
   const [configId, setConfigId] = useState("");
   const [message, setMessage] = useState("");
+  const [mediaForm, setMediaForm] = useState({
+    provinceId: "",
+    mediaType: "image",
+    title: "",
+    url: "",
+    description: "",
+    sortOrder: 1,
+    isFeatured: false
+  });
+  const [postForm, setPostForm] = useState({
+    provinceId: "",
+    title: "",
+    content: "",
+    category: "",
+    imageUrl: "",
+    videoUrl: "",
+    slug: ""
+  });
+  const [productForm, setProductForm] = useState({
+    provinceId: "",
+    name: "",
+    description: "",
+    price: 0,
+    stock: 0,
+    imageUrl: ""
+  });
 
   const loadProvinces = async () => {
     const data = await provinceApi.getAll();
@@ -55,6 +84,20 @@ export default function AdminDashboard() {
     setBlockForm((prev) => ({ ...prev, [event.target.name]: value }));
   };
 
+  const handleMediaChange = (event) => {
+    const value = event.target.type === "checkbox" ? event.target.checked : event.target.value;
+    setMediaForm((prev) => ({ ...prev, [event.target.name]: value }));
+  };
+
+  const handlePostChange = (event) => {
+    setPostForm((prev) => ({ ...prev, [event.target.name]: event.target.value }));
+  };
+
+  const handleProductChange = (event) => {
+    const value = event.target.type === "number" ? Number(event.target.value) : event.target.value;
+    setProductForm((prev) => ({ ...prev, [event.target.name]: value }));
+  };
+
   const handleCreateProvince = async (event) => {
     event.preventDefault();
     setMessage("");
@@ -65,6 +108,65 @@ export default function AdminDashboard() {
       setMessage("Đã tạo Province thành công.");
     } catch {
       setMessage("Tạo Province thất bại.");
+    }
+  };
+
+  const handleCreateMedia = async (event) => {
+    event.preventDefault();
+    setMessage("");
+    try {
+      await mediaApi.create(mediaForm);
+      setMediaForm({
+        provinceId: "",
+        mediaType: "image",
+        title: "",
+        url: "",
+        description: "",
+        sortOrder: 1,
+        isFeatured: false
+      });
+      setMessage("Đã thêm Media item.");
+    } catch {
+      setMessage("Thêm Media item thất bại (cần role Admin/Editor).");
+    }
+  };
+
+  const handleCreatePost = async (event) => {
+    event.preventDefault();
+    setMessage("");
+    try {
+      await postApi.create(postForm);
+      setPostForm({
+        provinceId: "",
+        title: "",
+        content: "",
+        category: "",
+        imageUrl: "",
+        videoUrl: "",
+        slug: ""
+      });
+      setMessage("Đã thêm bài viết.");
+    } catch {
+      setMessage("Thêm bài viết thất bại (cần role Admin/Editor).");
+    }
+  };
+
+  const handleCreateProduct = async (event) => {
+    event.preventDefault();
+    setMessage("");
+    try {
+      await productApi.create(productForm);
+      setProductForm({
+        provinceId: "",
+        name: "",
+        description: "",
+        price: 0,
+        stock: 0,
+        imageUrl: ""
+      });
+      setMessage("Đã thêm đặc sản.");
+    } catch {
+      setMessage("Thêm đặc sản thất bại.");
     }
   };
 
@@ -165,6 +267,93 @@ export default function AdminDashboard() {
                 Enabled
               </label>
               <button className="btn btn-primary" type="submit">Thêm Block</button>
+            </form>
+
+            <form className="card" onSubmit={handleCreateMedia}>
+              <h3>Thêm Media (ảnh/video)</h3>
+              <select name="provinceId" value={mediaForm.provinceId} onChange={handleMediaChange} required>
+                <option value="">Chọn Province</option>
+                {provinces.map((province) => (
+                  <option key={province.id} value={province.id}>
+                    {province.name}
+                  </option>
+                ))}
+              </select>
+              <input name="mediaType" placeholder="Media Type" value={mediaForm.mediaType} onChange={handleMediaChange} />
+              <input name="title" placeholder="Tiêu đề" value={mediaForm.title} onChange={handleMediaChange} />
+              <input name="url" placeholder="URL" value={mediaForm.url} onChange={handleMediaChange} />
+              <textarea
+                name="description"
+                placeholder="Mô tả"
+                value={mediaForm.description}
+                onChange={handleMediaChange}
+                rows={3}
+              />
+              <input
+                name="sortOrder"
+                type="number"
+                value={mediaForm.sortOrder}
+                onChange={handleMediaChange}
+              />
+              <label style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <input
+                  type="checkbox"
+                  name="isFeatured"
+                  checked={mediaForm.isFeatured}
+                  onChange={handleMediaChange}
+                />
+                Nổi bật
+              </label>
+              <button className="btn btn-primary" type="submit">Thêm Media</button>
+            </form>
+
+            <form className="card" onSubmit={handleCreatePost}>
+              <h3>Thêm bài viết nổi bật</h3>
+              <select name="provinceId" value={postForm.provinceId} onChange={handlePostChange} required>
+                <option value="">Chọn Province</option>
+                {provinces.map((province) => (
+                  <option key={province.id} value={province.id}>
+                    {province.name}
+                  </option>
+                ))}
+              </select>
+              <input name="title" placeholder="Tiêu đề" value={postForm.title} onChange={handlePostChange} />
+              <input name="slug" placeholder="Slug" value={postForm.slug} onChange={handlePostChange} />
+              <input name="category" placeholder="Category" value={postForm.category} onChange={handlePostChange} />
+              <input name="imageUrl" placeholder="Image URL" value={postForm.imageUrl} onChange={handlePostChange} />
+              <input name="videoUrl" placeholder="Video URL" value={postForm.videoUrl} onChange={handlePostChange} />
+              <textarea
+                name="content"
+                placeholder="Nội dung"
+                value={postForm.content}
+                onChange={handlePostChange}
+                rows={3}
+              />
+              <button className="btn btn-primary" type="submit">Thêm bài viết</button>
+            </form>
+
+            <form className="card" onSubmit={handleCreateProduct}>
+              <h3>Thêm đặc sản nổi bật</h3>
+              <select name="provinceId" value={productForm.provinceId} onChange={handleProductChange} required>
+                <option value="">Chọn Province</option>
+                {provinces.map((province) => (
+                  <option key={province.id} value={province.id}>
+                    {province.name}
+                  </option>
+                ))}
+              </select>
+              <input name="name" placeholder="Tên" value={productForm.name} onChange={handleProductChange} />
+              <input name="imageUrl" placeholder="Image URL" value={productForm.imageUrl} onChange={handleProductChange} />
+              <textarea
+                name="description"
+                placeholder="Mô tả"
+                value={productForm.description}
+                onChange={handleProductChange}
+                rows={3}
+              />
+              <input name="price" type="number" value={productForm.price} onChange={handleProductChange} />
+              <input name="stock" type="number" value={productForm.stock} onChange={handleProductChange} />
+              <button className="btn btn-primary" type="submit">Thêm đặc sản</button>
             </form>
           </div>
         </div>
