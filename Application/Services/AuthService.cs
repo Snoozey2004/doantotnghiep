@@ -65,7 +65,7 @@ public class AuthService : IAuthService
 
         if (user.Role == UserRole.Editor && !user.IsApproved)
         {
-            throw new InvalidOperationException("Editor account pending approval.");
+            throw new InvalidOperationException("Chưa được xác nhận tài khoản bởi admin.");
         }
 
         return CreateAuthResponse(user);

@@ -26,6 +26,7 @@ import AdminLandingEdit from "../pages/AdminLandingEdit.jsx";
 import AdminLandingDelete from "../pages/AdminLandingDelete.jsx";
 import AdminFeaturedContent from "../pages/AdminFeaturedContent.jsx";
 import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
+import RequireAuth from "./RequireAuth.jsx";
 
 export default function AppRoutes() {
   return (

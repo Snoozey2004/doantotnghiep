@@ -1,149 +1,167 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { provinceApi } from "../api/provinceApi";
-import { landingConfigApi } from "../api/landingConfigApi";
-import { productApi } from "../api/productApi";
-import { postApi } from "../api/postApi";
-import { mediaApi } from "../api/mediaApi";
-import Loading from "../components/common/Loading.jsx";
-import RichTextDisplay from "../components/RichTextDisplay.jsx";
+import MainLayout from "../layouts/MainLayout.jsx";
+import ProvinceHero from "../components/landing/ProvinceHero.jsx";
+import ProvinceIntro from "../components/landing/ProvinceIntro.jsx";
+import ProvinceSpecialties from "../components/landing/ProvinceSpecialties.jsx";
+import ProvinceTourism from "../components/landing/ProvinceTourism.jsx";
+import ProvinceCulture from "../components/landing/ProvinceCulture.jsx";
+import ProvinceGallery from "../components/landing/ProvinceGallery.jsx";
+import ProvinceCTA from "../components/landing/ProvinceCTA.jsx";
 import HeroBanner from "../components/landing/HeroBanner.jsx";
 import IntroBlock from "../components/landing/IntroBlock.jsx";
 import GalleryBlock from "../components/landing/GalleryBlock.jsx";
 import VideoBlock from "../components/landing/VideoBlock.jsx";
-import ProductBlock from "../components/landing/ProductBlock.jsx";
 import ArticleBlock from "../components/landing/ArticleBlock.jsx";
-import RecommendationsBlock from "../components/landing/RecommendationsBlock.jsx";
-import MainLayout from "../layouts/MainLayout.jsx";
-import "../styles/richTextDisplay.css";
-
-const defaultBlocks = [
-  { blockType: "hero", title: "Hero", sortOrder: 1 },
-  { blockType: "intro", title: "Giới thiệu", sortOrder: 2 },
-  { blockType: "gallery", title: "Gallery", sortOrder: 3 },
-  { blockType: "video", title: "Video", sortOrder: 4 },
-  { blockType: "products", title: "Đặc sản", sortOrder: 5 },
-  { blockType: "articles", title: "Bài viết", sortOrder: 6 }
-];
+import ProductBlock from "../components/landing/ProductBlock.jsx";
+import provinces from "../data/provinceData";
+import { provinceApi } from "../api/provinceApi";
+import { landingConfigApi } from "../api/landingConfigApi";
+import { postApi } from "../api/postApi";
+import { productApi } from "../api/productApi";
+import { mediaApi } from "../api/mediaApi";
+import { analyticsApi } from "../api/analyticsApi";
 
 export default function ProvinceLandingPage() {
   const { slug } = useParams();
-  const [loading, setLoading] = useState(true);
-  const [province, setProvince] = useState(null);
+  const province = useMemo(
+    () => provinces.find((item) => item.slug === slug),
+    [slug]
+  );
+  const [provinceData, setProvinceData] = useState(null);
   const [config, setConfig] = useState(null);
-  const [products, setProducts] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [mediaItems, setMediaItems] = useState([]);
   const [relatedProvinces, setRelatedProvinces] = useState([]);
 
   useEffect(() => {
     let isMounted = true;
 
-    async function loadData() {
-      setLoading(true);
+    const loadData = async () => {
       try {
-        const provinceData = await provinceApi.getBySlug(slug);
-        const configData = await landingConfigApi.getByProvinceSlug(slug);
-        const [productData, postData, mediaData] = await Promise.all([
-          productApi.getByProvince(provinceData.id),
-          postApi.getByProvince(provinceData.id),
-          mediaApi.getByProvince(provinceData.id)
+        const [provinceResult, configResult] = await Promise.all([
+          provinceApi.getBySlug(slug),
+          landingConfigApi.getByProvinceSlug(slug)
         ]);
-        const relatedData = await provinceApi.getRelated(provinceData.id);
-
-        if (isMounted) {
-          setProvince(provinceData);
-          setConfig(configData);
-          setProducts(productData);
-          setPosts(postData);
-          setMediaItems(mediaData);
-          setRelatedProvinces(relatedData || []);
+        if (!isMounted) {
+          return;
         }
-      } finally {
-        if (isMounted) setLoading(false);
+        setProvinceData(provinceResult);
+        setConfig(configResult);
+
+        if (provinceResult?.id) {
+          const [postResult, productResult, mediaResult] = await Promise.all([
+            postApi.getByProvince(provinceResult.id),
+            productApi.getByProvince(provinceResult.id),
+            mediaApi.getByProvince(provinceResult.id)
+          ]);
+          if (!isMounted) {
+            return;
+          }
+          setPosts(postResult || []);
+          setProducts(productResult || []);
+          setMediaItems(mediaResult || []);
+        }
+      } catch {
+        if (isMounted) {
+          setProvinceData(null);
+        }
       }
-    }
+    };
 
     loadData();
+
     return () => {
       isMounted = false;
     };
   }, [slug]);
 
-  const blocks = useMemo(() => {
-    const configBlocks = config?.blocks?.length ? config.blocks : defaultBlocks;
-    return [...configBlocks].sort((a, b) => a.sortOrder - b.sortOrder);
-  }, [config]);
+  useEffect(() => {
+    if (!provinceData?.id) {
+      return;
+    }
 
-  if (loading || !province) {
+    analyticsApi.track({
+      provinceId: provinceData.id,
+      eventType: "page_view",
+      metadataJson: JSON.stringify({ slug })
+    });
+  }, [provinceData?.id, slug]);
+
+  const featuredMedia = useMemo(
+    () => mediaItems.filter((item) => item.isFeatured),
+    [mediaItems]
+  );
+  const galleryImages = useMemo(
+    () => mediaItems.filter((item) => item.mediaType === "image").map((item) => item.url),
+    [mediaItems]
+  );
+  const videoItem = useMemo(
+    () => mediaItems.find((item) => item.mediaType === "video"),
+    [mediaItems]
+  );
+
+  if (!province) {
     return (
       <MainLayout>
-        <Loading />
+        <div className="province-page province-missing">
+          <div className="container">
+            <h1>Không tìm thấy tỉnh thành</h1>
+            <p>Hãy quay về bản đồ để chọn điểm đến khác.</p>
+            <ProvinceCTA />
+          </div>
+        </div>
       </MainLayout>
     );
   }
 
-  const galleryImages = mediaItems.length
-    ? mediaItems.filter((item) => item.mediaType === "image").map((item) => item.url)
-    : [province.imageUrl];
-
-  const themeStyles = {
-    background: config?.backgroundUrl ? `url(${config.backgroundUrl})` : undefined,
-    fontFamily: config?.fontFamily || undefined,
-    color: config?.themeColor || undefined
-  };
+  const accentColor = config?.themeColor || province.accentColor;
+  const heroImage = featuredMedia.find((item) => item.mediaType === "hero")?.url
+    || province.heroImage;
+  const introImage = featuredMedia.find((item) => item.mediaType === "intro")?.url
+    || province.introImage;
 
   return (
-    <div style={themeStyles}>
-      {blocks.map((block) => {
-        const type = block.blockType?.toLowerCase();
-        if (type === "hero") {
-          return (
+    <MainLayout>
+      <div className="province-page" style={{ "--accent": accentColor }}>
+        {config ? (
+          <>
             <HeroBanner
-              key={block.id || block.blockType}
-              title={province.name}
-              subtitle={province.description}
-              imageUrl={province.imageUrl}
+              title={provinceData?.name || province.name}
+              subtitle={provinceData?.description || province.description}
+              imageUrl={config.backgroundUrl || heroImage}
             />
-          );
-        }
-
-        if (type === "intro") {
-          return <IntroBlock key={block.id || block.blockType} title={block.title} description={province.description} />;
-        }
-
-        if (type === "body" || (type === "gallery" && province.body)) {
-          if (province.body && type === "body") {
-            return (
-              <section key={block.id || "body"} style={{ padding: "40px 20px", background: "#fff" }}>
-                <div className="container">
-                  <RichTextDisplay html={province.body} />
-                </div>
-              </section>
-            );
-          }
-        }
-
-        if (type === "gallery") {
-          return <GalleryBlock key={block.id || block.blockType} title={block.title} images={galleryImages} />;
-        }
-
-        if (type === "video") {
-          return <VideoBlock key={block.id || block.blockType} title={block.title} videoUrl={province.videoUrl} />;
-        }
-
-        if (type === "products") {
-          return <ProductBlock key={block.id || block.blockType} title={block.title} products={products} />;
-        }
-
-        if (type === "articles") {
-          return <ArticleBlock key={block.id || block.blockType} title={block.title} posts={posts} />;
-        }
-
-        return null;
-      })}
-
-      <RecommendationsBlock title="Địa phương liên quan" provinces={relatedProvinces} />
-    </div>
+            <IntroBlock
+              title={provinceData?.name || province.name}
+              description={provinceData?.description || province.description}
+            />
+            {galleryImages.length > 0 && (
+              <GalleryBlock title="Khoảnh khắc địa phương" images={galleryImages} />
+            )}
+            {videoItem?.url && (
+              <VideoBlock title={videoItem.title || "Video"} videoUrl={videoItem.url} />
+            )}
+            {products.length > 0 && (
+              <ProductBlock title="Đặc sản nổi bật" products={products} />
+            )}
+            {posts.length > 0 && (
+              <ArticleBlock title="Bài viết nổi bật" posts={posts} />
+            )}
+            <ProvinceCTA />
+          </>
+        ) : (
+          <>
+            <ProvinceHero province={{ ...province, heroImage }} />
+            <ProvinceIntro province={{ ...province, introImage }} />
+            <ProvinceSpecialties province={province} />
+            <ProvinceTourism province={province} />
+            <ProvinceCulture province={province} />
+            <ProvinceGallery province={province} />
+            <ProvinceCTA />
+          </>
+        )}
+      </div>
+    </MainLayout>
   );
 }

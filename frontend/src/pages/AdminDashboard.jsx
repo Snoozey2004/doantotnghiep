@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import AdminLayout from "../layouts/AdminLayout.jsx";
 import { provinceApi } from "../api/provinceApi";
@@ -8,6 +8,32 @@ export default function AdminDashboard() {
   const [provinces, setProvinces] = useState([]);
   const [overview, setOverview] = useState(null);
   const [message, setMessage] = useState("");
+  const [mediaForm, setMediaForm] = useState({
+    provinceId: "",
+    mediaType: "image",
+    title: "",
+    url: "",
+    description: "",
+    sortOrder: 1,
+    isFeatured: false
+  });
+  const [postForm, setPostForm] = useState({
+    provinceId: "",
+    title: "",
+    content: "",
+    category: "",
+    imageUrl: "",
+    videoUrl: "",
+    slug: ""
+  });
+  const [productForm, setProductForm] = useState({
+    provinceId: "",
+    name: "",
+    description: "",
+    price: 0,
+    stock: 0,
+    imageUrl: ""
+  });
 
   useEffect(() => {
     provinceApi
