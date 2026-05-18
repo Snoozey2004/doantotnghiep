@@ -3,6 +3,7 @@ import useRevealOnScroll from "../../hooks/useRevealOnScroll";
 
 export default function ProvinceGallery({ province }) {
   const ref = useRevealOnScroll();
+  const gallery = province.gallery || [];
 
   return (
     <section className="province-section province-gallery">
@@ -15,7 +16,7 @@ export default function ProvinceGallery({ province }) {
           </p>
         </div>
         <div className="province-masonry">
-          {province.gallery.map((image, index) => (
+          {gallery.map((image, index) => (
             <motion.div
               key={`${image}-${index}`}
               className="province-masonry-item"

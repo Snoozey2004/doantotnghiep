@@ -25,6 +25,20 @@ export function AuthProvider({ children }) {
         console.error("Failed to parse stored user:", err);
         localStorage.removeItem("user");
       }
+    } else {
+      const roleValue = localStorage.getItem("userRole");
+      const userName = localStorage.getItem("userName");
+      const token = localStorage.getItem("accessToken");
+
+      if (token && roleValue) {
+        const parsedRole = Number(roleValue);
+        setUser({
+          id: null,
+          fullName: userName || "",
+          email: "",
+          role: Number.isFinite(parsedRole) ? parsedRole : roleValue
+        });
+      }
     }
     setLoading(false);
   }, []);
@@ -32,16 +46,20 @@ export function AuthProvider({ children }) {
   const login = (userData) => {
     const userWithRole = {
       ...userData,
-      role: typeof userData.role === 'string' ? parseInt(userData.role) : userData.role
+      role: typeof userData.role === "string" ? parseInt(userData.role, 10) : userData.role
     };
     setUser(userWithRole);
     localStorage.setItem("user", JSON.stringify(userWithRole));
+    localStorage.setItem("userRole", String(userWithRole.role));
+    localStorage.setItem("userName", userWithRole.fullName || "");
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userName");
   };
 
   // Listen for logout events from other tabs

@@ -62,9 +62,9 @@ public class FileStorageService : IFileStorageService
         // Generate custom filename if province info is provided
         if (!string.IsNullOrWhiteSpace(provinceId) && !string.IsNullOrWhiteSpace(provinceName) && !string.IsNullOrWhiteSpace(mediaType))
         {
-            // Format: {provinceId}_{provinceName}_{mediaType}_{counter}.{ext}
+            // Format: {provinceName}_{mediaType}_{counter}.{ext}
             var sanitizedProvinceName = provinceName.Replace(" ", "-").Replace(".", "-");
-            var counterKey = $"{provinceId}_{mediaType}";
+            var counterKey = $"{sanitizedProvinceName}_{mediaType}";
 
             if (!FileCounters.ContainsKey(counterKey))
             {
@@ -75,7 +75,7 @@ public class FileStorageService : IFileStorageService
                 FileCounters[counterKey]++;
             }
 
-            fileName = $"{provinceId}_{sanitizedProvinceName}_{mediaType}_{FileCounters[counterKey]}{extension}";
+            fileName = $"{sanitizedProvinceName}_{mediaType}_{FileCounters[counterKey]}{extension}";
         }
         else if (!string.IsNullOrWhiteSpace(provinceName) && !string.IsNullOrWhiteSpace(mediaType))
         {

@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import MainLayout from "../layouts/MainLayout.jsx";
 import { provinceApi } from "../api/provinceApi";
 import VietnamMap from "../components/map/VietnamMap.jsx";
-import phoImage from "../../Images/pho-bo-ha-noi.jpeg";
-import hueImage from "../../Images/bunbohue.jpg";
-import halongImage from "../../Images/nha-hang-hai-san-nha-trang.jpg";
-import thangLongImage from "../../Images/caphethainguyen.jpg";
+import phoImage from "/Images/pho-bo-ha-noi.jpeg";
+import hueImage from "/Images/bunbohue.jpg";
+import halongImage from "/Images/nha-hang-hai-san-nha-trang.jpg";
+import thangLongImage from "/Images/caphethainguyen.jpg";
 
 export default function HomePage() {
   const [provinces, setProvinces] = useState([]);

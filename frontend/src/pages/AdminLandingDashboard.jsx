@@ -6,13 +6,16 @@ import { provinceApi } from "../api/provinceApi";
 
 export default function AdminLandingDashboard() {
   const [configs, setConfigs] = useState([]);
+  const [provinces, setProvinces] = useState([]);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    provinceApi.getAll().then(async (provinces) => {
-      const results = await Promise.all(
-        provinces.map((province) => landingConfigApi.getByProvinceId(province.id).catch(() => null))
+    provinceApi.getAll().then((provinceList) => {
+      setProvinces(provinceList);
+      return Promise.all(
+        provinceList.map((province) => landingConfigApi.getByProvinceId(province.id).catch(() => null))
       );
+    }).then((results) => {
       setConfigs(results.filter(Boolean));
     }).catch(() => setMessage("Không tải được landing configs."));
   }, []);
@@ -52,11 +55,12 @@ export default function AdminLandingDashboard() {
             }}
           >
             <div>
-              <strong>{config.id}</strong>
+              <strong>{provinces.find((province) => province.id === config.provinceId)?.name || config.id}</strong>
               <div style={{ color: "#64748b", fontSize: 13 }}>{config.layout}</div>
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               <Link to={`/admin/landing/${config.id}/edit`} className="btn btn-outline btn-sm">Edit</Link>
+              <Link to={`/province/${provinces.find((province) => province.id === config.provinceId)?.slug || ""}`} className="btn btn-outline btn-sm">View</Link>
               <Link to={`/admin/landing/${config.id}/delete`} className="btn btn-outline btn-sm">Delete</Link>
             </div>
           </div>

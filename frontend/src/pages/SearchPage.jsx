@@ -1,21 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import searchApi from '../api/searchApi';
 import '../styles/search.css';
 
-const CATEGORIES = ['History', 'Culture', 'Tourism', 'Cuisine', 'Festival'];
-const REGIONS = ['North', 'Central', 'South'];
-const CONTENT_TYPES = ['All', 'Province', 'Post', 'Media', 'Product'];
-const MEDIA_TYPES = ['Image', 'Video'];
+const CATEGORIES = [
+  { value: 'History', label: 'Lịch sử' },
+  { value: 'Culture', label: 'Văn hóa' },
+  { value: 'Tourism', label: 'Du lịch' },
+  { value: 'Cuisine', label: 'Ẩm thực' },
+  { value: 'Festival', label: 'Lễ hội' }
+];
+const REGIONS = [
+  { value: 'North', label: 'Miền Bắc' },
+  { value: 'Central', label: 'Miền Trung' },
+  { value: 'South', label: 'Miền Nam' }
+];
+const CONTENT_TYPES = [
+  { value: 'All', label: 'Tất cả' },
+  { value: 'Province', label: 'Tỉnh/Thành' },
+  { value: 'Post', label: 'Bài viết' },
+  { value: 'Media', label: 'Media' },
+  { value: 'Product', label: 'Sản phẩm' }
+];
+const MEDIA_TYPES = [
+  { value: 'Image', label: 'Hình ảnh' },
+  { value: 'Video', label: 'Video' }
+];
 
 const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [keyword, setKeyword] = useState(searchParams.get('keyword') || '');
+  const [keyword, setKeyword] = useState(searchParams.get('keyword') || searchParams.get('q') || '');
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isComposing, setIsComposing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const latestSearchRequestRef = useRef(0);
   const [results, setResults] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1);
@@ -29,8 +50,22 @@ const SearchPage = () => {
     tags: searchParams.get('tags') || ''
   });
 
+  useEffect(() => {
+    if (isComposing) {
+      return;
+    }
+
+    const urlKeyword = searchParams.get('keyword') || searchParams.get('q') || '';
+    setKeyword((prev) => (prev === urlKeyword ? prev : urlKeyword));
+  }, [searchParams, isComposing]);
+
   // Fetch suggestions while typing
   useEffect(() => {
+    if (isComposing) {
+      setShowSuggestions(false);
+      return;
+    }
+
     if (keyword.length > 1) {
       const timer = setTimeout(async () => {
         try {
@@ -43,25 +78,33 @@ const SearchPage = () => {
         }
       }, 300);
       return () => clearTimeout(timer);
-    } else {
-      setSuggestions([]);
-      setShowSuggestions(false);
     }
-  }, [keyword]);
+
+    setSuggestions([]);
+    setShowSuggestions(false);
+  }, [keyword, isComposing]);
 
   // Perform search
   useEffect(() => {
+    if (isComposing) {
+      return;
+    }
+
     const performSearch = async () => {
-      if (!keyword.trim()) {
+      const trimmedKeyword = keyword.trim();
+      if (!trimmedKeyword) {
         setResults([]);
         setTotalCount(0);
         return;
       }
 
+      const requestId = latestSearchRequestRef.current + 1;
+      latestSearchRequestRef.current = requestId;
+
       setLoading(true);
       try {
         const data = await searchApi.search({
-          keyword,
+          keyword: trimmedKeyword,
           region: filters.region,
           category: filters.category,
           mediaType: filters.mediaType,
@@ -71,32 +114,42 @@ const SearchPage = () => {
           pageSize: 10
         });
 
+        if (requestId !== latestSearchRequestRef.current) {
+          return;
+        }
+
         setResults(data.results || []);
         setTotalCount(data.totalCount || 0);
         setShowSuggestions(false);
 
         // Update URL with search params
         const params = new URLSearchParams({
-          keyword,
-          region: filters.region,
-          category: filters.category,
-          contentType: filters.contentType,
-          mediaType: filters.mediaType,
-          tags: filters.tags,
-          page: currentPage
+          keyword: trimmedKeyword,
+          ...(filters.region ? { region: filters.region } : {}),
+          ...(filters.category ? { category: filters.category } : {}),
+          ...(filters.contentType && filters.contentType !== 'All' ? { contentType: filters.contentType } : {}),
+          ...(filters.mediaType ? { mediaType: filters.mediaType } : {}),
+          ...(filters.tags ? { tags: filters.tags } : {}),
+          ...(currentPage > 1 ? { page: String(currentPage) } : {})
         });
         setSearchParams(params);
       } catch (error) {
+        if (requestId !== latestSearchRequestRef.current) {
+          return;
+        }
+
         console.error('Search error:', error);
         setResults([]);
         setTotalCount(0);
       } finally {
-        setLoading(false);
+        if (requestId === latestSearchRequestRef.current) {
+          setLoading(false);
+        }
       }
     };
 
     performSearch();
-  }, [keyword, filters, currentPage, setSearchParams]);
+  }, [keyword, filters, currentPage, setSearchParams, isComposing]);
 
   const handleSuggestionClick = (suggestion) => {
     setKeyword(suggestion);
@@ -144,6 +197,11 @@ const SearchPage = () => {
               className="search-input"
               placeholder="Tìm tỉnh thành, bài viết, media và nhiều nội dung khác..."
               value={keyword}
+              onCompositionStart={() => setIsComposing(true)}
+              onCompositionEnd={(e) => {
+                setIsComposing(false);
+                setKeyword(e.currentTarget.value);
+              }}
               onChange={(e) => setKeyword(e.target.value)}
             />
             {showSuggestions && suggestions.length > 0 && (
@@ -175,7 +233,7 @@ const SearchPage = () => {
                 onChange={(e) => handleFilterChange('contentType', e.target.value)}
               >
                 {CONTENT_TYPES.map(type => (
-                  <option key={type} value={type}>{type}</option>
+                  <option key={type.value} value={type.value}>{type.label}</option>
                 ))}
               </select>
             </div>
@@ -189,7 +247,7 @@ const SearchPage = () => {
               >
                 <option value="">Tất cả khu vực</option>
                 {REGIONS.map(region => (
-                  <option key={region} value={region}>{region}</option>
+                  <option key={region.value} value={region.value}>{region.label}</option>
                 ))}
               </select>
             </div>
@@ -203,7 +261,7 @@ const SearchPage = () => {
               >
                 <option value="">Tất cả chủ đề</option>
                 {CATEGORIES.map(category => (
-                  <option key={category} value={category}>{category}</option>
+                  <option key={category.value} value={category.value}>{category.label}</option>
                 ))}
               </select>
             </div>
@@ -217,7 +275,7 @@ const SearchPage = () => {
               >
                 <option value="">Tất cả media</option>
                 {MEDIA_TYPES.map(type => (
-                  <option key={type} value={type}>{type}</option>
+                  <option key={type.value} value={type.value}>{type.label}</option>
                 ))}
               </select>
             </div>

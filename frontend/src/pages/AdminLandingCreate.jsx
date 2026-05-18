@@ -4,6 +4,9 @@ import AdminLayout from "../layouts/AdminLayout.jsx";
 import { landingConfigApi } from "../api/landingConfigApi";
 import { uiBlockApi } from "../api/uiBlockApi";
 import { provinceApi } from "../api/provinceApi";
+import { uploadApi } from "../api/uploadApi";
+import LandingPageRenderer from "../components/landing/LandingPageRenderer.jsx";
+import provinceData from "../data/provinceData";
 
 const defaultBlock = {
   blockType: "hero",
@@ -24,8 +27,28 @@ export default function AdminLandingCreate() {
   const [blockForm, setBlockForm] = useState(defaultBlock);
   const [configId, setConfigId] = useState("");
   const [provinces, setProvinces] = useState([]);
+  const [previewBlocks, setPreviewBlocks] = useState([]);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+
+  const selectedProvinceData = provinceData.find((province) => province.id === configForm.provinceId || province.slug === configForm.provinceId);
+
+  const previewProvince = {
+    ...selectedProvinceData,
+    name: provinces.find((p) => p.id === configForm.provinceId)?.name || selectedProvinceData?.name || "Province",
+    description: selectedProvinceData?.description || "",
+    slogan: selectedProvinceData?.slogan || "",
+    heroImage: configForm.backgroundUrl || selectedProvinceData?.heroImage,
+    introImage: selectedProvinceData?.introImage || configForm.backgroundUrl,
+    imageUrl: selectedProvinceData?.imageUrl || configForm.backgroundUrl,
+    videoUrl: selectedProvinceData?.videoUrl || "",
+    body: selectedProvinceData?.body || "",
+    keyFeatures: selectedProvinceData?.keyFeatures || "",
+    specialties: selectedProvinceData?.specialties || [],
+    tourism: selectedProvinceData?.tourism || [],
+    culture: selectedProvinceData?.culture || [],
+    gallery: selectedProvinceData?.gallery || []
+  };
 
   useEffect(() => {
     provinceApi.getAll().then(setProvinces);
@@ -33,6 +56,24 @@ export default function AdminLandingCreate() {
 
   const handleConfigChange = (event) => {
     setConfigForm((prev) => ({ ...prev, [event.target.name]: event.target.value }));
+  };
+
+  const handleUpload = async (event, fieldName) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    try {
+      const mediaType = fieldName === "backgroundUrl" ? "IMG" : "VID";
+      const result = await uploadApi.upload(file, "provinces", configForm.provinceId, provinces.find((p) => p.id === configForm.provinceId)?.name, mediaType);
+      setConfigForm((prev) => ({ ...prev, [fieldName]: result.url }));
+      setMessage("Upload thành công.");
+    } catch {
+      setMessage("Upload thất bại.");
+    } finally {
+      event.target.value = "";
+    }
   };
 
   const handleBlockChange = (event) => {
@@ -52,6 +93,45 @@ export default function AdminLandingCreate() {
     }
   };
 
+  const handleImportFallbackLanding = async () => {
+    setMessage("");
+    try {
+      if (!configId) {
+        setMessage("Cần có ConfigId trước.");
+        return;
+      }
+
+      const selectedProvince = provinces.find((province) => province.id === configForm.provinceId);
+      const fallbackProvince = provinceData.find((province) => province.id === selectedProvince?.id || province.slug === selectedProvince?.slug);
+      if (!fallbackProvince) {
+        setMessage("Không tìm thấy dữ liệu fallback của province.");
+        return;
+      }
+
+      const blocksToCreate = [
+        { blockType: "hero", title: fallbackProvince.name, contentJson: JSON.stringify({ title: fallbackProvince.name, subtitle: fallbackProvince.slogan, description: fallbackProvince.description, imageUrl: fallbackProvince.heroImage }), sortOrder: 1, isEnabled: true },
+        { blockType: "intro", title: "Giới thiệu", contentJson: JSON.stringify({ title: fallbackProvince.name, subtitle: fallbackProvince.slogan, description: fallbackProvince.description, imageUrl: fallbackProvince.introImage }), sortOrder: 2, isEnabled: true },
+        { blockType: "richText", title: "Nội dung", contentJson: JSON.stringify({ html: fallbackProvince.body || "" }), sortOrder: 3, isEnabled: true },
+        { blockType: "highlights", title: "Điểm nhấn", contentJson: JSON.stringify({ title: "Điểm nhấn", description: fallbackProvince.description, items: fallbackProvince.keyFeatures ? fallbackProvince.keyFeatures.split(",").map((item) => item.trim()).filter(Boolean) : [] }), sortOrder: 4, isEnabled: true },
+        { blockType: "specialties", title: "Đặc sản", contentJson: JSON.stringify({ title: "Đặc sản", items: fallbackProvince.specialties || [] }), sortOrder: 5, isEnabled: true },
+        { blockType: "tourism", title: "Du lịch", contentJson: JSON.stringify({ title: "Du lịch", items: fallbackProvince.tourism || [] }), sortOrder: 6, isEnabled: true },
+        { blockType: "culture", title: "Văn hóa", contentJson: JSON.stringify({ title: "Văn hóa", items: fallbackProvince.culture || [] }), sortOrder: 7, isEnabled: true },
+        { blockType: "gallery", title: "Thư viện ảnh", contentJson: JSON.stringify({ title: "Thư viện ảnh", images: fallbackProvince.gallery || [] }), sortOrder: 8, isEnabled: true },
+        { blockType: "cta", title: "CTA", contentJson: "{}", sortOrder: 9, isEnabled: true }
+      ];
+
+      const createdBlocks = [];
+      for (const block of blocksToCreate) {
+        createdBlocks.push(await uiBlockApi.create(configId, block));
+      }
+
+      setPreviewBlocks(createdBlocks);
+      setMessage("Đã nhập fallback landing page.");
+    } catch {
+      setMessage("Nhập fallback landing page thất bại.");
+    }
+  };
+
   const handleCreateBlock = async (event) => {
     event.preventDefault();
     setMessage("");
@@ -60,7 +140,8 @@ export default function AdminLandingCreate() {
         setMessage("Cần có ConfigId trước.");
         return;
       }
-      await uiBlockApi.create(configId, blockForm);
+      const result = await uiBlockApi.create(configId, blockForm);
+      setPreviewBlocks((prev) => [...prev, result]);
       setBlockForm(defaultBlock);
       setMessage("Đã thêm UIBlock.");
     } catch {
@@ -87,6 +168,7 @@ export default function AdminLandingCreate() {
             <input name="themeColor" placeholder="Theme Color" value={configForm.themeColor} onChange={handleConfigChange} />
             <input name="fontFamily" placeholder="Font" value={configForm.fontFamily} onChange={handleConfigChange} />
             <input name="backgroundUrl" placeholder="Background URL" value={configForm.backgroundUrl} onChange={handleConfigChange} />
+            <input type="file" accept="image/*" onChange={(event) => handleUpload(event, "backgroundUrl")} />
             {configForm.backgroundUrl && (
               <img
                 src={configForm.backgroundUrl}
@@ -122,6 +204,24 @@ export default function AdminLandingCreate() {
             <button className="btn btn-primary" type="submit">Thêm Block</button>
           </form>
         </div>
+
+        <div className="card" style={{ marginTop: 16 }}>
+          <h3>Xem trước toàn bộ trang</h3>
+          <LandingPageRenderer
+            province={previewProvince}
+            blocks={previewBlocks}
+            posts={[]}
+            products={[]}
+            mediaItems={[]}
+          />
+        </div>
+
+        <div style={{ marginTop: 16 }}>
+          <button className="btn btn-primary" type="button" onClick={handleImportFallbackLanding}>
+            Import fallback landing into config
+          </button>
+        </div>
+
         <div style={{ marginTop: 16 }}>
           <button className="btn btn-outline" type="button" onClick={() => navigate("/admin/landing")}>Back</button>
         </div>

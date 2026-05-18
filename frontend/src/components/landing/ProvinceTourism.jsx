@@ -3,6 +3,7 @@ import useRevealOnScroll from "../../hooks/useRevealOnScroll";
 
 export default function ProvinceTourism({ province }) {
   const ref = useRevealOnScroll();
+  const tourism = province.tourism || [];
 
   return (
     <section className="province-section province-tourism">
@@ -15,7 +16,7 @@ export default function ProvinceTourism({ province }) {
           </p>
         </div>
         <div className="province-gallery-grid">
-          {province.tourism.map((item, index) => (
+          {tourism.map((item, index) => (
             <motion.article
               key={item.name}
               className="province-gallery-card"

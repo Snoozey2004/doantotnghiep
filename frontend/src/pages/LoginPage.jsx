@@ -20,25 +20,18 @@ export default function LoginPage() {
     setError("");
     try {
       const result = await authApi.login(form);
-      const roleValue = String(result.role ?? "").toLowerCase();
-      const normalizedRole =
-        roleValue === "0" || roleValue === "admin"
-          ? "admin"
-          : roleValue === "1" || roleValue === "editor"
-            ? "editor"
-            : roleValue === "2" || roleValue === "seller"
-              ? "seller"
-              : "customer";
+      const roleValue = Number(result.role);
+      const normalizedRole = Number.isFinite(roleValue) ? roleValue : 3;
 
       localStorage.setItem("accessToken", result.accessToken);
-      localStorage.setItem("userRole", normalizedRole);
-      localStorage.setItem("userName", result.fullName);
-      const target = normalizedRole === "editor"
-        ? "/cms/editor"
-        : normalizedRole === "admin"
-          ? "/admin"
-          : "/";
+      login({
+        id: result.userId,
+        fullName: result.fullName,
+        email: result.email,
+        role: normalizedRole
+      });
 
+      const target = normalizedRole === 0 || normalizedRole === 1 ? "/admin" : "/";
       navigate(target, { replace: true });
     } catch (err) {
       setError(err?.response?.data?.message || "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
