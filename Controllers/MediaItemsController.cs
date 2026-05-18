@@ -51,7 +51,7 @@ public class MediaItemsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<MediaItemDto>> Create([FromBody] MediaItemCreateDto dto, CancellationToken cancellationToken)
     {
         var item = await _mediaService.CreateAsync(dto, cancellationToken);
@@ -60,7 +60,7 @@ public class MediaItemsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<MediaItemDto>> Update(Guid id, [FromBody] MediaItemUpdateDto dto, CancellationToken cancellationToken)
     {
         var item = await _mediaService.UpdateAsync(id, dto, cancellationToken);
@@ -72,15 +72,19 @@ public class MediaItemsController : ControllerBase
     }
 
     [HttpPut("{id:guid}/highlight")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<MediaItemDto>> UpdateHighlight(Guid id, [FromBody] MediaItemHighlightUpdateDto dto, CancellationToken cancellationToken)
     {
         var item = await _mediaService.UpdateHighlightsAsync(id, dto, cancellationToken);
+        if (item is not null)
+        {
+            await _auditLogService.LogAsync($"Media item highlight updated: {id} - IsHighlighted: {dto.IsHighlighted}", cancellationToken);
+        }
         return item is null ? NotFound() : Ok(item);
     }
 
     [HttpPut("{id:guid}/tags")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<MediaItemDto>> UpdateTags(Guid id, [FromBody] MediaItemTagUpdateDto dto, CancellationToken cancellationToken)
     {
         var item = await _mediaService.UpdateTagsAsync(id, dto, cancellationToken);
@@ -88,7 +92,7 @@ public class MediaItemsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,1")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var deleted = await _mediaService.DeleteAsync(id, cancellationToken);

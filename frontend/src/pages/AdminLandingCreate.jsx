@@ -87,6 +87,13 @@ export default function AdminLandingCreate() {
             <input name="themeColor" placeholder="Theme Color" value={configForm.themeColor} onChange={handleConfigChange} />
             <input name="fontFamily" placeholder="Font" value={configForm.fontFamily} onChange={handleConfigChange} />
             <input name="backgroundUrl" placeholder="Background URL" value={configForm.backgroundUrl} onChange={handleConfigChange} />
+            {configForm.backgroundUrl && (
+              <img
+                src={configForm.backgroundUrl}
+                alt="Preview"
+                style={{ width: "100%", maxHeight: 260, objectFit: "cover" }}
+              />
+            )}
             <input name="layout" placeholder="Layout" value={configForm.layout} onChange={handleConfigChange} />
             <button className="btn btn-primary" type="submit">Tạo Config</button>
           </form>

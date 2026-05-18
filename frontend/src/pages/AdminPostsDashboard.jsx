@@ -28,6 +28,9 @@ export default function AdminPostsDashboard() {
         </div>
         <Link to="/admin/posts/new" className="btn btn-primary">+ Tạo bài viết</Link>
       </div>
+      <div className="card" style={{ marginBottom: 24, padding: 20 }}>
+        <strong>Tổng số bài viết:</strong> {sortedPosts.length}
+      </div>
       {message && <div className="card" style={{ marginBottom: 24 }}>{message}</div>}
       <div className="card" style={{ padding: 0 }}>
         <div style={{ padding: "16px 24px", borderBottom: "1px solid #e2e8f0", fontWeight: 600 }}>

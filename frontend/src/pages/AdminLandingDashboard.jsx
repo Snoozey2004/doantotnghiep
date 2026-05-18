@@ -31,6 +31,9 @@ export default function AdminLandingDashboard() {
         </div>
         <Link to="/admin/landing/new" className="btn btn-primary">+ Tạo Config</Link>
       </div>
+      <div className="card" style={{ marginBottom: 24, padding: 20 }}>
+        <strong>Tổng cấu hình:</strong> {sortedConfigs.length}
+      </div>
       {message && <div className="card" style={{ marginBottom: 24 }}>{message}</div>}
       <div className="card" style={{ padding: 0 }}>
         <div style={{ padding: "16px 24px", borderBottom: "1px solid #e2e8f0", fontWeight: 600 }}>

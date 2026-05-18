@@ -11,6 +11,7 @@ public class ProvinceUpdateDto
     public string VideoUrl { get; set; } = string.Empty;
     public string Introduction { get; set; } = string.Empty;
     public string IntroductionEn { get; set; } = string.Empty;
+    public string Body { get; set; } = string.Empty;
     public string Tags { get; set; } = string.Empty;
     public bool IsHighlighted { get; set; }
     public int HighlightOrder { get; set; }

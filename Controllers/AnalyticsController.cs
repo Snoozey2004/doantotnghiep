@@ -24,13 +24,21 @@ public class AnalyticsController : ControllerBase
     }
 
     [HttpGet("summary")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<AnalyticsSummaryDto>> GetSummary(
         [FromQuery] Guid? provinceId,
         [FromQuery] Guid? productId,
         CancellationToken cancellationToken)
     {
         var result = await _analyticsService.GetSummaryAsync(provinceId, productId, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet("overview")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
+    public async Task<ActionResult<AnalyticsSummaryDto>> GetOverview(CancellationToken cancellationToken)
+    {
+        var result = await _analyticsService.GetAdminOverviewAsync(cancellationToken);
         return Ok(result);
     }
 }

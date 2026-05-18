@@ -9,11 +9,16 @@ namespace WebApplication1.Application.Services;
 public class ProvinceService : IProvinceService
 {
     private readonly IProvinceRepository _provinceRepository;
+    private readonly IHtmlSanitizationService _htmlSanitizationService;
     private readonly IMapper _mapper;
 
-    public ProvinceService(IProvinceRepository provinceRepository, IMapper mapper)
+    public ProvinceService(
+        IProvinceRepository provinceRepository, 
+        IHtmlSanitizationService htmlSanitizationService,
+        IMapper mapper)
     {
         _provinceRepository = provinceRepository;
+        _htmlSanitizationService = htmlSanitizationService;
         _mapper = mapper;
     }
 
@@ -97,6 +102,13 @@ public class ProvinceService : IProvinceService
     {
         var province = _mapper.Map<Province>(dto);
         province.Id = Guid.NewGuid();
+
+        // Sanitize Body before saving
+        if (!string.IsNullOrEmpty(province.Body))
+        {
+            province.Body = _htmlSanitizationService.Sanitize(province.Body);
+        }
+
         await _provinceRepository.AddAsync(province, cancellationToken);
         return _mapper.Map<ProvinceDto>(province);
     }
@@ -110,6 +122,13 @@ public class ProvinceService : IProvinceService
         }
 
         _mapper.Map(dto, province);
+
+        // Sanitize Body before saving
+        if (!string.IsNullOrEmpty(province.Body))
+        {
+            province.Body = _htmlSanitizationService.Sanitize(province.Body);
+        }
+
         await _provinceRepository.UpdateAsync(province, cancellationToken);
         return _mapper.Map<ProvinceDto>(province);
     }

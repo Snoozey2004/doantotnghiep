@@ -93,7 +93,32 @@ public class ProvinceRepository : IProvinceRepository
             query = query.Where(p => tags.Any(tag => p.Tags.ToLower().Contains(tag)));
         }
 
-        return await query.Take(6).ToListAsync(cancellationToken);
+        var related = await query
+            .OrderByDescending(p => p.IsHighlighted)
+            .ThenBy(p => p.HighlightOrder)
+            .ThenBy(p => p.Name)
+            .Take(6)
+            .ToListAsync(cancellationToken);
+
+        if (related.Count >= 6)
+        {
+            return related;
+        }
+
+        var existingIds = related.Select(p => p.Id).Append(provinceId).ToHashSet();
+        var fallbackQuery = _dbContext.Provinces
+            .AsNoTracking()
+            .Where(p => !existingIds.Contains(p.Id));
+
+        var fallback = await fallbackQuery
+            .OrderByDescending(p => p.IsHighlighted)
+            .ThenBy(p => p.HighlightOrder)
+            .ThenBy(p => p.Name)
+            .Take(6 - related.Count)
+            .ToListAsync(cancellationToken);
+
+        related.AddRange(fallback);
+        return related;
     }
 
     public async Task<ProvinceAdminStats> GetStatsAsync(Guid provinceId, CancellationToken cancellationToken)

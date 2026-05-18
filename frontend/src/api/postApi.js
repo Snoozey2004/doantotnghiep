@@ -1,6 +1,7 @@
 ﻿import axiosClient from "./axiosClient";
 
 export const postApi = {
+  getAll: () => axiosClient.get("/api/posts").then((res) => res.data),
   getByProvince: (provinceId) =>
     axiosClient.get(`/api/posts/province/${provinceId}`).then((res) => res.data),
   getById: (id) => axiosClient.get(`/api/posts/${id}`).then((res) => res.data),

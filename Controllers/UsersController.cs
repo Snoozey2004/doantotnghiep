@@ -7,7 +7,7 @@ namespace WebApplication1.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "0,Admin")]
 public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -16,7 +16,7 @@ public class UsersController : ControllerBase
     {
         _userService = userService;
     }
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "0,Admin")]
     [HttpGet]
     public async Task<ActionResult<List<UserDto>>> GetAll(CancellationToken cancellationToken)
     {
@@ -38,4 +38,26 @@ public class UsersController : ControllerBase
         var user = await _userService.UpdateAsync(id, dto, cancellationToken);
         return user is null ? NotFound() : Ok(user);
     }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<ActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    {
+        var result = await _userService.DeleteAsync(id, cancellationToken);
+        return result ? NoContent() : NotFound();
+    }
+
+    [HttpPut("{id:guid}/profile")]
+    public async Task<ActionResult<UserDto>> UpdateProfile(Guid id, [FromBody] UserProfileUpdateDto dto, CancellationToken cancellationToken)
+    {
+        var user = await _userService.UpdateProfileAsync(id, dto, cancellationToken);
+        return user is null ? NotFound() : Ok(user);
+    }
+
+    [HttpPut("{id:guid}/password")]
+    public async Task<ActionResult> UpdatePassword(Guid id, [FromBody] UserPasswordUpdateDto dto, CancellationToken cancellationToken)
+    {
+        var result = await _userService.UpdatePasswordAsync(id, dto, cancellationToken);
+        return result ? Ok() : BadRequest("Invalid current password.");
+    }
 }
+

@@ -39,4 +39,33 @@ public class AnalyticsService : IAnalyticsService
             Interactions = interactions
         };
     }
+
+    public async Task<AnalyticsSummaryDto> GetAdminOverviewAsync(CancellationToken cancellationToken)
+    {
+        var pageViews = await _analyticsRepository.CountAsync("page_view", null, null, cancellationToken);
+        var productViews = await _analyticsRepository.CountAsync("product_view", null, null, cancellationToken);
+        var interactions = await _analyticsRepository.CountAsync("interaction", null, null, cancellationToken);
+
+        var provinceCount = await _analyticsRepository.CountProvincesAsync(cancellationToken);
+        var postCount = await _analyticsRepository.CountPostsAsync(cancellationToken);
+        var mediaCount = await _analyticsRepository.CountMediaAsync(cancellationToken);
+        var productCount = await _analyticsRepository.CountProductsAsync(cancellationToken);
+        var highlightedProvinceCount = await _analyticsRepository.CountHighlightedProvincesAsync(cancellationToken);
+        var highlightedPostCount = await _analyticsRepository.CountHighlightedPostsAsync(cancellationToken);
+        var highlightedMediaCount = await _analyticsRepository.CountHighlightedMediaAsync(cancellationToken);
+
+        return new AnalyticsSummaryDto
+        {
+            PageViews = pageViews,
+            ProductViews = productViews,
+            Interactions = interactions,
+            ProvinceCount = provinceCount,
+            PostCount = postCount,
+            MediaCount = mediaCount,
+            ProductCount = productCount,
+            HighlightedProvinceCount = highlightedProvinceCount,
+            HighlightedPostCount = highlightedPostCount,
+            HighlightedMediaCount = highlightedMediaCount
+        };
+    }
 }

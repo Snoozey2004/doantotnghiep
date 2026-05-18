@@ -201,6 +201,10 @@ namespace WebApplication1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -304,6 +308,10 @@ namespace WebApplication1.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()

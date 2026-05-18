@@ -6,13 +6,16 @@ import { productApi } from "../api/productApi";
 import { postApi } from "../api/postApi";
 import { mediaApi } from "../api/mediaApi";
 import Loading from "../components/common/Loading.jsx";
+import RichTextDisplay from "../components/RichTextDisplay.jsx";
 import HeroBanner from "../components/landing/HeroBanner.jsx";
 import IntroBlock from "../components/landing/IntroBlock.jsx";
 import GalleryBlock from "../components/landing/GalleryBlock.jsx";
 import VideoBlock from "../components/landing/VideoBlock.jsx";
 import ProductBlock from "../components/landing/ProductBlock.jsx";
 import ArticleBlock from "../components/landing/ArticleBlock.jsx";
+import RecommendationsBlock from "../components/landing/RecommendationsBlock.jsx";
 import MainLayout from "../layouts/MainLayout.jsx";
+import "../styles/richTextDisplay.css";
 
 const defaultBlocks = [
   { blockType: "hero", title: "Hero", sortOrder: 1 },
@@ -31,6 +34,7 @@ export default function ProvinceLandingPage() {
   const [products, setProducts] = useState([]);
   const [posts, setPosts] = useState([]);
   const [mediaItems, setMediaItems] = useState([]);
+  const [relatedProvinces, setRelatedProvinces] = useState([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -45,6 +49,7 @@ export default function ProvinceLandingPage() {
           postApi.getByProvince(provinceData.id),
           mediaApi.getByProvince(provinceData.id)
         ]);
+        const relatedData = await provinceApi.getRelated(provinceData.id);
 
         if (isMounted) {
           setProvince(provinceData);
@@ -52,6 +57,7 @@ export default function ProvinceLandingPage() {
           setProducts(productData);
           setPosts(postData);
           setMediaItems(mediaData);
+          setRelatedProvinces(relatedData || []);
         }
       } finally {
         if (isMounted) setLoading(false);
@@ -106,6 +112,18 @@ export default function ProvinceLandingPage() {
           return <IntroBlock key={block.id || block.blockType} title={block.title} description={province.description} />;
         }
 
+        if (type === "body" || (type === "gallery" && province.body)) {
+          if (province.body && type === "body") {
+            return (
+              <section key={block.id || "body"} style={{ padding: "40px 20px", background: "#fff" }}>
+                <div className="container">
+                  <RichTextDisplay html={province.body} />
+                </div>
+              </section>
+            );
+          }
+        }
+
         if (type === "gallery") {
           return <GalleryBlock key={block.id || block.blockType} title={block.title} images={galleryImages} />;
         }
@@ -124,6 +142,8 @@ export default function ProvinceLandingPage() {
 
         return null;
       })}
+
+      <RecommendationsBlock title="Địa phương liên quan" provinces={relatedProvinces} />
     </div>
   );
 }

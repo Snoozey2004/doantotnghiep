@@ -43,4 +43,10 @@ public class UserRepository : IUserRepository
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task DeleteAsync(User user, CancellationToken cancellationToken)
+    {
+        _dbContext.Users.Remove(user);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

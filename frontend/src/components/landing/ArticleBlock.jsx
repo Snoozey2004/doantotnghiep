@@ -1,4 +1,5 @@
-﻿import useRevealOnScroll from "../../hooks/useRevealOnScroll";
+﻿import { Link } from "react-router-dom";
+import useRevealOnScroll from "../../hooks/useRevealOnScroll";
 
 export default function ArticleBlock({ title, posts }) {
   const ref = useRevealOnScroll();
@@ -11,18 +12,24 @@ export default function ArticleBlock({ title, posts }) {
         </div>
         <div className="grid landing-grid">
           {posts.map((post) => (
-            <div key={post.id} className="card card-hover">
-              <img
-                src={post.imageUrl}
-                alt={post.title}
-                style={{ width: "100%", height: 160, objectFit: "cover", borderRadius: 16 }}
-              />
-              <h3 style={{ marginTop: 16 }}>{post.title}</h3>
-              <p style={{ color: "#475569", marginTop: 8 }}>{post.content.slice(0, 120)}...</p>
-              <div style={{ marginTop: 12 }}>
-                <span className="tag">Story</span>
+            <Link 
+              key={post.id} 
+              to={`/post/${post.id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <div className="card card-hover">
+                <img
+                  src={post.imageUrl}
+                  alt={post.title}
+                  style={{ width: "100%", height: 160, objectFit: "cover", borderRadius: 16 }}
+                />
+                <h3 style={{ marginTop: 16 }}>{post.title}</h3>
+                <p style={{ color: "#475569", marginTop: 8 }}>{post.content.slice(0, 120)}...</p>
+                <div style={{ marginTop: 12 }}>
+                  <span className="tag">{post.category || "Article"}</span>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

@@ -5,6 +5,7 @@ public class PostCreateDto
     public Guid ProvinceId { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
+    public string Body { get; set; } = string.Empty;
     public string ContentEn { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
     public string ImageUrl { get; set; } = string.Empty;

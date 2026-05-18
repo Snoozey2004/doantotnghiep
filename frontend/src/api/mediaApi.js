@@ -1,6 +1,7 @@
 ﻿import axiosClient from "./axiosClient";
 
 export const mediaApi = {
+  getAll: () => axiosClient.get("/api/mediaitems").then((res) => res.data),
   getByProvince: (provinceId) =>
     axiosClient.get(`/api/mediaitems/province/${provinceId}`).then((res) => res.data),
   getById: (id) => axiosClient.get(`/api/mediaitems/${id}`).then((res) => res.data),

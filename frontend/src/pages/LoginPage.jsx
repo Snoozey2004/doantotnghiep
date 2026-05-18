@@ -2,9 +2,11 @@
 import { useNavigate, Link } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout.jsx";
 import { authApi } from "../api/authApi";
+import { useAuth } from "../contexts/AuthContext.jsx";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
@@ -17,11 +19,19 @@ export default function LoginPage() {
     setError("");
     try {
       const result = await authApi.login(form);
+
+      // Save user info to auth context (this saves to localStorage too)
+      login({
+        id: result.userId,
+        fullName: result.fullName,
+        email: result.email,
+        role: result.role
+      });
+
+      // Also save token for API requests
       localStorage.setItem("accessToken", result.accessToken);
-      localStorage.setItem("userRole", result.role);
-      localStorage.setItem("userName", result.fullName);
+
       navigate("/");
-      window.location.reload();
     } catch (err) {
       setError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
     }

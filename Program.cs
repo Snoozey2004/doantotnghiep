@@ -37,11 +37,22 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSection["Issuer"],
         ValidAudience = jwtSection["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        RoleClaimType = System.Security.Claims.ClaimTypes.Role
     };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy =>
+        policy.RequireRole("0"));
+
+    options.AddPolicy("EditorPolicy", policy =>
+        policy.RequireRole("0", "1"));
+
+    options.AddPolicy("SellerPolicy", policy =>
+        policy.RequireRole("0", "1", "2"));
+});
 
 builder.Services.AddCors(options =>
 {
@@ -81,6 +92,8 @@ builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 builder.Services.AddScoped<IAuditLogService, AuditLogService>();
+builder.Services.AddScoped<IHtmlSanitizationService, HtmlSanitizationService>();
+builder.Services.AddSingleton<IRichTextConfigService, RichTextConfigService>();
 
 var app = builder.Build();
 
@@ -102,6 +115,19 @@ static async Task SeedSampleDataAsync(IServiceProvider services)
 }
 
 app.UseHttpsRedirection();
+
+// Add security headers middleware
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Add("X-Frame-Options", "DENY");
+    context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+    context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
+    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'");
+    context.Response.Headers.Add("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
+
+    await next();
+});
 
 app.UseStaticFiles();
 

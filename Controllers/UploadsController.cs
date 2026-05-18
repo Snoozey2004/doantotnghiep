@@ -17,16 +17,27 @@ public class UploadsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     [RequestSizeLimit(25_000_000)]
     public async Task<ActionResult<UploadResultDto>> Upload([FromForm] UploadRequestDto request, CancellationToken cancellationToken)
     {
-        if (request.File is null)
+        try
         {
-            return BadRequest("File is required.");
-        }
+            if (request.File is null)
+            {
+                return BadRequest("File is required.");
+            }
 
-        var result = await _fileStorageService.SaveAsync(request.File, request.Folder, cancellationToken);
-        return Ok(result);
+            var result = await _fileStorageService.SaveAsync(request.File, request.Folder, request.ProvinceId, request.ProvinceName, request.MediaType, cancellationToken);
+            return Ok(result);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = "An error occurred during file upload." });
+        }
     }
 }

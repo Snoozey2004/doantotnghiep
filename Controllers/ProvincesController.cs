@@ -54,7 +54,7 @@ public class ProvincesController : ControllerBase
     }
 
     [HttpGet("{id:guid}/stats")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<ProvinceAdminStatsDto>> GetStats(Guid id, CancellationToken cancellationToken)
     {
         var stats = await _provinceService.GetStatsAsync(id, cancellationToken);
@@ -69,15 +69,19 @@ public class ProvincesController : ControllerBase
     }
 
     [HttpPut("{id:guid}/highlight")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<ProvinceDto>> UpdateHighlights(Guid id, [FromBody] ProvinceHighlightUpdateDto dto, CancellationToken cancellationToken)
     {
         var province = await _provinceService.UpdateHighlightsAsync(id, dto, cancellationToken);
+        if (province is not null)
+        {
+            await _auditLogService.LogAsync($"Province highlight updated: {id} - IsHighlighted: {dto.IsHighlighted}, Order: {dto.HighlightOrder}", cancellationToken);
+        }
         return province is null ? NotFound() : Ok(province);
     }
 
     [HttpPut("{id:guid}/tags")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<ProvinceDto>> UpdateTags(Guid id, [FromBody] ProvinceTagUpdateDto dto, CancellationToken cancellationToken)
     {
         var province = await _provinceService.UpdateTagsAsync(id, dto, cancellationToken);

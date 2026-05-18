@@ -41,7 +41,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPatch("{id:guid}/status")]
-    [Authorize(Roles = "Admin,Editor,Seller")]
+    [Authorize(Roles = "0,Admin,1,Editor,2,Seller")]
     public async Task<ActionResult<OrderDto>> UpdateStatus(Guid id, [FromBody] OrderStatusUpdateDto dto, CancellationToken cancellationToken)
     {
         var order = await _orderService.UpdateStatusAsync(id, dto, cancellationToken);

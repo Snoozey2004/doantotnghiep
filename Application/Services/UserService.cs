@@ -42,6 +42,18 @@ public class UserService : IUserService
         return _mapper.Map<UserDto>(user);
     }
 
+    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var user = await _userRepository.GetByIdAsync(id, cancellationToken);
+        if (user is null)
+        {
+            return false;
+        }
+
+        await _userRepository.DeleteAsync(user, cancellationToken);
+        return true;
+    }
+
     public async Task<UserDto?> UpdateProfileAsync(Guid id, UserProfileUpdateDto dto, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByIdAsync(id, cancellationToken);

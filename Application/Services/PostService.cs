@@ -10,12 +10,18 @@ public class PostService : IPostService
 {
     private readonly IPostRepository _postRepository;
     private readonly IProvinceRepository _provinceRepository;
+    private readonly IHtmlSanitizationService _htmlSanitizationService;
     private readonly IMapper _mapper;
 
-    public PostService(IPostRepository postRepository, IProvinceRepository provinceRepository, IMapper mapper)
+    public PostService(
+        IPostRepository postRepository, 
+        IProvinceRepository provinceRepository, 
+        IHtmlSanitizationService htmlSanitizationService,
+        IMapper mapper)
     {
         _postRepository = postRepository;
         _provinceRepository = provinceRepository;
+        _htmlSanitizationService = htmlSanitizationService;
         _mapper = mapper;
     }
 
@@ -94,6 +100,13 @@ public class PostService : IPostService
         post.CreatedAt = createdAt;
         post.RevisionNumber = 1;
         post.LastUpdatedAt = createdAt;
+
+        // Sanitize Body before saving
+        if (!string.IsNullOrEmpty(post.Body))
+        {
+            post.Body = _htmlSanitizationService.Sanitize(post.Body);
+        }
+
         await _postRepository.AddAsync(post, cancellationToken);
         return _mapper.Map<PostDto>(post);
     }
@@ -109,6 +122,13 @@ public class PostService : IPostService
         _mapper.Map(dto, post);
         post.LastUpdatedAt = DateTime.UtcNow;
         post.RevisionNumber = post.RevisionNumber + 1;
+
+        // Sanitize Body before saving
+        if (!string.IsNullOrEmpty(post.Body))
+        {
+            post.Body = _htmlSanitizationService.Sanitize(post.Body);
+        }
+
         await _postRepository.UpdateAsync(post, cancellationToken);
         return _mapper.Map<PostDto>(post);
     }

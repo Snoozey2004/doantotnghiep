@@ -16,6 +16,8 @@ public class Province
     public string Introduction { get; set; } = string.Empty;
     // MANUAL MIGRATION REQUIRED: added property IntroductionEn.
     public string IntroductionEn { get; set; } = string.Empty;
+    // MANUAL MIGRATION REQUIRED: added property Body.
+    public string Body { get; set; } = string.Empty;
     // MANUAL MIGRATION REQUIRED: added property Tags.
     public string Tags { get; set; } = string.Empty;
     // MANUAL MIGRATION REQUIRED: added property IsHighlighted.

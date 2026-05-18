@@ -3,6 +3,7 @@ import MainLayout from "./MainLayout.jsx";
 
 const navItems = [
   { label: "Provinces", path: "/admin" },
+  { label: "Quản lý nổi bật", path: "/admin/featured" },
   { label: "Quản lý bài viết", path: "/admin/posts" },
   { label: "Media Library", path: "/admin/media" },
   { label: "Landing Config", path: "/admin/landing" },

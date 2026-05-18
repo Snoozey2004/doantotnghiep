@@ -46,7 +46,11 @@ export default function HomePage() {
     }
   ];
   const heroGalleryItems = loading || provinces.length === 0 ? heroGalleryFallback : provinces.slice(0, 3);
-  const highlights = provinces.slice(0, 6);
+  const highlights = provinces
+    .filter(p => p.isHighlighted)
+    .sort((a, b) => (a.highlightOrder || 999) - (b.highlightOrder || 999))
+    .slice(0, 6);
+  const displayHighlights = highlights.length > 0 ? highlights : provinces.slice(0, 6);
     const featuredContent = provinces.slice(0, 4).map((province, index) => ({
         id: province.id,
         title: province.name,
@@ -152,7 +156,7 @@ export default function HomePage() {
             <Loading />
           ) : (
             <div className="grid landing-grid">
-              {highlights.map((province) => (
+              {displayHighlights.map((province) => (
                 <div key={province.id} className="card card-hover province-card">
                   <img src={province.imageUrl} alt={province.name} />
                   <div className="province-card-body">

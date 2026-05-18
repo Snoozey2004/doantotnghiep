@@ -2,9 +2,11 @@
 import { Link } from "react-router-dom";
 import AdminLayout from "../layouts/AdminLayout.jsx";
 import { provinceApi } from "../api/provinceApi";
+import analyticsApi from "../api/analyticsApi";
 
 export default function AdminDashboard() {
   const [provinces, setProvinces] = useState([]);
+  const [overview, setOverview] = useState(null);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -12,6 +14,11 @@ export default function AdminDashboard() {
       .getAll()
       .then(setProvinces)
       .catch(() => setMessage("Không tải được danh sách province."));
+
+    analyticsApi
+      .getOverview()
+      .then(setOverview)
+      .catch(() => setMessage("Không tải được thống kê tổng quan."));
   }, []);
 
   const sortedProvinces = useMemo(
@@ -23,17 +30,46 @@ export default function AdminDashboard() {
     <AdminLayout>
       <div className="admin-header">
         <div>
-          <h1>Admin CMS</h1>
-          <p>Quản lý danh sách tỉnh thành.</p>
+          <h1>Bảng điều khiển nội dung</h1>
+          <p>Tổng quan dữ liệu địa phương, bài viết, media và sản phẩm.</p>
         </div>
-        <Link to="/admin/provinces/new" className="btn btn-primary">
-          + Tạo Province
-        </Link>
+        <div style={{ display: "flex", gap: 8 }}>
+          <Link to="/admin/featured" className="btn btn-primary">
+            Quản lý nổi bật
+          </Link>
+          <Link to="/admin/provinces/new" className="btn btn-primary">
+            + Tạo tỉnh/thành
+          </Link>
+        </div>
       </div>
+      {overview && (
+        <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, marginBottom: 24 }}>
+          <div className="card" style={{ padding: 20 }}>
+            <div style={{ color: "#64748b", fontSize: 13 }}>Tỉnh/thành</div>
+            <h2 style={{ marginTop: 8 }}>{overview.provinceCount}</h2>
+            <div style={{ color: "#64748b", fontSize: 13 }}>Nổi bật: {overview.highlightedProvinceCount}</div>
+          </div>
+          <div className="card" style={{ padding: 20 }}>
+            <div style={{ color: "#64748b", fontSize: 13 }}>Bài viết</div>
+            <h2 style={{ marginTop: 8 }}>{overview.postCount}</h2>
+            <div style={{ color: "#64748b", fontSize: 13 }}>Nổi bật: {overview.highlightedPostCount}</div>
+          </div>
+          <div className="card" style={{ padding: 20 }}>
+            <div style={{ color: "#64748b", fontSize: 13 }}>Media</div>
+            <h2 style={{ marginTop: 8 }}>{overview.mediaCount}</h2>
+            <div style={{ color: "#64748b", fontSize: 13 }}>Nổi bật: {overview.highlightedMediaCount}</div>
+          </div>
+          <div className="card" style={{ padding: 20 }}>
+            <div style={{ color: "#64748b", fontSize: 13 }}>Sản phẩm</div>
+            <h2 style={{ marginTop: 8 }}>{overview.productCount}</h2>
+            <div style={{ color: "#64748b", fontSize: 13 }}>Page views: {overview.pageViews}</div>
+          </div>
+        </div>
+      )}
       {message && <div className="card" style={{ marginBottom: 24 }}>{message}</div>}
       <div className="card" style={{ padding: 0 }}>
         <div style={{ padding: "16px 24px", borderBottom: "1px solid #e2e8f0", fontWeight: 600 }}>
-          Danh sách Province
+          Danh sách tỉnh/thành
         </div>
         <div style={{ display: "grid", gap: 0 }}>
           {sortedProvinces.map((province) => (

@@ -58,7 +58,7 @@ public class PostsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<PostDto>> Create([FromBody] PostCreateDto dto, CancellationToken cancellationToken)
     {
         var post = await _postService.CreateAsync(dto, cancellationToken);
@@ -67,7 +67,7 @@ public class PostsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<PostDto>> Update(Guid id, [FromBody] PostUpdateDto dto, CancellationToken cancellationToken)
     {
         var post = await _postService.UpdateAsync(id, dto, cancellationToken);
@@ -79,15 +79,19 @@ public class PostsController : ControllerBase
     }
 
     [HttpPut("{id:guid}/highlight")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<PostDto>> UpdateHighlight(Guid id, [FromBody] PostHighlightUpdateDto dto, CancellationToken cancellationToken)
     {
         var post = await _postService.UpdateHighlightsAsync(id, dto, cancellationToken);
+        if (post is not null)
+        {
+            await _auditLogService.LogAsync($"Post highlight updated: {id} - IsHighlighted: {dto.IsHighlighted}, Order: {dto.HighlightOrder}", cancellationToken);
+        }
         return post is null ? NotFound() : Ok(post);
     }
 
     [HttpPut("{id:guid}/tags")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<PostDto>> UpdateTags(Guid id, [FromBody] PostTagUpdateDto dto, CancellationToken cancellationToken)
     {
         var post = await _postService.UpdateTagsAsync(id, dto, cancellationToken);

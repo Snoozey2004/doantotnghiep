@@ -7,4 +7,5 @@ public class ProvinceRelatedDto
     public string Region { get; set; } = string.Empty;
     public string ImageUrl { get; set; } = string.Empty;
     public string Tags { get; set; } = string.Empty;
+    public string Slug { get; set; } = string.Empty;
 }

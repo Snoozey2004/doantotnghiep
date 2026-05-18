@@ -16,7 +16,7 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<Province, ProvinceDto>();
-        CreateMap<Province, ProvinceRelatedDto>();
+        CreateMap<Province, ProvinceRelatedDto>(); // Slug maps automatically by convention.
         CreateMap<ProvinceCreateDto, Province>();
         CreateMap<ProvinceUpdateDto, Province>();
 
