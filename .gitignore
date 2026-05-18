@@ -460,3 +460,4 @@ coverage/
 *.sqlite
 *.db
 *.db-journal
+/Topic2.md

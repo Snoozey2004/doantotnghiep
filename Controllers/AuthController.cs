@@ -18,14 +18,34 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<AuthResponseDto>> Register([FromBody] RegisterDto dto, CancellationToken cancellationToken)
     {
-        var result = await _authService.RegisterAsync(dto, cancellationToken);
-        return Ok(result);
+        try
+        {
+            var result = await _authService.RegisterAsync(dto, cancellationToken);
+            return Ok(result);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpPost("login")]
     public async Task<ActionResult<AuthResponseDto>> Login([FromBody] LoginDto dto, CancellationToken cancellationToken)
     {
-        var result = await _authService.LoginAsync(dto, cancellationToken);
-        return Ok(result);
+        try
+        {
+            var result = await _authService.LoginAsync(dto, cancellationToken);
+            return Ok(result);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        return Ok(new { message = "Logged out" });
     }
 }
