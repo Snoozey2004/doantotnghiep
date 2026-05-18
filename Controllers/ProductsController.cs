@@ -36,6 +36,18 @@ public class ProductsController : ControllerBase
         return Ok(products);
     }
 
+    [HttpGet("province/slug/{slug}")]
+    public async Task<ActionResult<List<ProductDto>>>
+        GetByProvinceSlug(
+            string slug,
+            CancellationToken cancellationToken)
+    {
+        var products = await _productService
+            .GetByProvinceSlugAsync(slug, cancellationToken);
+
+        return Ok(products);
+    }
+
     [HttpPost]
     public async Task<ActionResult<ProductDto>> Create([FromBody] ProductCreateDto dto, CancellationToken cancellationToken)
     {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebApplication1.Application.DTOs.ProductDTOs;
 using WebApplication1.Application.Interfaces.Repositories;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Infrastructure.Data;
@@ -51,4 +52,9 @@ public class ProductRepository : IProductRepository
         _dbContext.Products.Remove(product);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
+
+     public Task<List<ProductDto>> GetByProvinceSlugAsync(string slug, CancellationToken cancellationToken)
+     {
+          throw new NotImplementedException();
+     }
 }

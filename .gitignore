@@ -427,3 +427,36 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Added rules for frontend folder
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.DS_Store
+frontend/.cache
+
+# Added rules for Docker
+*.dockerfile
+*.dockerignore
+
+# Added rules for logs
+logs/
+*.log
+
+# Added rules for temporary files
+*.tmp
+*.temp
+*.bak
+
+# Added rules for IDE-specific files
+.idea/
+*.iml
+
+# Added rules for coverage reports
+coverage/
+*.lcov
+
+# Added rules for database files
+*.sqlite
+*.db
+*.db-journal

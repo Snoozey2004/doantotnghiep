@@ -7,6 +7,7 @@ public interface IProductService
     Task<List<ProductDto>> GetAllAsync(CancellationToken cancellationToken);
     Task<ProductDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<List<ProductDto>> GetByProvinceIdAsync(Guid provinceId, CancellationToken cancellationToken);
+    Task<List<ProductDto>> GetByProvinceSlugAsync(string slug, CancellationToken cancellationToken);
     Task<ProductDto> CreateAsync(ProductCreateDto dto, CancellationToken cancellationToken);
     Task<ProductDto?> UpdateAsync(Guid id, ProductUpdateDto dto, CancellationToken cancellationToken);
     Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken);
