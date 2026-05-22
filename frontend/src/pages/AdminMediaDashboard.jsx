@@ -19,6 +19,17 @@ export default function AdminMediaDashboard() {
     [mediaItems]
   );
 
+  const typeBreakdown = useMemo(() => {
+    const breakdown = {};
+    sortedMedia.forEach(item => {
+      const type = item.mediaType || "Unknown";
+      breakdown[type] = (breakdown[type] || 0) + 1;
+    });
+    return breakdown;
+  }, [sortedMedia]);
+
+  const featuredCount = useMemo(() => sortedMedia.filter(m => m.isHighlighted).length, [sortedMedia]);
+
   return (
     <AdminLayout>
       <div className="admin-header">
@@ -28,6 +39,34 @@ export default function AdminMediaDashboard() {
         </div>
         <Link to="/admin/media/new" className="btn btn-primary">+ Thêm Media</Link>
       </div>
+
+      {/* Quick Stats */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, marginBottom: 24 }}>
+        <div className="card" style={{ padding: 16, textAlign: "center" }}>
+          <div style={{ fontSize: 24, fontWeight: 600, color: "#00a86b" }}>{sortedMedia.length}</div>
+          <div style={{ color: "#64748b", fontSize: 13, marginTop: 4 }}>Tổng media</div>
+        </div>
+        <div className="card" style={{ padding: 16, textAlign: "center" }}>
+          <div style={{ fontSize: 24, fontWeight: 600, color: "#ffa500" }}>{featuredCount}</div>
+          <div style={{ color: "#64748b", fontSize: 13, marginTop: 4 }}>Media nổi bật</div>
+        </div>
+      </div>
+
+      {/* Type Breakdown */}
+      {Object.keys(typeBreakdown).length > 0 && (
+        <div className="card" style={{ marginBottom: 24, padding: 16 }}>
+          <div style={{ fontWeight: 600, marginBottom: 12 }}>Media theo loại</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: 8 }}>
+            {Object.entries(typeBreakdown).map(([type, count]) => (
+              <div key={type} style={{ padding: 8, backgroundColor: "#f0f4f8", borderRadius: 4, textAlign: "center" }}>
+                <div style={{ fontWeight: 600 }}>{count}</div>
+                <div style={{ fontSize: 12, color: "#64748b" }}>{type}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {message && <div className="card" style={{ marginBottom: 24 }}>{message}</div>}
       <div className="card" style={{ padding: 0 }}>
         <div style={{ padding: "16px 24px", borderBottom: "1px solid #e2e8f0", fontWeight: 600 }}>
@@ -47,7 +86,9 @@ export default function AdminMediaDashboard() {
           >
             <div>
               <strong>{item.title || "Untitled"}</strong>
-              <div style={{ color: "#64748b", fontSize: 13 }}>{item.mediaType}</div>
+              <div style={{ color: "#64748b", fontSize: 13 }}>
+                {item.mediaType} {item.isHighlighted && <span style={{ color: "#ffa500" }}>⭐ Nổi bật</span>}
+              </div>
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               <Link to={`/admin/media/${item.id}/edit`} className="btn btn-outline btn-sm">Edit</Link>

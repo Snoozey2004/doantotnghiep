@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Application.DTOs.LandingPageConfigDTOs;
 using WebApplication1.Application.Interfaces.Services;
 
@@ -37,6 +38,7 @@ public class LandingPageConfigsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<LandingPageConfigDto>> Create([FromBody] LandingPageConfigCreateDto dto, CancellationToken cancellationToken)
     {
         var config = await _configService.CreateAsync(dto, cancellationToken);
@@ -44,6 +46,7 @@ public class LandingPageConfigsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<LandingPageConfigDto>> Update(Guid id, [FromBody] LandingPageConfigUpdateDto dto, CancellationToken cancellationToken)
     {
         var config = await _configService.UpdateAsync(id, dto, cancellationToken);
@@ -51,6 +54,7 @@ public class LandingPageConfigsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var deleted = await _configService.DeleteAsync(id, cancellationToken);

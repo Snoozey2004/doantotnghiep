@@ -43,7 +43,7 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-  const login = (userData) => {
+  const login = (userData, expiresAt = null) => {
     const userWithRole = {
       ...userData,
       role: typeof userData.role === "string" ? parseInt(userData.role, 10) : userData.role
@@ -52,6 +52,11 @@ export function AuthProvider({ children }) {
     localStorage.setItem("user", JSON.stringify(userWithRole));
     localStorage.setItem("userRole", String(userWithRole.role));
     localStorage.setItem("userName", userWithRole.fullName || "");
+
+    // Store token expiration time
+    if (expiresAt) {
+      localStorage.setItem("tokenExpiresAt", expiresAt);
+    }
   };
 
   const logout = () => {
@@ -60,6 +65,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userRole");
     localStorage.removeItem("userName");
+    localStorage.removeItem("tokenExpiresAt");
   };
 
   // Listen for logout events from other tabs

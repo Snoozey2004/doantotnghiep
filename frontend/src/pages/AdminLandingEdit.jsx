@@ -420,7 +420,7 @@ export default function AdminLandingEdit() {
 
   return (
     <AdminLayout>
-      <div style={{ maxWidth: 900 }}>
+      <div style={{ maxWidth: 1400, width: "100%" }}>
         <h1 style={{ fontSize: "2rem", marginBottom: 12 }}>Cập nhật Landing Config</h1>
         {message && <div className="card" style={{ marginBottom: 16 }}>{message}</div>}
         <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>

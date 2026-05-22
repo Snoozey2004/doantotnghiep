@@ -41,4 +41,14 @@ public class AnalyticsController : ControllerBase
         var result = await _analyticsService.GetAdminOverviewAsync(cancellationToken);
         return Ok(result);
     }
+
+    [HttpGet("content-stats")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
+    public async Task<ActionResult<ContentStatsDto>> GetContentStats(
+        [FromQuery] Guid? provinceId,
+        CancellationToken cancellationToken)
+    {
+        var result = await _analyticsService.GetContentStatsAsync(provinceId, cancellationToken);
+        return Ok(result);
+    }
 }

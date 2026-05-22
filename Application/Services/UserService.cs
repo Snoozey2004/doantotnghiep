@@ -10,11 +10,19 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly IEmailNotificationService _emailNotificationService;
+    private readonly ILogger<UserService> _logger;
 
-    public UserService(IUserRepository userRepository, IMapper mapper)
+    public UserService(
+        IUserRepository userRepository,
+        IMapper mapper,
+        IEmailNotificationService emailNotificationService,
+        ILogger<UserService> logger)
     {
         _userRepository = userRepository;
         _mapper = mapper;
+        _emailNotificationService = emailNotificationService;
+        _logger = logger;
     }
 
     public async Task<List<UserDto>> GetAllAsync(CancellationToken cancellationToken)
@@ -37,8 +45,59 @@ public class UserService : IUserService
             return null;
         }
 
+        var wasApproved = user.IsApproved;
+
         _mapper.Map(dto, user);
         await _userRepository.UpdateAsync(user, cancellationToken);
+
+        if (!wasApproved && user.IsApproved)
+        {
+            try
+            {
+                await _emailNotificationService.SendAsync(
+                    user.Email,
+                    "Tài khoản của bạn đã được phê duyệt",
+                    $"<p>Xin chào {user.FullName},</p><p>Tài khoản của bạn đã được Admin phê duyệt. Bạn có thể đăng nhập để sử dụng hệ thống.</p>",
+                    cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to send approval email for {Email}", user.Email);
+            }
+        }
+
+        return _mapper.Map<UserDto>(user);
+    }
+
+    public async Task<UserDto?> UpdateApprovalAsync(Guid id, bool isApproved, CancellationToken cancellationToken)
+    {
+        var user = await _userRepository.GetByIdAsync(id, cancellationToken);
+        if (user is null)
+        {
+            return null;
+        }
+
+        var wasApproved = user.IsApproved;
+        user.IsApproved = isApproved;
+
+        await _userRepository.UpdateAsync(user, cancellationToken);
+
+        if (!wasApproved && user.IsApproved)
+        {
+            try
+            {
+                await _emailNotificationService.SendAsync(
+                    user.Email,
+                    "Tài khoản của bạn đã được phê duyệt",
+                    $"<p>Xin chào {user.FullName},</p><p>Tài khoản của bạn đã được Admin phê duyệt. Bạn có thể đăng nhập để sử dụng hệ thống.</p>",
+                    cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to send approval email for {Email}", user.Email);
+            }
+        }
+
         return _mapper.Map<UserDto>(user);
     }
 

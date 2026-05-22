@@ -12,4 +12,7 @@ public class MediaItemDto
     public int SortOrder { get; set; }
     public bool IsFeatured { get; set; }
     public bool IsHighlighted { get; set; }
+    public int RevisionNumber { get; set; }
+    public DateTime? LastUpdatedAt { get; set; }
+    public string VersionHistoryJson { get; set; } = "[]";
 }

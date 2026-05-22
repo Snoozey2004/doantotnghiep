@@ -25,6 +25,7 @@ import AdminLandingCreate from "../pages/AdminLandingCreate.jsx";
 import AdminLandingEdit from "../pages/AdminLandingEdit.jsx";
 import AdminLandingDelete from "../pages/AdminLandingDelete.jsx";
 import AdminFeaturedContent from "../pages/AdminFeaturedContent.jsx";
+import AdminContentStatistics from "../pages/AdminContentStatistics.jsx";
 import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
 import RequireAuth from "./RequireAuth.jsx";
 
@@ -189,6 +190,14 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute requiredRoles={[0, 1]}>
             <AdminFeaturedContent />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/statistics"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <AdminContentStatistics />
           </ProtectedRoute>
         }
       />

@@ -57,4 +57,91 @@ public class AnalyticsRepository : IAnalyticsRepository
 
     public Task<int> CountHighlightedMediaAsync(CancellationToken cancellationToken)
         => _dbContext.MediaItems.AsNoTracking().CountAsync(m => m.IsHighlighted, cancellationToken);
+
+    public async Task<Dictionary<string, int>> CountPostsByCategoryAsync(Guid? provinceId, CancellationToken cancellationToken)
+    {
+        var query = _dbContext.Posts.AsNoTracking();
+
+        if (provinceId.HasValue)
+        {
+            query = query.Where(p => p.ProvinceId == provinceId);
+        }
+
+        return await query
+            .GroupBy(p => p.Category)
+            .Select(g => new { Category = g.Key, Count = g.Count() })
+            .ToDictionaryAsync(x => x.Category ?? "Uncategorized", x => x.Count, cancellationToken);
+    }
+
+    public async Task<Dictionary<string, int>> CountMediaByTypeAsync(Guid? provinceId, CancellationToken cancellationToken)
+    {
+        var query = _dbContext.MediaItems.AsNoTracking();
+
+        if (provinceId.HasValue)
+        {
+            query = query.Where(m => m.ProvinceId == provinceId);
+        }
+
+        return await query
+            .GroupBy(m => m.MediaType)
+            .Select(g => new { MediaType = g.Key, Count = g.Count() })
+            .ToDictionaryAsync(x => x.MediaType ?? "Unknown", x => x.Count, cancellationToken);
+    }
+
+    public async Task<Dictionary<string, int>> CountProvincesByRegionAsync(CancellationToken cancellationToken)
+    {
+        return await _dbContext.Provinces.AsNoTracking()
+            .GroupBy(p => p.Region)
+            .Select(g => new { Region = g.Key, Count = g.Count() })
+            .ToDictionaryAsync(x => x.Region ?? "Unknown", x => x.Count, cancellationToken);
+    }
+
+    public async Task<Dictionary<string, int>> GetContentPerProvinceAsync(CancellationToken cancellationToken)
+    {
+        var postCounts = await _dbContext.Posts.AsNoTracking()
+            .GroupBy(p => p.ProvinceId)
+            .Select(g => new { ProvinceId = g.Key, Count = g.Count() })
+            .ToListAsync(cancellationToken);
+
+        var mediaCounts = await _dbContext.MediaItems.AsNoTracking()
+            .GroupBy(m => m.ProvinceId)
+            .Select(g => new { ProvinceId = g.Key, Count = g.Count() })
+            .ToListAsync(cancellationToken);
+
+        var provinceNames = await _dbContext.Provinces.AsNoTracking()
+            .ToDictionaryAsync(p => p.Id, p => p.Name, cancellationToken);
+
+        var result = new Dictionary<string, int>();
+
+        foreach (var province in provinceNames)
+        {
+            var posts = postCounts.FirstOrDefault(pc => pc.ProvinceId == province.Key)?.Count ?? 0;
+            var media = mediaCounts.FirstOrDefault(mc => mc.ProvinceId == province.Key)?.Count ?? 0;
+            result[province.Value] = posts + media;
+        }
+
+        return result;
+    }
+
+    public async Task<Dictionary<string, int>> GetFeaturedVsNormalCountsAsync(CancellationToken cancellationToken)
+    {
+        var featuredPosts = await _dbContext.Posts.AsNoTracking().CountAsync(p => p.IsHighlighted, cancellationToken);
+        var normalPosts = await _dbContext.Posts.AsNoTracking().CountAsync(p => !p.IsHighlighted, cancellationToken);
+        var featuredMedia = await _dbContext.MediaItems.AsNoTracking().CountAsync(m => m.IsHighlighted, cancellationToken);
+        var normalMedia = await _dbContext.MediaItems.AsNoTracking().CountAsync(m => !m.IsHighlighted, cancellationToken);
+
+        return new Dictionary<string, int>
+        {
+            { "Featured Posts", featuredPosts },
+            { "Normal Posts", normalPosts },
+            { "Featured Media", featuredMedia },
+            { "Normal Media", normalMedia }
+        };
+    }
+
+    public Task<int> CountPostsByProvinceAsync(Guid provinceId, CancellationToken cancellationToken)
+        => _dbContext.Posts.AsNoTracking().CountAsync(p => p.ProvinceId == provinceId, cancellationToken);
+
+    public Task<int> CountMediaByProvinceAsync(Guid provinceId, CancellationToken cancellationToken)
+        => _dbContext.MediaItems.AsNoTracking().CountAsync(m => m.ProvinceId == provinceId, cancellationToken);
 }

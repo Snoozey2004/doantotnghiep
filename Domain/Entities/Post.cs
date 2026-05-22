@@ -24,6 +24,8 @@ public class Post
     public int RevisionNumber { get; set; }
     // MANUAL MIGRATION REQUIRED: added property LastUpdatedAt.
     public DateTime? LastUpdatedAt { get; set; }
+    // MANUAL MIGRATION REQUIRED: added property VersionHistoryJson.
+    public string VersionHistoryJson { get; set; } = "[]";
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public Province? Province { get; set; }
 }

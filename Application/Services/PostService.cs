@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Text.Json;
 using WebApplication1.Application.DTOs.PostDTOs;
 using WebApplication1.Application.Interfaces.Repositories;
 using WebApplication1.Application.Interfaces.Services;
@@ -63,6 +64,8 @@ public class PostService : IPostService
             return null;
         }
 
+        AppendPostVersionSnapshot(post);
+
         post.IsHighlighted = dto.IsHighlighted;
         post.HighlightOrder = dto.HighlightOrder;
         post.LastUpdatedAt = DateTime.UtcNow;
@@ -78,6 +81,8 @@ public class PostService : IPostService
         {
             return null;
         }
+
+        AppendPostVersionSnapshot(post);
 
         post.Tags = dto.Tags;
         post.LastUpdatedAt = DateTime.UtcNow;
@@ -100,6 +105,7 @@ public class PostService : IPostService
         post.CreatedAt = createdAt;
         post.RevisionNumber = 1;
         post.LastUpdatedAt = createdAt;
+        post.VersionHistoryJson = "[]";
 
         // Sanitize Body before saving
         if (!string.IsNullOrEmpty(post.Body))
@@ -119,9 +125,13 @@ public class PostService : IPostService
             return null;
         }
 
+        var previousRevision = post.RevisionNumber;
+
+        AppendPostVersionSnapshot(post);
+
         _mapper.Map(dto, post);
         post.LastUpdatedAt = DateTime.UtcNow;
-        post.RevisionNumber = post.RevisionNumber + 1;
+        post.RevisionNumber = previousRevision + 1;
 
         // Sanitize Body before saving
         if (!string.IsNullOrEmpty(post.Body))
@@ -143,5 +153,62 @@ public class PostService : IPostService
 
         await _postRepository.DeleteAsync(post, cancellationToken);
         return true;
+    }
+
+    private static void AppendPostVersionSnapshot(Post post)
+    {
+        var history = ParsePostHistory(post.VersionHistoryJson);
+        history.Add(new PostVersionSnapshot
+        {
+            RevisionNumber = post.RevisionNumber,
+            SnapshotAt = post.LastUpdatedAt ?? post.CreatedAt,
+            Title = post.Title,
+            Content = post.Content,
+            Body = post.Body,
+            ContentEn = post.ContentEn,
+            Category = post.Category,
+            ImageUrl = post.ImageUrl,
+            VideoUrl = post.VideoUrl,
+            Slug = post.Slug,
+            Tags = post.Tags,
+            IsHighlighted = post.IsHighlighted,
+            HighlightOrder = post.HighlightOrder
+        });
+
+        post.VersionHistoryJson = JsonSerializer.Serialize(history);
+    }
+
+    private static List<PostVersionSnapshot> ParsePostHistory(string? json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return new List<PostVersionSnapshot>();
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<List<PostVersionSnapshot>>(json) ?? new List<PostVersionSnapshot>();
+        }
+        catch
+        {
+            return new List<PostVersionSnapshot>();
+        }
+    }
+
+    private sealed class PostVersionSnapshot
+    {
+        public int RevisionNumber { get; set; }
+        public DateTime SnapshotAt { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
+        public string Body { get; set; } = string.Empty;
+        public string ContentEn { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = string.Empty;
+        public string VideoUrl { get; set; } = string.Empty;
+        public string Slug { get; set; } = string.Empty;
+        public string Tags { get; set; } = string.Empty;
+        public bool IsHighlighted { get; set; }
+        public int HighlightOrder { get; set; }
     }
 }

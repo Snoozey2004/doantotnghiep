@@ -35,6 +35,7 @@ public class SearchService : ISearchService
                 ImageUrl = p.ImageUrl,
                 VideoUrl = p.VideoUrl,
                 ItemType = "Province",
+                Slug = p.Slug,
                 Region = p.Region,
                 Tags = p.Tags,
                 IsHighlighted = p.IsHighlighted,

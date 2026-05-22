@@ -39,6 +39,14 @@ public class UsersController : ControllerBase
         return user is null ? NotFound() : Ok(user);
     }
 
+    // New endpoint for approval-only updates to avoid accidental field overwrites
+    [HttpPut("{id:guid}/approval")]
+    public async Task<ActionResult<UserDto>> UpdateApproval(Guid id, [FromBody] UserApprovalDto dto, CancellationToken cancellationToken)
+    {
+        var user = await _userService.UpdateApprovalAsync(id, dto.IsApproved, cancellationToken);
+        return user is null ? NotFound() : Ok(user);
+    }
+
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {

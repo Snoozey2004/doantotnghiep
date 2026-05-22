@@ -4,10 +4,26 @@ import AdminLayout from "../layouts/AdminLayout.jsx";
 import { provinceApi } from "../api/provinceApi";
 import analyticsApi from "../api/analyticsApi";
 
+// Region name translation mapping
+const regionTranslation = {
+  "North": "Miền Bắc",
+  "Northeast": "Đông Bắc",
+  "Northwest": "Tây Bắc",
+  "Red River": "Đồng Bằng Sông Hồng",
+  "Central": "Miền Trung",
+  "Central Highlands": "Tây Nguyên",
+  "Southeast": "Đông Nam",
+  "Mekong": "Đồng Bằng Sông Cửu Long",
+  "South": "Miền Nam"
+};
+
+const translateRegion = (region) => regionTranslation[region] || region;
+
 export default function AdminDashboard() {
   const [provinces, setProvinces] = useState([]);
   const [overview, setOverview] = useState(null);
   const [message, setMessage] = useState("");
+  const [regionFilter, setRegionFilter] = useState("");
   const [mediaForm, setMediaForm] = useState({
     provinceId: "",
     mediaType: "image",
@@ -48,7 +64,17 @@ export default function AdminDashboard() {
   }, []);
 
   const sortedProvinces = useMemo(
-    () => [...provinces].sort((a, b) => a.name.localeCompare(b.name)),
+    () => [...provinces]
+      .filter(p => regionFilter === "" || p.region === regionFilter)
+      .sort((a, b) => a.name.localeCompare(b.name)),
+    [provinces, regionFilter]
+  );
+
+  const regions = useMemo(
+    () => [...new Set(provinces.map(p => p.region))].sort().map(region => ({
+      original: region,
+      translated: translateRegion(region)
+    })),
     [provinces]
   );
 
@@ -60,6 +86,9 @@ export default function AdminDashboard() {
           <p>Tổng quan dữ liệu địa phương, bài viết, media và sản phẩm.</p>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
+          <Link to="/admin/statistics" className="btn btn-primary">
+            📊 Thống kê nội dung
+          </Link>
           <Link to="/admin/featured" className="btn btn-primary">
             Quản lý nổi bật
           </Link>
@@ -93,9 +122,35 @@ export default function AdminDashboard() {
         </div>
       )}
       {message && <div className="card" style={{ marginBottom: 24 }}>{message}</div>}
+
+      {/* Region Filter */}
+      <div className="card" style={{ marginBottom: 24, padding: 16 }}>
+        <label style={{ fontSize: "0.875rem", fontWeight: 600, color: "#333", display: "block", marginBottom: 8 }}>
+          Lọc theo khu vực
+        </label>
+        <select 
+          value={regionFilter} 
+          onChange={(e) => setRegionFilter(e.target.value)}
+          style={{ 
+            padding: "8px 12px", 
+            borderRadius: "4px", 
+            border: "1px solid #e2e8f0",
+            width: "100%",
+            maxWidth: "300px"
+          }}
+        >
+          <option value="">Tất cả khu vực ({provinces.length})</option>
+          {regions.map(region => (
+            <option key={region.original} value={region.original}>
+              {region.translated} ({provinces.filter(p => p.region === region.original).length})
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="card" style={{ padding: 0 }}>
         <div style={{ padding: "16px 24px", borderBottom: "1px solid #e2e8f0", fontWeight: 600 }}>
-          Danh sách tỉnh/thành
+          Danh sách tỉnh/thành {regionFilter && `(${translateRegion(regionFilter)})`} ({sortedProvinces.length})
         </div>
         <div style={{ display: "grid", gap: 0 }}>
           {sortedProvinces.map((province) => (
@@ -112,7 +167,7 @@ export default function AdminDashboard() {
             >
               <div>
                 <strong>{province.name}</strong>
-                <div style={{ color: "#64748b", fontSize: 13 }}>{province.region}</div>
+                <div style={{ color: "#64748b", fontSize: 13 }}>{translateRegion(province.region)}</div>
               </div>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 <Link to={`/admin/provinces/${province.id}/edit`} className="btn btn-outline btn-sm">

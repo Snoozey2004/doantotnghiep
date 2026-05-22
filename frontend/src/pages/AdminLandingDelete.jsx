@@ -28,7 +28,7 @@ export default function AdminLandingDelete() {
 
   return (
     <AdminLayout>
-      <div style={{ maxWidth: 640 }}>
+      <div style={{ maxWidth: 1100, width: "100%" }}>
         <h1 style={{ fontSize: "2rem", marginBottom: 12 }}>Xoá Landing Config</h1>
         {message && <div className="card" style={{ marginBottom: 16 }}>{message}</div>}
         <div className="card">

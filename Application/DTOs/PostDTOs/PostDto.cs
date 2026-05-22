@@ -17,5 +17,6 @@ public class PostDto
     public int HighlightOrder { get; set; }
     public int RevisionNumber { get; set; }
     public DateTime? LastUpdatedAt { get; set; }
+        public string VersionHistoryJson { get; set; } = "[]";
     public DateTime CreatedAt { get; set; }
 }

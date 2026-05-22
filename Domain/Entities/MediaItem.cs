@@ -14,5 +14,11 @@ public class MediaItem
     public bool IsFeatured { get; set; }
     // MANUAL MIGRATION REQUIRED: added property IsHighlighted.
     public bool IsHighlighted { get; set; }
+    // MANUAL MIGRATION REQUIRED: added property RevisionNumber.
+    public int RevisionNumber { get; set; }
+    // MANUAL MIGRATION REQUIRED: added property LastUpdatedAt.
+    public DateTime? LastUpdatedAt { get; set; }
+    // MANUAL MIGRATION REQUIRED: added property VersionHistoryJson.
+    public string VersionHistoryJson { get; set; } = "[]";
     public Province? Province { get; set; }
 }

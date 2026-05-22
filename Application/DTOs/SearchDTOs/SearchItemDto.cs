@@ -10,6 +10,7 @@ public class SearchItemDto
     public string ItemType { get; set; } = string.Empty; // Province, Post, Media, Product
     public Guid? ProvinceId { get; set; }
     public string? ProvinceName { get; set; }
+    public string? Slug { get; set; }
     public string? Region { get; set; }
     public string? Category { get; set; }
     public string? MediaType { get; set; }

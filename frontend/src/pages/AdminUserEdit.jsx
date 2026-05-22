@@ -34,16 +34,17 @@ export default function AdminUserEdit() {
     event.preventDefault();
     setMessage("");
     try {
-      await userApi.update(id, form);
-      navigate("/admin/users");
-    } catch {
-      setMessage("Cập nhật user thất bại.");
+      const updatedUser = await userApi.update(id, form);
+      setMessage("✅ Cập nhật user thành công!");
+      setTimeout(() => navigate("/admin/users"), 1500);
+    } catch (error) {
+      setMessage("❌ Cập nhật user thất bại: " + (error.response?.data?.message || "Unknown error"));
     }
   };
 
   return (
     <AdminLayout>
-      <div style={{ maxWidth: 720 }}>
+      <div style={{ maxWidth: 1200, width: "100%" }}>
         <h1 style={{ fontSize: "2rem", marginBottom: 12 }}>Cập nhật user</h1>
         {message && <div className="card" style={{ marginBottom: 16 }}>{message}</div>}
         <form className="card" onSubmit={handleSubmit}>
@@ -55,10 +56,14 @@ export default function AdminUserEdit() {
             <option value="2">Seller</option>
             <option value="3">Customer</option>
           </select>
-          <label style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <input type="checkbox" name="isApproved" checked={form.isApproved} onChange={handleChange} />
-            Approved
-          </label>
+          <div style={{ marginTop: 16, padding: 12, backgroundColor: form.isApproved ? "#dcfce7" : "#fef3c7", borderRadius: 6, borderLeft: `4px solid ${form.isApproved ? "#22c55e" : "#f59e0b"}` }}>
+            <label style={{ display: "flex", gap: 8, alignItems: "center", cursor: "pointer" }}>
+              <input type="checkbox" name="isApproved" checked={form.isApproved} onChange={handleChange} />
+              <span style={{ fontWeight: 500 }}>
+                {form.isApproved ? "✓ Tài khoản đã được phê duyệt" : "⚠ Tài khoản đang chờ phê duyệt"}
+              </span>
+            </label>
+          </div>
           <button className="btn btn-primary" type="submit">Lưu thay đổi</button>
         </form>
       </div>

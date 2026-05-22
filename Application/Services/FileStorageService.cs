@@ -52,8 +52,9 @@ public class FileStorageService : IFileStorageService
             throw new InvalidOperationException("Empty file.");
         }
 
-        var uploadsRoot = Path.Combine(_environment.ContentRootPath, "frontend/Images/uploads");
-        var folder = string.IsNullOrWhiteSpace(subFolder) ? uploadsRoot : Path.Combine(uploadsRoot, subFolder);
+        var uploadsRoot = Path.Combine(_environment.ContentRootPath, "frontend", "Images", "uploads");
+        var normalizedSubFolder = subFolder?.Trim().Trim('/', '\\');
+        var folder = string.IsNullOrWhiteSpace(normalizedSubFolder) ? uploadsRoot : Path.Combine(uploadsRoot, normalizedSubFolder);
         Directory.CreateDirectory(folder);
 
         var extension = Path.GetExtension(file.FileName);
@@ -108,7 +109,7 @@ public class FileStorageService : IFileStorageService
         await using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
         await file.CopyToAsync(stream, cancellationToken);
 
-        var relativeFolder = string.IsNullOrWhiteSpace(subFolder) ? "uploads" : $"uploads/{subFolder}";
+        var relativeFolder = string.IsNullOrWhiteSpace(normalizedSubFolder) ? "uploads" : $"uploads/{normalizedSubFolder.Replace('\\', '/')}";
         var url = $"/{relativeFolder}/{fileName}";
 
         return new UploadResultDto

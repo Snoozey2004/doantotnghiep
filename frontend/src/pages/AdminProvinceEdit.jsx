@@ -88,7 +88,7 @@ export default function AdminProvinceEdit() {
 
   return (
     <AdminLayout>
-      <div style={{ maxWidth: 820 }}>
+      <div style={{ maxWidth: 1400, width: "100%" }}>
         <h1 style={{ fontSize: "2rem", marginBottom: 12 }}>Cập nhật Province</h1>
         {message && <div className="card" style={{ marginBottom: 16 }}>{message}</div>}
         <form className="card" onSubmit={handleSubmit}>

@@ -92,7 +92,7 @@ public class MediaItemsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = "0,1")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var deleted = await _mediaService.DeleteAsync(id, cancellationToken);

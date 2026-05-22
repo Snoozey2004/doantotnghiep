@@ -4,10 +4,26 @@ import AdminLayout from "../layouts/AdminLayout.jsx";
 import { landingConfigApi } from "../api/landingConfigApi";
 import { provinceApi } from "../api/provinceApi";
 
+// Region name translation mapping
+const regionTranslation = {
+  "North": "Miền Bắc",
+  "Northeast": "Đông Bắc",
+  "Northwest": "Tây Bắc",
+  "Red River": "Đồng Bằng Sông Hồng",
+  "Central": "Miền Trung",
+  "Central Highlands": "Tây Nguyên",
+  "Southeast": "Đông Nam",
+  "Mekong": "Đồng Bằng Sông Cửu Long",
+  "South": "Miền Nam"
+};
+
+const translateRegion = (region) => regionTranslation[region] || region;
+
 export default function AdminLandingDashboard() {
   const [configs, setConfigs] = useState([]);
   const [provinces, setProvinces] = useState([]);
   const [message, setMessage] = useState("");
+  const [regionFilter, setRegionFilter] = useState("");
 
   useEffect(() => {
     provinceApi.getAll().then((provinceList) => {
@@ -21,8 +37,22 @@ export default function AdminLandingDashboard() {
   }, []);
 
   const sortedConfigs = useMemo(
-    () => [...configs].sort((a, b) => (a.provinceId || "").localeCompare(b.provinceId || "")),
-    [configs]
+    () => [...configs]
+      .filter(c => {
+        if (regionFilter === "") return true;
+        const province = provinces.find(p => p.id === c.provinceId);
+        return province?.region === regionFilter;
+      })
+      .sort((a, b) => (a.provinceId || "").localeCompare(b.provinceId || "")),
+    [configs, provinces, regionFilter]
+  );
+
+  const regions = useMemo(
+    () => [...new Set(provinces.map(p => p.region))].sort().map(region => ({
+      original: region,
+      translated: translateRegion(region)
+    })),
+    [provinces]
   );
 
   return (
@@ -38,9 +68,35 @@ export default function AdminLandingDashboard() {
         <strong>Tổng cấu hình:</strong> {sortedConfigs.length}
       </div>
       {message && <div className="card" style={{ marginBottom: 24 }}>{message}</div>}
+
+      {/* Region Filter */}
+      <div className="card" style={{ marginBottom: 24, padding: 16 }}>
+        <label style={{ fontSize: "0.875rem", fontWeight: 600, color: "#333", display: "block", marginBottom: 8 }}>
+          Lọc theo khu vực
+        </label>
+        <select 
+          value={regionFilter} 
+          onChange={(e) => setRegionFilter(e.target.value)}
+          style={{ 
+            padding: "8px 12px", 
+            borderRadius: "4px", 
+            border: "1px solid #e2e8f0",
+            width: "100%",
+            maxWidth: "300px"
+          }}
+        >
+          <option value="">Tất cả khu vực ({configs.length})</option>
+          {regions.map(region => (
+            <option key={region.original} value={region.original}>
+              {region.translated} ({configs.filter(c => provinces.find(p => p.id === c.provinceId)?.region === region.original).length})
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="card" style={{ padding: 0 }}>
         <div style={{ padding: "16px 24px", borderBottom: "1px solid #e2e8f0", fontWeight: 600 }}>
-          Landing configs
+          Landing configs {regionFilter && `(${translateRegion(regionFilter)})`} ({sortedConfigs.length})
         </div>
         {sortedConfigs.map((config) => (
           <div

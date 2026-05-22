@@ -51,6 +51,27 @@ export default function AdminUsersDashboard() {
     }
   };
 
+  const handleApprove = async (id, user) => {
+    try {
+      const updated = await userApi.approve(id);
+      setUsers(users.map(u => u.id === id ? updated : u));
+      setMessage(`✅ Đã phê duyệt tài khoản ${user.fullName}`);
+    } catch {
+      setMessage("Phê duyệt người dùng thất bại.");
+    }
+  };
+
+  const handleReject = async (id, user) => {
+    if (!window.confirm(`Bạn chắc chắn muốn từ chối phê duyệt tài khoản ${user.fullName}?`)) return;
+    try {
+      const updated = await userApi.reject(id);
+      setUsers(users.map(u => u.id === id ? updated : u));
+      setMessage(`❌ Đã từ chối phê duyệt tài khoản ${user.fullName}`);
+    } catch {
+      setMessage("Từ chối phê duyệt người dùng thất bại.");
+    }
+  };
+
   const stats = {
     total: users.length,
     approved: users.filter(u => u.isApproved).length,
@@ -154,6 +175,26 @@ export default function AdminUsersDashboard() {
                     </span>
                   </td>
                   <td style={{ padding: "12px 16px", textAlign: "right" }}>
+                    {!user.isApproved && (
+                      <>
+                        <button 
+                          className="btn btn-outline btn-sm" 
+                          style={{ marginRight: 8, borderColor: "#22c55e", color: "#22c55e" }}
+                          onClick={() => handleApprove(user.id, user)}
+                          title="Phê duyệt tài khoản này"
+                        >
+                          ✓ Phê duyệt
+                        </button>
+                        <button 
+                          className="btn btn-outline btn-sm" 
+                          style={{ marginRight: 8, borderColor: "#ef4444", color: "#ef4444" }}
+                          onClick={() => handleReject(user.id, user)}
+                          title="Từ chối tài khoản này"
+                        >
+                          ✕ Từ chối
+                        </button>
+                      </>
+                    )}
                     <Link to={`/admin/users/${user.id}/edit`} className="btn btn-outline btn-sm" style={{ marginRight: 8 }}>
                       Sửa
                     </Link>

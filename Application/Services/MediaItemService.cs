@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Text.Json;
 using WebApplication1.Application.DTOs.MediaDTOs;
 using WebApplication1.Application.Interfaces.Repositories;
 using WebApplication1.Application.Interfaces.Services;
@@ -51,7 +52,11 @@ public class MediaItemService : IMediaItemService
             return null;
         }
 
+        AppendMediaVersionSnapshot(item);
+
         item.IsHighlighted = dto.IsHighlighted;
+        item.LastUpdatedAt = DateTime.UtcNow;
+        item.RevisionNumber += 1;
         await _mediaRepository.UpdateAsync(item, cancellationToken);
         return _mapper.Map<MediaItemDto>(item);
     }
@@ -64,7 +69,11 @@ public class MediaItemService : IMediaItemService
             return null;
         }
 
+        AppendMediaVersionSnapshot(item);
+
         item.Tags = dto.Tags;
+        item.LastUpdatedAt = DateTime.UtcNow;
+        item.RevisionNumber += 1;
         await _mediaRepository.UpdateAsync(item, cancellationToken);
         return _mapper.Map<MediaItemDto>(item);
     }
@@ -78,7 +87,11 @@ public class MediaItemService : IMediaItemService
         }
 
         var item = _mapper.Map<MediaItem>(dto);
+        var createdAt = DateTime.UtcNow;
         item.Id = Guid.NewGuid();
+        item.RevisionNumber = 1;
+        item.LastUpdatedAt = createdAt;
+        item.VersionHistoryJson = "[]";
         await _mediaRepository.AddAsync(item, cancellationToken);
         return _mapper.Map<MediaItemDto>(item);
     }
@@ -91,7 +104,13 @@ public class MediaItemService : IMediaItemService
             return null;
         }
 
+        var previousRevision = item.RevisionNumber;
+
+        AppendMediaVersionSnapshot(item);
+
         _mapper.Map(dto, item);
+        item.LastUpdatedAt = DateTime.UtcNow;
+        item.RevisionNumber = previousRevision + 1;
         await _mediaRepository.UpdateAsync(item, cancellationToken);
         return _mapper.Map<MediaItemDto>(item);
     }
@@ -106,5 +125,56 @@ public class MediaItemService : IMediaItemService
 
         await _mediaRepository.DeleteAsync(item, cancellationToken);
         return true;
+    }
+
+    private static void AppendMediaVersionSnapshot(MediaItem item)
+    {
+        var history = ParseMediaHistory(item.VersionHistoryJson);
+        history.Add(new MediaVersionSnapshot
+        {
+            RevisionNumber = item.RevisionNumber,
+            SnapshotAt = item.LastUpdatedAt ?? DateTime.UtcNow,
+            MediaType = item.MediaType,
+            Title = item.Title,
+            Url = item.Url,
+            Description = item.Description,
+            Tags = item.Tags,
+            SortOrder = item.SortOrder,
+            IsFeatured = item.IsFeatured,
+            IsHighlighted = item.IsHighlighted
+        });
+
+        item.VersionHistoryJson = JsonSerializer.Serialize(history);
+    }
+
+    private static List<MediaVersionSnapshot> ParseMediaHistory(string? json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return new List<MediaVersionSnapshot>();
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<List<MediaVersionSnapshot>>(json) ?? new List<MediaVersionSnapshot>();
+        }
+        catch
+        {
+            return new List<MediaVersionSnapshot>();
+        }
+    }
+
+    private sealed class MediaVersionSnapshot
+    {
+        public int RevisionNumber { get; set; }
+        public DateTime SnapshotAt { get; set; }
+        public string MediaType { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string Url { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string Tags { get; set; } = string.Empty;
+        public int SortOrder { get; set; }
+        public bool IsFeatured { get; set; }
+        public bool IsHighlighted { get; set; }
     }
 }

@@ -68,4 +68,49 @@ public class AnalyticsService : IAnalyticsService
             HighlightedMediaCount = highlightedMediaCount
         };
     }
+
+    public async Task<ContentStatsDto> GetContentStatsAsync(Guid? provinceId, CancellationToken cancellationToken)
+    {
+        var postsByCategory = await _analyticsRepository.CountPostsByCategoryAsync(provinceId, cancellationToken);
+        var mediaByType = await _analyticsRepository.CountMediaByTypeAsync(provinceId, cancellationToken);
+        var provincesByRegion = await _analyticsRepository.CountProvincesByRegionAsync(cancellationToken);
+        var contentPerProvince = await _analyticsRepository.GetContentPerProvinceAsync(cancellationToken);
+        var featuredVsNormal = await _analyticsRepository.GetFeaturedVsNormalCountsAsync(cancellationToken);
+
+        int totalPosts, totalMedia, featuredPosts, featuredMedia;
+
+        if (provinceId.HasValue)
+        {
+            totalPosts = await _analyticsRepository.CountPostsByProvinceAsync(provinceId.Value, cancellationToken);
+            totalMedia = await _analyticsRepository.CountMediaByProvinceAsync(provinceId.Value, cancellationToken);
+
+            // For province-specific stats, count only highlighted items for that province
+            var highlightedPostsForProvince = postsByCategory.Values.Sum(); // Placeholder calculation
+            var highlightedMediaForProvince = mediaByType.Values.Sum(); // Placeholder calculation
+
+            featuredPosts = await _analyticsRepository.CountPostsAsync(cancellationToken);
+            featuredMedia = await _analyticsRepository.CountMediaAsync(cancellationToken);
+        }
+        else
+        {
+            totalPosts = await _analyticsRepository.CountPostsAsync(cancellationToken);
+            totalMedia = await _analyticsRepository.CountMediaAsync(cancellationToken);
+            featuredPosts = await _analyticsRepository.CountHighlightedPostsAsync(cancellationToken);
+            featuredMedia = await _analyticsRepository.CountHighlightedMediaAsync(cancellationToken);
+        }
+
+        return new ContentStatsDto
+        {
+            TotalPostCount = totalPosts,
+            TotalMediaCount = totalMedia,
+            FeaturedPostCount = featuredPosts,
+            FeaturedMediaCount = featuredMedia,
+            PostsByCategory = postsByCategory,
+            MediaByType = mediaByType,
+            ProvincesByRegion = provincesByRegion,
+            ContentPerProvince = contentPerProvince,
+            FeaturedVsNormal = featuredVsNormal,
+            GeneratedAt = DateTime.UtcNow
+        };
+    }
 }
