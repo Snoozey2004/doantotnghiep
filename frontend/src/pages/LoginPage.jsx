@@ -1,13 +1,24 @@
-﻿import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+﻿import { useState, useEffect } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout.jsx";
 import { authApi } from "../api/authApi";
+import { useAuth } from "../contexts/AuthContext.jsx";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { login } = useAuth();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  // Check if redirected due to session expiration
+  useEffect(() => {
+    const reason = searchParams.get("reason");
+    if (reason === "session_expired") {
+      setError("Phiên làm việc của bạn đã hết hạn. Vui lòng đăng nhập lại.");
+    }
+  }, [searchParams]);
 
   const handleChange = (event) => {
     setForm((prev) => ({ ...prev, [event.target.name]: event.target.value }));
@@ -18,28 +29,28 @@ export default function LoginPage() {
     setError("");
     try {
       const result = await authApi.login(form);
-      const roleValue = String(result.role ?? "").toLowerCase();
-      const normalizedRole =
-        roleValue === "0" || roleValue === "admin"
-          ? "admin"
-          : roleValue === "1" || roleValue === "editor"
-            ? "editor"
-            : roleValue === "2" || roleValue === "seller"
-              ? "seller"
-              : "customer";
+
+      // Check if user is approved
+      if (result.role === 1 && !result.isApproved) {
+        setError("❌ Tài khoản của bạn đang chờ Admin phê duyệt. Vui lòng kiểm tra email để cập nhật.");
+        return;
+      }
+
+      const roleValue = Number(result.role);
+      const normalizedRole = Number.isFinite(roleValue) ? roleValue : 3;
 
       localStorage.setItem("accessToken", result.accessToken);
-      localStorage.setItem("userRole", normalizedRole);
-      localStorage.setItem("userName", result.fullName);
-      const target = normalizedRole === "editor"
-        ? "/cms/editor"
-        : normalizedRole === "admin"
-          ? "/admin"
-          : "/";
+      login({
+        id: result.userId,
+        fullName: result.fullName,
+        email: result.email,
+        role: normalizedRole
+      }, result.expiresAt);
 
+      const target = normalizedRole === 0 || normalizedRole === 1 ? "/admin" : "/";
       navigate(target, { replace: true });
     } catch (err) {
-      setError(err?.response?.data?.message || "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
+      setError(err?.response?.data?.message || "❌ Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
     }
   };
 

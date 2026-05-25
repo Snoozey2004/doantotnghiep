@@ -1,12 +1,12 @@
-﻿import phoImage from "../../Images/pho-bo-ha-noi.jpeg";
-import hueImage from "../../Images/bunbohue.jpg";
-import seafoodImage from "../../Images/nha-hang-hai-san-nha-trang.jpg";
-import coffeeImage from "../../Images/caphethainguyen.jpg";
-import thangLongImage from "../../Images/dsvh-hoang-thanh-thang-long.png";
-import hueCitadelImage from "../../Images/dsvn-co-do-hue.png";
-import halongImage from "../../Images/dsvn-vinh-ha-long.png";
-import cuisineImage from "../../Images/am-thuc-viet-nam-2-1751938296.jpg";
-import heroLandscape from "../../Images/homepage.png";
+import phoImage from "/Images/pho-bo-ha-noi.jpeg";
+import hueImage from "/Images/bunbohue.jpg";
+import seafoodImage from "/Images/nha-hang-hai-san-nha-trang.jpg";
+import coffeeImage from "/Images/caphethainguyen.jpg";
+import thangLongImage from "/Images/dsvh-hoang-thanh-thang-long.png";
+import hueCitadelImage from "/Images/dsvn-co-do-hue.png";
+import halongImage from "/Images/dsvn-vinh-ha-long.png";
+import cuisineImage from "/Images/am-thuc-viet-nam-2-1751938296.jpg";
+import heroLandscape from "/Images/homepage.png";
 
 const provinces = [
   {

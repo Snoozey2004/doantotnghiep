@@ -427,4 +427,5 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
-/Topic2.md
+# Local Topic Markdown files
+/Topic1.md
