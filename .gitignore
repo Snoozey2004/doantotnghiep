@@ -462,3 +462,5 @@ coverage/
 *.db-journal
 /Topic2.md
 Topic3.md
+# Local Topic Markdown files
+/Topic1.md

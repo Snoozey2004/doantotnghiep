@@ -41,6 +41,35 @@ public class PostRepository : IPostRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<List<Post>> SearchAsync(string? keyword, Guid? provinceId, string? category, CancellationToken cancellationToken)
+    {
+        var query = _dbContext.Posts
+            .AsNoTracking()
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var lowered = keyword.ToLower();
+            query = query.Where(p => p.Title.ToLower().Contains(lowered)
+                || p.Content.ToLower().Contains(lowered)
+                || p.ContentEn.ToLower().Contains(lowered)
+                || p.Tags.ToLower().Contains(lowered));
+        }
+
+        if (provinceId.HasValue)
+        {
+            query = query.Where(p => p.ProvinceId == provinceId.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(category))
+        {
+            var categoryLowered = category.ToLower();
+            query = query.Where(p => p.Category.ToLower() == categoryLowered);
+        }
+
+        return await query.OrderByDescending(p => p.CreatedAt).ToListAsync(cancellationToken);
+    }
+
     public async Task AddAsync(Post post, CancellationToken cancellationToken)
     {
         _dbContext.Posts.Add(post);

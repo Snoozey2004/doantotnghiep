@@ -16,6 +16,7 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<Province, ProvinceDto>();
+        CreateMap<Province, ProvinceRelatedDto>(); // Slug maps automatically by convention.
         CreateMap<ProvinceCreateDto, Province>();
         CreateMap<ProvinceUpdateDto, Province>();
 
@@ -44,5 +45,9 @@ public class AutoMapperProfile : Profile
 
         CreateMap<AnalyticsEvent, AnalyticsEventDto>();
         CreateMap<AnalyticsEventCreateDto, AnalyticsEvent>();
+
+        CreateMap<User, Application.DTOs.AuthDTOs.UserDto>();
+        CreateMap<Application.DTOs.AuthDTOs.UserAdminUpdateDto, User>();
+        CreateMap<Application.DTOs.AuthDTOs.UserProfileUpdateDto, User>();
     }
 }

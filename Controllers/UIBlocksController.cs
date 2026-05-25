@@ -31,7 +31,7 @@ public class UIBlocksController : ControllerBase
     }
 
     [HttpPost("config/{configId:guid}")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<UIBlockDto>> Create(Guid configId, [FromBody] UIBlockCreateDto dto, CancellationToken cancellationToken)
     {
         var block = await _blockService.CreateAsync(configId, dto, cancellationToken);
@@ -39,7 +39,7 @@ public class UIBlocksController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<UIBlockDto>> Update(Guid id, [FromBody] UIBlockUpdateDto dto, CancellationToken cancellationToken)
     {
         var block = await _blockService.UpdateAsync(id, dto, cancellationToken);
@@ -47,7 +47,7 @@ public class UIBlocksController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var deleted = await _blockService.DeleteAsync(id, cancellationToken);

@@ -1,5 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout.jsx";
 import ProvinceHero from "../components/landing/ProvinceHero.jsx";
 import ProvinceIntro from "../components/landing/ProvinceIntro.jsx";
@@ -8,12 +8,6 @@ import ProvinceTourism from "../components/landing/ProvinceTourism.jsx";
 import ProvinceCulture from "../components/landing/ProvinceCulture.jsx";
 import ProvinceGallery from "../components/landing/ProvinceGallery.jsx";
 import ProvinceCTA from "../components/landing/ProvinceCTA.jsx";
-import HeroBanner from "../components/landing/HeroBanner.jsx";
-import IntroBlock from "../components/landing/IntroBlock.jsx";
-import GalleryBlock from "../components/landing/GalleryBlock.jsx";
-import VideoBlock from "../components/landing/VideoBlock.jsx";
-import ArticleBlock from "../components/landing/ArticleBlock.jsx";
-import ProductBlock from "../components/landing/ProductBlock.jsx";
 import provinces from "../data/provinceData";
 import { provinceApi } from "../api/provinceApi";
 import { landingConfigApi } from "../api/landingConfigApi";
@@ -21,9 +15,12 @@ import { postApi } from "../api/postApi";
 import { productApi } from "../api/productApi";
 import { mediaApi } from "../api/mediaApi";
 import { analyticsApi } from "../api/analyticsApi";
+import LandingPageRenderer from "../components/landing/LandingPageRenderer.jsx";
+import { uiBlockApi } from "../api/uiBlockApi";
 
 export default function ProvinceLandingPage() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const province = useMemo(
     () => provinces.find((item) => item.slug === slug),
     [slug]
@@ -33,27 +30,51 @@ export default function ProvinceLandingPage() {
   const [posts, setPosts] = useState([]);
   const [products, setProducts] = useState([]);
   const [mediaItems, setMediaItems] = useState([]);
+  const [relatedProvinces, setRelatedProvinces] = useState([]);
+  const [isImportingLanding, setIsImportingLanding] = useState(false);
+
+  const buildProvincePayload = (sourceProvince) => ({
+    name: sourceProvince?.name || province?.name || slug,
+    description: sourceProvince?.description || province?.description || "",
+    overview: sourceProvince?.slogan || province?.slogan || "",
+    keyFeatures: sourceProvince?.keyFeatures || province?.keyFeatures || "",
+    region: sourceProvince?.region || "",
+    imageUrl: sourceProvince?.imageUrl || province?.imageUrl || sourceProvince?.heroImage || province?.heroImage || "",
+    videoUrl: sourceProvince?.videoUrl || province?.videoUrl || "",
+    introduction: sourceProvince?.introduction || "",
+    introductionEn: sourceProvince?.introductionEn || "",
+    body: sourceProvince?.body || "",
+    tags: sourceProvince?.tags || "",
+    isHighlighted: Boolean(sourceProvince?.isHighlighted),
+    highlightOrder: sourceProvince?.highlightOrder || 0,
+    slug: sourceProvince?.slug || slug
+  });
 
   useEffect(() => {
     let isMounted = true;
 
     const loadData = async () => {
       try {
-        const [provinceResult, configResult] = await Promise.all([
+        const [provinceResult, configResult] = await Promise.allSettled([
           provinceApi.getBySlug(slug),
           landingConfigApi.getByProvinceSlug(slug)
         ]);
+
         if (!isMounted) {
           return;
         }
-        setProvinceData(provinceResult);
-        setConfig(configResult);
 
-        if (provinceResult?.id) {
+        const resolvedProvince = provinceResult.status === "fulfilled" ? provinceResult.value : null;
+        const resolvedConfig = configResult.status === "fulfilled" ? configResult.value : null;
+
+        setProvinceData(resolvedProvince);
+        setConfig(resolvedConfig);
+
+        if (resolvedProvince?.id) {
           const [postResult, productResult, mediaResult] = await Promise.all([
-            postApi.getByProvince(provinceResult.id),
-            productApi.getByProvince(provinceResult.id),
-            mediaApi.getByProvince(provinceResult.id)
+            postApi.getByProvince(resolvedProvince.id),
+            productApi.getByProvince(resolvedProvince.id),
+            mediaApi.getByProvince(resolvedProvince.id)
           ]);
           if (!isMounted) {
             return;
@@ -65,6 +86,7 @@ export default function ProvinceLandingPage() {
       } catch {
         if (isMounted) {
           setProvinceData(null);
+          setConfig(null);
         }
       }
     };
@@ -101,6 +123,150 @@ export default function ProvinceLandingPage() {
     [mediaItems]
   );
 
+  const handleEditLanding = async () => {
+    if (config?.id) {
+      navigate(`/admin/landing/${config.id}/edit`);
+      return;
+    }
+
+    let provinceId = provinceData?.id;
+    let resolvedProvince = provinceData;
+
+    if (!provinceId) {
+      try {
+        resolvedProvince = await provinceApi.getBySlug(slug);
+        provinceId = resolvedProvince?.id;
+        if (resolvedProvince) {
+          setProvinceData(resolvedProvince);
+        }
+      } catch {
+        resolvedProvince = null;
+      }
+    }
+
+    if (!provinceId) {
+      try {
+        const createdProvince = await provinceApi.create(buildProvincePayload(province));
+        provinceId = createdProvince?.id;
+        resolvedProvince = createdProvince;
+        if (createdProvince) {
+          setProvinceData(createdProvince);
+        }
+      } catch {
+        return;
+      }
+    }
+
+    if (!provinceId) {
+      return;
+    }
+
+    setIsImportingLanding(true);
+    try {
+      const fallbackProvince = resolvedProvince || province;
+      const createdConfig = await landingConfigApi.create({
+        provinceId,
+        themeColor: fallbackProvince?.accentColor || "#2563eb",
+        fontFamily: "Inter",
+        backgroundUrl: fallbackProvince?.heroImage || "",
+        layout: "default",
+        blocks: []
+      });
+
+      if (createdConfig?.provinceId) {
+        setConfig(createdConfig);
+      }
+
+      const blocksToCreate = [
+        {
+          blockType: "hero",
+          title: fallbackProvince?.name || provinceData?.name || province.name,
+          contentJson: JSON.stringify({
+            title: fallbackProvince?.name || provinceData?.name || province.name,
+            subtitle: fallbackProvince?.slogan || provinceData?.overview || province.slogan || "",
+            description: fallbackProvince?.description || provinceData?.description || province.description || "",
+            imageUrl: fallbackProvince?.heroImage || provinceData?.imageUrl || province.heroImage || ""
+          }),
+          sortOrder: 1,
+          isEnabled: true
+        },
+        {
+          blockType: "intro",
+          title: "Giới thiệu",
+          contentJson: JSON.stringify({
+            title: fallbackProvince?.name || provinceData?.name || province.name,
+            subtitle: fallbackProvince?.slogan || provinceData?.overview || province.slogan || "",
+            description: fallbackProvince?.description || provinceData?.description || province.description || "",
+            imageUrl: fallbackProvince?.introImage || provinceData?.imageUrl || province.introImage || ""
+          }),
+          sortOrder: 2,
+          isEnabled: true
+        },
+        {
+          blockType: "richText",
+          title: "Nội dung",
+          contentJson: JSON.stringify({ html: provinceData?.body || province.body || "" }),
+          sortOrder: 3,
+          isEnabled: true
+        },
+        {
+          blockType: "highlights",
+          title: "Điểm nhấn",
+          contentJson: JSON.stringify({
+            title: "Điểm nhấn",
+            description: fallbackProvince?.description || provinceData?.description || province.description || "",
+            items: fallbackProvince?.keyFeatures ? fallbackProvince.keyFeatures.split(",").map((item) => item.trim()).filter(Boolean) : []
+          }),
+          sortOrder: 4,
+          isEnabled: true
+        },
+        {
+          blockType: "specialties",
+          title: "Đặc sản",
+          contentJson: JSON.stringify({ title: "Đặc sản", items: fallbackProvince?.specialties || [] }),
+          sortOrder: 5,
+          isEnabled: true
+        },
+        {
+          blockType: "tourism",
+          title: "Du lịch",
+          contentJson: JSON.stringify({ title: "Du lịch", items: fallbackProvince?.tourism || [] }),
+          sortOrder: 6,
+          isEnabled: true
+        },
+        {
+          blockType: "culture",
+          title: "Văn hóa",
+          contentJson: JSON.stringify({ title: "Văn hóa", items: fallbackProvince?.culture || [] }),
+          sortOrder: 7,
+          isEnabled: true
+        },
+        {
+          blockType: "gallery",
+          title: "Thư viện ảnh",
+          contentJson: JSON.stringify({ title: "Thư viện ảnh", images: fallbackProvince?.gallery || [] }),
+          sortOrder: 8,
+          isEnabled: true
+        },
+        {
+          blockType: "cta",
+          title: "CTA",
+          contentJson: "{}",
+          sortOrder: 9,
+          isEnabled: true
+        }
+      ];
+
+      for (const block of blocksToCreate) {
+        await uiBlockApi.create(createdConfig.id, block);
+      }
+
+      navigate(`/admin/landing/${createdConfig.id}/edit`);
+    } finally {
+      setIsImportingLanding(false);
+    }
+  };
+
   if (!province) {
     return (
       <MainLayout>
@@ -121,34 +287,42 @@ export default function ProvinceLandingPage() {
   const introImage = featuredMedia.find((item) => item.mediaType === "intro")?.url
     || province.introImage;
 
+  const configBlocks = config?.blocks || [];
+  const hasBackendLandingBlocks = configBlocks.length > 0;
+
   return (
     <MainLayout>
       <div className="province-page" style={{ "--accent": accentColor }}>
-        {config ? (
-          <>
-            <HeroBanner
-              title={provinceData?.name || province.name}
-              subtitle={provinceData?.description || province.description}
-              imageUrl={config.backgroundUrl || heroImage}
-            />
-            <IntroBlock
-              title={provinceData?.name || province.name}
-              description={provinceData?.description || province.description}
-            />
-            {galleryImages.length > 0 && (
-              <GalleryBlock title="Khoảnh khắc địa phương" images={galleryImages} />
-            )}
-            {videoItem?.url && (
-              <VideoBlock title={videoItem.title || "Video"} videoUrl={videoItem.url} />
-            )}
-            {products.length > 0 && (
-              <ProductBlock title="Đặc sản nổi bật" products={products} />
-            )}
-            {posts.length > 0 && (
-              <ArticleBlock title="Bài viết nổi bật" posts={posts} />
-            )}
-            <ProvinceCTA />
-          </>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 12 }}>
+          <button
+            type="button"
+            className="btn btn-outline btn-sm"
+            onClick={handleEditLanding}
+            disabled={isImportingLanding}
+          >
+            {isImportingLanding ? "Đang nhập..." : "Edit landing page"}
+          </button>
+        </div>
+        {hasBackendLandingBlocks ? (
+          <LandingPageRenderer
+            province={{
+              ...province,
+              ...provinceData,
+              name: provinceData?.name || province.name,
+              description: provinceData?.description || province.description,
+              slogan: provinceData?.overview || province.slogan,
+              heroImage: config?.backgroundUrl || heroImage,
+              introImage,
+              body: provinceData?.body || province.body,
+              keyFeatures: provinceData?.keyFeatures || province.keyFeatures,
+              imageUrl: provinceData?.imageUrl || province.imageUrl,
+              videoUrl: provinceData?.videoUrl || province.videoUrl
+            }}
+            blocks={configBlocks}
+            posts={posts}
+            products={products}
+            mediaItems={mediaItems}
+          />
         ) : (
           <>
             <ProvinceHero province={{ ...province, heroImage }} />

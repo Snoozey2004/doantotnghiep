@@ -3,6 +3,7 @@ import useRevealOnScroll from "../../hooks/useRevealOnScroll";
 
 export default function ProvinceCulture({ province }) {
   const ref = useRevealOnScroll();
+  const culture = province.culture || [];
 
   return (
     <section className="province-section province-culture">
@@ -15,7 +16,7 @@ export default function ProvinceCulture({ province }) {
           </p>
         </div>
         <div className="province-culture-grid">
-          {province.culture.map((item, index) => (
+          {culture.map((item, index) => (
             <motion.article
               key={item.name}
               className="province-culture-card"

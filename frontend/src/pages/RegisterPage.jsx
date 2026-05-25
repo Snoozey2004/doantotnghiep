@@ -7,6 +7,7 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ fullName: "", email: "", password: "", role: "3" });
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (event) => {
@@ -16,12 +17,15 @@ export default function RegisterPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
+    setSuccess("");
     try {
       const payload = { ...form, role: Number(form.role) };
       await authApi.register(payload);
-      navigate("/login");
+      const selectedRole = form.role === "1" ? "Editor" : form.role === "2" ? "Seller" : "Customer";
+      setSuccess(`✅ Đăng ký thành công! ${form.role === "1" ? "Tài khoản của bạn đang chờ Admin phê duyệt." : ""}`);
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
-      setError("Đăng ký thất bại. Vui lòng thử lại.");
+      setError("❌ Đăng ký thất bại. Vui lòng thử lại.");
     }
   };
 
@@ -98,6 +102,7 @@ export default function RegisterPage() {
                   </button>
                 </div>
                 {error && <span className="auth-error">{error}</span>}
+                {success && <span style={{ color: "#22c55e", fontSize: "0.875rem", display: "block", marginBottom: 12 }}>{success}</span>}
                 <button type="submit" className="btn btn-primary auth-submit">
                   Đăng ký
                 </button>

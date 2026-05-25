@@ -38,6 +38,12 @@ public class OrderService : IOrderService
         return _mapper.Map<List<OrderDto>>(orders);
     }
 
+    public async Task<OrderDto?> GetByIdForUserAsync(Guid id, Guid userId, CancellationToken cancellationToken)
+    {
+        var order = await _orderRepository.GetByIdForUserAsync(id, userId, cancellationToken);
+        return order is null ? null : _mapper.Map<OrderDto>(order);
+    }
+
     public async Task<OrderDto> CreateAsync(Guid? userId, OrderCreateDto dto, CancellationToken cancellationToken)
     {
         var resolvedUserId = userId ?? dto.UserId;

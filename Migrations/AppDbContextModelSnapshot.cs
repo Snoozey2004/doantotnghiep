@@ -104,6 +104,12 @@ namespace WebApplication1.Migrations
                     b.Property<bool>("IsFeatured")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsHighlighted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("MediaType")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -112,8 +118,15 @@ namespace WebApplication1.Migrations
                     b.Property<Guid>("ProvinceId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("RevisionNumber")
+                        .HasColumnType("integer");
+
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -121,6 +134,10 @@ namespace WebApplication1.Migrations
                         .HasColumnType("character varying(200)");
 
                     b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("VersionHistoryJson")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -194,6 +211,10 @@ namespace WebApplication1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -203,25 +224,49 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ContentEn")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("HighlightOrder")
+                        .HasColumnType("integer");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsHighlighted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("ProvinceId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("RevisionNumber")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
+
+                    b.Property<string>("VersionHistoryJson")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("VideoUrl")
                         .IsRequired()
@@ -278,11 +323,33 @@ namespace WebApplication1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("HighlightOrder")
+                        .HasColumnType("integer");
+
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Introduction")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("IntroductionEn")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsHighlighted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("KeyFeatures")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -290,6 +357,10 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Overview")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Region")
                         .IsRequired()
@@ -299,6 +370,10 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("VideoUrl")
                         .IsRequired()
@@ -367,8 +442,7 @@ namespace WebApplication1.Migrations
                     b.Property<bool>("IsApproved")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasSentinel(true);
+                        .HasDefaultValue(true);
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -377,8 +451,7 @@ namespace WebApplication1.Migrations
                     b.Property<int>("Role")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasDefaultValue(3)
-                        .HasSentinel(3);
+                        .HasDefaultValue(3);
 
                     b.HasKey("Id");
 
