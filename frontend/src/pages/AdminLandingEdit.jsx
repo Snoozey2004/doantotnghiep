@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { arrayMove, SortableContext, verticalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import AdminLayout from "../layouts/AdminLayout.jsx";
 import { landingConfigApi } from "../api/landingConfigApi";
 import { uiBlockApi } from "../api/uiBlockApi";
@@ -7,7 +10,9 @@ import { provinceApi } from "../api/provinceApi";
 import { uploadApi } from "../api/uploadApi";
 import RichTextEditor from "../components/RichTextEditor.jsx";
 import LandingPageRenderer from "../components/landing/LandingPageRenderer.jsx";
+import VisualBlockCanvas from "../components/landing/VisualBlockCanvas.jsx";
 import provinceData from "../data/provinceData";
+import SortableBlock from "./SortableBlock.jsx";
 
 function parseJson(value) {
   if (!value) {
@@ -64,6 +69,24 @@ export default function AdminLandingEdit() {
   });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const [selectedPreset, setSelectedPreset] = useState("");
+  const [editorMode, setEditorMode] = useState("list");
+
+  const handlePresetChange = (event) => {
+    const key = event.target.value;
+    setSelectedPreset(key);
+    if (!key) {
+      setBlockForm({ blockType: "", title: "", contentJson: "{}", sortOrder: blocks.length + 1, isEnabled: true });
+      return;
+    }
+    const preset = blockPresets.find((p) => p.key === key);
+    if (preset) {
+      // clone template and ensure sortOrder is based on current blocks length
+      const tmpl = { ...preset.template, sortOrder: blocks.length + 1 };
+      setBlockForm(tmpl);
+    }
+  };
+
   const selectedProvinceData = provinceData.find((province) => province.id === provinceId || province.slug === provinceForm.slug);
   const blockContent = parseJson(blockForm.contentJson);
   const blockImages = Array.isArray(blockContent.images) ? blockContent.images.filter(Boolean) : [];
@@ -418,56 +441,189 @@ export default function AdminLandingEdit() {
     }
   };
 
+  const handleCanvasBlockUpdate = async (blockId, propertyName, value) => {
+    let updatedBlockData = null;
+
+    setBlocks((prev) => {
+      const newBlocks = prev.map((block) => {
+        if (block.id !== blockId) return block;
+        const content = parseJson(block.contentJson);
+        let updatedBlock = { ...block };
+
+        if (propertyName === "layoutX" || propertyName === "layoutY" || propertyName === "layoutWidth" || propertyName === "layoutHeight" || propertyName === "layoutZIndex") {
+          const layoutKey = propertyName.replace("layout", "").toLowerCase();
+          if (!content.layout) content.layout = {};
+          content.layout[layoutKey === "zindex" ? "zIndex" : layoutKey] = value;
+        } else if (propertyName === "contentElements") {
+          // Handle element positioning (entire content object with elements)
+          const newContent = value;
+          updatedBlock.contentJson = serializeJson(newContent);
+          updatedBlockData = updatedBlock;
+          return updatedBlock;
+        } else if (propertyName.startsWith("content")) {
+          const contentKey = propertyName.replace("content", "");
+          const camelCaseKey = contentKey.charAt(0).toLowerCase() + contentKey.slice(1);
+          content[camelCaseKey] = value;
+        } else {
+          updatedBlock[propertyName] = value;
+        }
+
+        updatedBlock.contentJson = serializeJson(content);
+        updatedBlockData = updatedBlock;
+        return updatedBlock;
+      });
+      return newBlocks;
+    });
+
+    if (updatedBlockData) {
+      try {
+        await uiBlockApi.update(blockId, { id: blockId, ...updatedBlockData });
+        setMessage("Đã cập nhật block.");
+      } catch {
+        setMessage("Cập nhật block thất bại.");
+      }
+    }
+  };
+
+  const handleCanvasLayoutChange = async (blockId, layoutData) => {
+    let updatedBlockData = null;
+
+    setBlocks((prev) =>
+      prev.map((block) => {
+        if (block.id !== blockId) return block;
+        const content = parseJson(block.contentJson);
+        content.layout = layoutData;
+        const updatedBlock = { ...block, contentJson: serializeJson(content) };
+        updatedBlockData = updatedBlock;
+        return updatedBlock;
+      })
+    );
+
+    if (updatedBlockData) {
+      try {
+        await uiBlockApi.update(blockId, { id: blockId, ...updatedBlockData });
+      } catch {
+        setMessage("Cập nhật layout thất bại.");
+      }
+    }
+  };
+
+  const handleCanvasImageUpload = async (file, blockId) => {
+    if (!file) {
+      return;
+    }
+
+    setMessage("");
+    try {
+      const result = await uploadApi.upload(file, "landing", provinceId, selectedProvinceData?.name || provinceForm.slug || "Landing", "IMG");
+
+      setBlocks((prev) =>
+        prev.map((block) => {
+          if (block.id !== blockId) return block;
+          const content = parseJson(block.contentJson);
+
+          // Handle imageUrl
+          if (content.imageUrl !== undefined && !Array.isArray(content.images)) {
+            content.imageUrl = result.url;
+          } else if (content.imageUrl !== undefined) {
+            // If we have both imageUrl and images array, add to images
+            if (!Array.isArray(content.images)) {
+              content.images = [content.imageUrl];
+            }
+            content.images.push(result.url);
+            content.imageUrl = result.url;
+          }
+
+          // Handle images array
+          if (Array.isArray(content.images)) {
+            content.images.push(result.url);
+            content.imageUrl = content.images[0] || result.url;
+          }
+
+          return { ...block, contentJson: serializeJson(content) };
+        })
+      );
+
+      setMessage(`Upload thành công: ${result.fileName}`);
+    } catch {
+      setMessage("Upload thất bại.");
+    }
+  };
+
+  // Preset templates for quick block creation
+  const blockPresets = [
+    { key: "hero", label: "Hero (Tên + Ảnh)", template: { blockType: "hero", title: "Hero", contentJson: JSON.stringify({ title: "", subtitle: "", description: "", imageUrl: "" }), sortOrder: blocks.length + 1, isEnabled: true } },
+    { key: "intro", label: "Intro (Giới thiệu)", template: { blockType: "intro", title: "Giới thiệu", contentJson: JSON.stringify({ title: "Giới thiệu", subtitle: "", description: "" }), sortOrder: blocks.length + 1, isEnabled: true } },
+    { key: "richText", label: "Rich Text (HTML)", template: { blockType: "richText", title: "Nội dung", contentJson: JSON.stringify({ html: "" }), sortOrder: blocks.length + 1, isEnabled: true } },
+    { key: "highlights", label: "Highlights (List)", template: { blockType: "highlights", title: "Điểm nhấn", contentJson: JSON.stringify({ title: "Điểm nhấn", description: "", items: [] }), sortOrder: blocks.length + 1, isEnabled: true } },
+    { key: "gallery", label: "Gallery (Ảnh)", template: { blockType: "gallery", title: "Thư viện ảnh", contentJson: JSON.stringify({ title: "Thư viện ảnh", images: [] }), sortOrder: blocks.length + 1, isEnabled: true } },
+    { key: "cta", label: "CTA (Call to Action)", template: { blockType: "cta", title: "CTA", contentJson: "{}", sortOrder: blocks.length + 1, isEnabled: true } }
+  ];
+
   return (
     <AdminLayout>
-      <div style={{ maxWidth: 1400, width: "100%" }}>
-        <h1 style={{ fontSize: "2rem", marginBottom: 12 }}>Cập nhật Landing Config</h1>
-        {message && <div className="card" style={{ marginBottom: 16 }}>{message}</div>}
-        <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
-          <form className="card" onSubmit={handleUpdateConfig}>
-            <h3>Cập nhật Config</h3>
-            <input name="themeColor" placeholder="Theme Color" value={configForm.themeColor} onChange={handleConfigChange} />
-            <input name="fontFamily" placeholder="Font" value={configForm.fontFamily} onChange={handleConfigChange} />
-            <input name="backgroundUrl" placeholder="Background URL" value={configForm.backgroundUrl} onChange={handleConfigChange} />
-            <input type="file" accept="image/*" onChange={handleConfigImageUpload} />
+      <div style={{ width: "100%" }}>
+        <h1 style={{ fontSize: "1.5rem", marginBottom: 12 }}>Cập nhật Landing Config</h1>
+        {message && <div className="card" style={{ marginBottom: 12, padding: 10, fontSize: 13 }}>{message}</div>}
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+          <form className="card" onSubmit={handleUpdateConfig} style={{ padding: 12 }}>
+            <h3 style={{ fontSize: 14, marginBottom: 10 }}>Cập nhật Config</h3>
+            <input name="themeColor" placeholder="Theme Color" value={configForm.themeColor} onChange={handleConfigChange} style={{ fontSize: 12, padding: 6 }} />
+            <input name="fontFamily" placeholder="Font" value={configForm.fontFamily} onChange={handleConfigChange} style={{ fontSize: 12, padding: 6 }} />
+            <input name="backgroundUrl" placeholder="Background URL" value={configForm.backgroundUrl} onChange={handleConfigChange} style={{ fontSize: 12, padding: 6 }} />
+            <input type="file" accept="image/*" onChange={handleConfigImageUpload} style={{ fontSize: 11 }} />
             {configForm.backgroundUrl && (
               <img
                 src={configForm.backgroundUrl}
                 alt="Preview"
-                style={{ width: "100%", maxHeight: 260, objectFit: "cover" }}
+                style={{ width: "100%", maxHeight: 140, objectFit: "cover", borderRadius: 6, marginTop: 6 }}
               />
             )}
-            <input name="layout" placeholder="Layout" value={configForm.layout} onChange={handleConfigChange} />
-            <button className="btn btn-primary" type="submit">Lưu Config</button>
+            <input name="layout" placeholder="Layout" value={configForm.layout} onChange={handleConfigChange} style={{ fontSize: 12, padding: 6 }} />
+            <button className="btn btn-primary" type="submit" style={{ fontSize: 12, padding: "6px 12px" }}>Lưu Config</button>
           </form>
-          <form className="card" onSubmit={handleSaveBlock}>
-            <h3>Thêm UI Block</h3>
-            <input name="blockType" placeholder="Block Type" value={blockForm.blockType} onChange={handleBlockChange} />
-            <input name="title" placeholder="Tiêu đề" value={blockForm.title} onChange={handleBlockChange} />
-            <input name="sortOrder" type="number" value={blockForm.sortOrder} onChange={handleBlockChange} />
+
+          <form className="card" onSubmit={handleSaveBlock} style={{ padding: 12 }}>
+            <h3 style={{ fontSize: 14, marginBottom: 10 }}>Thêm UI Block</h3>
+            <div style={{ marginBottom: 8 }}>
+              <label style={{ display: "block", marginBottom: 4, fontSize: 11, color: "#64748b" }}>Chọn mẫu</label>
+              <select value={selectedPreset} onChange={handlePresetChange} style={{ width: "100%", padding: "6px", borderRadius: 4, fontSize: 12 }}>
+                <option value="">-- Chọn mẫu --</option>
+                {blockPresets.map((p) => (
+                  <option key={p.key} value={p.key}>{p.label}</option>
+                ))}
+              </select>
+            </div>
+
+            <label style={{ display: "block", marginBottom: 4, fontSize: 11, color: "#64748b" }}>Hoặc cấu hình thủ công</label>
+            <input name="blockType" placeholder="Block Type" value={blockForm.blockType} onChange={handleBlockChange} style={{ fontSize: 11, padding: 6 }} />
+            <input name="title" placeholder="Tiêu đề" value={blockForm.title} onChange={handleBlockChange} style={{ fontSize: 11, padding: 6 }} />
+            <input name="sortOrder" type="number" value={blockForm.sortOrder} onChange={handleBlockChange} style={{ fontSize: 11, padding: 6 }} />
             <textarea
               name="contentJson"
               placeholder="Content JSON"
               value={blockForm.contentJson}
               onChange={handleBlockChange}
-              rows={3}
+              rows={2}
+              style={{ fontSize: 11, padding: 6, fontFamily: "monospace" }}
             />
             {blockImageUrl && (
               <div>
                 <img
                   src={blockImageUrl}
                   alt="Block preview"
-                  style={{ width: "100%", maxHeight: 220, objectFit: "cover", borderRadius: 12 }}
+                  style={{ width: "100%", maxHeight: 120, objectFit: "cover", borderRadius: 6, marginTop: 6 }}
                 />
                 {blockImages.length > 1 && (
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 8 }}>
-                    <button className="btn btn-outline btn-sm" type="button" onClick={handleSelectPreviousBlockImage}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 6, gap: 4 }}>
+                    <button className="btn btn-outline btn-sm" type="button" onClick={handleSelectPreviousBlockImage} style={{ fontSize: 10, padding: "4px 8px" }}>
                       Ảnh trước
                     </button>
-                    <span style={{ fontSize: 12, color: "#64748b" }}>
+                    <span style={{ fontSize: 10, color: "#64748b" }}>
                       {selectedBlockImageIndex + 1}/{blockImages.length}
                     </span>
-                    <button className="btn btn-outline btn-sm" type="button" onClick={handleSelectNextBlockImage}>
+                    <button className="btn btn-outline btn-sm" type="button" onClick={handleSelectNextBlockImage} style={{ fontSize: 10, padding: "4px 8px" }}>
                       Ảnh sau
                     </button>
                   </div>
@@ -475,20 +631,20 @@ export default function AdminLandingEdit() {
               </div>
             )}
             {(blockForm.blockType === "hero" || blockForm.blockType === "intro" || blockForm.blockType === "media" || blockForm.blockType === "gallery" || blockImageUrl) && (
-              <input type="file" accept="image/*" onChange={handleBlockImageUpload} />
+              <input type="file" accept="image/*" onChange={handleBlockImageUpload} style={{ fontSize: 11, marginTop: 6 }} />
             )}
             {blockImageUrl && (
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                <label className="btn btn-outline btn-sm" style={{ cursor: "pointer" }}>
-                  Thay ảnh hiện tại
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 6 }}>
+                <label className="btn btn-outline btn-sm" style={{ cursor: "pointer", fontSize: 10, padding: "4px 8px" }}>
+                  Thay ảnh
                   <input type="file" accept="image/*" onChange={handleReplaceBlockImageUpload} style={{ display: "none" }} />
                 </label>
-                <button className="btn btn-outline btn-sm" type="button" onClick={handleDeleteSelectedBlockImage}>
-                  Xoá ảnh hiện tại
+                <button className="btn btn-outline btn-sm" type="button" onClick={handleDeleteSelectedBlockImage} style={{ fontSize: 10, padding: "4px 8px" }}>
+                  Xoá ảnh
                 </button>
               </div>
             )}
-            <label style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <label style={{ display: "flex", gap: 6, alignItems: "center", fontSize: 12, marginTop: 6 }}>
               <input
                 type="checkbox"
                 name="isEnabled"
@@ -497,31 +653,81 @@ export default function AdminLandingEdit() {
               />
               Enabled
             </label>
-            <button className="btn btn-primary" type="submit">{editingBlockId ? "Lưu Block" : "Thêm Block"}</button>
+            <button className="btn btn-primary" type="submit" style={{ fontSize: 12, padding: "6px 12px", marginTop: 6 }}>{editingBlockId ? "Lưu Block" : "Thêm Block"}</button>
           </form>
         </div>
-        <div className="card" style={{ marginTop: 16 }}>
-          <h3>Danh sách UI Blocks</h3>
-          {blocks.map((block) => (
-            <div key={block.id} style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 12, marginBottom: 10, alignItems: "center" }}>
-              <div>
-                <div><strong>{block.blockType}</strong> - {block.title}</div>
-                <div style={{ color: "#64748b", fontSize: 12 }}>Sort: {block.sortOrder} · {block.isEnabled ? "Enabled" : "Disabled"}</div>
-              </div>
-              <button className="btn btn-outline btn-sm" type="button" onClick={() => handleEditBlock(block)}>
-                Sửa
+
+        <div className="card" style={{ marginTop: 12, padding: 12 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+            <h3 style={{ margin: 0, fontSize: 14 }}>Danh sách UI Blocks</h3>
+            <div style={{ display: "flex", gap: 6 }}>
+              <button
+                className={`btn ${editorMode === "list" ? "btn-primary" : "btn-outline"}`}
+                type="button"
+                onClick={() => setEditorMode("list")}
+                style={{ fontSize: 12, padding: "6px 12px" }}
+              >
+                List View
               </button>
-              <button className="btn btn-outline btn-sm" type="button" onClick={() => handleDeleteBlock(block.id)}>
-                Xoá
+              <button
+                className={`btn ${editorMode === "canvas" ? "btn-primary" : "btn-outline"}`}
+                type="button"
+                onClick={() => setEditorMode("canvas")}
+                style={{ fontSize: 12, padding: "6px 12px" }}
+              >
+                Canvas View
               </button>
             </div>
-          ))}
-          {blocks.length === 0 && <div style={{ color: "#64748b" }}>Chưa có UI block.</div>}
+          </div>
+
+          {editorMode === "list" ? (
+            <DndContext
+              collisionDetection={closestCenter}
+              onDragEnd={async (event) => {
+                const { active, over } = event;
+                if (!over || active.id === over.id) return;
+
+                const oldIndex = blocks.findIndex((b) => String(b.id) === String(active.id));
+                const newIndex = blocks.findIndex((b) => String(b.id) === String(over.id));
+                if (oldIndex === -1 || newIndex === -1) return;
+
+                const newBlocks = arrayMove(blocks, oldIndex, newIndex).map((b, idx) => ({ ...b, sortOrder: idx + 1 }));
+                setBlocks(newBlocks);
+
+                // Persist updated sortOrder for affected blocks (optimistically)
+                try {
+                  for (const b of newBlocks) {
+                    if (b.sortOrder !== blocks.find(x => x.id === b.id)?.sortOrder) {
+                      await uiBlockApi.update(b.id, { id: b.id, ...b });
+                    }
+                  }
+                  setMessage("Đã cập nhật thứ tự block.");
+                } catch {
+                  setMessage("Không thể cập nhật thứ tự block.");
+                }
+              }}
+            >
+              <SortableContext items={blocks.map(b => String(b.id))} strategy={verticalListSortingStrategy}>
+                {blocks.map((block) => (
+                  <SortableBlock key={block.id} id={String(block.id)} block={block} onEdit={() => handleEditBlock(block)} onDelete={() => handleDeleteBlock(block.id)} />
+                ))}
+              </SortableContext>
+            </DndContext>
+          ) : (
+            <VisualBlockCanvas
+              blocks={blocks}
+              configForm={configForm}
+              province={selectedProvinceData || {}}
+              onBlockUpdate={handleCanvasBlockUpdate}
+              onImageUpload={handleCanvasImageUpload}
+            />
+          )}
+          {blocks.length === 0 && <div style={{ color: "#94a3b8", fontSize: 12 }}>Chưa có UI block.</div>}
         </div>
 
-        <div className="card" style={{ marginTop: 16 }}>
-          <h3>Xem trước toàn bộ trang</h3>
-          <div style={{ border: "1px solid #e2e8f0", borderRadius: 16, overflow: "hidden" }}>
+        <div className="card" style={{ marginTop: 12, padding: 12 }}>
+          <h3 style={{ fontSize: 14, marginBottom: 10 }}>Xem trước toàn bộ trang</h3>
+          <div style={{ border: "1px solid #e2e8f0", borderRadius: 12, overflow: "hidden" }}>
             <LandingPageRenderer
               province={{
                 ...selectedProvinceData,
@@ -546,13 +752,12 @@ export default function AdminLandingEdit() {
             />
           </div>
         </div>
-        <div style={{ marginTop: 16 }}>
-          <button className="btn btn-primary" type="button" onClick={handleImportFallbackLanding}>
+
+        <div style={{ marginTop: 12, display: "flex", gap: 6 }}>
+          <button className="btn btn-primary" type="button" onClick={handleImportFallbackLanding} style={{ fontSize: 12, padding: "8px 16px" }}>
             Import fallback landing into config
           </button>
-        </div>
-        <div style={{ marginTop: 16 }}>
-          <button className="btn btn-outline" type="button" onClick={() => navigate("/admin/landing")}>Back</button>
+          <button className="btn btn-outline" type="button" onClick={() => navigate("/admin/landing")} style={{ fontSize: 12, padding: "8px 16px" }}>Back</button>
         </div>
       </div>
     </AdminLayout>

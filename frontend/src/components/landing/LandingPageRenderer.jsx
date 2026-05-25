@@ -90,8 +90,33 @@ export default function LandingPageRenderer({ province, blocks, posts = [], prod
     return null;
   }
 
+  const getLayoutStyle = (content) => {
+    if (!content?.layout) return {};
+    const layout = content.layout;
+    const style = {};
+    if (layout.x !== undefined) style.left = `${layout.x}px`;
+    if (layout.y !== undefined) style.top = `${layout.y}px`;
+    if (layout.width !== undefined) style.width = layout.width;
+    if (layout.height !== undefined) style.height = layout.height;
+    if (layout.zIndex !== undefined) style.zIndex = layout.zIndex;
+    return style;
+  };
+
   const renderBlock = (block) => {
     const content = parseContentJson(block);
+    const layoutStyle = getLayoutStyle(content);
+    const hasLayout = Object.keys(layoutStyle).length > 0;
+    const wrapper = hasLayout ? (
+      <div key={block.id} style={{ position: "relative", ...layoutStyle }}>
+        {renderBlockContent(block, content)}
+      </div>
+    ) : (
+      renderBlockContent(block, content)
+    );
+    return wrapper;
+  };
+
+  const renderBlockContent = (block, content) => {
 
     switch (block.blockType) {
       case "hero":
