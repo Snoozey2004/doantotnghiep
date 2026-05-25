@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import vietnamMap from "../../../svgmap/vn.svg?raw";
@@ -75,7 +75,7 @@ const mergedProvinceMap = new Map([
   ["Hà Tĩnh", "Hà Tĩnh"]
 ]);
 
-const excludedRegionNames = new Set(["Đông Bắc", "Đồng Bằng Sông Hồng"]);
+const excludedRegionNames = new Set();
 
 const nameFixes = new Map([
   ["Hồ Chí Minh city", "Hồ Chí Minh"],
