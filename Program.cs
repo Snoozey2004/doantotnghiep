@@ -1,15 +1,16 @@
-﻿using WebApplication1.Application.Interfaces.Repositories;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using WebApplication1.Application.Interfaces.Repositories;
 using WebApplication1.Application.Interfaces.Services;
 using WebApplication1.Application.Mappings;
 using WebApplication1.Application.Services;
-using WebApplication1.Infrastructure.Data;
-using WebApplication1.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Enums;
+using WebApplication1.Infrastructure.Data;
+using WebApplication1.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,11 +37,22 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSection["Issuer"],
         ValidAudience = jwtSection["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        RoleClaimType = System.Security.Claims.ClaimTypes.Role
     };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy =>
+        policy.RequireRole("0"));
+
+    options.AddPolicy("EditorPolicy", policy =>
+        policy.RequireRole("0", "1"));
+
+    options.AddPolicy("SellerPolicy", policy =>
+        policy.RequireRole("0", "1", "2"));
+});
 
 builder.Services.AddCors(options =>
 {
@@ -77,10 +89,17 @@ builder.Services.AddScoped<IMediaItemService, MediaItemService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IUIBlockService, UIBlockService>();
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IFileStorageService, FileStorageService>();
+builder.Services.AddScoped<IAuditLogService, AuditLogService>();
+builder.Services.AddScoped<IEmailNotificationService, EmailNotificationService>();
+builder.Services.AddScoped<IHtmlSanitizationService, HtmlSanitizationService>();
+builder.Services.AddSingleton<IRichTextConfigService, RichTextConfigService>();
 
 var app = builder.Build();
 
 await SeedDefaultAdminAsync(app.Services, builder.Configuration);
+await SeedSampleDataAsync(app.Services);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -89,7 +108,29 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+static async Task SeedSampleDataAsync(IServiceProvider services)
+{
+    using var scope = services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await DataSeeder.SeedAsync(dbContext, CancellationToken.None);
+}
+
 app.UseHttpsRedirection();
+
+// Add security headers middleware
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Add("X-Frame-Options", "DENY");
+    context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+    context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
+    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'");
+    context.Response.Headers.Add("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
+
+    await next();
+});
+
+app.UseStaticFiles();
 
 app.UseCors("Frontend");
 

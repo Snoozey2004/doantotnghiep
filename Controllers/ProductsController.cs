@@ -50,7 +50,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<ProductDto>> Create([FromBody] ProductCreateDto dto, CancellationToken cancellationToken)
     {
         var product = await _productService.CreateAsync(dto, cancellationToken);
@@ -58,7 +58,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<ProductDto>> Update(Guid id, [FromBody] ProductUpdateDto dto, CancellationToken cancellationToken)
     {
         var product = await _productService.UpdateAsync(id, dto, cancellationToken);
@@ -66,7 +66,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = "Admin,Editor")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var deleted = await _productService.DeleteAsync(id, cancellationToken);

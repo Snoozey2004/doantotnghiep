@@ -16,11 +16,19 @@ public class AuthService : IAuthService
 {
     private readonly IUserRepository _userRepository;
     private readonly IConfiguration _configuration;
+    private readonly IEmailNotificationService _emailNotificationService;
+    private readonly ILogger<AuthService> _logger;
 
-    public AuthService(IUserRepository userRepository, IConfiguration configuration)
+    public AuthService(
+        IUserRepository userRepository,
+        IConfiguration configuration,
+        IEmailNotificationService emailNotificationService,
+        ILogger<AuthService> logger)
     {
         _userRepository = userRepository;
         _configuration = configuration;
+        _emailNotificationService = emailNotificationService;
+        _logger = logger;
     }
 
     public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto, CancellationToken cancellationToken)
@@ -52,6 +60,23 @@ public class AuthService : IAuthService
         };
 
         await _userRepository.AddAsync(user, cancellationToken);
+
+        try
+        {
+            var subject = user.IsApproved
+                ? "Đăng ký tài khoản thành công"
+                : "Tài khoản đang chờ duyệt";
+            var body = user.IsApproved
+                ? $"<p>Xin chào {user.FullName},</p><p>Tài khoản của bạn đã được tạo thành công. Bạn có thể đăng nhập và sử dụng hệ thống ngay.</p>"
+                : $"<p>Xin chào {user.FullName},</p><p>Tài khoản Editor của bạn đã được tạo và đang chờ Admin phê duyệt.</p>";
+
+            await _emailNotificationService.SendAsync(user.Email, subject, body, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to send registration email for {Email}", user.Email);
+        }
+
         return CreateAuthResponse(user, user.IsApproved);
     }
 
@@ -92,6 +117,7 @@ public class AuthService : IAuthService
             {
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new(JwtRegisteredClaimNames.Email, user.Email),
+                new(ClaimTypes.Role, ((int)user.Role).ToString()),
                 new(ClaimTypes.Role, user.Role.ToString()),
                 new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new(ClaimTypes.Name, user.FullName)
@@ -113,6 +139,7 @@ public class AuthService : IAuthService
             FullName = user.FullName,
             Email = user.Email,
             Role = user.Role,
+            IsApproved = user.IsApproved,
             AccessToken = accessToken,
             ExpiresAt = expiresAt
         };

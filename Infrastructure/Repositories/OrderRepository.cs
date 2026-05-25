@@ -32,6 +32,14 @@ public class OrderRepository : IOrderRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<Order?> GetByIdForUserAsync(Guid id, Guid userId, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Orders
+            .Include(o => o.Items)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(o => o.Id == id && o.UserId == userId, cancellationToken);
+    }
+
     public async Task AddAsync(Order order, CancellationToken cancellationToken)
     {
         _dbContext.Orders.Add(order);

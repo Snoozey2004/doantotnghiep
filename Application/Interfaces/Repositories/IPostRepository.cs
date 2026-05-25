@@ -8,6 +8,7 @@ public interface IPostRepository
     Task<Post?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<Post?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
     Task<List<Post>> GetByProvinceIdAsync(Guid provinceId, CancellationToken cancellationToken);
+    Task<List<Post>> SearchAsync(string? keyword, Guid? provinceId, string? category, CancellationToken cancellationToken);
     Task AddAsync(Post post, CancellationToken cancellationToken);
     Task UpdateAsync(Post post, CancellationToken cancellationToken);
     Task DeleteAsync(Post post, CancellationToken cancellationToken);
