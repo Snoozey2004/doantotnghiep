@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { productApi } from "../../api/productApi";
 import { provinceApi } from "../../api/provinceApi";
+import "../../styles/product.css";
 
 const ProductEditPage = () => {
   const { id } = useParams();
@@ -79,7 +80,7 @@ const ProductEditPage = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-10">
+    <div className="product-page">
       <h1 className="text-3xl font-bold mb-8">Chỉnh sửa sản phẩm</h1>
 
       <form

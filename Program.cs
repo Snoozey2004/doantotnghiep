@@ -77,6 +77,7 @@ builder.Services.AddScoped<IMediaItemService, MediaItemService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IUIBlockService, UIBlockService>();
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+builder.Services.AddScoped<IProductImportService, ProductImportService>();
 
 var app = builder.Build();
 

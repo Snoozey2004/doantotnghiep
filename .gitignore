@@ -461,3 +461,4 @@ coverage/
 *.db
 *.db-journal
 /Topic2.md
+Topic3.md

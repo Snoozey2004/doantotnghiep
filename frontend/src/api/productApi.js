@@ -18,4 +18,11 @@ export const productApi = {
     axiosClient.put(`/api/products/${id}`, data).then((res) => res.data),
 
   delete: (id) => axiosClient.delete(`/api/products/${id}`),
+
+  importProducts: (formData) =>
+    axiosClient.post("/api/products/import", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }),
 };

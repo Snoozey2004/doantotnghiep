@@ -10,10 +10,12 @@ namespace WebApplication1.Controllers;
 public class ProductsController : ControllerBase
 {
     private readonly IProductService _productService;
+    private readonly IProductImportService _importService;
 
-    public ProductsController(IProductService productService)
+    public ProductsController(IProductService productService, IProductImportService importService)
     {
         _productService = productService;
+        _importService = importService;
     }
 
     [HttpGet]
@@ -71,5 +73,30 @@ public class ProductsController : ControllerBase
     {
         var deleted = await _productService.DeleteAsync(id, cancellationToken);
         return deleted ? NoContent() : NotFound();
+    }
+
+    [HttpPost("import")]
+    public async Task<IActionResult> Import([FromForm] IFormFile file)
+    {
+        if (file == null)
+        {
+            return BadRequest("File null");
+        }
+
+        if (file.Length == 0)
+        {
+            return BadRequest("File rỗng");
+        }
+
+        try
+        {
+            var result = await _importService.ImportAsync(file);
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

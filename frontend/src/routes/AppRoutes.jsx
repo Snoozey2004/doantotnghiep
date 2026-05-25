@@ -5,8 +5,8 @@ import LoginPage from "../pages/LoginPage.jsx";
 import RegisterPage from "../pages/RegisterPage.jsx";
 import AdminDashboard from "../pages/AdminDashboard.jsx";
 import ProductPage from "../pages/ProductPage.jsx";
+import ProductDetailPage from "../pages/ProductDetailPage";
 import ProductListPage from "../pages/admin/ProductListPage";
-import ProductCreatePage from "../pages/admin/ProductCreatePage";
 import ProductEditPage from "../pages/admin/ProductEditPage";
 import RequireAuth from "./RequireAuth.jsx";
 
@@ -35,9 +35,9 @@ export default function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
-      {/* admin for product */}
+      {/* for product */}
+      <Route path="/products/:id" element={<ProductDetailPage />} />
       <Route path="/admin/products" element={<ProductListPage />} />
-      <Route path="/admin/products/create" element={<ProductCreatePage />} />
       <Route path="/admin/products/edit/:id" element={<ProductEditPage />} />
     </Routes>
   );
