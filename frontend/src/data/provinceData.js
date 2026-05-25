@@ -2048,6 +2048,126 @@ const provinces = [
       }
     ],
     gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage]
+  },
+  {
+    slug: "dong-bang-song-hong",
+    name: "Đồng Bằng Sông Hồng",
+    slogan: "Châu thổ trù phú và di sản ngàn đời",
+    description:
+      "Vùng đồng bằng trung tâm của miền Bắc với hệ thống sông ngòi dày đặc, làng nghề lâu đời và nhịp sống văn hóa sôi động.",
+    accentColor: "#0f766e",
+    heroImage: thangLongImage,
+    introImage: cuisineImage,
+    specialties: [
+      {
+        name: "Bún thang",
+        description: "Tinh tế, thanh nhẹ với hương vị Hà Nội.",
+        origin: "Hà Nội",
+        image: phoImage
+      },
+      {
+        name: "Bánh gai",
+        description: "Bánh dẻo thơm, nhân đậu xanh.",
+        origin: "Ninh Giang",
+        image: cuisineImage
+      },
+      {
+        name: "Chè sen",
+        description: "Vị thanh mát từ sen vùng châu thổ.",
+        origin: "Hưng Yên",
+        image: heroLandscape
+      }
+    ],
+    tourism: [
+      {
+        name: "Phố cổ Hà Nội",
+        description: "Không gian văn hóa và ẩm thực đậm chất Bắc Bộ.",
+        image: heroLandscape
+      },
+      {
+        name: "Làng nghề gốm Bát Tràng",
+        description: "Di sản thủ công truyền thống.",
+        image: thangLongImage
+      },
+      {
+        name: "Vườn nhãn Hưng Yên",
+        description: "Mùa quả ngọt tràn ngập sắc màu.",
+        image: coffeeImage
+      }
+    ],
+    culture: [
+      {
+        name: "Quan họ Bắc Ninh",
+        description: "Di sản văn hóa phi vật thể UNESCO.",
+        image: cuisineImage
+      },
+      {
+        name: "Lễ hội làng",
+        description: "Gắn kết cộng đồng, giữ gìn bản sắc.",
+        image: heroLandscape
+      }
+    ],
+    gallery: [thangLongImage, cuisineImage, heroLandscape, phoImage, halongImage, seafoodImage]
+  },
+  {
+    slug: "dong-bac",
+    name: "Đông Bắc",
+    slogan: "Núi non hùng vĩ, sắc màu bản địa",
+    description:
+      "Vùng núi Đông Bắc nổi bật với cao nguyên đá, hồ nước xanh biếc và văn hóa đa dạng của các dân tộc thiểu số.",
+    accentColor: "#1d4ed8",
+    heroImage: halongImage,
+    introImage: heroLandscape,
+    specialties: [
+      {
+        name: "Thắng cố",
+        description: "Món ăn đặc trưng vùng cao.",
+        origin: "Hà Giang",
+        image: cuisineImage
+      },
+      {
+        name: "Lạp xưởng gác bếp",
+        description: "Hương vị đậm đà của núi rừng.",
+        origin: "Lạng Sơn",
+        image: seafoodImage
+      },
+      {
+        name: "Chè shan tuyết",
+        description: "Trà cổ thụ thơm dịu.",
+        origin: "Tuyên Quang",
+        image: coffeeImage
+      }
+    ],
+    tourism: [
+      {
+        name: "Cao nguyên đá Đồng Văn",
+        description: "Cảnh quan đá vôi kỳ vĩ.",
+        image: heroLandscape
+      },
+      {
+        name: "Thác Bản Giốc",
+        description: "Một trong những thác nước đẹp nhất Việt Nam.",
+        image: halongImage
+      },
+      {
+        name: "Hồ Ba Bể",
+        description: "Hồ nước ngọt lớn giữa núi rừng.",
+        image: thangLongImage
+      }
+    ],
+    culture: [
+      {
+        name: "Chợ phiên vùng cao",
+        description: "Nơi giao lưu văn hóa của đồng bào dân tộc.",
+        image: cuisineImage
+      },
+      {
+        name: "Lễ hội mùa hoa tam giác mạch",
+        description: "Sắc hồng phủ khắp núi rừng.",
+        image: heroLandscape
+      }
+    ],
+    gallery: [halongImage, heroLandscape, cuisineImage, coffeeImage, seafoodImage, phoImage]
   }
 ];
 
