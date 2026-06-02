@@ -57,6 +57,13 @@ public class PostsController : ControllerBase
         return Ok(posts);
     }
 
+    [HttpGet("{id:guid}/versions")]
+    public async Task<ActionResult<List<PostVersionDto>>> GetVersions(Guid id, CancellationToken cancellationToken)
+    {
+        var versions = await _postService.GetVersionsAsync(id, cancellationToken);
+        return Ok(versions);
+    }
+
     [HttpPost]
     [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<PostDto>> Create([FromBody] PostCreateDto dto, CancellationToken cancellationToken)

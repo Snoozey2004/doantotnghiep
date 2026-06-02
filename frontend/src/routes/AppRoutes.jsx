@@ -34,7 +34,7 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/province/:slug" element={<ProvinceLandingPage />} />
-      <Route path="/post/:id" element={<PostDetailPage />} />
+      <Route path="/post/:slug" element={<PostDetailPage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />

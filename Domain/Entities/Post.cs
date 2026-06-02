@@ -1,11 +1,14 @@
-﻿namespace WebApplication1.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace WebApplication1.Domain.Entities;
 
 public class Post
 {
     public Guid Id { get; set; }
     public Guid ProvinceId { get; set; }
     public string Title { get; set; } = string.Empty;
-    public string Content { get; set; } = string.Empty;
+    [Column("Content")]
+    public string Description { get; set; } = string.Empty;
     // MANUAL MIGRATION REQUIRED: added property Body.
     public string Body { get; set; } = string.Empty;
     // MANUAL MIGRATION REQUIRED: added property ContentEn.

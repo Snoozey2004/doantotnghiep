@@ -1,11 +1,42 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { richContentApi } from "../api/richContentApi";
 import "../styles/richTextEditor.css";
 
 export default function RichTextEditor({ value, onChange, maxLength = 50000, placeholder = "Nhập nội dung..." }) {
   const editorRef = useRef(null);
+  const savedSelectionRef = useRef(null);
   const [charCount, setCharCount] = useState(value ? value.replace(/<[^>]*>/g, "").length : 0);
   const [isUploading, setIsUploading] = useState(false);
+
+  const saveSelection = () => {
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount > 0 && editorRef.current?.contains(sel.anchorNode)) {
+      savedSelectionRef.current = sel.getRangeAt(0);
+    }
+  };
+
+  const restoreSelection = () => {
+    const sel = window.getSelection();
+    if (sel && savedSelectionRef.current) {
+      sel.removeAllRanges();
+      sel.addRange(savedSelectionRef.current);
+      savedSelectionRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    const editor = editorRef.current;
+    if (!editor) {
+      return;
+    }
+
+    const nextValue = value || "";
+    if (editor.innerHTML !== nextValue) {
+      editor.innerHTML = nextValue;
+      const textOnly = nextValue.replace(/<[^>]*>/g, "");
+      setCharCount(textOnly.length);
+    }
+  }, [value]);
 
   const handleInput = (e) => {
     const html = e.currentTarget.innerHTML;
@@ -37,8 +68,9 @@ export default function RichTextEditor({ value, onChange, maxLength = 50000, pla
       const result = await richContentApi.uploadImage(file, "rich-content");
       const imageHtml = `<img src="${result.url}" alt="Rich content image" style="max-width: 100%; height: auto; margin: 10px 0;">`;
 
-      document.execCommand("insertHTML", false, imageHtml);
       editorRef.current?.focus();
+      restoreSelection();
+      document.execCommand("insertHTML", false, imageHtml);
     } catch (err) {
       alert("Lỗi khi tải hình ảnh: " + err.message);
     } finally {
@@ -126,7 +158,7 @@ export default function RichTextEditor({ value, onChange, maxLength = 50000, pla
           >
             🔗 Link
           </button>
-          <label className="toolbar-btn" style={{ cursor: "pointer", margin: 0 }}>
+          <label className="toolbar-btn" style={{ cursor: "pointer", margin: 0 }} onClick={saveSelection}>
             🖼️ Image
             <input
               type="file"
@@ -156,7 +188,7 @@ export default function RichTextEditor({ value, onChange, maxLength = 50000, pla
         className={`editor-content ${isAtLimit ? "at-limit" : ""}`}
         onInput={handleInput}
         suppressContentEditableWarning
-        dangerouslySetInnerHTML={{ __html: value }}
+        data-placeholder={placeholder}
       />
 
       <div className="editor-footer">

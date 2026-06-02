@@ -51,7 +51,7 @@ public class PostRepository : IPostRepository
         {
             var lowered = keyword.ToLower();
             query = query.Where(p => p.Title.ToLower().Contains(lowered)
-                || p.Content.ToLower().Contains(lowered)
+                || p.Description.ToLower().Contains(lowered)
                 || p.ContentEn.ToLower().Contains(lowered)
                 || p.Tags.ToLower().Contains(lowered));
         }

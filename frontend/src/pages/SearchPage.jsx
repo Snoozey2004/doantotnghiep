@@ -183,7 +183,7 @@ const SearchPage = () => {
     if (item.itemType === 'Province') {
       navigate(`/province/${item.slug}`);
     } else if (item.itemType === 'Post') {
-      navigate(`/post/${item.id}`);
+      navigate(`/post/${item.slug}`);
     }
   };
 

@@ -14,7 +14,7 @@ export default function ArticleBlock({ title, posts }) {
           {posts.map((post) => (
             <Link 
               key={post.id} 
-              to={`/post/${post.id}`}
+              to={`/post/${post.slug}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <div className="card card-hover">
@@ -24,7 +24,7 @@ export default function ArticleBlock({ title, posts }) {
                   style={{ width: "100%", height: 160, objectFit: "cover", borderRadius: 16 }}
                 />
                 <h3 style={{ marginTop: 16 }}>{post.title}</h3>
-                <p style={{ color: "#475569", marginTop: 8 }}>{post.content.slice(0, 120)}...</p>
+                <p style={{ color: "#475569", marginTop: 8 }}>{post.description.slice(0, 120)}...</p>
                 <div style={{ marginTop: 12 }}>
                   <span className="tag">{post.category || "Article"}</span>
                 </div>

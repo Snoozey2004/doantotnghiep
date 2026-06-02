@@ -70,7 +70,7 @@ public class SearchRepository : ISearchRepository
         {
             filtered = filtered.Where(p =>
                 ContainsNormalized(p.Title, normalizedKeyword) ||
-                ContainsNormalized(p.Content, normalizedKeyword) ||
+                ContainsNormalized(p.Description, normalizedKeyword) ||
                 ContainsNormalized(p.ContentEn, normalizedKeyword) ||
                 ContainsNormalized(p.Tags, normalizedKeyword));
         }

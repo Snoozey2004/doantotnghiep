@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using System.Globalization;
 using System.Text.Json;
+using System.Text;
+using System.Text.RegularExpressions;
 using WebApplication1.Application.DTOs.PostDTOs;
 using WebApplication1.Application.Interfaces.Repositories;
 using WebApplication1.Application.Interfaces.Services;
@@ -100,6 +103,7 @@ public class PostService : IPostService
         }
 
         var post = _mapper.Map<Post>(dto);
+        post.Slug = await BuildUniqueSlugAsync(dto.Slug, dto.Title, cancellationToken);
         var createdAt = DateTime.UtcNow;
         post.Id = Guid.NewGuid();
         post.CreatedAt = createdAt;
@@ -155,6 +159,33 @@ public class PostService : IPostService
         return true;
     }
 
+    public async Task<List<PostVersionDto>> GetVersionsAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var post = await _postRepository.GetByIdAsync(id, cancellationToken);
+        if (post is null)
+        {
+            return new List<PostVersionDto>();
+        }
+
+        var snapshots = ParsePostHistory(post.VersionHistoryJson);
+        return snapshots.Select(s => new PostVersionDto
+        {
+            RevisionNumber = s.RevisionNumber,
+            SnapshotAt = s.SnapshotAt,
+            Title = s.Title,
+            Description = s.Description,
+            Body = s.Body,
+            ContentEn = s.ContentEn,
+            Category = s.Category,
+            ImageUrl = s.ImageUrl,
+            VideoUrl = s.VideoUrl,
+            Slug = s.Slug,
+            Tags = s.Tags,
+            IsHighlighted = s.IsHighlighted,
+            HighlightOrder = s.HighlightOrder
+        }).ToList();
+    }
+
     private static void AppendPostVersionSnapshot(Post post)
     {
         var history = ParsePostHistory(post.VersionHistoryJson);
@@ -163,7 +194,7 @@ public class PostService : IPostService
             RevisionNumber = post.RevisionNumber,
             SnapshotAt = post.LastUpdatedAt ?? post.CreatedAt,
             Title = post.Title,
-            Content = post.Content,
+            Description = post.Description,
             Body = post.Body,
             ContentEn = post.ContentEn,
             Category = post.Category,
@@ -195,12 +226,56 @@ public class PostService : IPostService
         }
     }
 
+    private async Task<string> BuildUniqueSlugAsync(string? slug, string title, CancellationToken cancellationToken)
+    {
+        var baseSlug = NormalizeSlug(string.IsNullOrWhiteSpace(slug) ? title : slug);
+        if (string.IsNullOrWhiteSpace(baseSlug))
+        {
+            baseSlug = $"post-{DateTime.UtcNow:yyyyMMddHHmmss}";
+        }
+
+        var candidate = baseSlug;
+        var suffix = 2;
+
+        while (await _postRepository.GetBySlugAsync(candidate, cancellationToken) is not null)
+        {
+            candidate = $"{baseSlug}-{suffix}";
+            suffix++;
+        }
+
+        return candidate;
+    }
+
+    private static string NormalizeSlug(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return string.Empty;
+        }
+
+        var normalized = value.Trim().ToLowerInvariant().Normalize(NormalizationForm.FormD);
+        var builder = new StringBuilder(normalized.Length);
+
+        foreach (var character in normalized)
+        {
+            var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(character);
+            if (unicodeCategory == UnicodeCategory.NonSpacingMark)
+            {
+                continue;
+            }
+
+            builder.Append(character == 'đ' ? 'd' : character);
+        }
+
+        return Regex.Replace(builder.ToString(), "[^a-z0-9]+", "-").Trim('-');
+    }
+
     private sealed class PostVersionSnapshot
     {
         public int RevisionNumber { get; set; }
         public DateTime SnapshotAt { get; set; }
         public string Title { get; set; } = string.Empty;
-        public string Content { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public string Body { get; set; } = string.Empty;
         public string ContentEn { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;

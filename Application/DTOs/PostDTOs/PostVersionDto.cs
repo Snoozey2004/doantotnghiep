@@ -1,8 +1,9 @@
-﻿namespace WebApplication1.Application.DTOs.PostDTOs;
+namespace WebApplication1.Application.DTOs.PostDTOs;
 
-public class PostCreateDto
+public class PostVersionDto
 {
-    public Guid ProvinceId { get; set; }
+    public int RevisionNumber { get; set; }
+    public DateTime SnapshotAt { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Body { get; set; } = string.Empty;

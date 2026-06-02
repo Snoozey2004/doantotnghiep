@@ -8,7 +8,7 @@ import Loading from "../components/common/Loading.jsx";
 import "../styles/postDetail.css";
 
 export default function PostDetailPage() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [province, setProvince] = useState(null);
@@ -18,13 +18,13 @@ export default function PostDetailPage() {
 
   useEffect(() => {
     loadPost();
-  }, [id]);
+  }, [slug]);
 
   const loadPost = async () => {
     setLoading(true);
     setError(null);
     try {
-      const postData = await postApi.getById(id);
+      const postData = await postApi.getBySlug(slug);
       if (!postData) {
         setError("Bài viết không tồn tại.");
         return;
@@ -39,7 +39,7 @@ export default function PostDetailPage() {
       if (postData.provinceId) {
         const provincePosts = await postApi.getByProvince(postData.provinceId);
         const related = provincePosts
-          .filter((p) => p.id !== id)
+          .filter((p) => p.slug !== slug)
           .slice(0, 3);
         setRelatedPosts(related);
       }
@@ -177,14 +177,14 @@ export default function PostDetailPage() {
               )}
 
               {/* Fallback Content */}
-              {!post.body && post.content && (
+              {!post.body && post.description && (
                 <div className="post-content-section">
-                  <p>{post.content}</p>
+                  <p>{post.description}</p>
                 </div>
               )}
 
               {/* English Content (if different) */}
-              {post.contentEn && post.contentEn !== post.content && (
+              {post.contentEn && post.contentEn !== post.description && (
                 <details className="post-english-content">
                   <summary>English Version</summary>
                   <div className="english-text">
@@ -204,7 +204,7 @@ export default function PostDetailPage() {
                     {relatedPosts.map((relPost) => (
                       <Link
                         key={relPost.id}
-                        to={`/post/${relPost.id}`}
+                        to={`/post/${relPost.slug}`}
                         className="related-post-item"
                       >
                         {relPost.imageUrl && (
@@ -251,7 +251,7 @@ export default function PostDetailPage() {
                 <div className="share-buttons">
                   <button
                     onClick={() => {
-                      const url = `${window.location.origin}/post/${post.id}`;
+                      const url = `${window.location.origin}/post/${post.slug}`;
                       navigator.clipboard.writeText(url);
                       alert("Đã sao chép liên kết!");
                     }}

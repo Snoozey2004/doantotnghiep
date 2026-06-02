@@ -51,15 +51,16 @@ public class SearchService : ISearchService
             {
                 Id = p.Id,
                 Title = p.Title,
-                Description = p.Content,
+                Description = p.Description,
                 ImageUrl = p.ImageUrl,
                 VideoUrl = p.VideoUrl,
                 ItemType = "Post",
+                Slug = p.Slug,
                 ProvinceId = p.ProvinceId,
                 Category = p.Category,
                 Tags = p.Tags,
                 IsHighlighted = p.IsHighlighted,
-                RelevanceScore = CalculateRelevanceScore(p.Title, p.Content, p.Tags, filter.Keyword),
+                RelevanceScore = CalculateRelevanceScore(p.Title, p.Description, p.Tags, filter.Keyword),
                 CreatedAt = p.CreatedAt
             }));
         }
@@ -165,9 +166,10 @@ public class SearchService : ISearchService
             {
                 Id = p.Id,
                 Title = p.Title,
-                Description = p.Content,
+                Description = p.Description,
                 ImageUrl = p.ImageUrl,
                 ItemType = "Post",
+                Slug = p.Slug,
                 ProvinceId = p.ProvinceId,
                 Category = p.Category,
                 Tags = p.Tags,

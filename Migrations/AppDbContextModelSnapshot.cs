@@ -52,7 +52,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("AnalyticsEvents");
+                    b.ToTable("AnalyticsEvents", (string)null);
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.LandingPageConfig", b =>
@@ -88,7 +88,7 @@ namespace WebApplication1.Migrations
                     b.HasIndex("ProvinceId")
                         .IsUnique();
 
-                    b.ToTable("LandingPageConfigs");
+                    b.ToTable("LandingPageConfigs", (string)null);
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.MediaItem", b =>
@@ -145,7 +145,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("MediaItems");
+                    b.ToTable("MediaItems", (string)null);
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.Order", b =>
@@ -170,7 +170,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.OrderItem", b =>
@@ -202,7 +202,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.Post", b =>
@@ -279,7 +279,7 @@ namespace WebApplication1.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.Product", b =>
@@ -314,7 +314,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.Province", b =>
@@ -384,7 +384,7 @@ namespace WebApplication1.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("Provinces");
+                    b.ToTable("Provinces", (string)null);
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.UIBlock", b =>
@@ -420,7 +420,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("LandingPageConfigId");
 
-                    b.ToTable("UIBlocks");
+                    b.ToTable("UIBlocks", (string)null);
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.User", b =>
@@ -458,7 +458,7 @@ namespace WebApplication1.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.AnalyticsEvent", b =>

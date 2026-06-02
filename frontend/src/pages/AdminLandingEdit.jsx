@@ -71,6 +71,7 @@ export default function AdminLandingEdit() {
   const navigate = useNavigate();
   const [selectedPreset, setSelectedPreset] = useState("");
   const [editorMode, setEditorMode] = useState("list");
+  const [showBlockPresetMenu, setShowBlockPresetMenu] = useState(false);
 
   const handlePresetChange = (event) => {
     const key = event.target.value;
@@ -566,7 +567,7 @@ export default function AdminLandingEdit() {
         <h1 style={{ fontSize: "1.5rem", marginBottom: 12 }}>Cập nhật Landing Config</h1>
         {message && <div className="card" style={{ marginBottom: 12, padding: 10, fontSize: 13 }}>{message}</div>}
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12, marginBottom: 12 }}>
           <form className="card" onSubmit={handleUpdateConfig} style={{ padding: 12 }}>
             <h3 style={{ fontSize: 14, marginBottom: 10 }}>Cập nhật Config</h3>
             <input name="themeColor" placeholder="Theme Color" value={configForm.themeColor} onChange={handleConfigChange} style={{ fontSize: 12, padding: 6 }} />
@@ -583,84 +584,62 @@ export default function AdminLandingEdit() {
             <input name="layout" placeholder="Layout" value={configForm.layout} onChange={handleConfigChange} style={{ fontSize: 12, padding: 6 }} />
             <button className="btn btn-primary" type="submit" style={{ fontSize: 12, padding: "6px 12px" }}>Lưu Config</button>
           </form>
-
-          <form className="card" onSubmit={handleSaveBlock} style={{ padding: 12 }}>
-            <h3 style={{ fontSize: 14, marginBottom: 10 }}>Thêm UI Block</h3>
-            <div style={{ marginBottom: 8 }}>
-              <label style={{ display: "block", marginBottom: 4, fontSize: 11, color: "#64748b" }}>Chọn mẫu</label>
-              <select value={selectedPreset} onChange={handlePresetChange} style={{ width: "100%", padding: "6px", borderRadius: 4, fontSize: 12 }}>
-                <option value="">-- Chọn mẫu --</option>
-                {blockPresets.map((p) => (
-                  <option key={p.key} value={p.key}>{p.label}</option>
-                ))}
-              </select>
-            </div>
-
-            <label style={{ display: "block", marginBottom: 4, fontSize: 11, color: "#64748b" }}>Hoặc cấu hình thủ công</label>
-            <input name="blockType" placeholder="Block Type" value={blockForm.blockType} onChange={handleBlockChange} style={{ fontSize: 11, padding: 6 }} />
-            <input name="title" placeholder="Tiêu đề" value={blockForm.title} onChange={handleBlockChange} style={{ fontSize: 11, padding: 6 }} />
-            <input name="sortOrder" type="number" value={blockForm.sortOrder} onChange={handleBlockChange} style={{ fontSize: 11, padding: 6 }} />
-            <textarea
-              name="contentJson"
-              placeholder="Content JSON"
-              value={blockForm.contentJson}
-              onChange={handleBlockChange}
-              rows={2}
-              style={{ fontSize: 11, padding: 6, fontFamily: "monospace" }}
-            />
-            {blockImageUrl && (
-              <div>
-                <img
-                  src={blockImageUrl}
-                  alt="Block preview"
-                  style={{ width: "100%", maxHeight: 120, objectFit: "cover", borderRadius: 6, marginTop: 6 }}
-                />
-                {blockImages.length > 1 && (
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 6, gap: 4 }}>
-                    <button className="btn btn-outline btn-sm" type="button" onClick={handleSelectPreviousBlockImage} style={{ fontSize: 10, padding: "4px 8px" }}>
-                      Ảnh trước
-                    </button>
-                    <span style={{ fontSize: 10, color: "#64748b" }}>
-                      {selectedBlockImageIndex + 1}/{blockImages.length}
-                    </span>
-                    <button className="btn btn-outline btn-sm" type="button" onClick={handleSelectNextBlockImage} style={{ fontSize: 10, padding: "4px 8px" }}>
-                      Ảnh sau
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-            {(blockForm.blockType === "hero" || blockForm.blockType === "intro" || blockForm.blockType === "media" || blockForm.blockType === "gallery" || blockImageUrl) && (
-              <input type="file" accept="image/*" onChange={handleBlockImageUpload} style={{ fontSize: 11, marginTop: 6 }} />
-            )}
-            {blockImageUrl && (
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 6 }}>
-                <label className="btn btn-outline btn-sm" style={{ cursor: "pointer", fontSize: 10, padding: "4px 8px" }}>
-                  Thay ảnh
-                  <input type="file" accept="image/*" onChange={handleReplaceBlockImageUpload} style={{ display: "none" }} />
-                </label>
-                <button className="btn btn-outline btn-sm" type="button" onClick={handleDeleteSelectedBlockImage} style={{ fontSize: 10, padding: "4px 8px" }}>
-                  Xoá ảnh
-                </button>
-              </div>
-            )}
-            <label style={{ display: "flex", gap: 6, alignItems: "center", fontSize: 12, marginTop: 6 }}>
-              <input
-                type="checkbox"
-                name="isEnabled"
-                checked={blockForm.isEnabled}
-                onChange={handleBlockChange}
-              />
-              Enabled
-            </label>
-            <button className="btn btn-primary" type="submit" style={{ fontSize: 12, padding: "6px 12px", marginTop: 6 }}>{editingBlockId ? "Lưu Block" : "Thêm Block"}</button>
-          </form>
         </div>
 
         <div className="card" style={{ marginTop: 12, padding: 12 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
             <h3 style={{ margin: 0, fontSize: 14 }}>Danh sách UI Blocks</h3>
-            <div style={{ display: "flex", gap: 6 }}>
+            <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+              <div style={{ position: "relative" }}>
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  onClick={() => setShowBlockPresetMenu(!showBlockPresetMenu)}
+                  style={{ fontSize: 12, padding: "6px 12px" }}
+                >
+                  + Thêm Block
+                </button>
+                {showBlockPresetMenu && (
+                  <div style={{
+                    position: "absolute",
+                    top: "100%",
+                    right: 0,
+                    marginTop: 4,
+                    backgroundColor: "#fff",
+                    border: "1px solid #e2e8f0",
+                    borderRadius: 6,
+                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                    zIndex: 10,
+                    minWidth: 200
+                  }}>
+                    {blockPresets.map((preset) => (
+                      <button
+                        key={preset.key}
+                        type="button"
+                        onClick={() => {
+                          handlePresetChange({ target: { value: preset.key } });
+                          setShowBlockPresetMenu(false);
+                        }}
+                        style={{
+                          display: "block",
+                          width: "100%",
+                          padding: "8px 12px",
+                          textAlign: "left",
+                          border: "none",
+                          backgroundColor: "transparent",
+                          fontSize: 12,
+                          cursor: "pointer",
+                          borderBottom: "1px solid #f1f5f9"
+                        }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = "#f8fafc"}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <button
                 className={`btn ${editorMode === "list" ? "btn-primary" : "btn-outline"}`}
                 type="button"
@@ -679,6 +658,108 @@ export default function AdminLandingEdit() {
               </button>
             </div>
           </div>
+
+          {(editingBlockId || selectedPreset) && (
+            <div style={{ backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 6, padding: 12, marginBottom: 12 }}>
+              <form onSubmit={handleSaveBlock} style={{ display: "grid", gap: 8 }}>
+                <h4 style={{ fontSize: 12, margin: "0 0 8px 0", color: "#475569" }}>
+                  {editingBlockId ? "Chỉnh sửa Block" : "Cấu hình Block"}
+                </h4>
+                <input
+                  name="blockType"
+                  placeholder="Block Type"
+                  value={blockForm.blockType}
+                  onChange={handleBlockChange}
+                  style={{ fontSize: 11, padding: 6, borderRadius: 4, border: "1px solid #e2e8f0" }}
+                />
+                <input
+                  name="title"
+                  placeholder="Tiêu đề"
+                  value={blockForm.title}
+                  onChange={handleBlockChange}
+                  style={{ fontSize: 11, padding: 6, borderRadius: 4, border: "1px solid #e2e8f0" }}
+                />
+                <input
+                  name="sortOrder"
+                  type="number"
+                  value={blockForm.sortOrder}
+                  onChange={handleBlockChange}
+                  style={{ fontSize: 11, padding: 6, borderRadius: 4, border: "1px solid #e2e8f0" }}
+                />
+                <textarea
+                  name="contentJson"
+                  placeholder="Content JSON"
+                  value={blockForm.contentJson}
+                  onChange={handleBlockChange}
+                  rows={3}
+                  style={{ fontSize: 11, padding: 6, fontFamily: "monospace", borderRadius: 4, border: "1px solid #e2e8f0" }}
+                />
+                {blockImageUrl && (
+                  <div>
+                    <img
+                      src={blockImageUrl}
+                      alt="Block preview"
+                      style={{ width: "100%", maxHeight: 120, objectFit: "cover", borderRadius: 6 }}
+                    />
+                    {blockImages.length > 1 && (
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 6, gap: 4 }}>
+                        <button className="btn btn-outline btn-sm" type="button" onClick={handleSelectPreviousBlockImage} style={{ fontSize: 10, padding: "4px 8px" }}>
+                          Ảnh trước
+                        </button>
+                        <span style={{ fontSize: 10, color: "#64748b" }}>
+                          {selectedBlockImageIndex + 1}/{blockImages.length}
+                        </span>
+                        <button className="btn btn-outline btn-sm" type="button" onClick={handleSelectNextBlockImage} style={{ fontSize: 10, padding: "4px 8px" }}>
+                          Ảnh sau
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {(blockForm.blockType === "hero" || blockForm.blockType === "intro" || blockForm.blockType === "media" || blockForm.blockType === "gallery" || blockImageUrl) && (
+                  <input type="file" accept="image/*" onChange={handleBlockImageUpload} style={{ fontSize: 11 }} />
+                )}
+                {blockImageUrl && (
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                    <label className="btn btn-outline btn-sm" style={{ cursor: "pointer", fontSize: 10, padding: "4px 8px" }}>
+                      Thay ảnh
+                      <input type="file" accept="image/*" onChange={handleReplaceBlockImageUpload} style={{ display: "none" }} />
+                    </label>
+                    <button className="btn btn-outline btn-sm" type="button" onClick={handleDeleteSelectedBlockImage} style={{ fontSize: 10, padding: "4px 8px" }}>
+                      Xoá ảnh
+                    </button>
+                  </div>
+                )}
+                <label style={{ display: "flex", gap: 6, alignItems: "center", fontSize: 12 }}>
+                  <input
+                    type="checkbox"
+                    name="isEnabled"
+                    checked={blockForm.isEnabled}
+                    onChange={handleBlockChange}
+                  />
+                  Enabled
+                </label>
+                <div style={{ display: "flex", gap: 6 }}>
+                  <button className="btn btn-primary" type="submit" style={{ fontSize: 12, padding: "6px 12px" }}>
+                    {editingBlockId ? "Lưu Block" : "Thêm Block"}
+                  </button>
+                  <button
+                    className="btn btn-outline"
+                    type="button"
+                    onClick={() => {
+                      setEditingBlockId("");
+                      setSelectedPreset("");
+                      setSelectedBlockImageIndex(0);
+                      setBlockForm({ blockType: "", title: "", contentJson: "{}", sortOrder: 1, isEnabled: true });
+                    }}
+                    style={{ fontSize: 12, padding: "6px 12px" }}
+                  >
+                    Hủy
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
 
           {editorMode === "list" ? (
             <DndContext
