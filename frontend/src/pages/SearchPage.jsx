@@ -92,11 +92,8 @@ const SearchPage = () => {
 
     const performSearch = async () => {
       const trimmedKeyword = keyword.trim();
-      if (!trimmedKeyword) {
-        setResults([]);
-        setTotalCount(0);
-        return;
-      }
+      const contentType = trimmedKeyword ? filters.contentType : 'Province';
+      const pageSize = trimmedKeyword ? 10 : 100;
 
       const requestId = latestSearchRequestRef.current + 1;
       latestSearchRequestRef.current = requestId;
@@ -104,14 +101,14 @@ const SearchPage = () => {
       setLoading(true);
       try {
         const data = await searchApi.search({
-          keyword: trimmedKeyword,
+          keyword: trimmedKeyword || undefined,
           region: filters.region,
           category: filters.category,
           mediaType: filters.mediaType,
-          contentType: filters.contentType,
+          contentType,
           tags: filters.tags,
           page: currentPage,
-          pageSize: 10
+          pageSize
         });
 
         if (requestId !== latestSearchRequestRef.current) {
@@ -127,7 +124,7 @@ const SearchPage = () => {
           keyword: trimmedKeyword,
           ...(filters.region ? { region: filters.region } : {}),
           ...(filters.category ? { category: filters.category } : {}),
-          ...(filters.contentType && filters.contentType !== 'All' ? { contentType: filters.contentType } : {}),
+          ...(trimmedKeyword && filters.contentType && filters.contentType !== 'All' ? { contentType: filters.contentType } : {}),
           ...(filters.mediaType ? { mediaType: filters.mediaType } : {}),
           ...(filters.tags ? { tags: filters.tags } : {}),
           ...(currentPage > 1 ? { page: String(currentPage) } : {})
@@ -300,22 +297,20 @@ const SearchPage = () => {
           <main className="search-results">
             {loading && <div className="loading">Đang tìm kiếm...</div>}
 
-            {!loading && results.length === 0 && keyword.trim() && (
+            {!loading && results.length === 0 && (
               <div className="no-results">
-                Không tìm thấy kết quả cho "{keyword}"
-              </div>
-            )}
-
-            {!loading && !keyword.trim() && (
-              <div className="empty-search">
-                Bắt đầu nhập để tìm kiếm tỉnh thành, bài viết, media và nhiều nội dung khác.
+                {keyword.trim()
+                  ? `Không tìm thấy kết quả cho "${keyword}"`
+                  : 'Không có landing page tỉnh thành nào để hiển thị.'}
               </div>
             )}
 
             {results.length > 0 && (
               <>
                 <div className="results-info">
-                  Tìm thấy {totalCount} kết quả cho "{keyword}"
+                  {keyword.trim()
+                    ? `Tìm thấy ${totalCount} kết quả cho "${keyword}"`
+                    : `Hiển thị ${totalCount} landing page tỉnh/thành`}
                 </div>
 
                 <div className="results-list">

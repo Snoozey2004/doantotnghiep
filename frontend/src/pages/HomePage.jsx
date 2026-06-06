@@ -1,233 +1,264 @@
-﻿import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout.jsx";
-import { provinceApi } from "../api/provinceApi";
-import VietnamMap from "../components/map/VietnamMap.jsx";
 import phoImage from "/Images/pho-bo-ha-noi.jpeg";
 import hueImage from "/Images/bunbohue.jpg";
-import halongImage from "/Images/nha-hang-hai-san-nha-trang.jpg";
-import thangLongImage from "/Images/caphethainguyen.jpg";
+import huTieuImage from "/Images/hutieu.jpg";
+import thangLongImage from "/Images/dsvh-hoang-thanh-thang-long.png";
+import hueCitadelImage from "/Images/kinhdophuxuan.jpg";
+import heroLandscape from "/Images/homepage.png";
 
 export default function HomePage() {
-  const [provinces, setProvinces] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const featuredSpecialties = [
+  const navigate = useNavigate();
+  const aodaiImage = "/Images/aodaitrang.jpg";
+  const caTruImage = "/Images/catru.jpg";
+  const muaRoiImage = "/Images/muaroi.jpg";
+  const ngayDocLapImage = "/Images/ngaydoclapdantoc.jpg";
+  const hienDaiHoiNhapImage = "/Images/hiendaivietnamhoinhap.jpg";
+  const mapVietnamImage = "/Images/mapvn.jpg";
+
+  const landmarks = [
     {
+      name: "Văn Miếu",
+      category: "Di tích lịch sử",
+      description: "Được dựng từ năm 1070 dưới triều Lý Thánh Tông, Văn Miếu là nơi thờ Khổng Tử và tôn vinh đạo học của dân tộc. Đây là biểu tượng tiêu biểu cho truyền thống hiếu học và văn hiến Việt Nam.",
+      position: "left"
+    },
+    {
+      name: "Cố đô Huế",
+      category: "Di sản văn hóa",
+      description: "Khi nhà Nguyễn chọn Huế làm kinh đô vào đầu thế kỷ XIX, nơi đây trở thành trung tâm chính trị và văn hóa của đất nước. Quần thể di tích vẫn lưu giữ đậm dấu ấn kiến trúc cung đình và bản sắc miền Trung.",
+      position: "right"
+    },
+    {
+      name: "Vịnh Hạ Long",
+      category: "Danh thắng du lịch",
+      description: "Qua hàng triệu năm kiến tạo địa chất, Vịnh Hạ Long hình thành quần thể hàng nghìn đảo đá vôi giữa làn nước xanh. Đây vừa là kỳ quan thiên nhiên, vừa gắn với truyền thuyết và đời sống cư dân vùng biển.",
+      position: "left"
+    }
+  ];
+
+  const culinaryHighlights = [
+    {
+      region: "Miền Bắc",
       title: "Phở Hà Nội",
-      location: "Hà Nội",
-      description: "Hương vị thanh ngọt, tinh tế của thủ đô nghìn năm văn hiến.",
+      description: "Phở Hà Nội hình thành vào đầu thế kỷ XX trong không gian phố thị Bắc Bộ, từ những gánh phở rong quen thuộc. Nước dùng trong, vị ngọt xương hầm và hương quế hồi nhẹ tạo nên phong vị thanh tao, tinh tế của đất kinh kỳ.",
       image: phoImage
     },
     {
+      region: "Miền Trung",
       title: "Bún bò Huế",
-      location: "Huế",
-      description: "Đậm đà, cay nồng và đầy tính nghệ thuật cung đình.",
+      description: "Bún bò Huế bắt nguồn từ vùng đất cố đô, nơi ẩm thực cung đình triều Nguyễn hòa quyện với khẩu vị đậm đà của người dân xứ Huế. Món ăn nổi bật bởi nước dùng thơm sả, mắm ruốc và vị cay nồng rất riêng của miền Trung.",
       image: hueImage
     },
     {
-      title: "Hải sản Nha Trang",
-      location: "Khánh Hòa",
-      description: "Tươi ngon từ biển xanh và nhịp sống rực rỡ miền Trung.",
-      image: halongImage
-    },
-    {
-      title: "Cà phê Tây Nguyên",
-      location: "Đắk Lắk",
-      description: "Hương thơm mạnh mẽ, lưu giữ tinh thần đại ngàn.",
-      image: thangLongImage
+      region: "Miền Nam",
+      title: "Hủ tiếu Nam Vang",
+      description: "Hủ tiếu Nam Vang du nhập vào Nam Bộ qua giao thoa văn hóa của người Khmer, người Hoa và người Việt. Khi vào Việt Nam, món ăn được biến tấu với nước dùng ngọt thanh, sợi dai và topping phong phú, rất hợp với khẩu vị miền Nam.",
+      image: huTieuImage
     }
   ];
 
-  const regionHighlights = [
+  const historyFlow = [
     {
-      title: "Miền Bắc",
-      description: "Di sản nghìn năm, ẩm thực tinh tế, sắc màu lễ hội.",
-      image: halongImage
-    },
-    {
-      title: "Miền Trung",
-      description: "Đất kinh kỳ, biển xanh và hương vị đậm đà.",
-      image: hueImage
-    },
-    {
-      title: "Tây Nguyên",
-      description: "Cồng chiêng, cà phê và bản sắc đại ngàn.",
+      year: "1010",
+      title: "Kinh đô Thăng Long",
+      description: "Năm 1010, vua Lý Thái Tổ ban Chiếu dời đô từ Hoa Lư ra Đại La và đặt tên là Thăng Long. Sự kiện này mở ra thời kỳ phát triển mới, đặt nền móng cho kinh đô và văn hiến Đại Việt.",
       image: thangLongImage
     },
     {
-      title: "Miền Nam",
-      description: "Sôi động, phóng khoáng, giao thoa văn hóa.",
-      image: phoImage
+      year: "1802",
+      title: "Kinh đô Phú Xuân",
+      description: "Sau khi thống nhất đất nước, Gia Long chọn Phú Xuân làm kinh đô và xây dựng hệ thống cung điện, thành quách quy mô lớn. Từ đó, Huế trở thành trung tâm chính trị, văn hóa và nghi lễ của triều Nguyễn.",
+      image: hueCitadelImage
     },
     {
-      title: "Đồng bằng sông Cửu Long",
-      description: "Sông nước hiền hòa và đặc sản miền Tây.",
-      image: halongImage
+      year: "1954",
+      title: "Ngày độc lập dân tộc",
+      description: "Mốc 1954 gắn với bước ngoặt giải phóng dân tộc, khép lại một giai đoạn dài kháng chiến và mở ra thời kỳ xây dựng đất nước mới. Đây là biểu tượng của ý chí tự chủ và đoàn kết của nhân dân Việt Nam.",
+      image: ngayDocLapImage
+    },
+    {
+      year: "Hiện đại",
+      title: "Việt Nam hội nhập",
+      description: "Trong thời kỳ hiện đại, Việt Nam vừa hội nhập sâu rộng vừa nỗ lực gìn giữ giá trị truyền thống. Bản sắc văn hóa tiếp tục được làm mới để song hành cùng nhịp sống đương đại.",
+      image: hienDaiHoiNhapImage
     }
   ];
 
-  const galleryItems = [
-    { title: "Ẩm thực đường phố", image: phoImage },
-    { title: "Cố đô Huế", image: hueImage },
-    { title: "Kỳ quan vịnh Hạ Long", image: halongImage },
-    { title: "Di sản Thăng Long", image: thangLongImage },
-    { title: "Làng nghề truyền thống", image: phoImage },
-    { title: "Lễ hội văn hóa", image: hueImage }
+  const cultureCards = [
+    {
+      image: aodaiImage,
+      title: "Áo dài",
+      description: "Áo dài xuất phát từ áo ngũ thân và được hoàn thiện qua nhiều giai đoạn lịch sử để trở thành trang phục biểu tượng của người Việt. Từ học đường đến lễ cưới hay các sự kiện văn hóa, áo dài luôn gắn với vẻ đẹp thanh lịch, kín đáo và duyên dáng, đồng thời thể hiện tinh thần gìn giữ bản sắc dân tộc trong đời sống hiện đại."
+    },
+    {
+      image: caTruImage,
+      title: "Ca trù",
+      description: "Ca trù có nguồn gốc lâu đời, từng phát triển mạnh trong không gian cung đình, đình làng và chốn tao nhân mặc khách. Đây là loại hình nghệ thuật kết hợp thơ, nhạc và nhịp phách, phản ánh chiều sâu văn hóa bác học Việt Nam và cho thấy sự tinh tế trong cách thưởng thức nghệ thuật của người xưa."
+    },
+    {
+      image: muaRoiImage,
+      title: "Múa rối nước",
+      description: "Múa rối nước xuất phát từ các làng quê đồng bằng Bắc Bộ, nơi người nông dân sáng tạo sân khấu trên mặt nước để kể chuyện mùa màng, làng xóm và truyền thuyết dân gian. Loại hình này phản ánh đời sống lao động, sự hài hước và trí sáng tạo của người Việt, đồng thời là một di sản nghệ thuật dân gian rất độc đáo."
+    }
   ];
-
-  const floatingSpecialties = [
-    { name: "Phở Hà Nội", icon: "🍜", position: "left-6 top-8" },
-    { name: "Bún bò Huế", icon: "🌶️", position: "right-6 top-32" },
-    { name: "Bánh mì Hội An", icon: "🥖", position: "left-1/2 top-1/2" },
-    { name: "Hải sản Nha Trang", icon: "🦐", position: "right-4 bottom-32" },
-    { name: "Cà phê Tây Nguyên", icon: "☕", position: "left-6 bottom-20" }
-  ];
-
-  useEffect(() => {
-    provinceApi
-      .getAll()
-      .then(setProvinces)
-      .finally(() => setLoading(false));
-  }, []);
 
   return (
     <MainLayout>
-      <div className="home-landing">
-        <section className="hero-landing">
-          <div className="hero-shell hero-shell--map">
-            <motion.div
-              className="hero-intro hero-intro--left"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <span className="hero-eyebrow">Khám phá Việt Nam</span>
-              <h1>Khám phá hương vị Việt Nam</h1>
-              <p>
-                34 tỉnh thành – hàng trăm đặc sản mang đậm bản sắc địa phương.
-              </p>
-              <p>
-                Hành trình khám phá ẩm thực, văn hóa và bản sắc địa phương Việt Nam thông
-                qua từng tỉnh thành.
-              </p>
-              <div className="hero-stats">
-                <div>
-                  <strong>34</strong>
-                  <span>Tỉnh thành</span>
-                </div>
-                <div>
-                  <strong>100+</strong>
-                  <span>Đặc sản</span>
-                </div>
-                <div>
-                  <strong>1</strong>
-                  <span>Bản đồ tương tác</span>
-                </div>
-              </div>
-            </motion.div>
-            <div className="map-hero">
-              <div className="map-frame">
-                <div className="map-glow" />
-                <VietnamMap provinces={loading ? [] : provinces} />
-              </div>
+      <main className="home-landing home-storyboard">
+        <section className="home-hero-card">
+          <motion.div
+            className="home-hero-copy"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <span className="home-hero-kicker">Bản sắc Việt Nam</span>
+            <h1>Hành trình di sản &amp; bản sắc Việt Nam</h1>
+            <p>
+              Khám phá vẻ đẹp ẩm thực, lịch sử và văn hóa của 34 tỉnh thành theo một bố
+              cục trang nhã, tối giản và giàu cảm xúc.
+            </p>
+            <div className="home-hero-actions">
+              <button type="button" className="btn btn-primary" onClick={() => navigate('/search?keyword=')}>
+                Khám phá ngay
+              </button>
+            </div>
+          </motion.div>
+        </section>
+
+        <section className="home-section home-landmarks-section">
+          <div className="container">
+            <div className="section-heading section-heading--center">
+              <span className="section-kicker">Khám phá địa danh</span>
+              <h2>Khám phá địa danh du lịch và di tích lịch sử</h2>
+            </div>
+            <div className="home-landmarks-zigzag">
+              {landmarks.map((item) => (
+                <motion.article
+                  key={item.name}
+                  className={`home-landmark-row ${item.position === 'right' ? 'is-reversed' : ''}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.55 }}
+                >
+                  <div className="home-landmark-image home-landmark-image--placeholder">
+                    <div className="home-landmark-image-label">Thêm hình sau</div>
+                  </div>
+                  <div className="home-landmark-content">
+                    <span>{item.category}</span>
+                    <h3>{item.name}</h3>
+                    <p>{item.description}</p>
+                  </div>
+                </motion.article>
+              ))}
             </div>
           </div>
         </section>
-        <section className="features-section">
+
+        <section className="home-section">
           <div className="container">
-            <div className="section-heading">
-              <span className="section-kicker">Đặc sản nổi bật</span>
-              <h2>Những hương vị làm nên bản sắc Việt Nam</h2>
-              <p>
-                Từ Bắc chí Nam, mỗi vùng đất đều có câu chuyện riêng được kể qua từng món
-                ăn, nguyên liệu và cách thưởng thức.
-              </p>
+            <div className="section-heading section-heading--center">
+              <h2>Tinh Hoa Ẩm Thực Ba Miền</h2>
             </div>
-            <div className="features-grid">
-              {featuredSpecialties.map((item) => (
+            <div className="home-region-grid">
+              {culinaryHighlights.map((item) => (
                 <motion.article
-                  key={item.title}
-                  className="feature-card card-hover"
-                  initial={{ opacity: 0, y: 30 }}
+                  key={item.region}
+                  className="home-region-card"
+                  initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.55 }}
                 >
-                  <div
-                    className="feature-image"
-                    style={{ backgroundImage: `url(${item.image})` }}
-                  />
-                  <div className="feature-body">
-                    <span>{item.location}</span>
+                  <div className="home-region-image" style={{ backgroundImage: `url(${item.image})` }} />
+                  <div className="home-region-body">
+                    <span>{item.region}</span>
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
-                    <button className="text-link">Khám phá</button>
                   </div>
                 </motion.article>
               ))}
             </div>
           </div>
         </section>
-        <section className="region-section">
+
+        <section className="home-section home-history-section">
           <div className="container">
-            <div className="section-heading">
-              <span className="section-kicker">Khám phá theo vùng</span>
-              <h2>Những vùng đất kể câu chuyện văn hóa Việt</h2>
-              <p>
-                Mỗi vùng miền mang sắc thái riêng về văn hóa, ẩm thực, cảnh quan và con
-                người.
-              </p>
+            <div className="section-heading section-heading--center">
+              <h2>Dòng Chảy Lịch Sử</h2>
             </div>
-            <div className="region-grid">
-              {regionHighlights.map((region) => (
+            <div className="home-timeline">
+              {historyFlow.map((item, index) => (
                 <motion.article
-                  key={region.title}
-                  className="region-card"
-                  initial={{ opacity: 0, y: 30 }}
+                  key={item.year}
+                  className={`home-timeline-item ${index % 2 === 0 ? 'is-left' : 'is-right'}`}
+                  initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.55 }}
                 >
-                  <div
-                    className="region-image"
-                    style={{ backgroundImage: `url(${region.image})` }}
-                  />
-                  <div className="region-body">
-                    <h3>{region.title}</h3>
-                    <p>{region.description}</p>
+                  <div className="home-timeline-card">
+                    <div className="home-timeline-image" style={{ backgroundImage: `url(${item.image})` }} />
+                    <div className="home-timeline-body">
+                      <span>{item.year}</span>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                    </div>
                   </div>
                 </motion.article>
               ))}
             </div>
           </div>
         </section>
-        <section className="gallery-section">
+
+        <section className="home-section home-map-section">
           <div className="container">
-            <div className="section-heading">
-              <span className="section-kicker">Gallery văn hóa</span>
-              <h2>Khoảnh khắc Việt Nam đầy cảm hứng</h2>
-              <p>
-                Những hình ảnh cinematic tái hiện đời sống, lễ hội và cảnh đẹp Việt Nam.
-              </p>
+            <div className="section-heading section-heading--center">
+              <h2>Khám Phá Bản Đồ Việt Nam</h2>
             </div>
-            <div className="gallery-grid">
-              {galleryItems.map((item) => (
-                <motion.figure
+            <div className="home-map-card">
+              <div className="home-map-image">
+                <img src={mapVietnamImage} alt="Bản đồ Việt Nam" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="home-section">
+          <div className="container">
+            <div className="section-heading section-heading--center">
+              <h2>Bản Sắc Văn Hóa</h2>
+            </div>
+            <div className="home-culture-grid">
+              {cultureCards.map((item) => (
+                <motion.article
                   key={item.title}
-                  className="gallery-card"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
+                  className="home-culture-card"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.55 }}
                 >
-                  <img src={item.image} alt={item.title} />
-                  <figcaption className="gallery-overlay">{item.title}</figcaption>
-                </motion.figure>
+                  <div className="home-culture-image">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className={item.title === "Áo dài" ? "is-aodai" : ""}
+                    />
+                  </div>
+                  <div className="home-culture-body">
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                  </div>
+                </motion.article>
               ))}
             </div>
           </div>
         </section>
-      </div>
+      </main>
     </MainLayout>
   );
 }
