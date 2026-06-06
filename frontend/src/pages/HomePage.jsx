@@ -1,5 +1,6 @@
 ﻿import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useRef, useState, useCallback, useEffect } from "react";
 import MainLayout from "../layouts/MainLayout.jsx";
 import phoImage from "/Images/pho-bo-ha-noi.jpeg";
 import hueImage from "/Images/bunbohue.jpg";
@@ -7,6 +8,9 @@ import huTieuImage from "/Images/hutieu.jpg";
 import thangLongImage from "/Images/dsvh-hoang-thanh-thang-long.png";
 import hueCitadelImage from "/Images/kinhdophuxuan.jpg";
 import heroLandscape from "/Images/homepage.png";
+import vanmieuImage from "/Images/vanmieu.jpg";
+import codoHueImage from "/Images/dsvn-co-do-hue.png";
+import vinhHaLongImage from "/Images/vinhhalong.jpg";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -17,24 +21,83 @@ export default function HomePage() {
   const hienDaiHoiNhapImage = "/Images/hiendaivietnamhoinhap.jpg";
   const mapVietnamImage = "/Images/mapvn.jpg";
 
+  const [mapScale, setMapScale] = useState(1);
+  const [mapOffset, setMapOffset] = useState({ x: 0, y: 0 });
+  const mapRef = useRef(null);
+  const dragState = useRef(null);
+  const offsetRef = useRef({ x: 0, y: 0 });
+
+  const updateOffset = (next) => {
+    offsetRef.current = next;
+    setMapOffset(next);
+  };
+
+  useEffect(() => {
+    const el = mapRef.current;
+    if (!el) return;
+
+    const handleWheel = (e) => {
+      e.preventDefault();
+      setMapScale(prev => Math.min(6, Math.max(1, prev - e.deltaY * 0.001)));
+    };
+
+    const handleMouseDown = (e) => {
+      e.preventDefault();
+      dragState.current = {
+        startX: e.clientX,
+        startY: e.clientY,
+        originX: offsetRef.current.x,
+        originY: offsetRef.current.y,
+      };
+      el.style.cursor = "grabbing";
+    };
+
+    const handleMouseMove = (e) => {
+      if (!dragState.current) return;
+      const dx = e.clientX - dragState.current.startX;
+      const dy = e.clientY - dragState.current.startY;
+      updateOffset({ x: dragState.current.originX + dx, y: dragState.current.originY + dy });
+    };
+
+    const handleMouseUp = () => {
+      dragState.current = null;
+      el.style.cursor = "grab";
+    };
+
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    el.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      el.removeEventListener("wheel", handleWheel);
+      el.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
+
   const landmarks = [
     {
       name: "Văn Miếu",
       category: "Di tích lịch sử",
       description: "Được dựng từ năm 1070 dưới triều Lý Thánh Tông, Văn Miếu là nơi thờ Khổng Tử và tôn vinh đạo học của dân tộc. Đây là biểu tượng tiêu biểu cho truyền thống hiếu học và văn hiến Việt Nam.",
-      position: "left"
+      position: "left",
+      image: vanmieuImage
     },
     {
       name: "Cố đô Huế",
       category: "Di sản văn hóa",
       description: "Khi nhà Nguyễn chọn Huế làm kinh đô vào đầu thế kỷ XIX, nơi đây trở thành trung tâm chính trị và văn hóa của đất nước. Quần thể di tích vẫn lưu giữ đậm dấu ấn kiến trúc cung đình và bản sắc miền Trung.",
-      position: "right"
+      position: "right",
+      image: codoHueImage
     },
     {
       name: "Vịnh Hạ Long",
       category: "Danh thắng du lịch",
       description: "Qua hàng triệu năm kiến tạo địa chất, Vịnh Hạ Long hình thành quần thể hàng nghìn đảo đá vôi giữa làn nước xanh. Đây vừa là kỳ quan thiên nhiên, vừa gắn với truyền thuyết và đời sống cư dân vùng biển.",
-      position: "left"
+      position: "left",
+      image: vinhHaLongImage
     }
   ];
 
@@ -89,18 +152,24 @@ export default function HomePage() {
   const cultureCards = [
     {
       image: aodaiImage,
+      kicker: "Trang phục truyền thống",
       title: "Áo dài",
-      description: "Áo dài xuất phát từ áo ngũ thân và được hoàn thiện qua nhiều giai đoạn lịch sử để trở thành trang phục biểu tượng của người Việt. Từ học đường đến lễ cưới hay các sự kiện văn hóa, áo dài luôn gắn với vẻ đẹp thanh lịch, kín đáo và duyên dáng, đồng thời thể hiện tinh thần gìn giữ bản sắc dân tộc trong đời sống hiện đại."
+      description: "Áo dài xuất phát từ áo ngũ thân và được hoàn thiện qua nhiều giai đoạn lịch sử để trở thành trang phục biểu tượng của người Việt. Từ học đường đến lễ cưới hay các sự kiện văn hóa, áo dài luôn gắn với vẻ đẹp thanh lịch, kín đáo và duyên dáng.",
+      imageClass: "is-aodai"
     },
     {
       image: caTruImage,
+      kicker: "Nghệ thuật cung đình",
       title: "Ca trù",
-      description: "Ca trù có nguồn gốc lâu đời, từng phát triển mạnh trong không gian cung đình, đình làng và chốn tao nhân mặc khách. Đây là loại hình nghệ thuật kết hợp thơ, nhạc và nhịp phách, phản ánh chiều sâu văn hóa bác học Việt Nam và cho thấy sự tinh tế trong cách thưởng thức nghệ thuật của người xưa."
+      description: "Ca trù có nguồn gốc lâu đời, từng phát triển mạnh trong không gian cung đình, đình làng và chốn tao nhân mặc khách. Đây là loại hình nghệ thuật kết hợp thơ, nhạc và nhịp phách, phản ánh chiều sâu văn hóa bác học Việt Nam.",
+      imageClass: ""
     },
     {
       image: muaRoiImage,
+      kicker: "Di sản dân gian",
       title: "Múa rối nước",
-      description: "Múa rối nước xuất phát từ các làng quê đồng bằng Bắc Bộ, nơi người nông dân sáng tạo sân khấu trên mặt nước để kể chuyện mùa màng, làng xóm và truyền thuyết dân gian. Loại hình này phản ánh đời sống lao động, sự hài hước và trí sáng tạo của người Việt, đồng thời là một di sản nghệ thuật dân gian rất độc đáo."
+      description: "Múa rối nước xuất phát từ các làng quê đồng bằng Bắc Bộ, nơi người nông dân sáng tạo sân khấu trên mặt nước để kể chuyện mùa màng, làng xóm và truyền thuyết dân gian. Loại hình này là di sản nghệ thuật dân gian rất độc đáo.",
+      imageClass: ""
     }
   ];
 
@@ -144,8 +213,8 @@ export default function HomePage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.55 }}
                 >
-                  <div className="home-landmark-image home-landmark-image--placeholder">
-                    <div className="home-landmark-image-label">Thêm hình sau</div>
+                  <div className="home-landmark-image">
+                    <img src={item.image} alt={item.name} />
                   </div>
                   <div className="home-landmark-content">
                     <span>{item.category}</span>
@@ -191,22 +260,84 @@ export default function HomePage() {
               <h2>Dòng Chảy Lịch Sử</h2>
             </div>
             <div className="home-timeline">
-              {historyFlow.map((item, index) => (
+              {historyFlow.map((item, index) => {
+                const isLeft = index % 2 === 0;
+                return (
+                  <motion.div
+                    key={item.year}
+                    className="home-timeline-row"
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.65, delay: index * 0.1 }}
+                  >
+                    <div className="home-timeline-col home-timeline-col--left">
+                      {isLeft && (
+                        <div className="home-timeline-card">
+                          <div className="home-timeline-image">
+                            <img src={item.image} alt={item.title} />
+                          </div>
+                          <div className="home-timeline-body">
+                            <span className="home-timeline-year-badge">{item.year}</span>
+                            <h3>{item.title}</h3>
+                            <p>{item.description}</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="home-timeline-center">
+                      <div className="home-timeline-line home-timeline-line--top" />
+                      <div className="home-timeline-dot" />
+                      <div className="home-timeline-line home-timeline-line--bottom" />
+                    </div>
+                    <div className="home-timeline-col home-timeline-col--right">
+                      {!isLeft && (
+                        <div className="home-timeline-card">
+                          <div className="home-timeline-image">
+                            <img src={item.image} alt={item.title} />
+                          </div>
+                          <div className="home-timeline-body">
+                            <span className="home-timeline-year-badge">{item.year}</span>
+                            <h3>{item.title}</h3>
+                            <p>{item.description}</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="home-section">
+          <div className="container">
+            <div className="section-heading section-heading--center">
+              <h2>Bản Sắc Văn Hóa</h2>
+            </div>
+            <div className="home-culture-grid">
+              {cultureCards.map((item, index) => (
                 <motion.article
-                  key={item.year}
-                  className={`home-timeline-item ${index % 2 === 0 ? 'is-left' : 'is-right'}`}
-                  initial={{ opacity: 0, y: 24 }}
+                  key={item.title}
+                  className="home-culture-card"
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.55 }}
+                  transition={{ duration: 0.55, delay: index * 0.1 }}
                 >
-                  <div className="home-timeline-card">
-                    <div className="home-timeline-image" style={{ backgroundImage: `url(${item.image})` }} />
-                    <div className="home-timeline-body">
-                      <span>{item.year}</span>
-                      <h3>{item.title}</h3>
-                      <p>{item.description}</p>
-                    </div>
+                  <div className="home-culture-image">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className={item.imageClass}
+                    />
+                    <div className="home-culture-image-overlay" />
+                  </div>
+                  <div className="home-culture-body">
+                    <span className="home-culture-kicker">{item.kicker}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
                   </div>
                 </motion.article>
               ))}
@@ -220,41 +351,28 @@ export default function HomePage() {
               <h2>Khám Phá Bản Đồ Việt Nam</h2>
             </div>
             <div className="home-map-card">
-              <div className="home-map-image">
-                <img src={mapVietnamImage} alt="Bản đồ Việt Nam" />
+              <div
+                className="home-map-image"
+                ref={mapRef}
+                title="Cuộn chuột để phóng to / thu nhỏ"
+              >
+                <img
+                  src={mapVietnamImage}
+                  alt="Bản đồ Việt Nam"
+                  draggable="false"
+                  style={{ transform: `translate(${mapOffset.x}px, ${mapOffset.y}px) scale(${mapScale})`, transformOrigin: "center center", transition: dragState.current ? "none" : "transform 0.15s ease", userSelect: "none", pointerEvents: "none" }}
+                />
+                <div className="home-map-hint">🖱 Cuộn để zoom</div>
+                {(mapScale !== 1 || mapOffset.x !== 0 || mapOffset.y !== 0) && (
+                  <button
+                    className="home-map-reset"
+                    onClick={() => { setMapScale(1); updateOffset({ x: 0, y: 0 }); }}
+                    title="Về mặc định"
+                  >
+                    ↺ Mặc định
+                  </button>
+                )}
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="home-section">
-          <div className="container">
-            <div className="section-heading section-heading--center">
-              <h2>Bản Sắc Văn Hóa</h2>
-            </div>
-            <div className="home-culture-grid">
-              {cultureCards.map((item) => (
-                <motion.article
-                  key={item.title}
-                  className="home-culture-card"
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.55 }}
-                >
-                  <div className="home-culture-image">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className={item.title === "Áo dài" ? "is-aodai" : ""}
-                    />
-                  </div>
-                  <div className="home-culture-body">
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                  </div>
-                </motion.article>
-              ))}
             </div>
           </div>
         </section>

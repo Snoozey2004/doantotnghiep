@@ -2,7 +2,39 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import searchApi from '../api/searchApi';
+import localProvinces from '../data/provinceData';
 import '../styles/search.css';
+
+const PROVINCE_SLUGS_ORDERED = [
+  'ha-noi', 'hai-phong', 'hue', 'da-nang', 'can-tho', 'ho-chi-minh',
+  'cao-bang', 'dien-bien', 'lai-chau', 'lao-cai', 'son-la', 'lang-son',
+  'tuyen-quang', 'thai-nguyen', 'phu-tho', 'quang-ninh', 'bac-ninh',
+  'hung-yen', 'ninh-binh', 'thanh-hoa', 'nghe-an', 'ha-tinh', 'quang-tri',
+  'quang-ngai', 'gia-lai', 'khanh-hoa', 'lam-dong', 'dak-lak', 'dong-nai',
+  'tay-ninh', 'dong-thap', 'vinh-long', 'an-giang', 'ca-mau'
+];
+
+const provinceMap = new Map(localProvinces.map(p => [p.slug, p]));
+
+function buildLocalProvinceResults() {
+  return PROVINCE_SLUGS_ORDERED.map((slug, index) => {
+    const p = provinceMap.get(slug);
+    if (!p) return null;
+    return {
+      id: slug,
+      itemType: 'Province',
+      slug: p.slug,
+      title: p.name,
+      description: p.description,
+      imageUrl: typeof p.heroImage === 'string' ? p.heroImage : null,
+      isHighlighted: false,
+      relevanceScore: 100 - index,
+      region: null,
+      category: null,
+      tags: null
+    };
+  }).filter(Boolean);
+}
 
 const CATEGORIES = [
   { value: 'History', label: 'Lịch sử' },
@@ -92,8 +124,20 @@ const SearchPage = () => {
 
     const performSearch = async () => {
       const trimmedKeyword = keyword.trim();
-      const contentType = trimmedKeyword ? filters.contentType : 'Province';
-      const pageSize = trimmedKeyword ? 10 : 100;
+
+      if (!trimmedKeyword) {
+        const allLocal = buildLocalProvinceResults();
+        const pageSize = 10;
+        const start = (currentPage - 1) * pageSize;
+        setResults(allLocal.slice(start, start + pageSize));
+        setTotalCount(allLocal.length);
+        setShowSuggestions(false);
+        setLoading(false);
+        return;
+      }
+
+      const contentType = filters.contentType;
+      const pageSize = 10;
 
       const requestId = latestSearchRequestRef.current + 1;
       latestSearchRequestRef.current = requestId;
@@ -101,7 +145,7 @@ const SearchPage = () => {
       setLoading(true);
       try {
         const data = await searchApi.search({
-          keyword: trimmedKeyword || undefined,
+          keyword: trimmedKeyword,
           region: filters.region,
           category: filters.category,
           mediaType: filters.mediaType,
@@ -119,12 +163,11 @@ const SearchPage = () => {
         setTotalCount(data.totalCount || 0);
         setShowSuggestions(false);
 
-        // Update URL with search params
         const params = new URLSearchParams({
           keyword: trimmedKeyword,
           ...(filters.region ? { region: filters.region } : {}),
           ...(filters.category ? { category: filters.category } : {}),
-          ...(trimmedKeyword && filters.contentType && filters.contentType !== 'All' ? { contentType: filters.contentType } : {}),
+          ...(filters.contentType && filters.contentType !== 'All' ? { contentType: filters.contentType } : {}),
           ...(filters.mediaType ? { mediaType: filters.mediaType } : {}),
           ...(filters.tags ? { tags: filters.tags } : {}),
           ...(currentPage > 1 ? { page: String(currentPage) } : {})
@@ -301,7 +344,7 @@ const SearchPage = () => {
               <div className="no-results">
                 {keyword.trim()
                   ? `Không tìm thấy kết quả cho "${keyword}"`
-                  : 'Không có landing page tỉnh thành nào để hiển thị.'}
+                  : 'Không có tỉnh thành nào để hiển thị.'}
               </div>
             )}
 
@@ -310,7 +353,7 @@ const SearchPage = () => {
                 <div className="results-info">
                   {keyword.trim()
                     ? `Tìm thấy ${totalCount} kết quả cho "${keyword}"`
-                    : `Hiển thị ${totalCount} landing page tỉnh/thành`}
+                    : `Hiển thị ${totalCount} tỉnh/thành phố`}
                 </div>
 
                 <div className="results-list">

@@ -18,53 +18,168 @@ const provinces = [
     accentColor: "#b45309",
     heroImage: thangLongImage,
     introImage: phoImage,
+    stats: [
+      { value: "1000+", label: "Năm lịch sử" },
+      { value: "30+", label: "Di tích nổi tiếng" },
+      { value: "100+", label: "Lễ hội truyền thống" },
+      { value: "50+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      {
+        year: "1010",
+        title: "Kinh đô Thăng Long ra đời",
+        description: "Vua Lý Thái Tổ ban Chiếu dời đô từ Hoa Lư về Đại La, đặt tên là Thăng Long, mở đầu thời kỳ phát triển nghìn năm của đất kinh kỳ.",
+        icon: "🏯",
+        image: thangLongImage
+      },
+      {
+        year: "1070",
+        title: "Văn Miếu – Quốc Tử Giám",
+        description: "Vua Lý Thánh Tông cho xây Văn Miếu, sau đó Quốc Tử Giám được thành lập – trường đại học đầu tiên của Việt Nam, biểu tượng tinh thần hiếu học.",
+        icon: "📚",
+        image: thangLongImage
+      },
+      {
+        year: "1945",
+        title: "Thủ đô độc lập",
+        description: "Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập tại Quảng trường Ba Đình, khai sinh nước Việt Nam Dân chủ Cộng hòa.",
+        icon: "🇻🇳",
+        image: heroLandscape
+      },
+      {
+        year: "Hiện đại",
+        title: "Thủ đô hội nhập",
+        description: "Hà Nội phát triển vượt bậc, hội nhập quốc tế trong khi vẫn bảo tồn di sản văn hóa nghìn năm của đất kinh kỳ.",
+        icon: "🌟",
+        image: cuisineImage
+      }
+    ],
     specialties: [
       {
         name: "Phở Hà Nội",
-        description: "Nước dùng trong, vị ngọt thanh và bánh phở mềm mượt đặc trưng.",
+        description: "Nước dùng trong, vị ngọt thanh từ xương hầm lâu, bánh phở mềm mượt – biểu tượng ẩm thực đất kinh kỳ.",
         origin: "Phố cổ Hà Nội",
-        image: phoImage
+        image: phoImage,
+        icon: "🍜"
       },
       {
-        name: "Chả cá Lã Vọng",
-        description: "Cá nướng nghệ, ăn kèm bún và thì là.",
+        name: "Bún Chả",
+        description: "Thịt lợn nướng thơm lừng trên than hoa, bún trắng mềm, nước chấm chua ngọt đậm đà – hương vị không thể nhầm lẫn.",
+        origin: "Phố cổ Hà Nội",
+        image: cuisineImage,
+        icon: "🔥"
+      },
+      {
+        name: "Chả Cá Lã Vọng",
+        description: "Cá lăng nướng nghệ thì là trên bếp than, ăn kèm bún và mắm tôm – món ăn trứ danh từ thế kỷ XIX.",
         origin: "Phố Chả Cá",
-        image: cuisineImage
+        image: seafoodImage,
+        icon: "🐟"
       },
       {
-        name: "Bánh tôm Hồ Tây",
-        description: "Giòn rụm, béo ngậy và ngập tràn hương vị hồ.",
-        origin: "Hồ Tây",
-        image: seafoodImage
+        name: "Cà Phê Trứng",
+        description: "Sáng tạo độc đáo của Hà Nội: cà phê robusta đậm đặc pha cùng lòng đỏ trứng đánh bông, béo ngậy và thơm nồng.",
+        origin: "Phố Đinh Tiên Hoàng",
+        image: coffeeImage,
+        icon: "☕"
       }
     ],
     tourism: [
       {
         name: "Hồ Gươm",
         description: "Biểu tượng của Hà Nội với vẻ đẹp thơ mộng giữa lòng phố cổ.",
+        yearBuilt: "Thế kỷ XV",
+        historicalValue: "Linh địa nghìn năm, gắn với truyền thuyết Hồ Hoàn Kiếm",
+        highlight: "Tháp Rùa, cầu Thê Húc",
         image: heroLandscape
       },
       {
         name: "Hoàng thành Thăng Long",
         description: "Di sản thế giới lưu giữ dấu ấn kinh kỳ ngàn năm.",
+        yearBuilt: "Năm 1010",
+        historicalValue: "Di sản thế giới UNESCO, trung tâm quyền lực 13 thế kỷ",
+        highlight: "Khu khảo cổ, Đoan Môn, Hậu Lâu",
         image: thangLongImage
       },
       {
-        name: "Phố cổ Hà Nội",
-        description: "Nhịp sống chậm rãi, nghệ thuật và ẩm thực đường phố.",
-        image: cuisineImage
+        name: "Văn Miếu – Quốc Tử Giám",
+        description: "Trường đại học đầu tiên của Việt Nam, biểu tượng truyền thống hiếu học.",
+        yearBuilt: "Năm 1070",
+        historicalValue: "Trung tâm học thuật nghìn năm, lưu giữ 82 bia Tiến sĩ",
+        highlight: "Khuê Văn Các, bia đá Tiến sĩ",
+        image: thangLongImage
       }
     ],
     culture: [
       {
         name: "Lễ hội Gióng",
-        description: "Lễ hội truyền thống tôn vinh tinh thần thượng võ và văn hóa Thăng Long.",
+        description: "Lễ hội truyền thống tôn vinh tinh thần thượng võ chống giặc ngoại xâm của dân tộc Việt.",
         image: heroLandscape
       },
       {
-        name: "Làng nghề Bát Tràng",
-        description: "Không gian gốm sứ cổ truyền kết hợp sáng tạo đương đại.",
+        name: "Múa rối nước",
+        description: "Nghệ thuật dân gian độc đáo xuất phát từ đồng bằng Bắc Bộ, kể chuyện làng quê và truyền thuyết trên mặt nước.",
         image: cuisineImage
+      }
+    ],
+    craftVillages: [
+      {
+        name: "Làng gốm Bát Tràng",
+        product: "Gốm sứ",
+        description: "Làng nghề gốm sứ hơn 500 năm lịch sử, sản xuất các sản phẩm tinh xảo và nghệ thuật được xuất khẩu toàn cầu.",
+        image: thangLongImage,
+        age: "500+ năm"
+      },
+      {
+        name: "Làng lụa Vạn Phúc",
+        product: "Lụa tơ tằm",
+        description: "Làng dệt lụa nổi tiếng với chất lụa mềm mại, hoa văn tinh tế, được ưa chuộng từ triều đình đến nay.",
+        image: cuisineImage,
+        age: "1000+ năm"
+      },
+      {
+        name: "Làng tranh Đông Hồ",
+        product: "Tranh dân gian",
+        description: "Dòng tranh khắc gỗ in màu tự nhiên, lưu giữ giá trị văn hóa dân gian đặc sắc từ thế kỷ XVII.",
+        image: heroLandscape,
+        age: "Từ thế kỷ XVII"
+      },
+      {
+        name: "Làng thêu Quất Động",
+        product: "Thêu tay",
+        description: "Nổi tiếng với nghề thêu tay điêu luyện, tạo ra những bức tranh thêu và sản phẩm mang giá trị nghệ thuật cao.",
+        image: phoImage,
+        age: "Truyền thống lâu đời"
+      }
+    ],
+    festivals: [
+      {
+        name: "Lễ hội Gióng",
+        date: "Tháng 4 âm lịch",
+        description: "Lễ hội tôn vinh Thánh Gióng – biểu tượng tinh thần thượng võ chống giặc ngoại xâm của dân tộc Việt Nam.",
+        significance: "Di sản văn hóa phi vật thể UNESCO",
+        image: thangLongImage
+      },
+      {
+        name: "Festival Thu Hà Nội",
+        date: "Tháng 9 – 10 hàng năm",
+        description: "Sự kiện văn hóa đặc trưng mùa thu Hà Nội với các hoạt động nghệ thuật, trình diễn và triển lãm đặc sắc.",
+        significance: "Sự kiện văn hóa thường niên",
+        image: cuisineImage
+      },
+      {
+        name: "Lễ hội Hoa Anh Đào",
+        date: "Tháng 3 – 4",
+        description: "Lễ hội kỷ niệm quan hệ hữu nghị Việt – Nhật với trưng bày hoa anh đào rực rỡ tại không gian Hồ Hoàn Kiếm.",
+        significance: "Giao lưu văn hóa quốc tế",
+        image: heroLandscape
+      },
+      {
+        name: "Lễ hội Chùa Hương",
+        date: "Mùng 6 tháng Giêng – tháng 3 âm lịch",
+        description: "Một trong những lễ hội lớn nhất Việt Nam, hành hương về chùa Hương giữa phong cảnh núi non hùng vĩ.",
+        significance: "Lễ hội tâm linh lớn nhất miền Bắc",
+        image: heroLandscape
       }
     ],
     gallery: [phoImage, thangLongImage, heroLandscape, cuisineImage, seafoodImage, halongImage]
@@ -78,6 +193,30 @@ const provinces = [
     accentColor: "#b91c1c",
     heroImage: heroLandscape,
     introImage: seafoodImage,
+    stats: [
+      { value: "320+", label: "Năm lịch sử" },
+      { value: "1700+", label: "Di tích văn hóa" },
+      { value: "60+", label: "Lễ hội truyền thống" },
+      { value: "30+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "1698", title: "Lập đất Gia Định", description: "Nguyễn Hữu Cảnh vào Nam kinh lược, lập phủ Gia Định – mốc khai sinh vùng đất Sài Gòn và mở ra thời kỳ khẩn hoang phương Nam.", icon: "🏛️", image: heroLandscape },
+      { year: "1859", title: "Pháp chiếm Gia Định", description: "Thực dân Pháp nổ súng tấn công thành Gia Định, mở đầu quá trình xâm lược và biến Sài Gòn thành trung tâm hành chính thuộc địa.", icon: "⚔️", image: heroLandscape },
+      { year: "1975", title: "Giải phóng miền Nam", description: "Ngày 30/4/1975, xe tăng quân giải phóng tiến vào Dinh Độc Lập, thống nhất đất nước, Sài Gòn đổi tên thành Hồ Chí Minh.", icon: "🇻🇳", image: heroLandscape },
+      { year: "Hiện đại", title: "Đô thị năng động nhất VN", description: "TP.HCM trở thành đầu tàu kinh tế cả nước, trung tâm tài chính – thương mại – văn hóa hội nhập quốc tế sôi động nhất Việt Nam.", icon: "🌆", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng nghề Phú Bình", product: "Đồ mỹ nghệ", description: "Làng nghề thủ công truyền thống nổi tiếng với sản phẩm điêu khắc gỗ và đồ mỹ nghệ tinh xảo mang phong cách Nam Bộ.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng bánh tráng Phú Hòa Đông", product: "Bánh tráng", description: "Làng nghề làm bánh tráng thủ công truyền thống, cung cấp sản phẩm cho toàn vùng Nam Bộ với chất lượng đặc trưng.", image: heroLandscape, age: "150+ năm" },
+      { name: "Làng nghề thêu Bình Chánh", product: "Thêu tay", description: "Nghề thêu tay tinh xảo gắn liền với văn hóa Nam Bộ, tạo ra các sản phẩm trang trí có giá trị nghệ thuật cao.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Làng đan lát Thủ Đức", product: "Mây tre đan", description: "Làng nghề đan lát mây tre truyền thống tạo ra các sản phẩm gia dụng và trang trí mang nét đặc trưng vùng Nam Bộ.", image: heroLandscape, age: "Truyền thống lâu đời" }
+    ],
+    festivals: [
+      { name: "Lễ hội Nguyên Tiêu", date: "Rằm tháng Giêng", description: "Lễ hội lớn nhất của người Hoa tại Chợ Lớn với rước đèn, múa lân và các nghi lễ truyền thống rực rỡ sắc màu.", significance: "Di sản văn hóa người Hoa", image: heroLandscape },
+      { name: "Lễ hội Áo dài TP.HCM", date: "Tháng 3 hàng năm", description: "Sự kiện tôn vinh trang phục truyền thống áo dài Việt Nam với nhiều hoạt động trình diễn, triển lãm đặc sắc.", significance: "Sự kiện văn hóa thường niên", image: heroLandscape },
+      { name: "Hội Diều Sài Gòn", date: "Tháng 8-9", description: "Lễ hội thả diều truyền thống được tổ chức tại các bãi đất rộng, thu hút đông đảo người tham gia với nhiều mẫu diều độc đáo.", significance: "Trò chơi dân gian", image: heroLandscape },
+      { name: "Tết Trung Thu Sài Gòn", date: "Rằm tháng 8 âm lịch", description: "Lễ hội trung thu sôi động nhất cả nước với phố lồng đèn Lương Nhữ Học, múa lân và các hoạt động văn hóa đặc sắc.", significance: "Lễ hội thiếu nhi truyền thống", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Cơm tấm",
@@ -138,6 +277,30 @@ const provinces = [
     accentColor: "#dc2626",
     heroImage: halongImage,
     introImage: seafoodImage,
+    stats: [
+      { value: "150+", label: "Năm lịch sử" },
+      { value: "300+", label: "Di tích văn hóa" },
+      { value: "40+", label: "Lễ hội truyền thống" },
+      { value: "20+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "1888", title: "Hải Phòng thành đô thị", description: "Thực dân Pháp chính thức thành lập thành phố Hải Phòng, biến nơi đây thành cảng biển thương mại quan trọng nhất miền Bắc.", icon: "⚓", image: heroLandscape },
+      { year: "1955", title: "Giải phóng Hải Phòng", description: "Hải Phòng được giải phóng hoàn toàn, người dân đón chào hòa bình sau những năm dài kháng chiến gian khổ.", icon: "🕊️", image: heroLandscape },
+      { year: "1972", title: "Chiến dịch Linebacker II", description: "Hải Phòng anh dũng chống trả cuộc ném bom của Mỹ, thể hiện tinh thần bất khuất của quân và dân thành phố Cảng.", icon: "✊", image: heroLandscape },
+      { year: "Hiện đại", title: "Thành phố Cảng văn minh", description: "Hải Phòng phát triển thành trung tâm kinh tế biển lớn thứ ba cả nước, đồng thời bảo tồn văn hóa đặc trưng thành phố Hoa Phượng Đỏ.", icon: "🌺", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Điêu khắc đá Nhồi", product: "Điêu khắc đá", description: "Làng nghề điêu khắc đá truyền thống nổi tiếng với các sản phẩm trang trí, tượng nghệ thuật tinh xảo từ đá tự nhiên.", image: heroLandscape, age: "500+ năm" },
+      { name: "Làng dệt chiếu An Thái", product: "Chiếu cói", description: "Làng nghề dệt chiếu cói thủ công truyền thống, tạo ra sản phẩm chiếu bền đẹp phục vụ nhu cầu sinh hoạt người dân.", image: heroLandscape, age: "300+ năm" },
+      { name: "Làng đóng thuyền Đồ Sơn", product: "Thuyền gỗ", description: "Nghề đóng thuyền gỗ truyền thống gắn liền với văn hóa biển, tạo ra những chiếc thuyền vừa chắc chắn vừa mang tính nghệ thuật.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng nghề nón Tiên Lãng", product: "Nón lá", description: "Làng nghề làm nón lá thủ công với kỹ thuật đan lá khéo léo, tạo ra những chiếc nón bền đẹp mang nét văn hóa miền Bắc.", image: heroLandscape, age: "Truyền thống lâu đời" }
+    ],
+    festivals: [
+      { name: "Lễ hội Chọi trâu Đồ Sơn", date: "Mùng 9 tháng 8 âm lịch", description: "Lễ hội truyền thống đặc sắc nhất Hải Phòng với những trận chọi trâu kịch tính, thu hút hàng nghìn du khách mỗi năm.", significance: "Di sản văn hóa phi vật thể quốc gia", image: heroLandscape },
+      { name: "Lễ hội Hoa Phượng Đỏ", date: "Tháng 5 hàng năm", description: "Lễ hội đặc trưng của Hải Phòng tôn vinh biểu tượng hoa phượng đỏ với nhiều hoạt động văn hóa nghệ thuật sôi động.", significance: "Sự kiện văn hóa thường niên", image: heroLandscape },
+      { name: "Lễ hội Đền Nghè", date: "Tháng 2 âm lịch", description: "Lễ hội tưởng niệm nữ tướng Lê Chân – người có công khai phá vùng đất Hải Phòng, thể hiện đạo lý uống nước nhớ nguồn.", significance: "Di tích lịch sử quốc gia", image: heroLandscape },
+      { name: "Hội đua thuyền truyền thống", date: "Mùng 4 tháng Giêng", description: "Lễ hội đua thuyền trên sông truyền thống của cư dân vùng biển, thể hiện tinh thần thượng võ và văn hóa sông nước.", significance: "Lễ hội dân gian truyền thống", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bánh đa cua",
@@ -198,6 +361,30 @@ const provinces = [
     accentColor: "#0ea5e9",
     heroImage: heroLandscape,
     introImage: seafoodImage,
+    stats: [
+      { value: "130+", label: "Năm lịch sử" },
+      { value: "100+", label: "Di tích văn hóa" },
+      { value: "30+", label: "Lễ hội truyền thống" },
+      { value: "15+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "1888", title: "Đà Nẵng nhượng địa Pháp", description: "Thực dân Pháp biến Đà Nẵng thành nhượng địa, xây dựng hạ tầng cảng biển và đô thị theo quy hoạch Tây phương.", icon: "🏙️", image: heroLandscape },
+      { year: "1975", title: "Giải phóng Đà Nẵng", description: "Ngày 29/3/1975, Đà Nẵng được giải phóng trong chiến dịch thần tốc, mở đường cho đại thắng mùa Xuân 1975.", icon: "🕊️", image: heroLandscape },
+      { year: "1997", title: "Thành phố trực thuộc Trung ương", description: "Đà Nẵng tách khỏi Quảng Nam-Đà Nẵng, trở thành đô thị loại I trực thuộc Trung ương, bước vào kỷ nguyên phát triển mới.", icon: "🏛️", image: heroLandscape },
+      { year: "2000s", title: "Thành phố đáng sống nhất VN", description: "Đà Nẵng liên tục được vinh danh thành phố đáng sống nhất Việt Nam với hạ tầng hiện đại và bờ biển tuyệt đẹp.", icon: "🌊", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng đá Non Nước", product: "Điêu khắc đá", description: "Làng nghề điêu khắc đá cẩm thạch nổi tiếng hơn 400 năm, tạo ra những tác phẩm nghệ thuật tinh xảo mang đậm bản sắc văn hóa Chăm.", image: heroLandscape, age: "400+ năm" },
+      { name: "Làng gốm Thanh Hà", product: "Gốm đất nung", description: "Làng gốm truyền thống gần 500 năm tuổi bên bờ sông Thu Bồn, nổi tiếng với sản phẩm gốm nung thủ công đặc trưng.", image: heroLandscape, age: "500+ năm" },
+      { name: "Nghề dệt chiếu Cẩm Nê", product: "Chiếu dệt", description: "Làng nghề dệt chiếu truyền thống với kỹ thuật dệt tinh tế, tạo ra sản phẩm chiếu bền đẹp được nhiều người ưa chuộng.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng nghề bánh tráng Túy Loan", product: "Bánh tráng", description: "Làng nghề làm bánh tráng thủ công truyền thống với hương vị đặc trưng, gắn liền với ẩm thực miền Trung.", image: heroLandscape, age: "Truyền thống lâu đời" }
+    ],
+    festivals: [
+      { name: "Lễ hội Pháo hoa Quốc tế Đà Nẵng", date: "Tháng 6-7 hàng năm", description: "Sự kiện quốc tế hàng đầu Việt Nam thu hút các đội pháo hoa từ khắp thế giới tranh tài trên bầu trời sông Hàn rực rỡ.", significance: "Sự kiện quốc tế thường niên", image: heroLandscape },
+      { name: "Lễ hội Quan Thế Âm", date: "19 tháng 2 âm lịch", description: "Lễ hội tâm linh lớn tại chùa Non Nước, thu hút hàng vạn Phật tử và du khách về dự lễ trong không khí trang nghiêm.", significance: "Lễ hội Phật giáo truyền thống", image: heroLandscape },
+      { name: "Lễ hội Cầu Ngư", date: "Tháng 2-3 âm lịch", description: "Lễ hội truyền thống của ngư dân miền biển cầu cho mưa thuận gió hòa, biển lặng tôm cá đầy thuyền.", significance: "Lễ hội dân gian vùng biển", image: heroLandscape },
+      { name: "Hội đua thuyền sông Hàn", date: "Mùng 2 tháng Giêng", description: "Giải đua thuyền truyền thống trên sông Hàn mở đầu năm mới, thể hiện tinh thần thượng võ và khí thế của người Đà Nẵng.", significance: "Lễ hội thể thao truyền thống", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Mì Quảng",
@@ -258,6 +445,30 @@ const provinces = [
     accentColor: "#16a34a",
     heroImage: heroLandscape,
     introImage: seafoodImage,
+    stats: [
+      { value: "200+", label: "Năm lịch sử" },
+      { value: "100+", label: "Di tích văn hóa" },
+      { value: "40+", label: "Lễ hội truyền thống" },
+      { value: "20+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "1739", title: "Khai lập đất Cần Thơ", description: "Vùng đất Cần Thơ được khai phá trong tiến trình mở cõi phương Nam, dần trở thành trung tâm giao thương sông nước quan trọng.", icon: "🌾", image: heroLandscape },
+      { year: "1900", title: "Đô thị hóa thời Pháp", description: "Dưới thời thuộc địa Pháp, Cần Thơ phát triển thành đô thị sầm uất với hệ thống chợ búa, bến cảng và kênh đào hiện đại.", icon: "🏙️", image: heroLandscape },
+      { year: "1975", title: "Giải phóng và thống nhất", description: "Cần Thơ cùng cả nước trải qua ngày giải phóng lịch sử, mở ra kỷ nguyên xây dựng và phát triển mới cho vùng đất miền Tây.", icon: "🕊️", image: heroLandscape },
+      { year: "2004", title: "Thành phố trực thuộc Trung ương", description: "Cần Thơ trở thành thành phố trực thuộc Trung ương, khẳng định vị thế là thủ phủ của vùng đồng bằng sông Cửu Long.", icon: "⭐", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng dệt chiếu Định Yên", product: "Chiếu cói", description: "Làng nghề dệt chiếu truyền thống nổi tiếng với phiên chợ ma độc đáo họp về đêm, sản phẩm chiếu cói chất lượng cao.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng đan đát Thới Long", product: "Mây tre đan", description: "Làng nghề đan lát mây tre thủ công tạo ra các sản phẩm gia dụng và trang trí đặc trưng văn hóa miền Tây sông nước.", image: heroLandscape, age: "150+ năm" },
+      { name: "Làng bánh dân gian", product: "Bánh truyền thống", description: "Nghề làm bánh dân gian truyền thống với hàng chục loại bánh đặc trưng miền Tây được lưu giữ qua nhiều thế hệ.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Làng gốm Thị Đội", product: "Gốm sứ", description: "Làng nghề gốm truyền thống sản xuất các vật dụng gốm phục vụ đời sống dân cư vùng sông nước Nam Bộ.", image: heroLandscape, age: "100+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội Chợ nổi Cái Răng", date: "Mùng 4 – 6 tháng Giêng", description: "Lễ hội tôn vinh nét văn hóa chợ nổi độc đáo trên sông, nơi trao đổi hàng hóa và giao lưu văn hóa của người miền Tây.", significance: "Di sản văn hóa phi vật thể quốc gia", image: heroLandscape },
+      { name: "Ok Om Bok", date: "Rằm tháng 10 âm lịch", description: "Lễ hội truyền thống của người Khmer cúng trăng và đua thuyền ngo rực rỡ, thể hiện sắc màu văn hóa đa dân tộc Nam Bộ.", significance: "Lễ hội văn hóa Khmer", image: heroLandscape },
+      { name: "Lễ hội Bánh dân gian Nam Bộ", date: "Tháng 4 hàng năm", description: "Lễ hội tôn vinh nghề làm bánh truyền thống miền Tây với hàng trăm loại bánh đặc sản độc đáo được trưng bày và thưởng thức.", significance: "Sự kiện văn hóa ẩm thực", image: heroLandscape },
+      { name: "Đờn ca tài tử Nam Bộ", date: "Quanh năm", description: "Loại hình nghệ thuật âm nhạc dân gian đặc trưng của người Nam Bộ, được UNESCO công nhận là Di sản văn hóa phi vật thể.", significance: "Di sản UNESCO", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bánh xèo",
@@ -318,6 +529,30 @@ const provinces = [
     accentColor: "#7c3aed",
     heroImage: hueCitadelImage,
     introImage: hueImage,
+    stats: [
+      { value: "700+", label: "Năm lịch sử" },
+      { value: "900+", label: "Di tích văn hóa" },
+      { value: "100+", label: "Lễ hội truyền thống" },
+      { value: "40+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "1306", title: "Đất Châu Ô về Đại Việt", description: "Huyền Trân Công Chúa kết hôn với vua Chăm, vùng đất Châu Ô – Châu Rí được sáp nhập vào Đại Việt, mở đầu lịch sử Huế.", icon: "👑", image: heroLandscape },
+      { year: "1802", title: "Kinh đô triều Nguyễn", description: "Vua Gia Long thống nhất đất nước, chọn Phú Xuân làm kinh đô, xây dựng Hoàng thành Huế nguy nga – trung tâm chính trị cả nước.", icon: "🏯", image: heroLandscape },
+      { year: "1885", title: "Kinh thành thất thủ", description: "Kinh thành Huế thất thủ trước quân Pháp, đánh dấu sự cáo chung của triều đình nhà Nguyễn độc lập và bước sang giai đoạn thuộc địa.", icon: "⚔️", image: heroLandscape },
+      { year: "1993", title: "Di sản thế giới UNESCO", description: "Quần thể di tích cố đô Huế được UNESCO công nhận là Di sản văn hóa thế giới, khẳng định giá trị ngoại hạng của văn hóa cung đình Việt Nam.", icon: "🌍", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng đúc đồng Phường Đúc", product: "Đúc đồng", description: "Làng nghề đúc đồng hơn 400 năm, nơi chế tác Cửu đỉnh và đại hồng chung nổi tiếng, lưu giữ tinh hoa nghề thủ công cung đình.", image: heroLandscape, age: "400+ năm" },
+      { name: "Làng gốm Phước Tích", product: "Gốm đất nung", description: "Làng gốm cổ hơn 500 năm tuổi với các sản phẩm gốm đất nung thủ công đặc trưng, được công nhận là làng nghề di sản quốc gia.", image: heroLandscape, age: "500+ năm" },
+      { name: "Làng nón lá Phú Cam", product: "Nón lá Huế", description: "Làng nghề làm nón lá bài thơ truyền thống với nét tinh tế đặc trưng, chiếc nón Huế trở thành biểu tượng văn hóa của đất cố đô.", image: heroLandscape, age: "300+ năm" },
+      { name: "Làng thêu Thuận Lộc", product: "Thêu tay", description: "Làng nghề thêu tay tinh xảo với các họa tiết hoa văn cung đình, tạo ra những tác phẩm thêu có giá trị nghệ thuật và văn hóa cao.", image: heroLandscape, age: "200+ năm" }
+    ],
+    festivals: [
+      { name: "Festival Huế", date: "2 năm/lần (năm chẵn)", description: "Lễ hội văn hóa nghệ thuật quốc tế lớn nhất miền Trung, thu hút các đoàn nghệ thuật từ khắp thế giới về trình diễn tại cố đô.", significance: "Sự kiện quốc tế thường niên", image: heroLandscape },
+      { name: "Lễ tế Nam Giao", date: "Tháng 3 âm lịch", description: "Lễ tế trời đất truyền thống của vương triều Nguyễn được phục dựng với nghi thức cung đình trang trọng và hoành tráng.", significance: "Di sản nghi lễ cung đình", image: heroLandscape },
+      { name: "Lễ hội điện Hòn Chén", date: "Tháng 3 và 7 âm lịch", description: "Lễ hội tâm linh đặc sắc trên sông Hương tôn thờ Thánh Mẫu Thiên Y A Na, kết hợp văn hóa Việt – Chăm độc đáo.", significance: "Lễ hội tín ngưỡng dân gian", image: heroLandscape },
+      { name: "Nhã nhạc cung đình Huế", date: "Quanh năm", description: "Loại hình âm nhạc cung đình đặc sắc, được UNESCO công nhận là Kiệt tác Di sản văn hóa phi vật thể đại diện của nhân loại.", significance: "Di sản UNESCO", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bún bò Huế",
@@ -378,6 +613,30 @@ const provinces = [
     accentColor: "#15803d",
     heroImage: heroLandscape,
     introImage: coffeeImage,
+    stats: [
+      { value: "2000+", label: "Năm lịch sử" },
+      { value: "200+", label: "Di tích văn hóa" },
+      { value: "50+", label: "Lễ hội truyền thống" },
+      { value: "20+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thời Hùng Vương", title: "Vùng đất cổ Việt Bắc", description: "Tuyên Quang là vùng đất sinh sống của người Việt cổ từ thời Hùng Vương dựng nước, lưu giữ nhiều di tích và phong tục cổ xưa.", icon: "🌿", image: heroLandscape },
+      { year: "1945", title: "Thủ đô kháng chiến ATK", description: "Tuyên Quang trở thành An toàn khu (ATK) – thủ đô kháng chiến, nơi Chủ tịch Hồ Chí Minh và Trung ương Đảng lãnh đạo cách mạng.", icon: "⭐", image: heroLandscape },
+      { year: "1954", title: "Chiến thắng Điện Biên Phủ", description: "Từ căn cứ địa Tuyên Quang, quân dân ta phát động chiến dịch lịch sử, góp phần quan trọng vào chiến thắng vang dội Điện Biên Phủ.", icon: "🏆", image: heroLandscape },
+      { year: "Hiện đại", title: "Tỉnh lễ hội Trung thu", description: "Tuyên Quang nổi tiếng với lễ hội Thành Tuyên – lễ hội Trung thu lớn nhất Việt Nam, thu hút hàng triệu du khách mỗi năm.", icon: "🏮", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Nghề dệt thổ cẩm Na Hang", product: "Thổ cẩm", description: "Nghề dệt thổ cẩm truyền thống của đồng bào dân tộc Tày, Dao với hoa văn tinh tế thể hiện bản sắc văn hóa vùng cao.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Rượu ngô Na Hang", product: "Rượu truyền thống", description: "Nghề nấu rượu ngô truyền thống bằng men lá rừng tạo ra thứ rượu thơm ngon đặc trưng vùng núi phía Bắc.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Làng nghề đan lát Tân Trào", product: "Mây tre đan", description: "Nghề đan lát mây tre thủ công tạo ra các vật dụng sinh hoạt và đồ thủ công mỹ nghệ gắn liền với văn hóa cách mạng.", image: heroLandscape, age: "200+ năm" },
+      { name: "Chè shan tuyết Hàm Yên", product: "Chè shan tuyết", description: "Chè shan tuyết cổ thụ hàng trăm năm tuổi với hương vị thanh tao đặc biệt, là thức uống truyền thống quý giá của vùng cao.", image: heroLandscape, age: "100+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội Thành Tuyên", date: "Rằm tháng 8 âm lịch", description: "Lễ hội Trung thu lớn nhất Việt Nam với những mô hình đèn khổng lồ đặc sắc, thu hút hàng triệu du khách về dự hội.", significance: "Lễ hội lớn nhất cả nước", image: heroLandscape },
+      { name: "Lễ hội Lồng Tồng", date: "Mùng 8 tháng Giêng", description: "Lễ hội xuống đồng truyền thống của người Tày cầu mưa thuận gió hòa, mùa màng tươi tốt với nhiều nghi lễ và trò chơi dân gian.", significance: "Lễ hội dân gian đặc trưng", image: heroLandscape },
+      { name: "Lễ hội Nhảy lửa người Pà Thẻn", date: "Tháng 10-11 âm lịch", description: "Nghi lễ nhảy lửa độc đáo của người Pà Thẻn thể hiện sức mạnh tâm linh và bản sắc văn hóa dân tộc đặc sắc hiếm có.", significance: "Di sản văn hóa phi vật thể", image: heroLandscape },
+      { name: "Hội Gầu Tào", date: "Mùng 1-3 tháng Giêng", description: "Lễ hội đầu năm của người Mông cầu phúc lộc cho gia đình, với các tiết mục hát dân ca, múa và trò chơi truyền thống.", significance: "Lễ hội dân tộc thiểu số", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bánh gai",
@@ -438,6 +697,30 @@ const provinces = [
     accentColor: "#0f766e",
     heroImage: heroLandscape,
     introImage: coffeeImage,
+    stats: [
+      { value: "2000+", label: "Năm lịch sử" },
+      { value: "300+", label: "Di tích văn hóa" },
+      { value: "100+", label: "Lễ hội truyền thống" },
+      { value: "30+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thời Hùng Vương", title: "Vùng đất cổ biên giới", description: "Lào Cai là vùng đất sinh sống lâu đời của nhiều dân tộc thiểu số, nơi giao thoa văn hóa phong phú của các tộc người vùng núi Tây Bắc.", icon: "🌄", image: heroLandscape },
+      { year: "Thế kỷ XIX", title: "Cửa khẩu thương mại", description: "Lào Cai phát triển thành cửa khẩu thương mại quan trọng giữa Việt Nam và Trung Quốc, thúc đẩy giao lưu kinh tế văn hóa hai nước.", icon: "🤝", image: heroLandscape },
+      { year: "1979", title: "Chiến tranh biên giới", description: "Quân dân Lào Cai anh dũng chiến đấu bảo vệ biên cương Tổ quốc trong cuộc chiến tranh biên giới phía Bắc năm 1979.", icon: "🛡️", image: heroLandscape },
+      { year: "1993", title: "Sa Pa – Điểm đến nghỉ dưỡng", description: "Sa Pa được khai thác du lịch, trở thành điểm nghỉ dưỡng nổi tiếng với khí hậu mát lạnh, ruộng bậc thang và văn hóa dân tộc đặc sắc.", icon: "🏔️", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng thêu dệt thổ cẩm Cát Cát", product: "Thổ cẩm người Mông", description: "Làng nghề dệt thổ cẩm của người H'Mông với hoa văn đặc sắc, màu sắc rực rỡ thể hiện bản sắc văn hóa độc đáo của dân tộc.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Nghề chạm bạc người Dao", product: "Đồ bạc", description: "Nghề chạm bạc thủ công tinh xảo của người Dao với các sản phẩm trang sức và đồ trang trí mang họa tiết văn hóa dân tộc.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Rượu táo mèo Sa Pa", product: "Rượu táo mèo", description: "Rượu ngâm táo mèo – đặc sản vùng cao Sa Pa với hương vị chua ngọt, ấm nồng rất được ưa chuộng của người miền xuôi.", image: heroLandscape, age: "100+ năm" },
+      { name: "Làng nghề đan lát Bắc Hà", product: "Mây tre đan", description: "Làng nghề đan lát thủ công tạo ra các sản phẩm giỏ, gùi, thúng phục vụ đời sống và thương mại tại phiên chợ vùng cao.", image: heroLandscape, age: "Truyền thống lâu đời" }
+    ],
+    festivals: [
+      { name: "Hội Gầu Tào", date: "Mùng 1-3 tháng Giêng", description: "Lễ hội truyền thống của người Mông cầu phúc lộc với các tiết mục hát dân ca, thổi khèn, múa và các trò chơi truyền thống sôi động.", significance: "Lễ hội người Mông đặc sắc", image: heroLandscape },
+      { name: "Chợ tình Sa Pa", date: "Thứ 7 hàng tuần", description: "Phiên chợ tình đặc biệt của người Mông và các dân tộc vùng cao, nơi trai gái gặp gỡ, thổ lộ tình cảm qua tiếng khèn và điệu múa.", significance: "Nét văn hóa dân tộc độc đáo", image: heroLandscape },
+      { name: "Lễ hội Roóng Poọc", date: "Rằm tháng Giêng", description: "Lễ hội xuống đồng truyền thống của người Giáy tại Tả Van cầu mưa thuận gió hòa, kết hợp các nghi lễ nông nghiệp và trò chơi dân gian.", significance: "Lễ hội dân tộc Giáy", image: heroLandscape },
+      { name: "Tết Nhảy người Dao", date: "29-30 tháng Chạp", description: "Lễ Tết Nhảy độc đáo của người Dao với các điệu múa nghi lễ đặc sắc, bày tỏ lòng biết ơn tổ tiên và cầu mong năm mới bình an.", significance: "Di sản văn hóa người Dao", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Thắng cố",
@@ -498,6 +781,30 @@ const provinces = [
     accentColor: "#166534",
     heroImage: coffeeImage,
     introImage: coffeeImage,
+    stats: [
+      { value: "2000+", label: "Năm lịch sử" },
+      { value: "200+", label: "Di tích văn hóa" },
+      { value: "40+", label: "Lễ hội truyền thống" },
+      { value: "20+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thời Hùng Vương", title: "Đất cổ Việt Bắc", description: "Thái Nguyên là vùng đất cư trú từ thời Hùng Vương với nhiều di chỉ khảo cổ chứng minh sự hiện diện lâu đời của người Việt cổ.", icon: "🌿", image: heroLandscape },
+      { year: "1917", title: "Khởi nghĩa Thái Nguyên", description: "Khởi nghĩa Thái Nguyên do Lương Ngọc Quyến và Trịnh Văn Cấn lãnh đạo – cuộc khởi nghĩa vũ trang lớn nhất thời thuộc Pháp.", icon: "⚔️", image: heroLandscape },
+      { year: "1945", title: "Căn cứ địa Việt Bắc", description: "Thái Nguyên là một phần của căn cứ địa Việt Bắc – trung tâm đầu não kháng chiến, nơi bộ máy nhà nước cách mạng đặt trụ sở.", icon: "⭐", image: heroLandscape },
+      { year: "Hiện đại", title: "Thủ phủ chè xanh", description: "Thái Nguyên khẳng định vị thế thủ phủ chè Việt Nam với thương hiệu chè Tân Cương nổi tiếng toàn quốc và xuất khẩu quốc tế.", icon: "🍵", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng chè Tân Cương", product: "Chè xanh", description: "Vùng chè Tân Cương nổi tiếng nhất Việt Nam với thổ nhưỡng đặc biệt tạo ra hương vị chè thơm ngon, được công nhận thương hiệu quốc gia.", image: heroLandscape, age: "100+ năm" },
+      { name: "Gốm truyền thống Hùng Sơn", product: "Gốm đất nung", description: "Làng nghề gốm truyền thống sản xuất các vật dụng gốm phục vụ đời sống với kỹ thuật nung thủ công đặc trưng.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng nghề bánh chưng Bờ Đậu", product: "Bánh chưng", description: "Làng nghề làm bánh chưng truyền thống với gạo nếp thơm và lá dong xanh, nổi tiếng là ngon nhất miền Bắc.", image: heroLandscape, age: "100+ năm" },
+      { name: "Nghề dệt thổ cẩm Định Hóa", product: "Thổ cẩm", description: "Nghề dệt thổ cẩm của người Tày Định Hóa với hoa văn truyền thống tinh tế, gắn liền với văn hóa ATK Việt Bắc.", image: heroLandscape, age: "Truyền thống lâu đời" }
+    ],
+    festivals: [
+      { name: "Lễ hội Chè Thái Nguyên", date: "Tháng 11 hàng năm", description: "Lễ hội tôn vinh cây chè và nghề trồng chè truyền thống với nhiều hoạt động văn hóa, thưởng trà và các cuộc thi chè đặc sắc.", significance: "Sự kiện văn hóa chè", image: heroLandscape },
+      { name: "Lễ hội Lồng Tồng", date: "Mùng 8-10 tháng Giêng", description: "Lễ hội xuống đồng đầu năm của người Tày cầu mưa thuận gió hòa với các nghi lễ nông nghiệp và trò chơi dân gian truyền thống.", significance: "Lễ hội dân gian người Tày", image: heroLandscape },
+      { name: "Lễ hội ATK Định Hóa", date: "Tháng 5 (ngày 19/5)", description: "Lễ kỷ niệm sinh nhật Bác Hồ tại An toàn khu Định Hóa với các hoạt động văn hóa, lịch sử ý nghĩa sâu sắc.", significance: "Lễ kỷ niệm lịch sử", image: heroLandscape },
+      { name: "Hội hát Then – đàn Tính", date: "Quanh năm", description: "Loại hình âm nhạc dân gian đặc trưng của người Tày Thái Nguyên với tiếng đàn Tính du dương và lời hát Then trữ tình.", significance: "Di sản văn hóa phi vật thể", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Trà Tân Cương",
@@ -558,6 +865,30 @@ const provinces = [
     accentColor: "#92400e",
     heroImage: heroLandscape,
     introImage: cuisineImage,
+    stats: [
+      { value: "4000+", label: "Năm lịch sử" },
+      { value: "1000+", label: "Di tích lịch sử" },
+      { value: "200+", label: "Lễ hội truyền thống" },
+      { value: "30+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "2879 TCN", title: "Thời đại Hùng Vương", description: "Phú Thọ là kinh đô Văn Lang của các vua Hùng – cội nguồn dân tộc Việt Nam với 18 đời vua Hùng dựng nước.", icon: "👑", image: heroLandscape },
+      { year: "Thế kỷ III TCN", title: "Kinh đô Phong Châu", description: "Phong Châu (nay thuộc Phú Thọ) là trung tâm chính trị của nhà nước Văn Lang buổi sơ khai, gắn với truyền thuyết Lạc Long Quân và Âu Cơ.", icon: "🏯", image: heroLandscape },
+      { year: "1010", title: "Vùng đất linh thiêng", description: "Đất Phú Thọ luôn được các triều đại phong kiến xem là vùng đất tổ linh thiêng, thường xuyên tổ chức tế lễ Hùng Vương.", icon: "⛩️", image: heroLandscape },
+      { year: "2012", title: "Di sản UNESCO", description: "Tín ngưỡng thờ cúng Hùng Vương được UNESCO công nhận là Di sản văn hóa phi vật thể đại diện của nhân loại năm 2012.", icon: "🌏", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng nghề nón lá Sai Nga", product: "Nón lá truyền thống", description: "Làng nghề làm nón lá truyền thống với kỹ thuật thủ công tinh xảo, tạo ra những chiếc nón trắng mịn, đẹp nổi tiếng vùng đất Tổ.", image: heroLandscape, age: "500+ năm" },
+      { name: "Làng gốm Làng Cả", product: "Gốm đất nung", description: "Nghề gốm truyền thống gắn với văn hóa cư dân vùng đất Tổ, sản xuất đồ gia dụng và đồ thờ cúng đặc trưng.", image: heroLandscape, age: "Lâu đời" },
+      { name: "Dệt thổ cẩm Mường", product: "Vải thổ cẩm", description: "Nghề dệt thổ cẩm truyền thống của người Mường Phú Thọ với hoa văn sặc sỡ, độc đáo phản ánh bản sắc văn hóa dân tộc.", image: heroLandscape, age: "Truyền thống" },
+      { name: "Nghề mây tre đan", product: "Đồ mây tre", description: "Nghề đan mây tre truyền thống tại nhiều xã vùng đồi núi, tạo ra các sản phẩm dân dụng và đồ lưu niệm tinh tế.", image: heroLandscape, age: "Truyền thống" }
+    ],
+    festivals: [
+      { name: "Giỗ Tổ Hùng Vương", date: "Mùng 10 tháng 3 âm lịch", description: "Lễ hội lớn nhất cả nước tưởng nhớ công lao các vua Hùng dựng nước, thu hút hàng triệu người hành hương về đất Tổ mỗi năm.", significance: "Ngày Quốc giỗ quốc gia", image: heroLandscape },
+      { name: "Lễ hội Đền Mẫu Âu Cơ", date: "Mùng 7 tháng Giêng", description: "Lễ hội tưởng nhớ Quốc Mẫu Âu Cơ tại Hạ Hòa với các nghi lễ trang trọng, rước kiệu và các trò chơi dân gian truyền thống.", significance: "Lễ hội tín ngưỡng dân tộc", image: heroLandscape },
+      { name: "Hội hát Xoan", date: "Mùa xuân", description: "Hát Xoan là loại hình âm nhạc cổ xưa của người Phú Thọ, được UNESCO công nhận Di sản văn hóa phi vật thể cần bảo vệ khẩn cấp.", significance: "Di sản phi vật thể UNESCO", image: heroLandscape },
+      { name: "Lễ hội Trò Trám", date: "Tháng Giêng âm lịch", description: "Lễ hội dân gian độc đáo ở làng Trám với các trò diễn tái hiện tín ngưỡng phồn thực của cư dân nông nghiệp cổ đại.", significance: "Lễ hội tín ngưỡng cổ xưa", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bánh tai",
@@ -618,6 +949,30 @@ const provinces = [
     accentColor: "#a16207",
     heroImage: heroLandscape,
     introImage: cuisineImage,
+    stats: [
+      { value: "3000+", label: "Năm lịch sử" },
+      { value: "500+", label: "Di tích văn hóa" },
+      { value: "100+", label: "Lễ hội truyền thống" },
+      { value: "60+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thế kỷ XI", title: "Kinh đô nhà Lý", description: "Bắc Ninh là vùng đất Kinh Bắc cổ kính – từng là nơi phát tích của vương triều Lý với Đền Đô và hệ thống di tích lịch sử phong phú.", icon: "🏯", image: heroLandscape },
+      { year: "Thế kỷ XVI-XVIII", title: "Phát triển rực rỡ", description: "Thời kỳ hưng thịnh của các làng nghề Kinh Bắc: tranh Đông Hồ, gốm Phù Lãng, đúc đồng Đại Bái phát triển mạnh và vang danh cả nước.", icon: "🎨", image: heroLandscape },
+      { year: "2009", title: "Quan họ được công nhận", description: "Dân ca Quan họ Bắc Ninh được UNESCO công nhận là Di sản văn hóa phi vật thể đại diện của nhân loại – niềm tự hào vô giá.", icon: "🎶", image: heroLandscape },
+      { year: "Hiện đại", title: "Thủ phủ công nghiệp", description: "Bắc Ninh vươn lên thành trung tâm công nghiệp điện tử hàng đầu Việt Nam với tổ hợp Samsung và nhiều tập đoàn quốc tế.", icon: "🏭", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng tranh Đông Hồ", product: "Tranh dân gian", description: "Tranh khắc gỗ Đông Hồ in trên giấy điệp với màu sắc tự nhiên, phản ánh đời sống nông nghiệp và ước vọng dân gian Việt Nam.", image: heroLandscape, age: "500+ năm" },
+      { name: "Làng gốm Phù Lãng", product: "Gốm men mảnh", description: "Gốm Phù Lãng với men da lươn nâu đỏ đặc trưng, sản xuất đồ thờ và vật dụng hàng ngày bằng kỹ thuật truyền thống độc đáo.", image: heroLandscape, age: "700+ năm" },
+      { name: "Làng đúc đồng Đại Bái", product: "Đồ đồng thủ công", description: "Làng nghề đúc đồng nổi tiếng nhất miền Bắc với các sản phẩm: chuông, lư hương, tượng và đồ trang trí tinh xảo.", image: heroLandscape, age: "900+ năm" },
+      { name: "Làng giấy dó Phong Khê", product: "Giấy dó truyền thống", description: "Làng sản xuất giấy dó thủ công cung cấp nguyên liệu cho tranh Đông Hồ và các loại giấy dùng trong thư pháp, nghệ thuật truyền thống.", image: heroLandscape, age: "300+ năm" }
+    ],
+    festivals: [
+      { name: "Hội Lim", date: "Mùng 13 tháng Giêng", description: "Hội tụ tinh hoa dân ca Quan họ với các hội chơi, hát thi trên thuyền và trên cạn, thu hút hàng nghìn nghệ nhân và khán giả.", significance: "Lễ hội dân ca quan họ lớn nhất", image: heroLandscape },
+      { name: "Lễ hội Đền Đô", date: "Mùng 14-15 tháng 3 âm lịch", description: "Lễ hội tưởng nhớ 8 vị vua triều Lý tại Đền Đô Từ Sơn với các nghi lễ trang trọng, rước kiệu và diễn xướng dân gian.", significance: "Lễ hội lịch sử triều Lý", image: heroLandscape },
+      { name: "Lễ hội Chùa Phật Tích", date: "Mùng 4 tháng Giêng", description: "Lễ hội xuân tại ngôi chùa cổ kính có tượng Phật A Di Đà từ thế kỷ XI, thu hút đông đảo phật tử và du khách.", significance: "Lễ hội Phật giáo truyền thống", image: heroLandscape },
+      { name: "Hội Đền Bà Chúa Kho", date: "Tháng Giêng âm lịch", description: "Lễ hội nổi tiếng tại Cổ Mễ với tục cầu tài lộc đầu năm, thu hút đông đảo người dân từ khắp nơi đến cúng lễ và vay vốn.", significance: "Tín ngưỡng dân gian đặc trưng", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bánh phu thê",
@@ -678,6 +1033,30 @@ const provinces = [
     accentColor: "#b45309",
     heroImage: heroLandscape,
     introImage: cuisineImage,
+    stats: [
+      { value: "2000+", label: "Năm lịch sử" },
+      { value: "300+", label: "Di tích văn hóa" },
+      { value: "80+", label: "Lễ hội truyền thống" },
+      { value: "40+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thế kỷ XVI", title: "Phố Hiến thương cảng", description: "Phố Hiến nổi lên là thương cảng sầm uất bậc nhất xứ Đàng Ngoài, thu hút thương nhân từ Trung Quốc, Nhật Bản, Hà Lan, Anh Quốc...", icon: "⚓", image: heroLandscape },
+      { year: "Thế kỷ XVII", title: "Đỉnh cao thịnh vượng", description: "Phố Hiến đạt đỉnh cao phồn thịnh với câu nói lưu truyền 'Thứ nhất Kinh kỳ, thứ nhì Phố Hiến', là trung tâm ngoại thương quan trọng.", icon: "🏛️", image: heroLandscape },
+      { year: "Thế kỷ XIX", title: "Suy tàn và chuyển mình", description: "Sau khi cảng sông bị bồi lấp, Phố Hiến dần suy giảm nhưng để lại kho di tích văn hóa phong phú mang giá trị lịch sử vô giá.", icon: "⏳", image: heroLandscape },
+      { year: "Hiện đại", title: "Xứ nhãn lồng", description: "Hưng Yên phát triển nông nghiệp đặc sản với nhãn lồng Hưng Yên nổi tiếng cả nước và đang xây dựng công nghiệp hiện đại.", icon: "🍈", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng nghề thêu ren Thắng Lợi", product: "Thêu ren thủ công", description: "Nghề thêu ren tinh tế với các sản phẩm khăn, áo, đồ trang trí được thêu tay tỉ mỉ theo mẫu hoa văn truyền thống.", image: heroLandscape, age: "300+ năm" },
+      { name: "Mây tre đan Hoàng Long", product: "Đồ mây tre", description: "Làng nghề đan lát mây tre tạo ra sản phẩm phục vụ đời sống và xuất khẩu, duy trì nghề truyền thống qua nhiều thế hệ.", image: heroLandscape, age: "200+ năm" },
+      { name: "Gỗ chạm khắc Hạ Liêm", product: "Đồ gỗ mỹ nghệ", description: "Làng nghề chạm khắc gỗ với các sản phẩm nội thất, đồ thờ và tranh gỗ nghệ thuật được thợ lành nghề tạo tác cẩn thận.", image: heroLandscape, age: "400+ năm" },
+      { name: "Làng nhãn lồng Hàm Tử", product: "Nhãn lồng đặc sản", description: "Vùng trồng nhãn lồng truyền thống với giống nhãn nguyên gốc quý giá, hương thơm ngọt lịm được cả nước ưa chuộng.", image: heroLandscape, age: "500+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội Phố Hiến", date: "Tháng 3 âm lịch", description: "Lễ hội lớn nhất Hưng Yên tổ chức tại khu di tích Phố Hiến, tái hiện không khí thương cảng xưa với nhiều hoạt động văn hóa đặc sắc.", significance: "Lễ hội lịch sử thương cảng", image: heroLandscape },
+      { name: "Lễ hội Đền Mây", date: "Mùng 2 tháng 2 âm lịch", description: "Lễ hội truyền thống tại Đền Mây thờ Chử Đồng Tử và Tiên Dung – một trong Tứ bất tử của tín ngưỡng dân gian Việt Nam.", significance: "Tín ngưỡng dân gian Tứ bất tử", image: heroLandscape },
+      { name: "Hội mùa nhãn", date: "Tháng 7-8 dương lịch", description: "Lễ hội thu hoạch nhãn lồng với các hoạt động thi hái nhãn, thưởng thức nhãn và các sản phẩm chế biến từ nhãn đặc sắc.", significance: "Lễ hội nông nghiệp đặc trưng", image: heroLandscape },
+      { name: "Lễ hội Đa Hòa", date: "Mùng 10-12 tháng 2 âm lịch", description: "Lễ hội tại Đền Đa Hòa thờ Chử Đồng Tử với lễ rước thuyền trên sông Hồng và các nghi lễ truyền thống.", significance: "Lễ hội sông nước truyền thống", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Nhãn lồng",
@@ -738,6 +1117,30 @@ const provinces = [
     accentColor: "#15803d",
     heroImage: halongImage,
     introImage: heroLandscape,
+    stats: [
+      { value: "1000+", label: "Năm lịch sử" },
+      { value: "200+", label: "Di tích danh thắng" },
+      { value: "50+", label: "Lễ hội truyền thống" },
+      { value: "30+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "968", title: "Kinh đô Hoa Lư ra đời", description: "Đinh Bộ Lĩnh dẹp loạn 12 sứ quân, lập nước Đại Cồ Việt và chọn Hoa Lư làm kinh đô đầu tiên của nhà nước phong kiến độc lập.", icon: "👑", image: heroLandscape },
+      { year: "980-1010", title: "Tiền Lê và sự phát triển", description: "Hoa Lư tiếp tục là kinh đô dưới thời nhà Tiền Lê với vua Lê Đại Hành lãnh đạo chiến thắng quân Tống và Chiêm Thành.", icon: "⚔️", image: heroLandscape },
+      { year: "2014", title: "Di sản thế giới UNESCO", description: "Quần thể danh thắng Tràng An được UNESCO công nhận là Di sản thế giới hỗn hợp đầu tiên tại Đông Nam Á – vừa tự nhiên vừa văn hóa.", icon: "🌏", image: heroLandscape },
+      { year: "Hiện đại", title: "Điểm đến hàng đầu", description: "Ninh Bình vươn lên thành điểm đến du lịch hàng đầu Việt Nam với Tràng An, Tam Cốc, Bích Động thu hút hàng triệu khách mỗi năm.", icon: "🚣", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng đá mỹ nghệ Ninh Vân", product: "Đá điêu khắc", description: "Làng nghề chạm khắc đá nổi tiếng nhất Việt Nam, sản xuất tượng đá, cột đá, biển đá và các công trình kiến trúc trang trí.", image: heroLandscape, age: "400+ năm" },
+      { name: "Làng nghề thêu ren Kim Sơn", product: "Thêu ren xuất khẩu", description: "Nghề thêu ren truyền thống Kim Sơn với sản phẩm chất lượng cao xuất khẩu sang nhiều quốc gia châu Âu và châu Á.", image: heroLandscape, age: "200+ năm" },
+      { name: "Gốm Bồng", product: "Gốm truyền thống", description: "Làng gốm Bồng sản xuất đồ gốm gia dụng và đồ thờ cúng bằng kỹ thuật thủ công truyền thống lâu đời của người dân địa phương.", image: heroLandscape, age: "300+ năm" },
+      { name: "Chiếu cói Kim Sơn", product: "Chiếu cói", description: "Vùng trồng cói và dệt chiếu Kim Sơn nổi tiếng với chiếu bền đẹp, được người dùng trên cả nước ưa chuộng.", image: heroLandscape, age: "200+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội Hoa Lư", date: "Mùng 8-10 tháng 3 âm lịch", description: "Lễ hội tưởng nhớ vua Đinh Tiên Hoàng và vua Lê Đại Hành tại cố đô Hoa Lư với nghi lễ trang trọng, rước kiệu và các màn biểu diễn nghệ thuật.", significance: "Quốc lễ tưởng nhớ anh hùng dân tộc", image: heroLandscape },
+      { name: "Lễ hội Tràng An", date: "Tháng 3 âm lịch", description: "Lễ hội tại quần thể di sản Tràng An với các nghi lễ tâm linh và văn hóa đặc sắc, thu hút đông đảo du khách từ khắp nơi.", significance: "Lễ hội di sản thế giới", image: heroLandscape },
+      { name: "Lễ hội Chùa Bái Đính", date: "Mùng 6 tháng Giêng", description: "Lễ hội xuân tại chùa Bái Đính – ngôi chùa lớn nhất Đông Nam Á với nhiều kỷ lục Việt Nam, thu hút hàng trăm nghìn phật tử.", significance: "Lễ hội Phật giáo lớn nhất miền Bắc", image: heroLandscape },
+      { name: "Lễ hội Đền Thái Vi", date: "Mùng 14-17 tháng 3 âm lịch", description: "Lễ hội tại Đền Thái Vi thờ các vua Trần tại Ninh Bình với lễ rước kiệu và các hoạt động văn hóa dân gian.", significance: "Lễ hội triều Trần truyền thống", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Dê núi",
@@ -798,6 +1201,30 @@ const provinces = [
     accentColor: "#9a3412",
     heroImage: heroLandscape,
     introImage: seafoodImage,
+    stats: [
+      { value: "400+", label: "Năm lịch sử" },
+      { value: "500+", label: "Di tích lịch sử" },
+      { value: "50+", label: "Lễ hội truyền thống" },
+      { value: "20+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thế kỷ II", title: "Vùng đất biên viễn", description: "Quảng Trị là vùng đất biên giới phía Nam của Đại Việt, nơi giao thoa văn hóa Việt – Chăm qua nhiều thế kỷ.", icon: "🗺️", image: heroLandscape },
+      { year: "1954", title: "Vĩ tuyến 17 chia cắt", description: "Hiệp định Genève 1954 lấy vĩ tuyến 17 sông Bến Hải làm ranh giới tạm thời, chia cắt đất nước và gia đình người dân Quảng Trị.", icon: "🌉", image: heroLandscape },
+      { year: "1972", title: "Mùa hè đỏ lửa", description: "Trận chiến Quảng Trị 1972 – một trong những trận đánh ác liệt nhất cuộc kháng chiến chống Mỹ, thành cổ Quảng Trị thành biểu tượng bất khuất.", icon: "🔥", image: heroLandscape },
+      { year: "1975", title: "Thống nhất non sông", description: "Giải phóng hoàn toàn Quảng Trị, cầu Hiền Lương và bờ Bắc sông Bến Hải thống nhất sau 21 năm chia cắt – cột mốc lịch sử không thể quên.", icon: "🇻🇳", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng chiếu cói Lâm Xuân", product: "Chiếu cói truyền thống", description: "Nghề dệt chiếu cói truyền thống của người dân ven biển Quảng Trị với các sản phẩm bền đẹp phục vụ đời sống hàng ngày.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng nghề nón lá", product: "Nón lá", description: "Nghề làm nón lá truyền thống với những chiếc nón trắng mỏng manh, tinh tế – vật dụng không thể thiếu của người phụ nữ Việt.", image: heroLandscape, age: "200+ năm" },
+      { name: "Gỗ chạm khắc Cam Lộ", product: "Đồ gỗ điêu khắc", description: "Làng nghề chạm khắc gỗ Cam Lộ tạo ra các sản phẩm trang trí, đồ thờ và đồ nội thất bằng gỗ quý có giá trị thẩm mỹ cao.", image: heroLandscape, age: "150+ năm" },
+      { name: "Muối Cửa Tùng", product: "Muối biển", description: "Vùng làm muối truyền thống tại bãi biển Cửa Tùng, sản xuất muối sạch tự nhiên bằng phương pháp phơi nắng truyền thống.", image: heroLandscape, age: "Truyền thống" }
+    ],
+    festivals: [
+      { name: "Lễ hội Cầu Hiền Lương", date: "Tháng 4 (ngày 30/4)", description: "Lễ kỷ niệm ngày đất nước thống nhất tại cầu Hiền Lương bên dòng Bến Hải, tái hiện lịch sử chia cắt và niềm vui đoàn tụ.", significance: "Lễ kỷ niệm thống nhất đất nước", image: heroLandscape },
+      { name: "Lễ hội Thành cổ Quảng Trị", date: "Tháng 7 (ngày 27/7)", description: "Lễ tưởng niệm các chiến sỹ hy sinh tại Thành cổ Quảng Trị mùa hè 1972, thắp hoa đăng trên sông Thạch Hãn.", significance: "Lễ hội tri ân anh hùng", image: heroLandscape },
+      { name: "Lễ hội Làng Rào", date: "Mùng 1-3 tháng 2 âm lịch", description: "Lễ hội truyền thống của người dân Quảng Trị với các trò chơi dân gian, hát bội và các nghi lễ cầu mùa vụ bội thu.", significance: "Lễ hội dân gian truyền thống", image: heroLandscape },
+      { name: "Lễ hội Đua thuyền", date: "Mùng 5 tháng 5 âm lịch", description: "Lễ hội đua thuyền truyền thống trên sông Thạch Hãn với khí thế sôi động, thu hút đông đảo người dân và du khách.", significance: "Lễ hội sông nước truyền thống", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bánh ít lá gai",
@@ -858,6 +1285,30 @@ const provinces = [
     accentColor: "#0f766e",
     heroImage: halongImage,
     introImage: seafoodImage,
+    stats: [
+      { value: "3000+", label: "Năm lịch sử" },
+      { value: "200+", label: "Di tích văn hóa" },
+      { value: "60+", label: "Lễ hội truyền thống" },
+      { value: "30+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thế kỷ II TCN", title: "Văn hóa Sa Huỳnh", description: "Vùng đất Quảng Ngãi là trung tâm của nền văn hóa Sa Huỳnh – nền văn hóa cổ đại nổi tiếng Đông Nam Á với nghề luyện sắt và đồ gốm tinh xảo.", icon: "🏺", image: heroLandscape },
+      { year: "Thế kỷ XV", title: "Đội hùng binh Hoàng Sa", description: "Người dân Quảng Ngãi lập các đội hùng binh ra trấn giữ Hoàng Sa, khẳng định chủ quyền biển đảo của Việt Nam từ rất sớm.", icon: "⛵", image: heroLandscape },
+      { year: "1968", title: "Thảm sát Mỹ Lai", description: "Sự kiện bi thương Mỹ Lai ghi vào lịch sử nhân loại, trở thành biểu tượng chống chiến tranh và đòi hỏi hòa bình trên toàn thế giới.", icon: "✊", image: heroLandscape },
+      { year: "Hiện đại", title: "Thiên đường đảo Lý Sơn", description: "Đảo Lý Sơn nổi lên thành điểm du lịch hấp dẫn với cảnh quan núi lửa kỳ vĩ, tỏi thơm đặc sản và văn hóa biển đảo độc đáo.", icon: "🏝️", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng gốm Mỹ Thiện", product: "Gốm truyền thống", description: "Làng gốm lâu đời sản xuất đồ gia dụng và đồ thờ bằng đất sét địa phương với kỹ thuật nung thủ công truyền thống.", image: heroLandscape, age: "500+ năm" },
+      { name: "Làng tỏi Lý Sơn", product: "Tỏi đặc sản", description: "Đảo Lý Sơn nổi tiếng với tỏi trồng trên đất núi lửa có hương vị thơm cay đặc biệt, được coi là 'vàng trắng' của đảo.", image: heroLandscape, age: "400+ năm" },
+      { name: "Dệt thổ cẩm Hrê", product: "Thổ cẩm Hrê", description: "Nghề dệt thổ cẩm truyền thống của người Hrê (H'rê) với hoa văn độc đáo, màu sắc rực rỡ phản ánh bản sắc văn hóa dân tộc thiểu số.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Làng nghề đan lát", product: "Đồ đan lát", description: "Nghề đan lát của các dân tộc thiểu số vùng núi Quảng Ngãi tạo ra sản phẩm phục vụ đời sống nông nghiệp và đồ thủ công mỹ nghệ.", image: heroLandscape, age: "Truyền thống" }
+    ],
+    festivals: [
+      { name: "Lễ khao lề thế lính Hoàng Sa", date: "Tháng 3 âm lịch", description: "Nghi lễ tưởng nhớ đội hùng binh Hoàng Sa tại Lý Sơn – lễ hội độc đáo và ý nghĩa nhất miền Trung, khẳng định chủ quyền biển đảo.", significance: "Lễ hội chủ quyền biển đảo", image: heroLandscape },
+      { name: "Lễ hội Đua thuyền tứ linh", date: "Mùng 4-5 tháng Giêng", description: "Lễ hội đua thuyền truyền thống trên sông Trà Khúc với 4 đội mang hình tứ linh long, lân, quy, phụng tranh tài.", significance: "Lễ hội đua thuyền truyền thống", image: heroLandscape },
+      { name: "Lễ hội Dinh Bà", date: "Tháng 3 âm lịch", description: "Lễ hội tín ngưỡng thờ Thiên Y A Na của cộng đồng dân cư vùng biển Quảng Ngãi với các nghi lễ cầu ngư và thả đèn trên biển.", significance: "Tín ngưỡng dân gian vùng biển", image: heroLandscape },
+      { name: "Lễ hội Cầu Ngư", date: "Đầu năm âm lịch", description: "Lễ hội cầu ngư truyền thống của ngư dân ven biển cầu bình an và mùa đánh bắt bội thu trước khi ra khơi đầu mùa.", significance: "Lễ hội ngư dân truyền thống", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Tỏi Lý Sơn",
@@ -918,6 +1369,30 @@ const provinces = [
     accentColor: "#166534",
     heroImage: coffeeImage,
     introImage: coffeeImage,
+    stats: [
+      { value: "500+", label: "Năm lịch sử" },
+      { value: "200+", label: "Di tích văn hóa" },
+      { value: "40+", label: "Lễ hội truyền thống" },
+      { value: "20+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thế kỷ XIII-XV", title: "Vương quốc Ba Na", description: "Gia Lai là vùng đất cư trú lâu đời của người Ba Na, Jrai với nền văn hóa cồng chiêng đặc sắc và hệ thống làng buôn phát triển.", icon: "🏕️", image: heroLandscape },
+      { year: "Thế kỷ XIX", title: "Pháp khai thác Tây Nguyên", description: "Người Pháp đến khai thác Tây Nguyên, lập đồn điền cà phê và cao su, mở đường xuyên sơn – thay đổi vĩnh viễn diện mạo cao nguyên.", icon: "🌿", image: heroLandscape },
+      { year: "2005", title: "Di sản cồng chiêng UNESCO", description: "Không gian văn hóa cồng chiêng Tây Nguyên được UNESCO công nhận là Di sản văn hóa phi vật thể đại diện – niềm tự hào vô giá.", icon: "🥁", image: heroLandscape },
+      { year: "Hiện đại", title: "Thủ phủ cà phê Robusta", description: "Gia Lai nổi lên là vùng trồng cà phê Robusta lớn nhất Việt Nam, cung cấp nguyên liệu cho thị trường trong nước và xuất khẩu quốc tế.", icon: "☕", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng dệt thổ cẩm Jrai", product: "Thổ cẩm Jrai", description: "Nghề dệt thổ cẩm truyền thống của phụ nữ Jrai với hoa văn hình học tinh tế, màu sắc rực rỡ phản ánh thế giới quan phong phú.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Làng đan gùi Ba Na", product: "Gùi mây tre đan", description: "Nghề đan gùi của người Ba Na – dụng cụ không thể thiếu trong đời sống hàng ngày, nay trở thành hàng thủ công mỹ nghệ.", image: heroLandscape, age: "Truyền thống" },
+      { name: "Tạc tượng gỗ nhà mồ", product: "Tượng gỗ dân gian", description: "Nghề tạc tượng gỗ đặt quanh nhà mồ – nghệ thuật dân gian độc đáo của người Ba Na, Jrai với hình tượng sinh động đầy cảm xúc.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Làng cà phê Biển Hồ", product: "Cà phê Arabica cao nguyên", description: "Vùng canh tác cà phê bên hồ miệng núi lửa Biển Hồ với cà phê Arabica đặc biệt có hương vị tinh tế nhờ khí hậu và thổ nhưỡng đặc trưng.", image: heroLandscape, age: "100+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội cồng chiêng Tây Nguyên", date: "Tháng 11-12 hàng năm", description: "Lễ hội cồng chiêng huy hoàng với hàng trăm nghệ nhân biểu diễn, tái hiện không gian văn hóa cồng chiêng Tây Nguyên huyền bí.", significance: "Di sản phi vật thể UNESCO", image: heroLandscape },
+      { name: "Lễ hội mừng lúa mới (Tơ nưng)", description: "Lễ hội nông nghiệp của người Jrai sau mùa gặt, tạ ơn Yàng (thần linh) và cầu chúc cho mùa vụ tiếp theo bội thu.", date: "Sau mùa gặt tháng 11-12", significance: "Lễ hội nông nghiệp truyền thống", image: heroLandscape },
+      { name: "Lễ hội Bỏ mả (Pơ thi)", date: "Sau lễ tang 3-5 năm", description: "Nghi lễ đặc trưng của người Ba Na và Jrai, tổ chức sau khi làng đã cúng bỏ linh hồn người mất, với múa hát và tiệc lớn cả làng.", significance: "Nghi lễ dân gian đặc trưng Tây Nguyên", image: heroLandscape },
+      { name: "Lễ hội đâm trâu", date: "Các dịp lễ lớn", description: "Nghi lễ đâm trâu hiến tế thần linh trong các dịp lễ lớn của người Ba Na, là nghi thức cầu may mắn, sức khỏe và bình an cho cộng đồng.", significance: "Nghi lễ tín ngưỡng đặc trưng", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Cơm lam",
@@ -978,6 +1453,30 @@ const provinces = [
     accentColor: "#0284c7",
     heroImage: seafoodImage,
     introImage: seafoodImage,
+    stats: [
+      { value: "400+", label: "Năm lịch sử" },
+      { value: "150+", label: "Di tích danh thắng" },
+      { value: "50+", label: "Lễ hội truyền thống" },
+      { value: "30+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thế kỷ VII-XV", title: "Vương quốc Chăm Pa", description: "Khánh Hòa là vùng đất trung tâm của Vương quốc Chăm Pa với nhiều công trình kiến trúc Chăm kỳ vĩ, điển hình là Tháp Bà Ponagar.", icon: "🏛️", image: heroLandscape },
+      { year: "1653", title: "Sáp nhập Đại Việt", description: "Sau khi Chúa Nguyễn Phúc Tần chinh phục, Khánh Hòa chính thức sáp nhập vào lãnh thổ Đại Việt và phát triển thành trung tâm thương mại miền Trung.", icon: "🗺️", image: heroLandscape },
+      { year: "Thế kỷ XIX", title: "Nha Trang hình thành", description: "Thành phố Nha Trang dần hình thành dưới thời Pháp thuộc với các công trình thuộc địa, bến cảng và khu nghỉ dưỡng ven biển.", icon: "🏖️", image: heroLandscape },
+      { year: "Hiện đại", title: "Thành phố biển đẳng cấp quốc tế", description: "Nha Trang trở thành thành phố biển hàng đầu Đông Nam Á với hệ thống resort, cáp treo vượt biển và các lễ hội du lịch quốc tế.", icon: "🌊", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng nghề yến sào Khánh Hòa", product: "Yến sào cao cấp", description: "Khánh Hòa là vùng khai thác yến sào tự nhiên lớn nhất Việt Nam, sản xuất yến chất lượng cao có giá trị dinh dưỡng và kinh tế vượt trội.", image: heroLandscape, age: "300+ năm" },
+      { name: "Làng đúc nồi đất Vạn Khánh", product: "Đồ gốm đất nung", description: "Nghề đúc nồi đất truyền thống với phương pháp thủ công độc đáo, tạo ra nồi đất nung chất lượng phục vụ nấu nướng gia đình.", image: heroLandscape, age: "200+ năm" },
+      { name: "Nghề đóng thuyền Vĩnh Lương", product: "Thuyền gỗ đánh cá", description: "Làng nghề đóng thuyền gỗ truyền thống cung cấp phương tiện đánh bắt hải sản cho ngư dân Khánh Hòa và các tỉnh lân cận.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng đá granit Diên Khánh", product: "Đá granit tự nhiên", description: "Vùng khai thác và chế tác đá granit nổi tiếng miền Trung, cung cấp vật liệu xây dựng cao cấp và đồ trang trí cho thị trường cả nước.", image: heroLandscape, age: "100+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội Tháp Bà Ponagar", date: "20-23 tháng 3 âm lịch", description: "Lễ hội lớn nhất Khánh Hòa tại Tháp Bà Ponagar – công trình Chăm Pa cổ, với nghi lễ tắm tượng, múa bóng rỗi và hát chầu văn.", significance: "Lễ hội tín ngưỡng Tháp Bà", image: heroLandscape },
+      { name: "Lễ hội Cầu Ngư", date: "Tháng Giêng âm lịch", description: "Lễ hội cầu ngư truyền thống của ngư dân ven biển với lễ rước linh và đua thuyền sôi động cầu mong mùa biển bình yên và cá đầy thuyền.", significance: "Lễ hội ngư dân truyền thống", image: heroLandscape },
+      { name: "Festival Biển Nha Trang", date: "Tháng 6-7 hàng năm", description: "Lễ hội du lịch quốc tế với nhiều hoạt động văn hóa, nghệ thuật, thể thao biển và trình diễn ánh sáng rực rỡ trên vịnh Nha Trang.", significance: "Sự kiện du lịch quốc tế", image: heroLandscape },
+      { name: "Lễ hội Am Chúa", date: "Mùng 1-3 tháng 3 âm lịch", description: "Lễ hội tôn vinh Thiên Y A Na (Bà Chúa Ngọc) tại Am Chúa, Diên Khánh với nhiều nghi lễ dân gian đặc sắc.", significance: "Tín ngưỡng thờ Mẫu đặc trưng", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bún cá Nha Trang",
@@ -1038,6 +1537,30 @@ const provinces = [
     accentColor: "#0f766e",
     heroImage: coffeeImage,
     introImage: coffeeImage,
+    stats: [
+      { value: "120+", label: "Năm thành phố Đà Lạt" },
+      { value: "300+", label: "Loài hoa đặc trưng" },
+      { value: "50+", label: "Lễ hội văn hóa" },
+      { value: "30+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "1893", title: "Bác sĩ Yersin khám phá Đà Lạt", description: "Bác sĩ Alexandre Yersin khám phá cao nguyên Lang Biang 1893, đề xuất xây dựng thành phố nghỉ dưỡng trên cao nguyên mát mẻ này.", icon: "🔭", image: heroLandscape },
+      { year: "1916", title: "Thành phố Đà Lạt ra đời", description: "Đà Lạt chính thức được thành lập, xây dựng theo kiểu quy hoạch đô thị Pháp với các biệt thự cổ và vườn hoa tuyệt đẹp.", icon: "🏘️", image: heroLandscape },
+      { year: "1944", title: "Trường Võ Bị Quốc Gia", description: "Trường Võ Bị Quốc Gia Đà Lạt thành lập, khẳng định vị trí giáo dục đặc biệt của thành phố cao nguyên trong lịch sử Việt Nam.", icon: "🎓", image: heroLandscape },
+      { year: "Hiện đại", title: "Thành phố hoa quốc tế", description: "Đà Lạt nổi tiếng khắp thế giới với Festival Hoa quốc tế và trở thành điểm đến du lịch, nghỉ dưỡng hàng đầu Đông Nam Á.", icon: "🌸", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng hoa Vạn Thành", product: "Hoa tươi cao cấp", description: "Vùng trồng hoa tươi lớn nhất Đà Lạt cung cấp hoa hồng, cẩm chướng, lay ơn cho thị trường cả nước và xuất khẩu.", image: heroLandscape, age: "70+ năm" },
+      { name: "Làng nghề dệt thổ cẩm K'Ho", product: "Thổ cẩm K'Ho", description: "Nghề dệt thổ cẩm truyền thống của người K'Ho tại Lạc Dương với hoa văn độc đáo phản ánh văn hóa cao nguyên.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Gốm mỹ nghệ Đà Lạt", product: "Gốm nghệ thuật", description: "Làng nghề gốm mỹ nghệ sản xuất đồ lưu niệm và nghệ thuật phong phú, khai thác đất sét địa phương và phong cách thiết kế hiện đại.", image: heroLandscape, age: "50+ năm" },
+      { name: "Làng chè oolong Cầu Đất", product: "Chè Oolong cao cấp", description: "Vùng chè Oolong Cầu Đất với độ cao trên 1600m tạo ra chè chất lượng cao, hương vị thơm ngon được xuất khẩu sang nhiều quốc gia.", image: heroLandscape, age: "100+ năm" }
+    ],
+    festivals: [
+      { name: "Festival Hoa Đà Lạt", date: "Tháng 12 (2 năm một lần)", description: "Lễ hội hoa quốc tế lớn nhất Việt Nam với hàng triệu bông hoa trang trí khắp thành phố, thu hút khách quốc tế và trong nước.", significance: "Lễ hội hoa quốc tế", image: heroLandscape },
+      { name: "Lễ hội Cồng Chiêng K'Ho", date: "Tháng 1-2 hàng năm", description: "Lễ hội cồng chiêng của người K'Ho Lang Biang tái hiện không gian văn hóa Tây Nguyên với các điệu múa và nhạc cụ truyền thống.", significance: "Di sản văn hóa cồng chiêng", image: heroLandscape },
+      { name: "Lễ hội trà Bảo Lộc", date: "Tháng 11 hàng năm", description: "Lễ hội tôn vinh ngành chè Bảo Lộc với các hoạt động thưởng trà, thi hái chè và trình diễn pha trà nghệ thuật.", significance: "Lễ hội nông nghiệp đặc trưng", image: heroLandscape },
+      { name: "Lễ hội Nhật Nguyệt Lang Biang", date: "Tháng Giêng âm lịch", description: "Lễ hội truyền thống của người K'Ho tại núi Lang Biang với các nghi lễ cầu Yàng ban phúc và lửa trại cộng đồng hoành tráng.", significance: "Lễ hội núi Lang Biang", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Cà phê Đà Lạt",
@@ -1098,6 +1621,30 @@ const provinces = [
     accentColor: "#92400e",
     heroImage: coffeeImage,
     introImage: coffeeImage,
+    stats: [
+      { value: "500+", label: "Năm lịch sử" },
+      { value: "100+", label: "Buôn làng truyền thống" },
+      { value: "60+", label: "Lễ hội văn hóa" },
+      { value: "Số 1", label: "Cà phê Việt Nam" }
+    ],
+    timeline: [
+      { year: "Thế kỷ XV-XVIII", title: "Vương quốc Mơ Nông", description: "Đắk Lắk là vùng đất của các dân tộc Ê Đê, M'Nông với hệ thống buôn làng tự trị và truyền thống săn voi nổi tiếng.", icon: "🐘", image: heroLandscape },
+      { year: "1899", title: "Buôn Ma Thuột thành lập", description: "Người Pháp thành lập tỉnh lỵ Buôn Ma Thuột, đưa cây cà phê vào trồng đại trà và biến Tây Nguyên thành vựa cà phê Đông Dương.", icon: "☕", image: heroLandscape },
+      { year: "2005", title: "Di sản cồng chiêng UNESCO", description: "Không gian văn hóa cồng chiêng Tây Nguyên được UNESCO vinh danh – đóng góp lớn của Đắk Lắk với các buôn Ê Đê, M'Nông.", icon: "🥁", image: heroLandscape },
+      { year: "Hiện đại", title: "Thủ phủ cà phê thế giới", description: "Buôn Ma Thuột được mệnh danh là thủ phủ cà phê, nơi tổ chức Festival Cà phê quốc tế và xuất khẩu cà phê đến hơn 80 quốc gia.", icon: "🌍", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Buôn Ako Dhông", product: "Thủ công truyền thống Ê Đê", description: "Buôn cổ truyền thống nhất Buôn Ma Thuột với nhà dài Ê Đê, nghề dệt thổ cẩm và các nghề thủ công truyền thống còn được bảo tồn nguyên vẹn.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Làng gốm M'Nông", product: "Gốm đất nung truyền thống", description: "Nghề làm gốm bằng tay không dùng bàn xoay của người M'Nông – kỹ thuật cổ xưa tạo ra những chiếc ché rượu cần độc đáo.", image: heroLandscape, age: "Hàng trăm năm" },
+      { name: "Làng dệt thổ cẩm Ê Đê", product: "Thổ cẩm Ê Đê", description: "Nghề dệt thổ cẩm Ê Đê với hoa văn chim thú, hình học tinh tế, màu sắc rực rỡ – sản phẩm văn hóa không thể thiếu trong đời sống cộng đồng.", image: heroLandscape, age: "Truyền thống" },
+      { name: "Cà phê đặc sản Buôn Ma Thuột", product: "Cà phê Robusta cao nguyên", description: "Vùng cà phê Robusta số một Việt Nam với quy trình chế biến ướt, rang xay thủ công tạo ra hạt cà phê chất lượng xuất khẩu hàng đầu.", image: heroLandscape, age: "120+ năm" }
+    ],
+    festivals: [
+      { name: "Festival Cà phê Buôn Ma Thuột", date: "Tháng 3 (2 năm một lần)", description: "Lễ hội cà phê quốc tế lớn nhất Việt Nam với triển lãm, hội thảo, thi pha chế và lễ hội cồng chiêng hoành tráng.", significance: "Sự kiện cà phê quốc tế", image: heroLandscape },
+      { name: "Lễ hội Cầu Mưa (H'Drăm)", date: "Tháng 3-4 âm lịch", description: "Lễ cầu mưa của người Ê Đê vào đầu mùa canh tác, cầu thần nước ban mưa thuận cho mùa vụ với nghi lễ hiến tế và hát sử thi Khan.", significance: "Nghi lễ tín ngưỡng Ê Đê", image: heroLandscape },
+      { name: "Lễ hội Đua voi Buôn Đôn", date: "Tháng 3 hàng năm", description: "Lễ hội đua voi độc đáo tại Buôn Đôn – nơi có truyền thống thuần phục và nuôi voi lâu đời nhất Việt Nam, thu hút khách quốc tế.", significance: "Lễ hội voi đặc trưng", image: heroLandscape },
+      { name: "Lễ bỏ mả M'Nông", date: "Sau tang lễ 3-5 năm", description: "Nghi lễ tiễn biệt cuối cùng của người M'Nông với tiệc cộng đồng, múa hát và tạc tượng gỗ – nét văn hóa tâm linh đặc sắc.", significance: "Nghi lễ tâm linh đặc trưng", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Cà phê Buôn Ma Thuột",
@@ -1158,6 +1705,30 @@ const provinces = [
     accentColor: "#15803d",
     heroImage: heroLandscape,
     introImage: cuisineImage,
+    stats: [
+      { value: "300+", label: "Năm lịch sử" },
+      { value: "200+", label: "Di tích văn hóa" },
+      { value: "50+", label: "Lễ hội truyền thống" },
+      { value: "40+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thế kỷ XVII", title: "Di dân người Việt phương Nam", description: "Các lưu dân người Việt bắt đầu khai khẩn vùng đất Đồng Nai – Gia Định, xây dựng định cư đầu tiên tại Cù Lao Phố (Biên Hòa).", icon: "🚢", image: heroLandscape },
+      { year: "1698", title: "Phủ Gia Định thành lập", description: "Chúa Nguyễn lập Phủ Gia Định gồm vùng Đồng Nai, mở đầu giai đoạn quản lý hành chính chính thức của người Việt tại đất phương Nam.", icon: "🏛️", image: heroLandscape },
+      { year: "Thế kỷ XIX", title: "Trung tâm thương mại Biên Hòa", description: "Biên Hòa phát triển thành trung tâm thương mại quan trọng với gốm sứ, gỗ và nông sản trao đổi sôi động với Sài Gòn và quốc tế.", icon: "⚓", image: heroLandscape },
+      { year: "Hiện đại", title: "Cửa ngõ công nghiệp", description: "Đồng Nai trở thành trung tâm công nghiệp lớn nhất miền Nam với các khu công nghiệp thu hút đầu tư nước ngoài hàng tỷ đô.", icon: "🏭", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Gốm sứ Biên Hòa", product: "Gốm mỹ nghệ", description: "Gốm Biên Hòa nổi tiếng từ thế kỷ XIX với men rạn đặc trưng màu xanh lam, được sưu tầm và trưng bày tại nhiều bảo tàng quốc tế.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng nghề đá ong Long Khánh", product: "Đá ong xây dựng", description: "Vùng khai thác và chế tác đá ong – loại đá xây dựng tự nhiên đặc trưng Nam Bộ, được dùng xây nhà cổ và công trình văn hóa.", image: heroLandscape, age: "200+ năm" },
+      { name: "Nghề đan lát Cẩm Mỹ", product: "Lục bình, mây tre", description: "Làng nghề đan lát lục bình, mây tre tạo ra sản phẩm thủ công mỹ nghệ xuất khẩu sang châu Âu và châu Á.", image: heroLandscape, age: "100+ năm" },
+      { name: "Vườn bưởi Tân Triều", product: "Bưởi đặc sản", description: "Vùng trồng bưởi Tân Triều nổi tiếng cả nước với hương thơm đặc biệt và múi bưởi ngọt thanh được thị trường ưa chuộng.", image: heroLandscape, age: "100+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội Cúng đình", date: "Kỳ Yên tháng 2 âm lịch", description: "Lễ hội cúng đình Kỳ Yên truyền thống của người miền Nam tại các đình làng Đồng Nai với hát bội, múa lân và lễ cầu an.", significance: "Lễ hội đình làng Nam Bộ", image: heroLandscape },
+      { name: "Lễ hội trái cây Long Khánh", date: "Tháng 5-6 hàng năm", description: "Lễ hội tôn vinh các loại trái cây đặc sản Long Khánh gồm sầu riêng, chôm chôm, bưởi... với nhiều hoạt động vui chơi hấp dẫn.", significance: "Lễ hội nông nghiệp đặc trưng", image: heroLandscape },
+      { name: "Lễ Nguyên Tiêu Biên Hòa", date: "Rằm tháng Giêng", description: "Lễ hội rằm tháng Giêng tại Biên Hòa – nơi có cộng đồng Hoa lớn – với đèn lồng rực rỡ và các hoạt động văn hóa truyền thống.", significance: "Lễ hội cộng đồng Hoa người Việt", image: heroLandscape },
+      { name: "Hội Chùa Ông Biên Hòa", date: "Mùng 14-15 tháng Giêng", description: "Lễ hội tại Chùa Ông – Thất Phủ Cổ Miếu do người Hoa lập từ thế kỷ XVIII – với các nghi lễ cầu an và biểu diễn văn hóa truyền thống.", significance: "Di tích lịch sử cộng đồng Hoa", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Gỏi cá Biên Hòa",
@@ -1218,6 +1789,30 @@ const provinces = [
     accentColor: "#b45309",
     heroImage: heroLandscape,
     introImage: cuisineImage,
+    stats: [
+      { value: "300+", label: "Năm lịch sử" },
+      { value: "100+", label: "Di tích văn hóa" },
+      { value: "40+", label: "Lễ hội truyền thống" },
+      { value: "986m", label: "Núi Bà Đen" }
+    ],
+    timeline: [
+      { year: "Thế kỷ XVII", title: "Khai hoang đất phương Nam", description: "Các lưu dân người Việt đến khai phá vùng đất Tây Ninh, lập làng xã và trồng trọt trên vùng đất màu mỡ bên dãy núi Bà Đen.", icon: "🌾", image: heroLandscape },
+      { year: "1926", title: "Đạo Cao Đài ra đời", description: "Đạo Cao Đài được khai sáng tại Tây Ninh – tôn giáo dung hợp Phật, Lão, Khổng đặc trưng Nam Bộ với Tòa Thánh Tây Ninh nổi tiếng.", icon: "⭐", image: heroLandscape },
+      { year: "1975", title: "Chiến trường biên giới Tây Nam", description: "Tây Ninh là chiến trường ác liệt trong cuộc chiến tranh bảo vệ biên giới Tây Nam 1975-1979 chống lại chế độ Khmer Đỏ.", icon: "🛡️", image: heroLandscape },
+      { year: "Hiện đại", title: "Vùng đất tâm linh hành hương", description: "Tây Ninh nổi lên là điểm đến tâm linh lớn với núi Bà Đen và Tòa Thánh Cao Đài thu hút hàng triệu du khách hành hương mỗi năm.", icon: "⛰️", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng nghề muối tôm Tây Ninh", product: "Muối tôm đặc sản", description: "Muối tôm Tây Ninh – gia vị nổi tiếng cả nước được làm từ tôm tươi và muối hột với công thức bí truyền gia đình, dùng chấm trái cây.", image: heroLandscape, age: "100+ năm" },
+      { name: "Làng bánh tráng Trảng Bàng", product: "Bánh tráng phơi sương", description: "Bánh tráng Trảng Bàng phơi sương đêm – đặc sản nổi tiếng cả nước, dẻo thơm nhờ quy trình phơi đặc biệt theo truyền thống.", image: heroLandscape, age: "200+ năm" },
+      { name: "Nghề chạm khắc Cao Đài", product: "Đồ thờ Cao Đài", description: "Nghề làm đồ thờ và trang trí cho các thánh thất Cao Đài với hoa văn đặc trưng của đạo, kết hợp thủ công điêu khắc tinh xảo.", image: heroLandscape, age: "100+ năm" },
+      { name: "Làng nghề đan đát Tây Ninh", product: "Đồ đan thủ công", description: "Làng nghề đan lát mây tre tạo ra các sản phẩm gia dụng như thúng, mủng, giỏ phục vụ đời sống và thị trường địa phương.", image: heroLandscape, age: "150+ năm" }
+    ],
+    festivals: [
+      { name: "Hội Xuân Núi Bà Đen", date: "Mùng 4-6 tháng Giêng", description: "Lễ hội hành hương lớn nhất Nam Bộ tại núi Bà Đen – ngọn núi thiêng cao nhất Nam Bộ, thu hút hàng triệu phật tử leo núi cầu nguyện.", significance: "Lễ hội hành hương lớn nhất Nam Bộ", image: heroLandscape },
+      { name: "Lễ hội Cao Đài", date: "Các ngày lễ Cao Đài", description: "Lễ hội tâm linh của đạo Cao Đài tại Tòa Thánh Tây Ninh với nghi thức đặc sắc, áo lễ rực rỡ và kèn trống hùng tráng.", significance: "Lễ hội tôn giáo Cao Đài", image: heroLandscape },
+      { name: "Lễ hội trái cây Tây Ninh", date: "Tháng 5-6", description: "Lễ hội tôn vinh các loại trái cây đặc sản Tây Ninh: mãng cầu Bà Đen, mì Tây Ninh và các sản phẩm nông nghiệp địa phương.", significance: "Lễ hội nông nghiệp địa phương", image: heroLandscape },
+      { name: "Lễ Kỳ Yên đình làng", date: "Tháng 2-3 âm lịch", description: "Lễ Kỳ Yên cầu an mùa màng tại các đình làng Tây Ninh với hát bội, múa lân và lễ cúng thần hoàng làng truyền thống Nam Bộ.", significance: "Lễ hội đình làng Nam Bộ", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bánh tráng phơi sương",
@@ -1278,6 +1873,30 @@ const provinces = [
     accentColor: "#16a34a",
     heroImage: heroLandscape,
     introImage: heroLandscape,
+    stats: [
+      { value: "300+", label: "Năm lịch sử" },
+      { value: "100+", label: "Di tích danh thắng" },
+      { value: "30+", label: "Lễ hội truyền thống" },
+      { value: "50+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thế kỷ XVII", title: "Khai hoang đất miệt vườn", description: "Lưu dân người Việt đến khai phá vùng đất ngập lũ giữa sông Tiền và sông Hậu, lập vườn cây và xây dựng cộng đồng trên cù lao.", icon: "🌿", image: heroLandscape },
+      { year: "1832", title: "Tỉnh Vĩnh Long thành lập", description: "Vua Minh Mạng lập tỉnh Vĩnh Long thuộc lục tỉnh Nam Kỳ – một trong 6 tỉnh đầu tiên của miền Nam dưới triều Nguyễn.", icon: "🏛️", image: heroLandscape },
+      { year: "Thế kỷ XIX", title: "Trung tâm văn hóa Nam Bộ", description: "Vĩnh Long nổi lên là trung tâm giáo dục và văn hóa Nam Kỳ với nhiều sĩ phu nổi tiếng như Phan Thanh Giản, Nguyễn Thông.", icon: "📚", image: heroLandscape },
+      { year: "Hiện đại", title: "Vương quốc trái cây miền Tây", description: "Vĩnh Long phát triển mạnh du lịch miệt vườn với các vườn trái cây xanh mướt trên cù lao, đờn ca tài tử và gốm đỏ Mang Thít.", icon: "🍊", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng gốm đỏ Mang Thít", product: "Gạch gốm đỏ", description: "Vùng lò gạch gốm đỏ Mang Thít – di sản kiến trúc độc đáo với hàng trăm lò nung gạch cổ sắp xếp dọc sông, đang hồi sinh thành điểm du lịch.", image: heroLandscape, age: "200+ năm" },
+      { name: "Vườn trái cây Cù lao An Bình", product: "Trái cây miệt vườn", description: "Cù lao An Bình nổi tiếng với các vườn trái cây xanh tươi trên đảo giữa sông Cổ Chiên, cho khách trải nghiệm hái trái và sống cùng nông dân.", image: heroLandscape, age: "200+ năm" },
+      { name: "Đan đát lục bình", product: "Đồ thủ công lục bình", description: "Nghề đan đát lục bình phổ biến ở Vĩnh Long, tạo ra sản phẩm thủ công mỹ nghệ xuất khẩu từ cây lục bình hoang dã sông nước.", image: heroLandscape, age: "100+ năm" },
+      { name: "Làng nghề nem Vĩnh Long", product: "Nem chua, chả lụa", description: "Làng nghề làm nem chua và chả lụa truyền thống của người dân Vĩnh Long với hương vị đặc trưng miền Tây được bày bán rộng rãi.", image: heroLandscape, age: "100+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội Đua ghe ngo", date: "Rằm tháng 10 âm lịch", description: "Lễ hội đua ghe ngo truyền thống của người Khmer Vĩnh Long – ghe ngo dài hơn 20m với hàng chục tay chèo đua trên sông Cổ Chiên.", significance: "Lễ hội đua ghe người Khmer", image: heroLandscape },
+      { name: "Lễ hội Nghinh Ông", date: "Tháng Giêng âm lịch", description: "Lễ hội cầu ngư của ngư dân vùng sông nước Vĩnh Long với lễ rước linh và các hoạt động cầu bình an cho năm mới.", significance: "Lễ hội tín ngưỡng sông nước", image: heroLandscape },
+      { name: "Lễ hội trái cây miệt vườn", date: "Mùa trái cây tháng 5-7", description: "Lễ hội tôn vinh sản vật miệt vườn với trưng bày, thi hái trái và thưởng thức các loại trái cây đặc sản Vĩnh Long.", significance: "Lễ hội nông nghiệp miệt vườn", image: heroLandscape },
+      { name: "Lễ Kỳ Yên", date: "Tháng 2 âm lịch", description: "Lễ cúng đình Kỳ Yên cầu an năm mới tại các đình làng Vĩnh Long với hát bội, múa lân và lễ cúng thần hoàng truyền thống.", significance: "Lễ hội đình làng Nam Bộ", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bánh xèo",
@@ -1338,6 +1957,30 @@ const provinces = [
     accentColor: "#b91c1c",
     heroImage: heroLandscape,
     introImage: heroLandscape,
+    stats: [
+      { value: "300+", label: "Năm lịch sử" },
+      { value: "100+", label: "Di tích danh thắng" },
+      { value: "40+", label: "Lễ hội truyền thống" },
+      { value: "40+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thế kỷ XVII", title: "Khai hoang đất Đồng Tháp Mười", description: "Lưu dân người Việt bắt đầu khai hoang vùng Đồng Tháp Mười – vùng trũng lớn nhất Nam Bộ với lau sậy và nước lũ mênh mông.", icon: "🌾", image: heroLandscape },
+      { year: "1832", title: "Tỉnh An Giang và Sa Đéc", description: "Khu vực Đồng Tháp ngày nay từng thuộc tỉnh An Giang và Sa Đéc dưới triều Nguyễn, là vùng sản xuất lúa gạo quan trọng Nam Kỳ.", icon: "🏛️", image: heroLandscape },
+      { year: "Thế kỷ XIX-XX", title: "Kháng chiến Đồng Tháp Mười", description: "Đồng Tháp Mười là vùng căn cứ kháng chiến quan trọng trong cả hai cuộc kháng chiến chống Pháp và chống Mỹ.", icon: "⭐", image: heroLandscape },
+      { year: "Hiện đại", title: "Xứ sen hồng Sa Đéc", description: "Đồng Tháp nổi tiếng với làng hoa Sa Đéc, đồng sen bạt ngàn và hủ tiếu Sa Đéc thương hiệu – điểm đến du lịch sinh thái hấp dẫn.", icon: "🌸", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng hoa Sa Đéc", product: "Hoa tươi đặc sắc", description: "Làng hoa Sa Đéc cung cấp hoa tươi cho cả nước dịp Tết và quanh năm, nổi tiếng với các loại hoa cúc, hoa hồng và cây kiểng.", image: heroLandscape, age: "100+ năm" },
+      { name: "Làng nghề nem Lai Vung", product: "Nem chua đặc sản", description: "Nem Lai Vung – đặc sản nổi tiếng cả nước với vị chua ngọt, thơm lừng từ thịt heo và bì heo lên men theo công thức truyền thống.", image: heroLandscape, age: "100+ năm" },
+      { name: "Làng chiếu Định Yên", product: "Chiếu cói", description: "Làng nghề dệt chiếu cói Định Yên nổi tiếng vùng đồng bằng với chợ chiếu họp vào ban đêm dưới ánh đèn – nét văn hóa độc đáo hiếm có.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng dệt thổ cẩm Khmer Lấp Vò", product: "Thổ cẩm Khmer", description: "Nghề dệt thổ cẩm của người Khmer Lấp Vò với màu sắc rực rỡ, hoa văn độc đáo phản ánh văn hóa dân tộc Khmer Nam Bộ.", image: heroLandscape, age: "Truyền thống lâu đời" }
+    ],
+    festivals: [
+      { name: "Lễ hội Sen hồng Đồng Tháp", date: "Tháng 5-6 hàng năm", description: "Lễ hội tôn vinh hoa sen – loài hoa biểu trưng của Đồng Tháp với các hoạt động tham quan đồng sen, thưởng thức ẩm thực sen.", significance: "Lễ hội hoa sen đặc trưng", image: heroLandscape },
+      { name: "Lễ hội Xây Chầu – Đại Bội", date: "Rằm tháng 11 âm lịch", description: "Lễ hội dân gian đặc sắc tại các đình làng Đồng Tháp với nghi thức hát bội, cúng đình và các trò chơi dân gian.", significance: "Lễ hội đình làng Nam Bộ", image: heroLandscape },
+      { name: "Lễ Vu Lan người Khmer (Sen Dolta)", date: "Tháng 8-9 âm lịch", description: "Lễ hội cúng tổ tiên của người Khmer diễn ra tại các chùa, kéo dài vài ngày với lễ dâng cơm, thả đèn nước và múa Apsara.", significance: "Lễ hội Phật giáo người Khmer", image: heroLandscape },
+      { name: "Lễ hội Ok Om Bok", date: "Rằm tháng 10 âm lịch", description: "Lễ hội cúng trăng của người Khmer với lễ đút cốm dẹp và đua ghe ngo trên sông – sự kiện văn hóa đặc sắc Đồng Tháp.", significance: "Lễ hội đua ghe ngo Khmer", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Cá lóc nướng trui",
@@ -1398,6 +2041,30 @@ const provinces = [
     accentColor: "#065f46",
     heroImage: heroLandscape,
     introImage: seafoodImage,
+    stats: [
+      { value: "300+", label: "Năm lịch sử" },
+      { value: "100+", label: "Di tích danh thắng" },
+      { value: "30+", label: "Lễ hội truyền thống" },
+      { value: "3 triệu ha", label: "Rừng ngập mặn" }
+    ],
+    timeline: [
+      { year: "Thế kỷ XVIII", title: "Khai hoang đất Cà Mau", description: "Các lưu dân người Việt đến khai phá vùng đất cuối trời Nam – vùng rừng ngập mặn hoang vu bên biển Đông và vịnh Thái Lan.", icon: "🌿", image: heroLandscape },
+      { year: "1832", title: "Tỉnh An Giang mở rộng", description: "Vùng đất Cà Mau thuộc hạt Hà Tiên sau đó sáp nhập dần vào lãnh thổ Nam Kỳ qua các đợt khai hoang và cải cách hành chính.", icon: "🗺️", image: heroLandscape },
+      { year: "1975", title: "Điểm cuối hành trình thống nhất", description: "Mũi Cà Mau trở thành biểu tượng hòa bình khi cả nước thống nhất – điểm Cực Nam của Tổ quốc như một câu chuyện huyền thoại về đất nước.", icon: "🇻🇳", image: heroLandscape },
+      { year: "Hiện đại", title: "Kinh tế biển và rừng ngập mặn", description: "Cà Mau phát triển kinh tế biển với tôm cua hải sản phong phú và rừng U Minh – khu dự trữ sinh quyển thế giới tại vùng đất cuối trời Nam.", icon: "🦀", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Nghề nuôi tôm Năm Căn", product: "Tôm sú nuôi trồng", description: "Năm Căn nổi tiếng với nghề nuôi tôm sú trong rừng ngập mặn – mô hình sinh thái bền vững tạo ra tôm sạch chất lượng xuất khẩu.", image: heroLandscape, age: "50+ năm" },
+      { name: "Nghề làm mắm Cà Mau", product: "Mắm cá biển", description: "Nghề làm mắm cá biển truyền thống của người Cà Mau với nhiều loại mắm: mắm cá sặc, mắm ba khía, mắm lóc... mỗi loại có hương vị riêng.", image: heroLandscape, age: "200+ năm" },
+      { name: "Đan đát cần xé", product: "Đồ đan lát", description: "Nghề đan cần xé và thúng mủng từ tre nứa của người dân Cà Mau phục vụ nhu cầu đánh bắt và nuôi trồng thủy sản.", image: heroLandscape, age: "Truyền thống" },
+      { name: "Nghề khai thác ba khía", product: "Ba khía muối", description: "Nghề khai thác và muối ba khía – loài cua nhỏ đặc trưng rừng ngập mặn Cà Mau, trở thành đặc sản nổi tiếng được người dân yêu thích.", image: heroLandscape, age: "Truyền thống" }
+    ],
+    festivals: [
+      { name: "Lễ hội Nghinh Ông Cà Mau", date: "Tháng Giêng âm lịch", description: "Lễ hội cầu ngư truyền thống của ngư dân Cà Mau với lễ rước kiệu Ông Nam Hải xuống biển, cầu bình an và mùa cá bội thu.", significance: "Lễ hội ngư dân truyền thống", image: heroLandscape },
+      { name: "Lễ hội Vàm Lũng", date: "Tháng 4 (30/4)", description: "Lễ kỷ niệm tại Vàm Lũng – bến cảng lịch sử tiếp nhận vũ khí theo đường Hồ Chí Minh trên biển, tưởng nhớ anh hùng liệt sỹ.", significance: "Lễ kỷ niệm lịch sử", image: heroLandscape },
+      { name: "Lễ hội Ok Om Bok", date: "Rằm tháng 10 âm lịch", description: "Lễ hội cúng trăng của người Khmer Cà Mau với lễ đút cốm dẹp và đua ghe ngo trên sông – nét văn hóa đa dân tộc đặc trưng.", significance: "Lễ hội dân tộc Khmer", image: heroLandscape },
+      { name: "Lễ Kỳ Yên Đình Cà Mau", date: "Tháng 2 âm lịch", description: "Lễ cúng đình Kỳ Yên cầu an năm mới tại các đình làng Cà Mau với hát bội và các nghi lễ dân gian truyền thống miền Nam.", significance: "Lễ hội đình làng Nam Bộ", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Cua Cà Mau",
@@ -1458,6 +2125,30 @@ const provinces = [
     accentColor: "#15803d",
     heroImage: heroLandscape,
     introImage: heroLandscape,
+    stats: [
+      { value: "300+", label: "Năm lịch sử" },
+      { value: "100+", label: "Di tích văn hóa" },
+      { value: "50+", label: "Lễ hội truyền thống" },
+      { value: "Số 1", label: "Lúa gạo miền Nam" }
+    ],
+    timeline: [
+      { year: "Thế kỷ XVII", title: "Đất Hà Tiên thuở ban đầu", description: "Vùng An Giang ngày nay là phần đất phía bắc của trấn Hà Tiên xưa, được khai hoang bởi dòng người Việt di dân từ miền Trung.", icon: "🌾", image: heroLandscape },
+      { year: "1832", title: "Tỉnh An Giang thành lập", description: "Vua Minh Mạng lập tỉnh An Giang – một trong 6 tỉnh Nam Kỳ đầu tiên, trở thành trung tâm hành chính và kinh tế vùng biên giới.", icon: "🏛️", image: heroLandscape },
+      { year: "1849", title: "Đạo Bửu Sơn Kỳ Hương", description: "Đức Phật Thầy Tây An khai lập đạo Bửu Sơn Kỳ Hương tại núi Sam – tôn giáo đặc trưng Nam Bộ có ảnh hưởng sâu rộng đến người dân An Giang.", icon: "⭐", image: heroLandscape },
+      { year: "Hiện đại", title: "Vựa lúa và điểm hành hương", description: "An Giang là tỉnh đầu nguồn sông Cửu Long với sản lượng lúa lớn nhất miền Nam và là điểm hành hương nổi tiếng tại núi Sam, núi Cấm.", icon: "🏔️", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng lụa Tân Châu", product: "Lụa mặc nưa", description: "Lụa Tân Châu (lụa mặc nưa) – đặc sản vải lụa nhuộm đen từ trái mặc nưa độc đáo nhất Việt Nam, mềm mịn và bền màu theo thời gian.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng nghề mộc Long Điền", product: "Đồ gỗ mỹ nghệ", description: "Làng nghề chế tác gỗ Long Điền Chợ sản xuất tủ thờ, bàn ghế và đồ mỹ nghệ gỗ quý với kỹ thuật điêu khắc tinh xảo.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng mắm Châu Đốc", product: "Mắm cá đồng", description: "Châu Đốc nổi tiếng là thủ đô mắm miền Tây với hàng chục loại mắm cá khác nhau, được sản xuất thủ công bằng cá đồng nước ngọt.", image: heroLandscape, age: "200+ năm" },
+      { name: "Bonsai kiểng cổ Long Xuyên", product: "Cây kiểng nghệ thuật", description: "Nghề chơi và chế tác cây kiểng bonsai tại Long Xuyên với những tác phẩm nghệ thuật độc đáo từ cây tự nhiên địa phương.", image: heroLandscape, age: "100+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội Vía Bà Chúa Xứ núi Sam", date: "24-27 tháng 4 âm lịch", description: "Một trong những lễ hội lớn nhất Nam Bộ tại Miếu Bà Chúa Xứ với lễ rước bà, tắm bà và đám rước hoành tráng thu hút hàng triệu du khách.", significance: "Lễ hội lớn nhất Nam Bộ", image: heroLandscape },
+      { name: "Lễ hội Đua bò Bảy Núi", date: "Rằm tháng 10 âm lịch", description: "Lễ hội đua bò độc đáo nhất Việt Nam của người Khmer Bảy Núi với các cặp bò đua trên ruộng lúa trong không khí sôi động.", significance: "Lễ hội đua bò độc đáo nhất VN", image: heroLandscape },
+      { name: "Lễ Ok Om Bok", date: "Rằm tháng 10 âm lịch", description: "Lễ cúng trăng của người Khmer An Giang với lễ đút cốm dẹp cầu mưa thuận gió hòa và thả đèn gió rực sáng trên bầu trời đêm.", significance: "Lễ hội tín ngưỡng người Khmer", image: heroLandscape },
+      { name: "Lễ hội Mùa nước nổi", date: "Tháng 8-10 dương lịch", description: "Lễ hội tôn vinh mùa lũ đặc trưng đồng bằng sông Cửu Long tại An Giang với các hoạt động câu cá, bắt cá và thưởng thức hải sản mùa lũ.", significance: "Lễ hội đặc trưng mùa nước nổi", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bún cá Châu Đốc",
@@ -1518,6 +2209,30 @@ const provinces = [
     accentColor: "#0ea5e9",
     heroImage: halongImage,
     introImage: halongImage,
+    stats: [
+      { value: "1969", label: "Năm Hạ Long được khám phá" },
+      { value: "1969 hòn đảo", label: "Trong vịnh Hạ Long" },
+      { value: "2x", label: "Kỳ quan thiên nhiên UNESCO" },
+      { value: "100+", label: "Lễ hội truyền thống" }
+    ],
+    timeline: [
+      { year: "Thời tiền sử", title: "Văn hóa Hạ Long cổ đại", description: "Vịnh Hạ Long đã có người ở từ thời tiền sử với nền Văn hóa Hạ Long độc đáo, để lại di chỉ khảo cổ trong nhiều hang động đảo đá.", icon: "🏺", image: heroLandscape },
+      { year: "Thế kỷ XIII", title: "Chiến thắng Bạch Đằng", description: "Vùng biển Quảng Ninh chứng kiến trận chiến trên sông Bạch Đằng 1288 lịch sử – nơi Trần Hưng Đạo tiêu diệt đại quân Nguyên Mông.", icon: "⚔️", image: heroLandscape },
+      { year: "1994", title: "Kỳ quan thiên nhiên thế giới lần 1", description: "Vịnh Hạ Long lần đầu được UNESCO công nhận là Di sản thiên nhiên thế giới về giá trị thẩm mỹ với hàng nghìn đảo đá kỳ vĩ.", icon: "🌏", image: heroLandscape },
+      { year: "2000", title: "Kỳ quan thiên nhiên thế giới lần 2", description: "Vịnh Hạ Long được UNESCO tái công nhận lần 2 về giá trị địa chất địa mạo – cột mốc khẳng định tầm vóc di sản thiên nhiên vô giá.", icon: "⭐", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng chài Cửa Vạn", product: "Hải sản biển khơi", description: "Làng chài nổi trên vịnh Hạ Long – cộng đồng ngư dân sống trên thuyền hàng thế kỷ với nghề đánh cá và nuôi trồng hải sản.", image: heroLandscape, age: "300+ năm" },
+      { name: "Làng gốm Đông Triều", product: "Gốm men ngọc", description: "Làng gốm Đông Triều nổi tiếng với gốm men ngọc và gốm men trắng từ thời Trần, cung cấp đồ sứ cao cấp cho cung đình và thị trường.", image: heroLandscape, age: "700+ năm" },
+      { name: "Nghề than Hạ Long", product: "Than đá", description: "Quảng Ninh có trữ lượng than đá lớn nhất Việt Nam, nghề khai thác than đã gắn liền với lịch sử và kinh tế vùng đất này từ thế kỷ XIX.", image: heroLandscape, age: "150+ năm" },
+      { name: "Làng sứa biển Vân Đồn", product: "Hải sản đặc sản", description: "Vân Đồn nổi tiếng với nghề khai thác và chế biến các hải sản quý như sứa biển, hải sâm, bào ngư và ngọc trai.", image: heroLandscape, age: "200+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội Carnaval Hạ Long", date: "Tháng 4-5 hàng năm", description: "Lễ hội carnaval đặc sắc tại thành phố Hạ Long với diễu hành đường phố, trình diễn nghệ thuật và bắn pháo hoa trên vịnh Hạ Long.", significance: "Lễ hội du lịch quốc tế", image: heroLandscape },
+      { name: "Lễ hội Đình Quan Lạn", date: "Ngày 18 tháng 6 âm lịch", description: "Lễ hội tại đình Quan Lạn tưởng nhớ trận chiến chống quân Nguyên Mông trên vịnh Bái Tử Long với đua thuyền truyền thống.", significance: "Lễ hội lịch sử kháng Nguyên", image: heroLandscape },
+      { name: "Lễ hội Yên Tử", date: "Mùng 10 tháng Giêng đến tháng 3", description: "Lễ hội hành hương lớn nhất miền Bắc tại núi Yên Tử – nơi vua Trần Nhân Tông xuất gia lập thiền phái Trúc Lâm Yên Tử.", significance: "Lễ hội hành hương Phật giáo", image: heroLandscape },
+      { name: "Lễ hội đền Cửa Ông", date: "Tháng Giêng âm lịch", description: "Lễ hội tại đền Cửa Ông thờ Hưng Nhượng Vương Trần Quốc Tảng với nghi lễ rước bộ, rước thuyền và nhiều hoạt động văn hóa.", significance: "Lễ hội tín ngưỡng biển đảo", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Chả mực",
@@ -1578,6 +2293,30 @@ const provinces = [
     accentColor: "#0f766e",
     heroImage: heroLandscape,
     introImage: coffeeImage,
+    stats: [
+      { value: "2000+", label: "Năm lịch sử" },
+      { value: "200+", label: "Di tích văn hóa" },
+      { value: "40+", label: "Lễ hội truyền thống" },
+      { value: "272m", label: "Chiều rộng thác Bản Giốc" }
+    ],
+    timeline: [
+      { year: "Thời Hùng Vương", title: "Đất cổ biên thùy", description: "Cao Bằng là vùng đất biên thùy phía Bắc với người Tày, Nùng cư trú từ thời Hùng Vương, gắn liền với truyền thuyết về nàng Tô Thị.", icon: "🗻", image: heroLandscape },
+      { year: "1941", title: "Căn cứ địa Việt Bắc", description: "Pác Bó – Cao Bằng là nơi Bác Hồ về nước và bắt đầu lãnh đạo cách mạng Việt Nam năm 1941, khai sinh Mặt trận Việt Minh.", icon: "⭐", image: heroLandscape },
+      { year: "1979", title: "Chiến tranh biên giới phía Bắc", description: "Cao Bằng là chiến trường ác liệt trong cuộc chiến tranh bảo vệ biên giới phía Bắc 1979, người dân anh dũng chống giặc giữ đất.", icon: "🛡️", image: heroLandscape },
+      { year: "2018", title: "Công viên địa chất UNESCO", description: "Công viên địa chất Non nước Cao Bằng được UNESCO công nhận là Công viên địa chất toàn cầu, bảo tồn cảnh quan đá vôi kỳ vĩ.", icon: "🌏", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng nghề rèn Phúc Sen", product: "Dao kiếm thủ công", description: "Làng rèn Phúc Sen của người Nùng An nổi tiếng với dao, liềm và các dụng cụ bằng thép rèn thủ công chất lượng cao từ hàng trăm năm.", image: heroLandscape, age: "300+ năm" },
+      { name: "Dệt thổ cẩm Tày", product: "Vải thổ cẩm Tày", description: "Nghề dệt thổ cẩm của người Tày Cao Bằng với hoa văn hình học tinh tế, sử dụng sợi tự nhiên nhuộm màu từ thực vật địa phương.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Làng đan cót Quảng Uyên", product: "Cót tre", description: "Làng nghề đan cót tre Quảng Uyên cung cấp nguyên liệu bao gói nông sản và vật dụng đời sống cho người dân vùng núi.", image: heroLandscape, age: "Truyền thống" },
+      { name: "Nghề nấu rượu ngô Hà Quảng", product: "Rượu ngô đặc sản", description: "Nghề nấu rượu ngô truyền thống của người H'Mông và Tày Hà Quảng từ ngô nếp nương, tạo ra rượu thơm ngon đặc sắc vùng cao.", image: heroLandscape, age: "Truyền thống lâu đời" }
+    ],
+    festivals: [
+      { name: "Lễ hội Lồng Tồng", date: "Mùng 5-7 tháng Giêng", description: "Lễ hội xuống đồng lớn nhất của người Tày Cao Bằng cầu mưa thuận gió hòa và mùa màng bội thu với nhiều trò chơi dân gian.", significance: "Lễ hội nông nghiệp người Tày", image: heroLandscape },
+      { name: "Lễ hội Nàng Hai", date: "Rằm tháng 2 âm lịch", description: "Lễ hội độc đáo của người Tày thờ thần Mặt Trăng với các nghi lễ hát Then và đàn Tính dưới ánh trăng huyền bí.", significance: "Lễ hội tín ngưỡng người Tày", image: heroLandscape },
+      { name: "Lễ hội Pác Bó", date: "Tháng 1-2 âm lịch", description: "Lễ hội tại khu di tích lịch sử Pác Bó – nơi Bác Hồ trở về nước, kết hợp giữa lễ dâng hương và trải nghiệm văn hóa vùng cao.", significance: "Lễ hội cách mạng lịch sử", image: heroLandscape },
+      { name: "Chợ phiên vùng cao", date: "Định kỳ hàng tuần", description: "Chợ phiên vùng cao Cao Bằng là nơi giao lưu văn hóa sắc tộc, với người Tày, Nùng, H'Mông mặc trang phục truyền thống đi chợ.", significance: "Văn hóa giao lưu dân tộc", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bánh cuốn Cao Bằng",
@@ -1638,6 +2377,30 @@ const provinces = [
     accentColor: "#9a3412",
     heroImage: heroLandscape,
     introImage: cuisineImage,
+    stats: [
+      { value: "2000+", label: "Năm lịch sử" },
+      { value: "300+", label: "Di tích văn hóa" },
+      { value: "50+", label: "Lễ hội truyền thống" },
+      { value: "Cửa khẩu", label: "Hữu Nghị Quan lịch sử" }
+    ],
+    timeline: [
+      { year: "Thế kỷ XI", title: "Ải Chi Lăng lịch sử", description: "Lạng Sơn là vùng đất biên thùy với ải Chi Lăng – nơi diễn ra nhiều trận đánh lịch sử chống quân xâm lược phương Bắc.", icon: "⚔️", image: heroLandscape },
+      { year: "1077", title: "Chiến thắng sông Như Nguyệt", description: "Lý Thường Kiệt chỉ huy quân dân ngăn chặn đại quân Tống tại sông Như Nguyệt, đọc Thần Tứ bất hủ khẳng định nền độc lập.", icon: "🛡️", image: heroLandscape },
+      { year: "1427", title: "Đại thắng Chi Lăng – Xương Giang", description: "Trận Chi Lăng – Xương Giang 1427 tiêu diệt đạo viện binh Minh, kết thúc 10 năm Lê Lợi lãnh đạo kháng chiến giành lại độc lập.", icon: "🏆", image: heroLandscape },
+      { year: "Hiện đại", title: "Cửa ngõ thương mại biên giới", description: "Lạng Sơn phát triển thành trung tâm thương mại biên giới lớn nhất phía Bắc với cửa khẩu Hữu Nghị Quan giao thương Việt – Trung.", icon: "🏪", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng nghề chế biến hoa hồi", product: "Hoa hồi đặc sản", description: "Lạng Sơn là vùng trồng hoa hồi lớn nhất Việt Nam và thế giới, chế biến hoa hồi xuất khẩu hương liệu và gia vị quý giá toàn cầu.", image: heroLandscape, age: "400+ năm" },
+      { name: "Dệt thổ cẩm Tày – Nùng", product: "Thổ cẩm truyền thống", description: "Nghề dệt thổ cẩm của người Tày, Nùng Lạng Sơn với màu sắc tươi sáng và hoa văn truyền thống phản ánh đời sống văn hóa độc đáo.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Làng làm bánh ngải", product: "Bánh ngải dân tộc", description: "Bánh ngải là đặc sản của người Tày Lạng Sơn làm từ lá ngải cứu nếp và nhân đậu xanh – mang hương vị dân tộc không thể nhầm lẫn.", image: heroLandscape, age: "Truyền thống" },
+      { name: "Nghề nuôi ong rừng Bình Gia", product: "Mật ong rừng", description: "Nghề nuôi ong và khai thác mật ong rừng tại vùng rừng núi Bình Gia, tạo ra mật ong nguyên chất có giá trị dinh dưỡng cao.", image: heroLandscape, age: "100+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội đền Kỳ Cùng – Tả Phủ", date: "22-27 tháng Giêng", description: "Lễ hội lớn nhất Lạng Sơn tại đền Kỳ Cùng và đền Tả Phủ với rước kiệu trên sông Kỳ Cùng và nhiều hoạt động văn hóa dân gian.", significance: "Lễ hội tín ngưỡng lớn nhất xứ Lạng", image: heroLandscape },
+      { name: "Hội Lồng Tồng", date: "Mùng 5-7 tháng Giêng", description: "Lễ hội xuống đồng đầu năm của người Tày Lạng Sơn cầu mưa thuận gió hòa với ném còn, múa sư tử và các trò chơi dân gian.", significance: "Lễ hội nông nghiệp người Tày", image: heroLandscape },
+      { name: "Chợ tình Lạng Sơn", date: "Tháng Giêng", description: "Chợ phiên đặc biệt nơi trai gái Tày, Nùng gặp gỡ, trao duyên bằng hát lượn và hát sli – nét văn hóa giao duyên dân gian độc đáo.", significance: "Văn hóa giao duyên dân tộc", image: heroLandscape },
+      { name: "Lễ hội Mẫu Sơn", date: "Tháng Giêng âm lịch", description: "Lễ hội tại núi Mẫu Sơn thờ thần núi linh thiêng với các nghi lễ tâm linh và trải nghiệm leo núi trong tuyết lạnh hiếm gặp.", significance: "Lễ hội thần núi đặc trưng", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Vịt quay",
@@ -1698,6 +2461,30 @@ const provinces = [
     accentColor: "#0f766e",
     heroImage: heroLandscape,
     introImage: coffeeImage,
+    stats: [
+      { value: "20+", label: "Dân tộc thiểu số" },
+      { value: "100+", label: "Lễ hội dân gian" },
+      { value: "3143m", label: "Đỉnh Pu Si Lung cao nhất" },
+      { value: "30+", label: "Làng nghề truyền thống" }
+    ],
+    timeline: [
+      { year: "Thời cổ đại", title: "Đất đai của người Thái", description: "Lai Châu là quê hương của người Thái trắng từ ngàn năm trước, với nền văn hóa phong phú gắn liền với sông suối và ruộng bậc thang.", icon: "🏔️", image: heroLandscape },
+      { year: "Thế kỷ XIX", title: "Tỉnh Lai Châu thành lập", description: "Người Pháp thành lập tỉnh Lai Châu kiểm soát vùng biên giới phía Tây Bắc, mở đường và khai thác tài nguyên thiên nhiên vùng núi.", icon: "🗺️", image: heroLandscape },
+      { year: "1953", title: "Giải phóng Lai Châu", description: "Chiến dịch Lai Châu 1953 giải phóng toàn tỉnh khỏi ách thực dân Pháp, tạo bàn đạp cho chiến thắng Điện Biên Phủ lịch sử.", icon: "🇻🇳", image: heroLandscape },
+      { year: "Hiện đại", title: "Vùng đất bản sắc vùng cao", description: "Lai Châu phát triển du lịch văn hóa với ruộng bậc thang Sìn Hồ, lễ hội dân tộc và cảnh quan thiên nhiên hùng vĩ còn nguyên sơ.", icon: "🌄", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Dệt thổ cẩm Thái trắng", product: "Thổ cẩm Thái trắng", description: "Nghề dệt thổ cẩm của phụ nữ Thái trắng Lai Châu với hoa văn hình chim, hoa lá tinh tế và sợi tự nhiên từ cây bông và lanh.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Làng đan lát Mường", product: "Đồ đan Mường", description: "Nghề đan lát gùi, giỏ và đồ dùng hàng ngày của người Mường Lai Châu bằng tre nứa địa phương theo kỹ thuật truyền thống.", image: heroLandscape, age: "Truyền thống" },
+      { name: "Nghề rèn H'Mông", product: "Dao rèn thủ công", description: "Người H'Mông Lai Châu nổi tiếng với nghề rèn dao kiếm bằng sắt rèn tay theo bí quyết truyền thống, tạo ra công cụ bền chắc.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Nghề làm Nâm Đin", product: "Rượu men lá", description: "Rượu nấu từ men lá tự nhiên của người Thái Lai Châu với hương vị thơm đặc biệt từ các loại thảo mộc rừng núi.", image: heroLandscape, age: "Truyền thống" }
+    ],
+    festivals: [
+      { name: "Lễ hội Then Kin Pang", date: "Tháng 2-3 âm lịch", description: "Lễ hội lớn nhất của người Thái trắng Lai Châu với hát Then, đàn Tính và các nghi lễ tâm linh cầu bình an sức khỏe.", significance: "Lễ hội lớn nhất người Thái trắng", image: heroLandscape },
+      { name: "Chợ phiên Sìn Hồ", date: "Chủ nhật hàng tuần", description: "Chợ phiên cao nguyên Sìn Hồ – nơi giao lưu văn hóa đa sắc tộc với người Thái, H'Mông, Dao, Lự mặc trang phục truyền thống.", significance: "Văn hóa chợ phiên vùng cao", image: heroLandscape },
+      { name: "Lễ Cốm Lai Châu", date: "Mùa gặt tháng 9-10", description: "Lễ hội cốm của người Thái trắng mừng mùa gặt với các nghi lễ tạ ơn thần lúa và ăn cốm dẻo thơm vừa gặt từ ruộng bậc thang.", significance: "Lễ hội thu hoạch mùa màng", image: heroLandscape },
+      { name: "Lễ hội Gầu Tào", date: "Mùng 1-3 Tết", description: "Lễ hội đầu năm lớn nhất của người H'Mông với múa khèn, ném pao và hát dân ca cầu mong gia đình hạnh phúc, mùa màng bội thu.", significance: "Lễ hội người H'Mông đặc trưng", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Thịt trâu gác bếp",
@@ -1758,6 +2545,30 @@ const provinces = [
     accentColor: "#b45309",
     heroImage: heroLandscape,
     introImage: coffeeImage,
+    stats: [
+      { value: "1954", label: "Năm chiến thắng lịch sử" },
+      { value: "56 ngày", label: "Chiến dịch Điện Biên Phủ" },
+      { value: "20+", label: "Dân tộc anh em" },
+      { value: "Lòng chảo", label: "Mường Thanh rộng lớn nhất Tây Bắc" }
+    ],
+    timeline: [
+      { year: "Thời cổ đại", title: "Mường Thanh – vùng đất lịch sử", description: "Cánh đồng Mường Thanh (nay là Điện Biên Phủ) là vùng đất trù phú bậc nhất Tây Bắc, nơi nhiều dân tộc Thái, H'Mông sinh sống từ ngàn năm.", icon: "🌾", image: heroLandscape },
+      { year: "1953-1954", title: "Chiến dịch Điện Biên Phủ", description: "Đại tướng Võ Nguyên Giáp chỉ huy chiến dịch Điện Biên Phủ lịch sử 1954, đánh tan đội quân Pháp tinh nhuệ, kết thúc chiến tranh Đông Dương.", icon: "⭐", image: heroLandscape },
+      { year: "1954", title: "Chiến thắng rạng ngời", description: "Ngày 7/5/1954, hầm De Castries thất thủ, chiến thắng Điện Biên Phủ vang dội khắp thế giới – cột mốc lịch sử của cuộc chiến tranh giải phóng dân tộc.", icon: "🏆", image: heroLandscape },
+      { year: "Hiện đại", title: "Hành hương về đất anh hùng", description: "Điện Biên trở thành điểm đến lịch sử hàng đầu Việt Nam với Khu di tích Điện Biên Phủ và văn hóa đa dân tộc phong phú.", icon: "🇻🇳", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Dệt thổ cẩm Thái", product: "Thổ cẩm Thái Điện Biên", description: "Nghề dệt thổ cẩm của phụ nữ Thái Điện Biên với hoa văn đặc trưng cánh đồng Mường Thanh, sử dụng chỉ màu tự nhiên từ cây rừng.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Nghề đan gùi H'Mông", product: "Gùi thổ cẩm", description: "Gùi H'Mông Điện Biên được đan bằng tre nứa và trang trí thổ cẩm, vừa là vật dụng hàng ngày vừa là sản phẩm thủ công mỹ nghệ.", image: heroLandscape, age: "Truyền thống" },
+      { name: "Nghề làm nhạc cụ truyền thống", product: "Khèn, sáo", description: "Nghề làm khèn H'Mông và sáo Thái tại Điện Biên – nhạc cụ gắn liền với các lễ hội dân gian và đời sống tinh thần của đồng bào.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Làng chè Tủa Chùa", product: "Chè Shan tuyết cổ thụ", description: "Tủa Chùa có những vườn chè Shan tuyết cổ thụ trăm năm tuổi mọc hoang dã trên núi cao, cho ra loại chè đặc sản quý hiếm.", image: heroLandscape, age: "100+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội Hoa Ban", date: "Tháng 2-3 âm lịch", description: "Lễ hội mùa xuân lớn nhất của người Thái Tây Bắc với hoa ban nở trắng núi rừng, múa xòe và hát thơ đêm giao duyên.", significance: "Lễ hội mùa xuân Thái đặc trưng", image: heroLandscape },
+      { name: "Lễ kỷ niệm chiến thắng Điện Biên Phủ", date: "Ngày 7/5", description: "Lễ kỷ niệm chiến thắng Điện Biên Phủ 7/5/1954 hàng năm với diễu binh, dâng hương tại nghĩa trang liệt sỹ và các hoạt động tri ân.", significance: "Lễ kỷ niệm lịch sử quốc gia", image: heroLandscape },
+      { name: "Lễ hội Gầu Tào H'Mông", date: "Mùng 1-5 Tết", description: "Lễ hội đầu năm của người H'Mông Điện Biên với múa khèn, ném pao và hội chợ phiên vùng cao sôi động đầu xuân.", significance: "Lễ hội người H'Mông", image: heroLandscape },
+      { name: "Chợ phiên Điện Biên Đông", date: "Định kỳ hàng tuần", description: "Chợ phiên vùng cao đa sắc tộc – nơi giao lưu văn hóa và thương mại của người Thái, H'Mông, Khơ Mú vùng biên giới.", significance: "Chợ phiên đa sắc tộc", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Xôi nếp nương",
@@ -1818,6 +2629,30 @@ const provinces = [
     accentColor: "#15803d",
     heroImage: heroLandscape,
     introImage: coffeeImage,
+    stats: [
+      { value: "1050m", label: "Độ cao Mộc Châu" },
+      { value: "12+", label: "Dân tộc thiểu số" },
+      { value: "100+", label: "Lễ hội văn hóa" },
+      { value: "30+", label: "Làng nghề truyền thống" }
+    ],
+    timeline: [
+      { year: "Thời cổ đại", title: "Vương quốc Thái trắng", description: "Sơn La là vùng đất của người Thái trắng từ ngàn xưa với tổ chức xã hội Mường, bản độc đáo và văn hóa xòe Thái phong phú.", icon: "🏔️", image: heroLandscape },
+      { year: "Thế kỷ XIX", title: "Nhà tù Sơn La thực dân", description: "Thực dân Pháp xây nhà tù Sơn La để giam cầm các chiến sỹ cách mạng – nơi nhiều lãnh đạo Đảng bị giam giữ và tiếp tục hoạt động.", icon: "⛓️", image: heroLandscape },
+      { year: "1952", title: "Giải phóng Sơn La", description: "Chiến dịch Tây Bắc 1952 giải phóng Sơn La, tạo vùng tự do Tây Bắc quan trọng cho cách mạng và sau đó là chiến thắng Điện Biên Phủ.", icon: "⭐", image: heroLandscape },
+      { year: "Hiện đại", title: "Mộc Châu – thiên đường mùa hoa", description: "Mộc Châu nổi tiếng với hoa cải trắng, hoa mận, hoa đào bung nở đầu xuân – điểm đến du lịch hàng đầu miền Bắc mỗi dịp Tết.", icon: "🌸", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Dệt thổ cẩm bản Áng", product: "Thổ cẩm Thái", description: "Bản Áng – Mộc Châu nổi tiếng với nghề dệt thổ cẩm Thái trắng tuyệt đẹp, các sản phẩm khăn piêu, váy áo được du khách yêu thích.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Nghề làm rượu cần", product: "Rượu cần truyền thống", description: "Rượu cần – thức uống không thể thiếu trong lễ hội của người Thái, Mường Sơn La, được ủ từ gạo nếp và men lá theo bí quyết gia truyền.", image: heroLandscape, age: "Truyền thống" },
+      { name: "Mộc Châu – vườn chè", product: "Chè Shan tuyết Mộc Châu", description: "Vùng chè Mộc Châu với giống chè Shan tuyết và OIM cung cấp nguyên liệu cho các thương hiệu chè nổi tiếng và xuất khẩu quốc tế.", image: heroLandscape, age: "50+ năm" },
+      { name: "Trang trại bò sữa", product: "Sản phẩm từ sữa bò", description: "Mộc Châu nổi tiếng với các trang trại bò sữa quy mô lớn, sản xuất sữa tươi và các sản phẩm từ sữa chất lượng cao.", image: heroLandscape, age: "50+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội Hoa Đào Mộc Châu", date: "Tháng 1-2 (mùa hoa nở)", description: "Lễ hội mùa hoa đào, mận bung nở ở Mộc Châu thu hút hàng chục nghìn du khách mỗi dịp Tết đến ngắm cảnh thiên nhiên thơ mộng.", significance: "Lễ hội mùa hoa đặc trưng", image: heroLandscape },
+      { name: "Lễ hội Hoa Ban", date: "Tháng 2-3 âm lịch", description: "Lễ hội mùa xuân của người Thái Sơn La với hoa ban nở trắng núi rừng, múa xòe và hát thơ giao duyên dưới ánh trăng.", significance: "Lễ hội mùa xuân người Thái", image: heroLandscape },
+      { name: "Lễ hội Mường Bú", date: "Mùng 13 tháng Giêng", description: "Lễ hội dân gian đặc sắc tại Mường Bú với các nghi lễ cầu mùa, ném còn và múa xòe truyền thống của người Thái Sơn La.", significance: "Lễ hội dân gian người Thái", image: heroLandscape },
+      { name: "Chợ phiên Mộc Châu", date: "Định kỳ hàng tuần", description: "Chợ phiên Mộc Châu là nơi gặp gỡ của người Thái, H'Mông, Mường với các sản phẩm nông sản, thổ cẩm và đặc sản vùng cao.", significance: "Văn hóa chợ phiên đa dân tộc", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bê chao Mộc Châu",
@@ -1878,6 +2713,30 @@ const provinces = [
     accentColor: "#9a3412",
     heroImage: heroLandscape,
     introImage: cuisineImage,
+    stats: [
+      { value: "2000+", label: "Năm lịch sử" },
+      { value: "800+", label: "Di tích văn hóa" },
+      { value: "100+", label: "Lễ hội truyền thống" },
+      { value: "40+", label: "Làng nghề đặc sắc" }
+    ],
+    timeline: [
+      { year: "Thế kỷ I TCN", title: "Văn hóa Đông Sơn", description: "Thanh Hóa là trung tâm của nền văn hóa Đông Sơn nổi tiếng – văn hóa trống đồng đặc trưng của cư dân Việt cổ từ hơn 2000 năm trước.", icon: "🥁", image: heroLandscape },
+      { year: "40-43", title: "Khởi nghĩa Bà Triệu", description: "Bà Triệu Thị Trinh (Bà Triệu) phát động khởi nghĩa tại Thanh Hóa năm 248 chống ách thống trị Ngô, câu nói lừng danh: 'Tôi muốn cưỡi cơn gió mạnh, đạp sóng dữ...'", icon: "⚔️", image: heroLandscape },
+      { year: "1428", title: "Lê Lợi – khởi nghĩa Lam Sơn", description: "Lê Lợi xuất thân từ Lam Sơn – Thanh Hóa lãnh đạo 10 năm kháng chiến chống Minh, khai sinh triều Lê – triều đại lâu dài nhất Việt Nam.", icon: "🏆", image: heroLandscape },
+      { year: "Hiện đại", title: "Công nghiệp và biển xanh", description: "Thanh Hóa phát triển công nghiệp lọc hóa dầu Nghi Sơn trong khi bảo tồn di sản văn hóa Thành nhà Hồ và nghỉ dưỡng biển Sầm Sơn.", icon: "🌊", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng nghề chiếu cói Nga Sơn", product: "Chiếu cói đặc sản", description: "Chiếu cói Nga Sơn nổi tiếng cả nước với sợi cói dẻo bóng, màu sắc bền đẹp – sản phẩm truyền thống lâu đời được ưa chuộng rộng rãi.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng đúc đồng Trà Đông", product: "Đồ đồng mỹ nghệ", description: "Làng nghề đúc đồng Trà Đông (Thiệu Hóa) sản xuất trống đồng, chuông, lư hương và các vật dụng đồng nghệ thuật theo kỹ thuật truyền thống.", image: heroLandscape, age: "500+ năm" },
+      { name: "Nghề dệt lụa Hồng Đô", product: "Lụa tơ tằm", description: "Làng dệt lụa truyền thống tại Thiệu Hóa sản xuất lụa tơ tằm cao cấp với màu sắc tự nhiên và kỹ thuật dệt thủ công tinh tế.", image: heroLandscape, age: "300+ năm" },
+      { name: "Làng nghề bánh gai Tứ Trụ", product: "Bánh gai đặc sản", description: "Bánh gai Tứ Trụ – đặc sản Thọ Xuân nổi tiếng với vị dẻo thơm, nhân đậu xanh béo ngọt và lá gai từ vùng đất địa linh Lam Sơn.", image: heroLandscape, age: "200+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội Lam Kinh", date: "Ngày 22 tháng 8 âm lịch", description: "Lễ hội lớn nhất Thanh Hóa tưởng nhớ anh hùng Lê Lợi và các vua Lê tại Lam Kinh với rước kiệu, hát hò sông Mã và diễu hành truyền thống.", significance: "Quốc lễ tưởng nhớ nhà Lê", image: heroLandscape },
+      { name: "Lễ hội Bà Triệu", date: "Ngày 21-23 tháng 2 âm lịch", description: "Lễ hội tưởng nhớ Anh hùng dân tộc Triệu Thị Trinh tại núi Nưa, Yên Định với nghi lễ trang trọng, rước kiệu và biểu diễn tuồng chèo.", significance: "Lễ hội anh hùng dân tộc", image: heroLandscape },
+      { name: "Lễ hội đền Độc Cước", date: "Tháng 5-6 âm lịch", description: "Lễ hội tại đền Độc Cước trên vách đá ven biển Sầm Sơn thờ thần biển với nghi lễ cầu ngư và đua thuyền truyền thống.", significance: "Lễ hội thần biển Sầm Sơn", image: heroLandscape },
+      { name: "Hội vật Làng Sình", date: "Mùng 9-10 tháng Giêng", description: "Hội vật truyền thống đặc sắc với các đô vật từ khắp nơi về tranh tài trong không khí xuân tưng bừng của xứ Thanh.", significance: "Lễ hội thể thao dân gian", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Nem chua",
@@ -1938,6 +2797,30 @@ const provinces = [
     accentColor: "#b91c1c",
     heroImage: heroLandscape,
     introImage: cuisineImage,
+    stats: [
+      { value: "1000+", label: "Năm lịch sử" },
+      { value: "1000+", label: "Di tích văn hóa" },
+      { value: "100+", label: "Lễ hội truyền thống" },
+      { value: "Quê hương", label: "Chủ tịch Hồ Chí Minh" }
+    ],
+    timeline: [
+      { year: "Thế kỷ X", title: "Đất xứ Nghệ hào kiệt", description: "Nghệ An là đất địa linh nhân kiệt với nhiều danh nhân lịch sử như Nguyễn Trãi, Phan Bội Châu, và đặc biệt là Chủ tịch Hồ Chí Minh.", icon: "⭐", image: heroLandscape },
+      { year: "1890", title: "Sinh Chủ tịch Hồ Chí Minh", description: "Nguyễn Sinh Cung – sau này là Chủ tịch Hồ Chí Minh ra đời tại làng Sen, Kim Liên, Nghệ An, quê hương của vị lãnh tụ vĩ đại dân tộc.", icon: "🌟", image: heroLandscape },
+      { year: "1930-1931", title: "Xô viết Nghệ Tĩnh", description: "Phong trào Xô viết Nghệ Tĩnh 1930-1931 – cuộc đấu tranh cách mạng tiên phong của nhân dân xứ Nghệ dưới sự lãnh đạo của Đảng Cộng sản.", icon: "✊", image: heroLandscape },
+      { year: "2009", title: "Dân ca ví giặm UNESCO", description: "Dân ca Ví, Giặm Nghệ Tĩnh được UNESCO công nhận là Di sản văn hóa phi vật thể đại diện của nhân loại – biểu tượng âm nhạc dân gian xứ Nghệ.", icon: "🎶", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng dệt lụa Quỳnh Lưu", product: "Lụa tơ tằm", description: "Nghề dệt lụa truyền thống tại Quỳnh Lưu với sản phẩm tơ tằm mềm mịn, nổi tiếng tại các thị trường miền Bắc và miền Trung.", image: heroLandscape, age: "300+ năm" },
+      { name: "Làng nghề gỗ mỹ nghệ Thanh Chương", product: "Đồ gỗ điêu khắc", description: "Làng nghề chạm khắc gỗ tại Thanh Chương sản xuất đồ nội thất, tranh gỗ và đồ thờ cúng với kỹ thuật điêu khắc tinh xảo.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng nghề đá Diễn Châu", product: "Đá granit chế tác", description: "Vùng chế tác đá granit Diễn Châu với các sản phẩm trang trí, bia đá và công trình xây dựng phục vụ cả nước.", image: heroLandscape, age: "100+ năm" },
+      { name: "Làng chè Thanh Chương", product: "Chè đặc sản xứ Nghệ", description: "Vùng chè Thanh Chương – Con Cuông nổi tiếng với chè búp xanh tươi, hương thơm thanh mát là đặc sản của vùng đất miền Tây Nghệ An.", image: heroLandscape, age: "100+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội đền Cuông", date: "Tháng Giêng âm lịch", description: "Lễ hội lớn nhất Nghệ An tại đền Cuông thờ vua Thục Phán An Dương Vương với lễ rước kiệu, lễ tế và các trò chơi dân gian.", significance: "Lễ hội lớn nhất xứ Nghệ", image: heroLandscape },
+      { name: "Lễ hội đền Vua Lê", date: "Tháng 2 âm lịch", description: "Lễ hội kỷ niệm vua Lê Thái Tổ và nhà Lê tại các đền miếu xứ Nghệ với nghi lễ trang trọng và biểu diễn dân gian.", significance: "Lễ hội tưởng niệm triều Lê", image: heroLandscape },
+      { name: "Hội làng Sen", date: "Ngày 19/5", description: "Lễ kỷ niệm sinh nhật Bác Hồ tại làng Sen Kim Liên – quê hương của Chủ tịch Hồ Chí Minh với các hoạt động văn hóa ý nghĩa.", significance: "Lễ kỷ niệm Bác Hồ", image: heroLandscape },
+      { name: "Festival Dân ca ví giặm", date: "Hàng năm", description: "Festival tôn vinh dân ca Ví Giặm Nghệ Tĩnh với các buổi biểu diễn, giao lưu và trình diễn của các nghệ nhân hát ví giặm.", significance: "Di sản phi vật thể UNESCO", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Cháo lươn",
@@ -1998,6 +2881,30 @@ const provinces = [
     accentColor: "#92400e",
     heroImage: heroLandscape,
     introImage: cuisineImage,
+    stats: [
+      { value: "1000+", label: "Năm lịch sử" },
+      { value: "500+", label: "Di tích văn hóa" },
+      { value: "80+", label: "Lễ hội truyền thống" },
+      { value: "Quê hương", label: "Đại thi hào Nguyễn Du" }
+    ],
+    timeline: [
+      { year: "Thế kỷ X", title: "Vùng đất địa linh xứ Nghệ", description: "Hà Tĩnh là mảnh đất địa linh sản sinh nhiều danh nhân lịch sử, điển hình là đại thi hào Nguyễn Du – tác giả Truyện Kiều bất hủ.", icon: "📜", image: heroLandscape },
+      { year: "1765", title: "Nguyễn Du ra đời", description: "Đại thi hào Nguyễn Du sinh tại Tiên Điền, Hà Tĩnh – tác giả của Truyện Kiều, kiệt tác văn học Việt Nam được cả thế giới công nhận.", icon: "✍️", image: heroLandscape },
+      { year: "1930", title: "Xô viết Nghệ Tĩnh", description: "Nhân dân Hà Tĩnh cùng Nghệ An nổi dậy trong phong trào Xô viết Nghệ Tĩnh 1930-1931 – biểu tượng tinh thần yêu nước bất khuất.", icon: "✊", image: heroLandscape },
+      { year: "2009", title: "Dân ca ví giặm UNESCO", description: "Cùng Nghệ An, Hà Tĩnh đóng góp dân ca Ví Giặm được UNESCO công nhận Di sản văn hóa phi vật thể, khẳng định bản sắc văn hóa xứ Nghệ.", icon: "🎶", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng nghề mộc Thái Yên", product: "Đồ gỗ mỹ nghệ", description: "Làng nghề mộc Thái Yên sản xuất đồ nội thất, tủ thờ và tranh gỗ điêu khắc tinh xảo, nổi tiếng khắp miền Trung.", image: heroLandscape, age: "300+ năm" },
+      { name: "Làng chiếu cói Phú Lộc", product: "Chiếu cói", description: "Nghề dệt chiếu cói truyền thống tại vùng ven biển Hà Tĩnh với sản phẩm bền đẹp phục vụ đời sống và thị trường trong nước.", image: heroLandscape, age: "200+ năm" },
+      { name: "Kẹo cu đơ Hồng Lĩnh", product: "Kẹo cu đơ đặc sản", description: "Kẹo cu đơ – đặc sản nổi tiếng nhất Hà Tĩnh làm từ lạc và mật mía với vị ngọt bùi đặc trưng, gắn liền với vùng đất núi Hồng Lĩnh.", image: heroLandscape, age: "100+ năm" },
+      { name: "Nước mắm Kỳ Anh", product: "Nước mắm truyền thống", description: "Nghề làm nước mắm truyền thống tại Kỳ Anh với cá biển tươi nguyên liệu, tạo ra nước mắm thơm ngon đặc trưng vùng biển miền Trung.", image: heroLandscape, age: "200+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội đền Bà Hải", date: "Tháng Giêng âm lịch", description: "Lễ hội tín ngưỡng thờ Bà Hải – thần biển của ngư dân Hà Tĩnh với nghi lễ cầu ngư, rước thuyền và các trò chơi dân gian ven biển.", significance: "Lễ hội tín ngưỡng biển", image: heroLandscape },
+      { name: "Lễ hội Nguyễn Du", date: "Tháng 4 âm lịch", description: "Lễ hội tôn vinh đại thi hào Nguyễn Du tại Tiên Điền với các hoạt động đọc thơ, bình Kiều và triển lãm về cuộc đời tác giả.", significance: "Lễ hội văn học đặc trưng", image: heroLandscape },
+      { name: "Lễ hội đền Phủ Thổ", date: "Mùng 10-15 tháng Giêng", description: "Lễ hội dân gian tại Đức Thọ với các nghi thức tín ngưỡng thờ Mẫu và các trò chơi dân gian truyền thống.", significance: "Lễ hội tín ngưỡng dân gian", image: heroLandscape },
+      { name: "Hội đua thuyền Nghi Xuân", date: "Mùng 5 tháng 5 âm lịch", description: "Lễ hội đua thuyền truyền thống trên sông Ngàn Phố và sông Cả với các đội thuyền từ các xã thi đua trong không khí sôi động.", significance: "Lễ hội sông nước truyền thống", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Kẹo cu đơ",
@@ -2058,6 +2965,30 @@ const provinces = [
     accentColor: "#0f766e",
     heroImage: thangLongImage,
     introImage: cuisineImage,
+    stats: [
+      { value: "3000+", label: "Năm lịch sử" },
+      { value: "1000+", label: "Làng nghề truyền thống" },
+      { value: "300+", label: "Lễ hội truyền thống" },
+      { value: "15000 km²", label: "Diện tích đồng bằng" }
+    ],
+    timeline: [
+      { year: "2879 TCN", title: "Nhà nước Văn Lang ra đời", description: "Đồng bằng sông Hồng là cái nôi của nền văn minh Việt cổ với nhà nước Văn Lang của các vua Hùng – trung tâm chính trị và kinh tế đầu tiên.", icon: "👑", image: heroLandscape },
+      { year: "1010", title: "Thăng Long – kinh đô nghìn năm", description: "Vua Lý Thái Tổ dời đô về Thăng Long (Hà Nội) – trung tâm của đồng bằng sông Hồng trở thành kinh đô nghìn năm của đất nước.", icon: "🏯", image: heroLandscape },
+      { year: "Thế kỷ XVI-XVIII", title: "Trăm nghề trăm làng", description: "Đồng bằng sông Hồng phát triển rực rỡ với hàng trăm làng nghề thủ công: gốm Bát Tràng, lụa Vạn Phúc, tranh Đông Hồ, đúc đồng...", icon: "🎨", image: heroLandscape },
+      { year: "Hiện đại", title: "Trung tâm kinh tế miền Bắc", description: "Đồng bằng sông Hồng là trung tâm kinh tế, văn hóa, giáo dục miền Bắc với Hà Nội dẫn đầu và nhiều tỉnh thành phát triển năng động.", icon: "🌟", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Làng gốm Bát Tràng", product: "Gốm sứ cao cấp", description: "Bát Tràng – làng nghề gốm sứ nổi tiếng nhất Việt Nam từ thế kỷ XV, sản xuất gốm xuất khẩu chất lượng cao sang hàng chục quốc gia.", image: heroLandscape, age: "600+ năm" },
+      { name: "Làng lụa Vạn Phúc", product: "Lụa tơ tằm", description: "Lụa Vạn Phúc (Hà Đông) – thương hiệu lụa tơ tằm nổi tiếng nhất miền Bắc với những tấm lụa mềm mịn, hoa văn tinh tế dệt thủ công.", image: heroLandscape, age: "1200+ năm" },
+      { name: "Làng nghề cói Kim Sơn", product: "Chiếu cói", description: "Kim Sơn (Ninh Bình) là vùng trồng cói và dệt chiếu lớn nhất miền Bắc, sản xuất chiếu bền đẹp phục vụ thị trường cả nước.", image: heroLandscape, age: "200+ năm" },
+      { name: "Làng đúc đồng Đại Bái", product: "Đồ đồng thủ công", description: "Đại Bái (Bắc Ninh) – làng nghề đúc đồng lớn nhất miền Bắc với lịch sử gần 1000 năm, sản xuất chuông, tượng và đồ trang trí đồng.", image: heroLandscape, age: "900+ năm" }
+    ],
+    festivals: [
+      { name: "Giỗ Tổ Hùng Vương", date: "Mùng 10 tháng 3 âm lịch", description: "Lễ hội lớn nhất cả nước tưởng nhớ các vua Hùng dựng nước tại Phú Thọ – nguồn cội của đồng bằng sông Hồng và cả dân tộc Việt Nam.", significance: "Quốc giỗ dân tộc Việt Nam", image: heroLandscape },
+      { name: "Hội Lim", date: "Mùng 13 tháng Giêng", description: "Hội Lim Bắc Ninh – hội tụ tinh hoa dân ca Quan họ di sản UNESCO, với các hội chơi và thi hát trên thuyền và trên cạn.", significance: "Lễ hội dân ca Quan họ UNESCO", image: heroLandscape },
+      { name: "Lễ hội chùa Hương", date: "Mùng 6 tháng Giêng – tháng 3 âm lịch", description: "Lễ hội lớn nhất miền Bắc tại quần thể chùa Hương Hà Nội, thu hút hàng triệu du khách đi thuyền và leo núi hành hương.", significance: "Lễ hội Phật giáo lớn nhất miền Bắc", image: heroLandscape },
+      { name: "Hội Gióng đền Phù Đổng", date: "Mùng 8-9 tháng 4 âm lịch", description: "Lễ hội UNESCO di sản phi vật thể tại đền Phù Đổng Hà Nội tưởng nhớ Thánh Gióng đánh giặc Ân, tái hiện trận chiến qua nghi lễ đặc sắc.", significance: "Di sản phi vật thể UNESCO", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Bún thang",
@@ -2118,6 +3049,30 @@ const provinces = [
     accentColor: "#1d4ed8",
     heroImage: halongImage,
     introImage: heroLandscape,
+    stats: [
+      { value: "15+", label: "Dân tộc thiểu số" },
+      { value: "500+", label: "Lễ hội dân gian" },
+      { value: "100+", label: "Làng nghề truyền thống" },
+      { value: "2 kỳ quan", label: "UNESCO công nhận" }
+    ],
+    timeline: [
+      { year: "Thời tiền sử", title: "Đất cổ vùng Đông Bắc", description: "Vùng Đông Bắc là quê hương lâu đời của người Tày, Nùng, H'Mông, Dao... với nền văn hóa phong phú và bản sắc riêng biệt qua hàng nghìn năm.", icon: "🏔️", image: heroLandscape },
+      { year: "1288", title: "Chiến thắng Bạch Đằng", description: "Vùng biển và sông Đông Bắc chứng kiến trận Bạch Đằng lịch sử 1288 – Trần Hưng Đạo đánh tan quân Nguyên Mông lần thứ ba.", icon: "⚔️", image: heroLandscape },
+      { year: "2010", title: "Cao nguyên đá Đồng Văn – UNESCO", description: "Cao nguyên đá Đồng Văn được UNESCO công nhận là Công viên địa chất toàn cầu – vùng đá vôi kỳ vĩ với 400-500 triệu năm tuổi.", icon: "🌏", image: heroLandscape },
+      { year: "Hiện đại", title: "Du lịch bản sắc vùng cao", description: "Vùng Đông Bắc trở thành điểm đến du lịch khám phá hấp dẫn với ruộng bậc thang, chợ phiên đầy màu sắc và văn hóa dân tộc còn nguyên vẹn.", icon: "🌄", image: heroLandscape }
+    ],
+    craftVillages: [
+      { name: "Dệt thổ cẩm Tày – Nùng", product: "Thổ cẩm truyền thống", description: "Nghề dệt thổ cẩm của người Tày, Nùng Đông Bắc với hoa văn hình học màu sắc sặc sỡ, là di sản văn hóa đặc trưng của vùng biên giới.", image: heroLandscape, age: "Truyền thống lâu đời" },
+      { name: "Làng rèn Phúc Sen", product: "Dao rèn Cao Bằng", description: "Làng rèn Phúc Sen của người Nùng An Cao Bằng – nơi sản xuất dao, liềm và nông cụ rèn thủ công chất lượng cao nổi tiếng vùng Đông Bắc.", image: heroLandscape, age: "300+ năm" },
+      { name: "Nghề làm giấy dó Thái Nguyên", product: "Giấy dó thủ công", description: "Nghề làm giấy dó truyền thống – loại giấy thủ công từ vỏ cây dó dùng trong thư pháp, tranh dân gian và các nghi lễ tâm linh.", image: heroLandscape, age: "300+ năm" },
+      { name: "Chè shan tuyết Tuyên Quang", product: "Chè Shan tuyết cổ thụ", description: "Vùng chè Shan tuyết Tuyên Quang với những cây chè cổ thụ trăm năm mọc trên núi cao, cho búp chè chất lượng cao và hương thơm đặc biệt.", image: heroLandscape, age: "100+ năm" }
+    ],
+    festivals: [
+      { name: "Lễ hội hoa tam giác mạch Hà Giang", date: "Tháng 10-11 hàng năm", description: "Mùa hoa tam giác mạch nở rộ tràn ngập cao nguyên đá Đồng Văn – Mèo Vạc, thu hút hàng chục nghìn du khách khắp nơi đến chiêm ngưỡng.", significance: "Lễ hội hoa đặc trưng Đông Bắc", image: heroLandscape },
+      { name: "Lễ hội Lồng Tồng Cao Bằng", date: "Mùng 5-7 tháng Giêng", description: "Lễ hội xuống đồng đầu năm của người Tày Cao Bằng cầu mưa thuận gió hòa với các nghi lễ nông nghiệp và trò chơi dân gian truyền thống.", significance: "Lễ hội nông nghiệp người Tày", image: heroLandscape },
+      { name: "Chợ phiên Đồng Văn", date: "Chủ nhật hàng tuần", description: "Chợ phiên Đồng Văn Hà Giang – nơi giao lưu văn hóa của người Mông, Lô Lô, Pu Péo với trang phục rực rỡ và hàng hóa phong phú.", significance: "Văn hóa chợ phiên đặc sắc", image: heroLandscape },
+      { name: "Lễ hội Gầu Tào H'Mông", date: "Mùng 1-5 Tết Nguyên Đán", description: "Lễ hội đầu năm lớn nhất của người H'Mông vùng Đông Bắc với múa khèn, ném pao, thi hát dân ca và nhiều trò chơi dân gian.", significance: "Lễ hội người H'Mông đặc trưng", image: heroLandscape }
+    ],
     specialties: [
       {
         name: "Thắng cố",
