@@ -10,6 +10,7 @@ import ProvinceCraftVillages from "../components/landing/ProvinceCraftVillages.j
 import ProvinceFestivals from "../components/landing/ProvinceFestivals.jsx";
 import ProvinceGallery from "../components/landing/ProvinceGallery.jsx";
 import ProvinceCTA from "../components/landing/ProvinceCTA.jsx";
+import ProvinceCharts from "../components/landing/ProvinceCharts.jsx";
 import provinces from "../data/provinceData";
 import { provinceApi } from "../api/provinceApi";
 import { landingConfigApi } from "../api/landingConfigApi";
@@ -294,6 +295,7 @@ export default function ProvinceLandingPage() {
       <div className="province-page" style={{ "--accent": accentColor }}>
         <ProvinceHero province={{ ...province, heroImage }} />
         <ProvinceIntro province={{ ...province, introImage }} />
+        <ProvinceCharts province={province} />
         <ProvinceTimeline province={province} />
         <ProvinceCulture province={province} />
         <ProvinceSpecialties province={province} />

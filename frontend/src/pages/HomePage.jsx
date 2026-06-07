@@ -2,12 +2,31 @@
 import { useNavigate } from "react-router-dom";
 import { useRef, useState, useCallback, useEffect } from "react";
 import MainLayout from "../layouts/MainLayout.jsx";
+import HomeCharts from "../components/landing/HomeCharts.jsx";
 import phoImage from "/Images/pho-bo-ha-noi.jpeg";
 import hueImage from "/Images/bunbohue.jpg";
 import huTieuImage from "/Images/hutieu.jpg";
 import thangLongImage from "/Images/dsvh-hoang-thanh-thang-long.png";
 import hueCitadelImage from "/Images/kinhdophuxuan.jpg";
 import heroLandscape from "/Images/homepage.png";
+import heroBg0 from "/Images/background0.jpg";
+import heroBg1 from "/Images/background1.jpg";
+import heroBg2 from "/Images/background2.jpg";
+import heroBg3 from "/Images/background3.jpg";
+import heroBg4 from "/Images/background4.jpg";
+import heroBg5 from "/Images/background5.jpg";
+import heroBg6 from "/Images/background6.jpg";
+
+const heroBgs = [heroBg0, heroBg1, heroBg2, heroBg3, heroBg4, heroBg5, heroBg6];
+import congCuoiDoiMoiImage from "/Images/congcuocdoimoi.jpg";
+import thongNhat1975Image from "/Images/1975.jpg";
+import nhaNuocVanLangImage from "/Images/nhanuocvanlang.jpg";
+import bachDangImage from "/Images/bachdang.jpg";
+import dienBienPhuImage from "/Images/dienbienphu.jpg";
+import tetNguyenDanImage from "/Images/tetnguyendan.jpg";
+import tetTrungThuImage from "/Images/tettrungthu.jpg";
+import quocKhanhImage from "/Images/quockhanhvietnam.jpg";
+import gioToHungVuongImage from "/Images/gotohungvuong.jpg";
 import vanmieuImage from "/Images/vanmieu.jpg";
 import codoHueImage from "/Images/dsvn-co-do-hue.png";
 import vinhHaLongImage from "/Images/vinhhalong.jpg";
@@ -21,15 +40,51 @@ export default function HomePage() {
   const hienDaiHoiNhapImage = "/Images/hiendaivietnamhoinhap.jpg";
   const mapVietnamImage = "/Images/mapvn.jpg";
 
-  const [mapScale, setMapScale] = useState(1);
-  const [mapOffset, setMapOffset] = useState({ x: 0, y: 0 });
+  const [bgIndex, setBgIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setBgIndex(prev => (prev + 1) % heroBgs.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const [hasTransformed, setHasTransformed] = useState(false);
   const mapRef = useRef(null);
+  const imgRef = useRef(null);
   const dragState = useRef(null);
   const offsetRef = useRef({ x: 0, y: 0 });
+  const scaleRef = useRef(1);
+  const rafRef = useRef(null);
+  const hasTransformedRef = useRef(false);
 
-  const updateOffset = (next) => {
-    offsetRef.current = next;
-    setMapOffset(next);
+  const clamp = (val, min, max) => Math.min(max, Math.max(min, val));
+
+  const clampOffset = (offset, scale) => {
+    const el = mapRef.current;
+    if (!el) return offset;
+    const maxX = (el.clientWidth * (scale - 1)) / 2;
+    const maxY = (el.clientHeight * (scale - 1)) / 2;
+    return { x: clamp(offset.x, -maxX, maxX), y: clamp(offset.y, -maxY, maxY) };
+  };
+
+  const applyTransform = (mode = false) => {
+    const img = imgRef.current;
+    if (!img) return;
+    const { x, y } = offsetRef.current;
+    const s = scaleRef.current;
+    img.style.transition =
+      mode === true
+        ? "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+        : mode === "zoom"
+        ? "transform 0.08s ease-out"
+        : "none";
+    img.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+    const now = s !== 1 || x !== 0 || y !== 0;
+    if (now !== hasTransformedRef.current) {
+      hasTransformedRef.current = now;
+      setHasTransformed(now);
+    }
   };
 
   useEffect(() => {
@@ -38,7 +93,28 @@ export default function HomePage() {
 
     const handleWheel = (e) => {
       e.preventDefault();
-      setMapScale(prev => Math.min(6, Math.max(1, prev - e.deltaY * 0.001)));
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null;
+        const delta = e.deltaMode === 1 ? e.deltaY * 30 : e.deltaY;
+        const factor = 1 - delta * 0.0008;
+        const prevScale = scaleRef.current;
+        const nextScale = clamp(prevScale * factor, 1, 6);
+        if (nextScale === prevScale) return;
+
+        const rect = el.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left - rect.width / 2;
+        const mouseY = e.clientY - rect.top - rect.height / 2;
+        const ratio = nextScale / prevScale;
+        const newOffset = {
+          x: mouseX - ratio * (mouseX - offsetRef.current.x),
+          y: mouseY - ratio * (mouseY - offsetRef.current.y),
+        };
+
+        scaleRef.current = nextScale;
+        offsetRef.current = clampOffset(newOffset, nextScale);
+        applyTransform("zoom");
+      });
     };
 
     const handleMouseDown = (e) => {
@@ -56,7 +132,11 @@ export default function HomePage() {
       if (!dragState.current) return;
       const dx = e.clientX - dragState.current.startX;
       const dy = e.clientY - dragState.current.startY;
-      updateOffset({ x: dragState.current.originX + dx, y: dragState.current.originY + dy });
+      offsetRef.current = clampOffset(
+        { x: dragState.current.originX + dx, y: dragState.current.originY + dy },
+        scaleRef.current
+      );
+      applyTransform(false);
     };
 
     const handleMouseUp = () => {
@@ -74,6 +154,7 @@ export default function HomePage() {
       el.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
@@ -124,28 +205,98 @@ export default function HomePage() {
 
   const historyFlow = [
     {
+      year: "2879 TCN",
+      title: "Nhà nước Văn Lang",
+      description: "Theo truyền thuyết, các Vua Hùng lập nên nhà nước Văn Lang – nhà nước đầu tiên của người Việt cổ, mở đầu thời kỳ dựng nước và hình thành nền văn minh lúa nước ở lưu vực sông Hồng.",
+      image: nhaNuocVanLangImage,
+      accent: null
+    },
+    {
       year: "1010",
-      title: "Kinh đô Thăng Long",
-      description: "Năm 1010, vua Lý Thái Tổ ban Chiếu dời đô từ Hoa Lư ra Đại La và đặt tên là Thăng Long. Sự kiện này mở ra thời kỳ phát triển mới, đặt nền móng cho kinh đô và văn hiến Đại Việt.",
-      image: thangLongImage
+      title: "Dời đô ra Thăng Long",
+      description: "Vua Lý Thái Tổ ban Chiếu dời đô từ Hoa Lư ra Đại La, đặt tên Thăng Long. Sự kiện mở ra thời kỳ phát triển rực rỡ, đặt nền móng cho kinh đô và văn hiến Đại Việt.",
+      image: thangLongImage,
+      accent: null
+    },
+    {
+      year: "1288",
+      title: "Đại thắng Bạch Đằng",
+      description: "Hưng Đạo Vương Trần Quốc Tuấn lãnh đạo quân dân Đại Việt đại phá quân Nguyên Mông lần thứ ba trên sông Bạch Đằng, bảo vệ vững chắc nền độc lập dân tộc.",
+      image: bachDangImage,
+      accent: null
     },
     {
       year: "1802",
       title: "Kinh đô Phú Xuân",
-      description: "Sau khi thống nhất đất nước, Gia Long chọn Phú Xuân làm kinh đô và xây dựng hệ thống cung điện, thành quách quy mô lớn. Từ đó, Huế trở thành trung tâm chính trị, văn hóa và nghi lễ của triều Nguyễn.",
-      image: hueCitadelImage
+      description: "Gia Long thống nhất đất nước, lập triều Nguyễn và chọn Phú Xuân (Huế) làm kinh đô. Từ đây, Huế trở thành trung tâm chính trị, văn hóa và nghi lễ của cả nước.",
+      image: hueCitadelImage,
+      accent: null
+    },
+    {
+      year: "1945",
+      title: "Khai sinh nước Việt Nam",
+      description: "Ngày 2/9/1945, Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập tại Quảng trường Ba Đình, khai sinh nước Việt Nam Dân chủ Cộng hòa, mở ra kỷ nguyên độc lập dân tộc và tự do cho nhân dân Việt Nam.",
+      image: ngayDocLapImage,
+      accent: null
     },
     {
       year: "1954",
-      title: "Ngày độc lập dân tộc",
-      description: "Mốc 1954 gắn với bước ngoặt giải phóng dân tộc, khép lại một giai đoạn dài kháng chiến và mở ra thời kỳ xây dựng đất nước mới. Đây là biểu tượng của ý chí tự chủ và đoàn kết của nhân dân Việt Nam.",
-      image: ngayDocLapImage
+      title: "Chiến thắng Điện Biên Phủ",
+      description: "Ngày 7/5/1954, quân dân Việt Nam đại thắng tập đoàn cứ điểm Điện Biên Phủ, chấm dứt ách thực dân Pháp gần một thế kỷ, mở đường cho Hiệp định Genève và nền độc lập dân tộc.",
+      image: dienBienPhuImage,
+      accent: null
     },
     {
-      year: "Hiện đại",
-      title: "Việt Nam hội nhập",
-      description: "Trong thời kỳ hiện đại, Việt Nam vừa hội nhập sâu rộng vừa nỗ lực gìn giữ giá trị truyền thống. Bản sắc văn hóa tiếp tục được làm mới để song hành cùng nhịp sống đương đại.",
-      image: hienDaiHoiNhapImage
+      year: "1975",
+      title: "Non sông liền một dải",
+      description: "Chiến dịch Hồ Chí Minh toàn thắng ngày 30/4/1975, đất nước thống nhất sau hơn 20 năm chia cắt, mở ra kỷ nguyên hòa bình và xây dựng đất nước.",
+      image: thongNhat1975Image,
+      accent: null
+    },
+    {
+      year: "1986",
+      title: "Công cuộc Đổi Mới",
+      description: "Đại hội Đảng lần VI khởi xướng công cuộc Đổi Mới, chuyển sang kinh tế thị trường định hướng xã hội chủ nghĩa, tạo đà cho Việt Nam phát triển vượt bậc.",
+      image: congCuoiDoiMoiImage,
+      accent: null
+    },
+    {
+      year: "2026",
+      title: "Việt Nam hiện tại",
+      description: "Việt Nam hội nhập sâu rộng, trở thành điểm đến hấp dẫn toàn cầu, đồng thời kiên trì gìn giữ và phát huy bản sắc văn hóa của 54 dân tộc anh em.",
+      image: hienDaiHoiNhapImage,
+      accent: null
+    }
+  ];
+
+  const festivals = [
+    {
+      time: "Mùng 1 tháng Giêng âm lịch",
+      title: "Tết Nguyên Đán",
+      description: "Tết Nguyên Đán là lễ hội lớn nhất và thiêng liêng nhất trong năm của người Việt, đánh dấu sự chuyển giao giữa năm cũ và năm mới theo lịch âm. Đây là dịp để các gia đình đoàn tụ, thăm viếng tổ tiên, trao nhau lời chúc tốt đẹp và cùng đón chờ một năm mới bình an, thịnh vượng. Hình ảnh đặc trưng của Tết là cành đào, cành mai, bánh chưng bánh tét, mâm ngũ quả và tiếng pháo hoa rộn ràng khắp mọi miền đất nước.",
+      position: "left",
+      image: tetNguyenDanImage
+    },
+    {
+      time: "Rằm tháng Tám âm lịch",
+      title: "Tết Trung Thu",
+      description: "Tết Trung Thu hay còn gọi là Tết trông trăng, diễn ra vào đêm rằm tháng Tám — thời điểm trăng tròn và sáng nhất trong năm. Lễ hội gắn liền với hình ảnh đèn lồng đủ màu sắc, bánh nướng, bánh dẻo và điệu múa lân rộn ràng. Đây là ngày hội đặc biệt dành cho thiếu nhi, nơi các em được rước đèn, phá cỗ dưới ánh trăng và nghe kể những câu chuyện cổ tích về chú Cuội, chị Hằng.",
+      position: "right",
+      image: tetTrungThuImage
+    },
+    {
+      time: "Ngày 2 tháng 9 dương lịch",
+      title: "Ngày Quốc khánh Việt Nam",
+      description: "Ngày 2/9/1945, tại Quảng trường Ba Đình lịch sử, Chủ tịch Hồ Chí Minh đọc bản Tuyên ngôn Độc lập, khai sinh ra nước Việt Nam Dân chủ Cộng hòa. Hàng năm, ngày Quốc khánh được tổ chức trọng thể với lễ diễu binh, bắn pháo hoa rực rỡ và các hoạt động văn hóa, thể thao sôi nổi trên khắp cả nước, là dịp để toàn dân tưởng nhớ và tri ân công lao của các thế hệ đã hi sinh vì độc lập dân tộc.",
+      position: "left",
+      image: quocKhanhImage
+    },
+    {
+      time: "Mùng 10 tháng 3 âm lịch",
+      title: "Giỗ Tổ Hùng Vương",
+      description: "Giỗ Tổ Hùng Vương là ngày lễ quốc gia để tưởng nhớ và tri ân công lao dựng nước của các Vua Hùng — những người đặt nền móng cho nhà nước Văn Lang đầu tiên của dân tộc Việt. Lễ hội Đền Hùng tại Phú Thọ thu hút hàng triệu người hành hương từ khắp nơi về tụ hội, thể hiện đạo lý \"uống nước nhớ nguồn\" — giá trị văn hóa cốt lõi của người Việt Nam.",
+      position: "right",
+      image: gioToHungVuongImage
     }
   ];
 
@@ -177,6 +328,16 @@ export default function HomePage() {
     <MainLayout>
       <main className="home-landing home-storyboard">
         <section className="home-hero-card">
+          {heroBgs.map((src, i) => (
+            <div
+              key={i}
+              className="home-hero-bg"
+              style={{
+                backgroundImage: `url(${src})`,
+                opacity: i === bgIndex ? 1 : 0,
+              }}
+            />
+          ))}
           <motion.div
             className="home-hero-copy"
             initial={{ opacity: 0, y: 18 }}
@@ -190,12 +351,47 @@ export default function HomePage() {
               cục trang nhã, tối giản và giàu cảm xúc.
             </p>
             <div className="home-hero-actions">
-              <button type="button" className="btn btn-primary" onClick={() => navigate('/search?keyword=')}>
+              <button type="button" className="btn btn-hero" onClick={() => navigate('/search?keyword=')}>
                 Khám phá ngay
               </button>
             </div>
           </motion.div>
         </section>
+
+        <section className="home-section home-festivals-section">
+          <div className="container">
+            <div className="section-heading section-heading--center">
+              <span className="section-kicker">Lễ hội cả nước</span>
+              <h2>Những Lễ Hội Tiêu Biểu</h2>
+            </div>
+            <div className="home-festivals-zigzag">
+              {festivals.map((item) => (
+                <motion.article
+                  key={item.title}
+                  className={`home-festival-row ${item.position === 'right' ? 'is-reversed' : ''}`}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <div className="home-festival-image">
+                    {item.image
+                      ? <img src={item.image} alt={item.title} />
+                      : <div className="home-festival-placeholder" />
+                    }
+                  </div>
+                  <div className="home-festival-content">
+                    <span className="home-festival-time">{item.time}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <HomeCharts />
 
         <section className="home-section home-landmarks-section">
           <div className="container">
@@ -262,6 +458,21 @@ export default function HomePage() {
             <div className="home-timeline">
               {historyFlow.map((item, index) => {
                 const isLeft = index % 2 === 0;
+                const card = (
+                  <div className="home-timeline-card">
+                    <div className="home-timeline-image">
+                      {item.image
+                        ? <img src={item.image} alt={item.title} />
+                        : <div className="home-timeline-image-placeholder" style={{ background: item.accent }} />
+                      }
+                    </div>
+                    <div className="home-timeline-body">
+                      <span className="home-timeline-year-badge">{item.year}</span>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                  </div>
+                );
                 return (
                   <motion.div
                     key={item.year}
@@ -269,21 +480,10 @@ export default function HomePage() {
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.65, delay: index * 0.1 }}
+                    transition={{ duration: 0.65, delay: index * 0.08 }}
                   >
                     <div className="home-timeline-col home-timeline-col--left">
-                      {isLeft && (
-                        <div className="home-timeline-card">
-                          <div className="home-timeline-image">
-                            <img src={item.image} alt={item.title} />
-                          </div>
-                          <div className="home-timeline-body">
-                            <span className="home-timeline-year-badge">{item.year}</span>
-                            <h3>{item.title}</h3>
-                            <p>{item.description}</p>
-                          </div>
-                        </div>
-                      )}
+                      {isLeft && card}
                     </div>
                     <div className="home-timeline-center">
                       <div className="home-timeline-line home-timeline-line--top" />
@@ -291,18 +491,7 @@ export default function HomePage() {
                       <div className="home-timeline-line home-timeline-line--bottom" />
                     </div>
                     <div className="home-timeline-col home-timeline-col--right">
-                      {!isLeft && (
-                        <div className="home-timeline-card">
-                          <div className="home-timeline-image">
-                            <img src={item.image} alt={item.title} />
-                          </div>
-                          <div className="home-timeline-body">
-                            <span className="home-timeline-year-badge">{item.year}</span>
-                            <h3>{item.title}</h3>
-                            <p>{item.description}</p>
-                          </div>
-                        </div>
-                      )}
+                      {!isLeft && card}
                     </div>
                   </motion.div>
                 );
@@ -347,26 +536,40 @@ export default function HomePage() {
 
         <section className="home-section home-map-section">
           <div className="container">
-            <div className="section-heading section-heading--center">
-              <h2>Khám Phá Bản Đồ Việt Nam</h2>
-            </div>
-            <div className="home-map-card">
+            <div className="home-map-layout">
+              <div className="home-map-info">
+                <span className="section-kicker">Địa lý & lãnh thổ</span>
+                <h2>Khám Phá Bản Đồ Việt Nam</h2>
+                <p>Việt Nam trải dài hơn 1.650 km từ địa đầu Hà Giang đến mũi Cà Mau, với diện tích đất liền khoảng 331.000 km² và đường bờ biển dài hơn 3.260 km. Thủ đô Hà Nội ở phía Bắc và thành phố Hồ Chí Minh ở phía Nam là hai đô thị lớn nhất, là trung tâm kinh tế, văn hóa và chính trị của cả nước.</p>
+                <p>Lãnh thổ quốc gia bao gồm vùng đất liền, vùng biển và hai quần đảo Hoàng Sa và Trường Sa — là phần lãnh thổ thiêng liêng không thể tách rời của Tổ quốc Việt Nam.</p>
+                <ul className="home-map-stats">
+                  <li><span className="home-map-stat-num">63</span><span>tỉnh thành</span></li>
+                  <li><span className="home-map-stat-num">3.260 km</span><span>đường bờ biển</span></li>
+                  <li><span className="home-map-stat-num">54</span><span>dân tộc</span></li>
+                </ul>
+                <p className="home-map-hint-text">🖱 Cuộn chuột để zoom · Kéo để di chuyển</p>
+              </div>
+
               <div
                 className="home-map-image"
                 ref={mapRef}
                 title="Cuộn chuột để phóng to / thu nhỏ"
               >
                 <img
+                  ref={imgRef}
                   src={mapVietnamImage}
                   alt="Bản đồ Việt Nam"
                   draggable="false"
-                  style={{ transform: `translate(${mapOffset.x}px, ${mapOffset.y}px) scale(${mapScale})`, transformOrigin: "center center", transition: dragState.current ? "none" : "transform 0.15s ease", userSelect: "none", pointerEvents: "none" }}
+                  style={{ transformOrigin: "center center", userSelect: "none", pointerEvents: "none" }}
                 />
-                <div className="home-map-hint">🖱 Cuộn để zoom</div>
-                {(mapScale !== 1 || mapOffset.x !== 0 || mapOffset.y !== 0) && (
+                {hasTransformed && (
                   <button
                     className="home-map-reset"
-                    onClick={() => { setMapScale(1); updateOffset({ x: 0, y: 0 }); }}
+                    onClick={() => {
+                      scaleRef.current = 1;
+                      offsetRef.current = { x: 0, y: 0 };
+                      applyTransform(true);
+                    }}
                     title="Về mặc định"
                   >
                     ↺ Mặc định

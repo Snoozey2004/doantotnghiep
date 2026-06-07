@@ -182,7 +182,30 @@ const provinces = [
         image: heroLandscape
       }
     ],
-    gallery: [phoImage, thangLongImage, heroLandscape, cuisineImage, seafoodImage, halongImage]
+    gallery: [phoImage, thangLongImage, heroLandscape, cuisineImage, seafoodImage, halongImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo quận",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng quận nội thành",
+        data: [
+          { name: "Ba Đình", value: 48 },
+          { name: "Hoàn Kiếm", value: 36 },
+          { name: "Đống Đa", value: 29 },
+          { name: "Tây Hồ", value: 21 },
+          { name: "Hai Bà Trưng", value: 17 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến văn hóa tiêu biểu của Hà Nội",
+        data: [
+          { name: "Di tích lịch sử", value: 40 },
+          { name: "Ẩm thực đường phố", value: 25 },
+          { name: "Lễ hội truyền thống", value: 20 },
+          { name: "Làng nghề đặc sắc", value: 15 },
+        ]
+      }
+    }
   },
   {
     slug: "ho-chi-minh",
@@ -266,7 +289,30 @@ const provinces = [
         image: seafoodImage
       }
     ],
-    gallery: [heroLandscape, seafoodImage, cuisineImage, phoImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, seafoodImage, cuisineImage, phoImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo quận",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng quận nội thành TP.HCM",
+        data: [
+          { name: "Quận 1", value: 42 },
+          { name: "Bình Thạnh", value: 27 },
+          { name: "Gò Vấp", value: 19 },
+          { name: "Phú Nhuận", value: 15 },
+          { name: "Quận 3", value: 31 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Hồ Chí Minh",
+        data: [
+          { name: "Di tích lịch sử", value: 30 },
+          { name: "Ẩm thực đặc sản", value: 35 },
+          { name: "Lễ hội truyền thống", value: 20 },
+          { name: "Làng nghề / Sinh thái", value: 15 },
+        ]
+      }
+    }
   },
   {
     slug: "hai-phong",
@@ -350,7 +396,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [halongImage, seafoodImage, heroLandscape, cuisineImage, phoImage, coffeeImage]
+    gallery: [halongImage, seafoodImage, heroLandscape, cuisineImage, phoImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo quận",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng quận của Hải Phòng",
+        data: [
+          { name: "Hồng Bàng", value: 31 },
+          { name: "Lê Chân", value: 24 },
+          { name: "Ngô Quyền", value: 28 },
+          { name: "Kiến An", value: 17 },
+          { name: "Đồ Sơn", value: 22 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Hải Phòng",
+        data: [
+          { name: "Di tích lịch sử", value: 38 },
+          { name: "Ẩm thực đặc sản", value: 28 },
+          { name: "Lễ hội truyền thống", value: 18 },
+          { name: "Làng nghề / Sinh thái", value: 16 },
+        ]
+      }
+    }
   },
   {
     slug: "da-nang",
@@ -434,7 +503,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, seafoodImage, cuisineImage, halongImage, phoImage, coffeeImage]
+    gallery: [heroLandscape, seafoodImage, cuisineImage, halongImage, phoImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Điểm du lịch theo khu vực",
+        subtitle: "Số lượng điểm du lịch nổi tiếng theo từng khu vực của Đà Nẵng",
+        data: [
+          { name: "Sơn Trà", value: 34 },
+          { name: "Ngũ Hành Sơn", value: 28 },
+          { name: "Hải Châu", value: 22 },
+          { name: "Liên Chiểu", value: 16 },
+          { name: "Cẩm Lệ", value: 13 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Đà Nẵng",
+        data: [
+          { name: "Di tích lịch sử", value: 25 },
+          { name: "Ẩm thực đặc sản", value: 28 },
+          { name: "Lễ hội truyền thống", value: 12 },
+          { name: "Làng nghề / Sinh thái", value: 35 },
+        ]
+      }
+    }
   },
   {
     slug: "can-tho",
@@ -518,7 +610,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, seafoodImage, cuisineImage, phoImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, seafoodImage, cuisineImage, phoImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Điểm văn hóa theo quận",
+        subtitle: "Số lượng điểm văn hóa – du lịch nổi tiếng theo từng quận của Cần Thơ",
+        data: [
+          { name: "Ninh Kiều", value: 38 },
+          { name: "Bình Thủy", value: 24 },
+          { name: "Cái Răng", value: 21 },
+          { name: "Ô Môn", value: 15 },
+          { name: "Thốt Nốt", value: 18 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Cần Thơ",
+        data: [
+          { name: "Di tích lịch sử", value: 28 },
+          { name: "Ẩm thực đặc sản", value: 32 },
+          { name: "Lễ hội truyền thống", value: 18 },
+          { name: "Làng nghề / Sinh thái", value: 22 },
+        ]
+      }
+    }
   },
   {
     slug: "hue",
@@ -602,7 +717,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [hueCitadelImage, hueImage, heroLandscape, cuisineImage, phoImage, halongImage]
+    gallery: [hueCitadelImage, hueImage, heroLandscape, cuisineImage, phoImage, halongImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo khu vực",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng khu vực của Huế",
+        data: [
+          { name: "Thành nội", value: 52 },
+          { name: "Tả Ngạn", value: 31 },
+          { name: "Hữu Ngạn", value: 27 },
+          { name: "Gia Lâm", value: 19 },
+          { name: "Kim Long", value: 23 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Huế",
+        data: [
+          { name: "Di tích lịch sử", value: 50 },
+          { name: "Ẩm thực đặc sản", value: 22 },
+          { name: "Lễ hội truyền thống", value: 18 },
+          { name: "Làng nghề / Sinh thái", value: 10 },
+        ]
+      }
+    }
   },
   {
     slug: "tuyen-quang",
@@ -686,7 +824,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, coffeeImage, cuisineImage, seafoodImage, halongImage, phoImage]
+    gallery: [heroLandscape, coffeeImage, cuisineImage, seafoodImage, halongImage, phoImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Tuyên Quang",
+        data: [
+          { name: "TP Tuyên Quang", value: 29 },
+          { name: "Sơn Dương", value: 23 },
+          { name: "Yên Sơn", value: 18 },
+          { name: "Hàm Yên", value: 14 },
+          { name: "Chiêm Hóa", value: 17 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Tuyên Quang",
+        data: [
+          { name: "Di tích lịch sử", value: 35 },
+          { name: "Ẩm thực đặc sản", value: 22 },
+          { name: "Lễ hội truyền thống", value: 25 },
+          { name: "Làng nghề / Sinh thái", value: 18 },
+        ]
+      }
+    }
   },
   {
     slug: "lao-cai",
@@ -770,7 +931,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, coffeeImage, cuisineImage, seafoodImage, halongImage, phoImage]
+    gallery: [heroLandscape, coffeeImage, cuisineImage, seafoodImage, halongImage, phoImage],
+    charts: {
+      barChart: {
+        title: "Điểm du lịch theo huyện",
+        subtitle: "Số lượng điểm du lịch nổi tiếng theo từng huyện của Lào Cai",
+        data: [
+          { name: "Sa Pa", value: 45 },
+          { name: "Bắc Hà", value: 26 },
+          { name: "Mường Khương", value: 17 },
+          { name: "Bảo Thắng", value: 14 },
+          { name: "Bảo Yên", value: 12 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Lào Cai",
+        data: [
+          { name: "Di tích lịch sử", value: 20 },
+          { name: "Ẩm thực đặc sản", value: 22 },
+          { name: "Lễ hội truyền thống", value: 18 },
+          { name: "Làng nghề / Sinh thái", value: 40 },
+        ]
+      }
+    }
   },
   {
     slug: "thai-nguyen",
@@ -854,7 +1038,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [coffeeImage, heroLandscape, cuisineImage, phoImage, halongImage, seafoodImage]
+    gallery: [coffeeImage, heroLandscape, cuisineImage, phoImage, halongImage, seafoodImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Thái Nguyên",
+        data: [
+          { name: "TP Thái Nguyên", value: 33 },
+          { name: "Đại Từ", value: 24 },
+          { name: "Định Hóa", value: 29 },
+          { name: "Võ Nhai", value: 16 },
+          { name: "Phú Bình", value: 13 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Thái Nguyên",
+        data: [
+          { name: "Di tích lịch sử", value: 38 },
+          { name: "Ẩm thực đặc sản", value: 27 },
+          { name: "Lễ hội truyền thống", value: 20 },
+          { name: "Làng nghề / Sinh thái", value: 15 },
+        ]
+      }
+    }
   },
   {
     slug: "phu-tho",
@@ -938,7 +1145,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [thangLongImage, heroLandscape, cuisineImage, coffeeImage, phoImage, halongImage]
+    gallery: [thangLongImage, heroLandscape, cuisineImage, coffeeImage, phoImage, halongImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Phú Thọ",
+        data: [
+          { name: "Việt Trì", value: 36 },
+          { name: "Lâm Thao", value: 27 },
+          { name: "Phù Ninh", value: 19 },
+          { name: "Cẩm Khê", value: 14 },
+          { name: "Thanh Sơn", value: 11 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Phú Thọ",
+        data: [
+          { name: "Di tích lịch sử", value: 35 },
+          { name: "Ẩm thực đặc sản", value: 20 },
+          { name: "Lễ hội truyền thống", value: 30 },
+          { name: "Làng nghề / Sinh thái", value: 15 },
+        ]
+      }
+    }
   },
   {
     slug: "bac-ninh",
@@ -1022,7 +1252,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, coffeeImage, halongImage]
+    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, coffeeImage, halongImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Bắc Ninh",
+        data: [
+          { name: "Từ Sơn", value: 34 },
+          { name: "Tiên Du", value: 28 },
+          { name: "Yên Phong", value: 22 },
+          { name: "Lương Tài", value: 15 },
+          { name: "Thuận Thành", value: 31 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Bắc Ninh",
+        data: [
+          { name: "Di tích lịch sử", value: 45 },
+          { name: "Ẩm thực đặc sản", value: 20 },
+          { name: "Lễ hội truyền thống", value: 25 },
+          { name: "Làng nghề / Sinh thái", value: 10 },
+        ]
+      }
+    }
   },
   {
     slug: "hung-yen",
@@ -1106,7 +1359,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, coffeeImage, halongImage]
+    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, coffeeImage, halongImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Hưng Yên",
+        data: [
+          { name: "TP Hưng Yên", value: 31 },
+          { name: "Văn Lâm", value: 22 },
+          { name: "Khoái Châu", value: 26 },
+          { name: "Kim Động", value: 17 },
+          { name: "Tiên Lữ", value: 14 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Hưng Yên",
+        data: [
+          { name: "Di tích lịch sử", value: 40 },
+          { name: "Ẩm thực đặc sản", value: 25 },
+          { name: "Lễ hội truyền thống", value: 22 },
+          { name: "Làng nghề / Sinh thái", value: 13 },
+        ]
+      }
+    }
   },
   {
     slug: "ninh-binh",
@@ -1190,7 +1466,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [halongImage, heroLandscape, cuisineImage, phoImage, seafoodImage, coffeeImage]
+    gallery: [halongImage, heroLandscape, cuisineImage, phoImage, seafoodImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Điểm du lịch theo huyện",
+        subtitle: "Số lượng điểm du lịch nổi tiếng theo từng huyện của Ninh Bình",
+        data: [
+          { name: "Tràng An", value: 42 },
+          { name: "Tam Cốc", value: 35 },
+          { name: "Cố đô Hoa Lư", value: 38 },
+          { name: "Vân Long", value: 21 },
+          { name: "Bái Đính", value: 29 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Ninh Bình",
+        data: [
+          { name: "Di tích lịch sử", value: 30 },
+          { name: "Ẩm thực đặc sản", value: 18 },
+          { name: "Lễ hội truyền thống", value: 15 },
+          { name: "Làng nghề / Sinh thái", value: 37 },
+        ]
+      }
+    }
   },
   {
     slug: "quang-tri",
@@ -1274,7 +1573,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, seafoodImage, cuisineImage, phoImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, seafoodImage, cuisineImage, phoImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Quảng Trị",
+        data: [
+          { name: "TP Đông Hà", value: 27 },
+          { name: "Gio Linh", value: 33 },
+          { name: "Cam Lộ", value: 21 },
+          { name: "Triệu Phong", value: 18 },
+          { name: "Hải Lăng", value: 15 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Quảng Trị",
+        data: [
+          { name: "Di tích lịch sử", value: 48 },
+          { name: "Ẩm thực đặc sản", value: 20 },
+          { name: "Lễ hội truyền thống", value: 18 },
+          { name: "Làng nghề / Sinh thái", value: 14 },
+        ]
+      }
+    }
   },
   {
     slug: "quang-ngai",
@@ -1358,7 +1680,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [halongImage, seafoodImage, cuisineImage, phoImage, heroLandscape, coffeeImage]
+    gallery: [halongImage, seafoodImage, cuisineImage, phoImage, heroLandscape, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Quảng Ngãi",
+        data: [
+          { name: "TP Quảng Ngãi", value: 29 },
+          { name: "Sơn Hà", value: 21 },
+          { name: "Tư Nghĩa", value: 17 },
+          { name: "Bình Sơn", value: 24 },
+          { name: "Lý Sơn", value: 33 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Quảng Ngãi",
+        data: [
+          { name: "Di tích lịch sử", value: 35 },
+          { name: "Ẩm thực đặc sản", value: 25 },
+          { name: "Lễ hội truyền thống", value: 18 },
+          { name: "Làng nghề / Sinh thái", value: 22 },
+        ]
+      }
+    }
   },
   {
     slug: "gia-lai",
@@ -1442,7 +1787,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [coffeeImage, heroLandscape, cuisineImage, seafoodImage, halongImage, phoImage]
+    gallery: [coffeeImage, heroLandscape, cuisineImage, seafoodImage, halongImage, phoImage],
+    charts: {
+      barChart: {
+        title: "Điểm văn hóa theo huyện",
+        subtitle: "Số lượng điểm văn hóa – du lịch nổi tiếng theo từng huyện của Gia Lai",
+        data: [
+          { name: "TP Pleiku", value: 27 },
+          { name: "Chư Sê", value: 19 },
+          { name: "Đak Đoa", value: 22 },
+          { name: "An Khê", value: 16 },
+          { name: "Ia Grai", value: 24 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Gia Lai",
+        data: [
+          { name: "Di tích lịch sử", value: 22 },
+          { name: "Ẩm thực đặc sản", value: 23 },
+          { name: "Lễ hội truyền thống", value: 20 },
+          { name: "Làng nghề / Sinh thái", value: 35 },
+        ]
+      }
+    }
   },
   {
     slug: "khanh-hoa",
@@ -1526,7 +1894,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [seafoodImage, halongImage, heroLandscape, cuisineImage, phoImage, coffeeImage]
+    gallery: [seafoodImage, halongImage, heroLandscape, cuisineImage, phoImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Điểm du lịch theo khu vực",
+        subtitle: "Số lượng điểm du lịch nổi tiếng theo từng khu vực của Khánh Hòa",
+        data: [
+          { name: "Nha Trang", value: 48 },
+          { name: "Cam Ranh", value: 22 },
+          { name: "Vạn Ninh", value: 27 },
+          { name: "Diên Khánh", value: 14 },
+          { name: "Khánh Sơn", value: 11 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Khánh Hòa",
+        data: [
+          { name: "Di tích lịch sử", value: 20 },
+          { name: "Ẩm thực đặc sản", value: 28 },
+          { name: "Lễ hội truyền thống", value: 12 },
+          { name: "Làng nghề / Sinh thái", value: 40 },
+        ]
+      }
+    }
   },
   {
     slug: "lam-dong",
@@ -1610,7 +2001,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [coffeeImage, heroLandscape, cuisineImage, seafoodImage, halongImage, phoImage]
+    gallery: [coffeeImage, heroLandscape, cuisineImage, seafoodImage, halongImage, phoImage],
+    charts: {
+      barChart: {
+        title: "Điểm du lịch theo huyện",
+        subtitle: "Số lượng điểm du lịch nổi tiếng theo từng huyện của Lâm Đồng",
+        data: [
+          { name: "Đà Lạt", value: 51 },
+          { name: "Bảo Lộc", value: 23 },
+          { name: "Di Linh", value: 16 },
+          { name: "Đức Trọng", value: 19 },
+          { name: "Lạc Dương", value: 28 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Lâm Đồng",
+        data: [
+          { name: "Di tích lịch sử", value: 18 },
+          { name: "Ẩm thực đặc sản", value: 22 },
+          { name: "Lễ hội truyền thống", value: 15 },
+          { name: "Làng nghề / Sinh thái", value: 45 },
+        ]
+      }
+    }
   },
   {
     slug: "dak-lak",
@@ -1694,7 +2108,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [coffeeImage, heroLandscape, cuisineImage, seafoodImage, halongImage, phoImage]
+    gallery: [coffeeImage, heroLandscape, cuisineImage, seafoodImage, halongImage, phoImage],
+    charts: {
+      barChart: {
+        title: "Điểm văn hóa theo huyện",
+        subtitle: "Số lượng điểm văn hóa – du lịch nổi tiếng theo từng huyện của Đắk Lắk",
+        data: [
+          { name: "Buôn Ma Thuột", value: 34 },
+          { name: "Buôn Đôn", value: 28 },
+          { name: "Krông Ana", value: 17 },
+          { name: "Lắk", value: 22 },
+          { name: "Ea H'leo", value: 13 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Đắk Lắk",
+        data: [
+          { name: "Di tích lịch sử", value: 20 },
+          { name: "Ẩm thực đặc sản", value: 25 },
+          { name: "Lễ hội truyền thống", value: 18 },
+          { name: "Làng nghề / Sinh thái", value: 37 },
+        ]
+      }
+    }
   },
   {
     slug: "dong-nai",
@@ -1778,7 +2215,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Đồng Nai",
+        data: [
+          { name: "Biên Hòa", value: 38 },
+          { name: "Long Khánh", value: 21 },
+          { name: "Vĩnh Cửu", value: 27 },
+          { name: "Xuân Lộc", value: 16 },
+          { name: "Trảng Bom", value: 19 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Đồng Nai",
+        data: [
+          { name: "Di tích lịch sử", value: 33 },
+          { name: "Ẩm thực đặc sản", value: 27 },
+          { name: "Lễ hội truyền thống", value: 20 },
+          { name: "Làng nghề / Sinh thái", value: 20 },
+        ]
+      }
+    }
   },
   {
     slug: "tay-ninh",
@@ -1862,7 +2322,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Tây Ninh",
+        data: [
+          { name: "TP Tây Ninh", value: 29 },
+          { name: "Gò Dầu", value: 21 },
+          { name: "Trảng Bàng", value: 24 },
+          { name: "Châu Thành", value: 17 },
+          { name: "Dương Minh Châu", value: 33 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Tây Ninh",
+        data: [
+          { name: "Di tích lịch sử", value: 35 },
+          { name: "Ẩm thực đặc sản", value: 25 },
+          { name: "Lễ hội truyền thống", value: 28 },
+          { name: "Làng nghề / Sinh thái", value: 12 },
+        ]
+      }
+    }
   },
   {
     slug: "vinh-long",
@@ -1946,7 +2429,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Điểm văn hóa theo huyện",
+        subtitle: "Số lượng điểm văn hóa – du lịch nổi tiếng theo từng huyện của Vĩnh Long",
+        data: [
+          { name: "TP Vĩnh Long", value: 31 },
+          { name: "Long Hồ", value: 23 },
+          { name: "Mang Thít", value: 19 },
+          { name: "Tam Bình", value: 16 },
+          { name: "Bình Tân", value: 14 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Vĩnh Long",
+        data: [
+          { name: "Di tích lịch sử", value: 28 },
+          { name: "Ẩm thực đặc sản", value: 30 },
+          { name: "Lễ hội truyền thống", value: 17 },
+          { name: "Làng nghề / Sinh thái", value: 25 },
+        ]
+      }
+    }
   },
   {
     slug: "dong-thap",
@@ -2030,7 +2536,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Điểm văn hóa theo huyện",
+        subtitle: "Số lượng điểm văn hóa – du lịch nổi tiếng theo từng huyện của Đồng Tháp",
+        data: [
+          { name: "Cao Lãnh", value: 33 },
+          { name: "Sa Đéc", value: 27 },
+          { name: "Hồng Ngự", value: 19 },
+          { name: "Tháp Mười", value: 22 },
+          { name: "Tam Nông", value: 16 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Đồng Tháp",
+        data: [
+          { name: "Di tích lịch sử", value: 27 },
+          { name: "Ẩm thực đặc sản", value: 30 },
+          { name: "Lễ hội truyền thống", value: 18 },
+          { name: "Làng nghề / Sinh thái", value: 25 },
+        ]
+      }
+    }
   },
   {
     slug: "ca-mau",
@@ -2114,7 +2643,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, seafoodImage, cuisineImage, phoImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, seafoodImage, cuisineImage, phoImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Điểm sinh thái theo huyện",
+        subtitle: "Số lượng điểm sinh thái – du lịch nổi tiếng theo từng huyện của Cà Mau",
+        data: [
+          { name: "TP Cà Mau", value: 26 },
+          { name: "Năm Căn", value: 31 },
+          { name: "Ngọc Hiển", value: 38 },
+          { name: "Trần Văn Thời", value: 18 },
+          { name: "U Minh", value: 29 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Cà Mau",
+        data: [
+          { name: "Di tích lịch sử", value: 20 },
+          { name: "Ẩm thực đặc sản", value: 22 },
+          { name: "Lễ hội truyền thống", value: 18 },
+          { name: "Làng nghề / Sinh thái", value: 40 },
+        ]
+      }
+    }
   },
   {
     slug: "an-giang",
@@ -2198,7 +2750,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Điểm văn hóa theo huyện",
+        subtitle: "Số lượng điểm văn hóa – du lịch nổi tiếng theo từng huyện của An Giang",
+        data: [
+          { name: "Long Xuyên", value: 33 },
+          { name: "Châu Đốc", value: 42 },
+          { name: "Thoại Sơn", value: 21 },
+          { name: "Tri Tôn", value: 27 },
+          { name: "Tịnh Biên", value: 35 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của An Giang",
+        data: [
+          { name: "Di tích lịch sử", value: 32 },
+          { name: "Ẩm thực đặc sản", value: 27 },
+          { name: "Lễ hội truyền thống", value: 25 },
+          { name: "Làng nghề / Sinh thái", value: 16 },
+        ]
+      }
+    }
   },
   {
     slug: "quang-ninh",
@@ -2282,7 +2857,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [halongImage, seafoodImage, heroLandscape, cuisineImage, phoImage, coffeeImage]
+    gallery: [halongImage, seafoodImage, heroLandscape, cuisineImage, phoImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Điểm du lịch theo khu vực",
+        subtitle: "Số lượng điểm du lịch nổi tiếng theo từng khu vực của Quảng Ninh",
+        data: [
+          { name: "Hạ Long", value: 58 },
+          { name: "Vân Đồn", value: 34 },
+          { name: "Cẩm Phả", value: 19 },
+          { name: "Uông Bí", value: 27 },
+          { name: "Móng Cái", value: 22 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Quảng Ninh",
+        data: [
+          { name: "Di tích lịch sử", value: 22 },
+          { name: "Ẩm thực đặc sản", value: 23 },
+          { name: "Lễ hội truyền thống", value: 13 },
+          { name: "Làng nghề / Sinh thái", value: 42 },
+        ]
+      }
+    }
   },
   {
     slug: "cao-bang",
@@ -2366,7 +2964,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, coffeeImage, cuisineImage, phoImage, halongImage, seafoodImage]
+    gallery: [heroLandscape, coffeeImage, cuisineImage, phoImage, halongImage, seafoodImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Cao Bằng",
+        data: [
+          { name: "TP Cao Bằng", value: 26 },
+          { name: "Trùng Khánh", value: 34 },
+          { name: "Hà Quảng", value: 21 },
+          { name: "Bảo Lạc", value: 16 },
+          { name: "Nguyên Bình", value: 19 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Cao Bằng",
+        data: [
+          { name: "Di tích lịch sử", value: 38 },
+          { name: "Ẩm thực đặc sản", value: 20 },
+          { name: "Lễ hội truyền thống", value: 22 },
+          { name: "Làng nghề / Sinh thái", value: 20 },
+        ]
+      }
+    }
   },
   {
     slug: "lang-son",
@@ -2450,7 +3071,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Lạng Sơn",
+        data: [
+          { name: "TP Lạng Sơn", value: 31 },
+          { name: "Văn Lãng", value: 22 },
+          { name: "Cao Lộc", value: 27 },
+          { name: "Hữu Lũng", value: 18 },
+          { name: "Chi Lăng", value: 24 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Lạng Sơn",
+        data: [
+          { name: "Di tích lịch sử", value: 38 },
+          { name: "Ẩm thực đặc sản", value: 27 },
+          { name: "Lễ hội truyền thống", value: 20 },
+          { name: "Làng nghề / Sinh thái", value: 15 },
+        ]
+      }
+    }
   },
   {
     slug: "lai-chau",
@@ -2534,7 +3178,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, coffeeImage, cuisineImage, seafoodImage, halongImage, phoImage]
+    gallery: [heroLandscape, coffeeImage, cuisineImage, seafoodImage, halongImage, phoImage],
+    charts: {
+      barChart: {
+        title: "Điểm văn hóa theo huyện",
+        subtitle: "Số lượng điểm văn hóa – du lịch nổi tiếng theo từng huyện của Lai Châu",
+        data: [
+          { name: "TP Lai Châu", value: 24 },
+          { name: "Sìn Hồ", value: 19 },
+          { name: "Phong Thổ", value: 22 },
+          { name: "Tam Đường", value: 17 },
+          { name: "Mường Tè", value: 15 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Lai Châu",
+        data: [
+          { name: "Di tích lịch sử", value: 25 },
+          { name: "Ẩm thực đặc sản", value: 22 },
+          { name: "Lễ hội truyền thống", value: 20 },
+          { name: "Làng nghề / Sinh thái", value: 33 },
+        ]
+      }
+    }
   },
   {
     slug: "dien-bien",
@@ -2618,7 +3285,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, coffeeImage, cuisineImage, seafoodImage, halongImage, phoImage]
+    gallery: [heroLandscape, coffeeImage, cuisineImage, seafoodImage, halongImage, phoImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Điện Biên",
+        data: [
+          { name: "TP Điện Biên Phủ", value: 43 },
+          { name: "Điện Biên", value: 31 },
+          { name: "Mường Ảng", value: 14 },
+          { name: "Tuần Giáo", value: 18 },
+          { name: "Mường Lay", value: 12 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Điện Biên",
+        data: [
+          { name: "Di tích lịch sử", value: 48 },
+          { name: "Ẩm thực đặc sản", value: 18 },
+          { name: "Lễ hội truyền thống", value: 20 },
+          { name: "Làng nghề / Sinh thái", value: 14 },
+        ]
+      }
+    }
   },
   {
     slug: "son-la",
@@ -2702,7 +3392,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, coffeeImage, cuisineImage, seafoodImage, halongImage, phoImage]
+    gallery: [heroLandscape, coffeeImage, cuisineImage, seafoodImage, halongImage, phoImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Sơn La",
+        data: [
+          { name: "TP Sơn La", value: 28 },
+          { name: "Mộc Châu", value: 36 },
+          { name: "Mai Sơn", value: 17 },
+          { name: "Thuận Châu", value: 21 },
+          { name: "Quỳnh Nhai", value: 14 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Sơn La",
+        data: [
+          { name: "Di tích lịch sử", value: 28 },
+          { name: "Ẩm thực đặc sản", value: 22 },
+          { name: "Lễ hội truyền thống", value: 18 },
+          { name: "Làng nghề / Sinh thái", value: 32 },
+        ]
+      }
+    }
   },
   {
     slug: "thanh-hoa",
@@ -2786,7 +3499,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Thanh Hóa",
+        data: [
+          { name: "TP Thanh Hóa", value: 34 },
+          { name: "Sầm Sơn", value: 27 },
+          { name: "Lam Kinh", value: 38 },
+          { name: "Bỉm Sơn", value: 16 },
+          { name: "Hà Trung", value: 19 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Thanh Hóa",
+        data: [
+          { name: "Di tích lịch sử", value: 40 },
+          { name: "Ẩm thực đặc sản", value: 23 },
+          { name: "Lễ hội truyền thống", value: 22 },
+          { name: "Làng nghề / Sinh thái", value: 15 },
+        ]
+      }
+    }
   },
   {
     slug: "nghe-an",
@@ -2870,7 +3606,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Nghệ An",
+        data: [
+          { name: "TP Vinh", value: 37 },
+          { name: "Nam Đàn", value: 43 },
+          { name: "Đô Lương", value: 21 },
+          { name: "Diễn Châu", value: 17 },
+          { name: "Quỳnh Lưu", value: 14 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Nghệ An",
+        data: [
+          { name: "Di tích lịch sử", value: 42 },
+          { name: "Ẩm thực đặc sản", value: 22 },
+          { name: "Lễ hội truyền thống", value: 20 },
+          { name: "Làng nghề / Sinh thái", value: 16 },
+        ]
+      }
+    }
   },
   {
     slug: "ha-tinh",
@@ -2954,7 +3713,30 @@ const provinces = [
         image: cuisineImage
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage]
+    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo huyện",
+        subtitle: "Số lượng di tích lịch sử – văn hóa nổi tiếng theo từng huyện của Hà Tĩnh",
+        data: [
+          { name: "TP Hà Tĩnh", value: 29 },
+          { name: "Can Lộc", value: 22 },
+          { name: "Nghi Xuân", value: 31 },
+          { name: "Cẩm Xuyên", value: 17 },
+          { name: "Hương Sơn", value: 19 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Hà Tĩnh",
+        data: [
+          { name: "Di tích lịch sử", value: 38 },
+          { name: "Ẩm thực đặc sản", value: 25 },
+          { name: "Lễ hội truyền thống", value: 22 },
+          { name: "Làng nghề / Sinh thái", value: 15 },
+        ]
+      }
+    }
   },
   {
     slug: "dong-bang-song-hong",
@@ -3038,7 +3820,30 @@ const provinces = [
         image: heroLandscape
       }
     ],
-    gallery: [thangLongImage, cuisineImage, heroLandscape, phoImage, halongImage, seafoodImage]
+    gallery: [thangLongImage, cuisineImage, heroLandscape, phoImage, halongImage, seafoodImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo tỉnh thành",
+        subtitle: "Số lượng di tích lịch sử – văn hóa tiêu biểu theo tỉnh thành vùng Đồng Bằng Sông Hồng",
+        data: [
+          { name: "Hà Nội", value: 48 },
+          { name: "Ninh Bình", value: 36 },
+          { name: "Hải Phòng", value: 27 },
+          { name: "Hưng Yên", value: 21 },
+          { name: "Bắc Ninh", value: 31 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của vùng Đồng Bằng Sông Hồng",
+        data: [
+          { name: "Di tích lịch sử", value: 40 },
+          { name: "Ẩm thực đặc sản", value: 25 },
+          { name: "Lễ hội truyền thống", value: 22 },
+          { name: "Làng nghề / Sinh thái", value: 13 },
+        ]
+      }
+    }
   },
   {
     slug: "dong-bac",
@@ -3122,7 +3927,30 @@ const provinces = [
         image: heroLandscape
       }
     ],
-    gallery: [halongImage, heroLandscape, cuisineImage, coffeeImage, seafoodImage, phoImage]
+    gallery: [halongImage, heroLandscape, cuisineImage, coffeeImage, seafoodImage, phoImage],
+    charts: {
+      barChart: {
+        title: "Di tích theo tỉnh thành",
+        subtitle: "Số lượng di tích lịch sử – văn hóa tiêu biểu theo tỉnh thành vùng Đông Bắc",
+        data: [
+          { name: "Quảng Ninh", value: 42 },
+          { name: "Cao Bằng", value: 28 },
+          { name: "Lạng Sơn", value: 31 },
+          { name: "Lào Cai", value: 35 },
+          { name: "Hà Giang", value: 24 },
+        ]
+      },
+      pieChart: {
+        title: "Phân loại điểm đến văn hóa",
+        subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của vùng Đông Bắc",
+        data: [
+          { name: "Di tích lịch sử", value: 32 },
+          { name: "Ẩm thực đặc sản", value: 20 },
+          { name: "Lễ hội truyền thống", value: 18 },
+          { name: "Làng nghề / Sinh thái", value: 30 },
+        ]
+      }
+    }
   }
 ];
 
