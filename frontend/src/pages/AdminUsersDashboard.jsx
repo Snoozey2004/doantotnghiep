@@ -6,8 +6,7 @@ import { userApi } from "../api/userApi";
 const roleNames = {
   0: "Admin",
   1: "Editor",
-  2: "Seller",
-  3: "Customer"
+  2: "Customer"
 };
 
 export default function AdminUsersDashboard() {
@@ -117,8 +116,7 @@ export default function AdminUsersDashboard() {
           <option value="">Tất cả roles</option>
           <option value="0">Admin</option>
           <option value="1">Editor</option>
-          <option value="2">Seller</option>
-          <option value="3">Customer</option>
+          <option value="2">Customer</option>
         </select>
         <select name="approved" value={filters.approved} onChange={handleFilterChange}>
           <option value="">Tất cả trạng thái</option>

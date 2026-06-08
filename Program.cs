@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApplication1.Application.Interfaces.Repositories;
@@ -49,9 +48,6 @@ builder.Services.AddAuthorization(options =>
 
     options.AddPolicy("EditorPolicy", policy =>
         policy.RequireRole("0", "1"));
-
-    options.AddPolicy("SellerPolicy", policy =>
-        policy.RequireRole("0", "1", "2"));
 });
 
 builder.Services.AddCors(options =>

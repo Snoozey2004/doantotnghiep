@@ -53,8 +53,7 @@ export default function AdminUserEdit() {
           <select name="role" value={form.role} onChange={handleChange}>
             <option value="0">Admin</option>
             <option value="1">Editor</option>
-            <option value="2">Seller</option>
-            <option value="3">Customer</option>
+            <option value="2">Customer</option>
           </select>
           <div style={{ marginTop: 16, padding: 12, backgroundColor: form.isApproved ? "#dcfce7" : "#fef3c7", borderRadius: 6, borderLeft: `4px solid ${form.isApproved ? "#22c55e" : "#f59e0b"}` }}>
             <label style={{ display: "flex", gap: 8, alignItems: "center", cursor: "pointer" }}>

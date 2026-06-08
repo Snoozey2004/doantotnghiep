@@ -21,7 +21,7 @@ export default function RegisterPage() {
     try {
       const payload = { ...form, role: Number(form.role) };
       await authApi.register(payload);
-      const selectedRole = form.role === "1" ? "Editor" : form.role === "2" ? "Seller" : "Customer";
+      const selectedRole = form.role === "1" ? "Editor" : "Customer";
       setSuccess(`✅ Đăng ký thành công! ${form.role === "1" ? "Tài khoản của bạn đang chờ Admin phê duyệt." : ""}`);
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
@@ -81,8 +81,7 @@ export default function RegisterPage() {
                 />
                 <select name="role" value={form.role} onChange={handleChange} required>
                   <option value="1">Editor (cần admin duyệt)</option>
-                  <option value="2">Seller</option>
-                  <option value="3">Customer</option>
+                  <option value="2">Customer</option>
                 </select>
                 <div className="password-field">
                   <input
