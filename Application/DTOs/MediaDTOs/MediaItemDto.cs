@@ -7,6 +7,7 @@ public class MediaItemDto
     public string MediaType { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
+    public string ImageUrls { get; set; } = "[]";
     public string Description { get; set; } = string.Empty;
     public string Tags { get; set; } = string.Empty;
     public int SortOrder { get; set; }

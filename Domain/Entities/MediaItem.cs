@@ -7,6 +7,8 @@ public class MediaItem
     public string MediaType { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
+    // MANUAL MIGRATION REQUIRED: added property ImageUrls (JSON array of additional image URLs).
+    public string ImageUrls { get; set; } = "[]";
     public string Description { get; set; } = string.Empty;
     // MANUAL MIGRATION REQUIRED: added property Tags.
     public string Tags { get; set; } = string.Empty;

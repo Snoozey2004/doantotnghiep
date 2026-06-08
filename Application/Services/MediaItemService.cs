@@ -137,6 +137,7 @@ public class MediaItemService : IMediaItemService
             MediaType = item.MediaType,
             Title = item.Title,
             Url = item.Url,
+            ImageUrls = item.ImageUrls,
             Description = item.Description,
             Tags = item.Tags,
             SortOrder = item.SortOrder,
@@ -171,6 +172,7 @@ public class MediaItemService : IMediaItemService
         public string MediaType { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public string Url { get; set; } = string.Empty;
+        public string ImageUrls { get; set; } = "[]";
         public string Description { get; set; } = string.Empty;
         public string Tags { get; set; } = string.Empty;
         public int SortOrder { get; set; }

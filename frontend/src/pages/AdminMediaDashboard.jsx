@@ -77,17 +77,28 @@ export default function AdminMediaDashboard() {
             key={item.id}
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr auto",
+              gridTemplateColumns: "60px 1fr auto",
               gap: 12,
-              padding: "16px 24px",
+              padding: "12px 24px",
               borderBottom: "1px solid #e2e8f0",
               alignItems: "center"
             }}
           >
+            <div style={{ width: 50, height: 50, borderRadius: 6, overflow: "hidden", flexShrink: 0 }}>
+              {item.mediaType === "image" && item.url ? (
+                <img src={item.url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              ) : item.url ? (
+                <div style={{ width: "100%", height: "100%", background: "#e2e8f0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🎬</div>
+              ) : (
+                <div style={{ width: "100%", height: "100%", background: "#e2e8f0" }} />
+              )}
+            </div>
             <div>
               <strong>{item.title || "Untitled"}</strong>
               <div style={{ color: "#64748b", fontSize: 13 }}>
-                {item.mediaType} {item.isHighlighted && <span style={{ color: "#ffa500" }}>⭐ Nổi bật</span>}
+                {item.mediaType}
+                <span style={{ marginLeft: 8 }}>📷 {(() => { try { const urls = JSON.parse(item.imageUrls || "[]"); return Array.isArray(urls) ? urls.length : 0; } catch { return 0; } })()}</span>
+                {item.isHighlighted && <span style={{ marginLeft: 8, color: "#ffa500" }}>⭐ Nổi bật</span>}
               </div>
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
