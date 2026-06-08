@@ -290,11 +290,26 @@ export default function ProvinceLandingPage() {
   const introImage = featuredMedia.find((item) => item.mediaType === "intro")?.url
     || province.introImage;
 
+  const infoImageMap = {
+    "ha-noi": "/Images/infohanoi.png",
+    "hai-phong": "/Images/infohaiphong.png",
+    "ho-chi-minh": "/Images/infothanhphohochiminh.png",
+    "hue": "/Images/infohue.jpg",
+    "da-nang": "/Images/infodanang.jpg",
+  };
+  const infoImage = infoImageMap[slug];
+
   return (
     <MainLayout>
       <div className="province-page" style={{ "--accent": accentColor }}>
         <ProvinceHero province={{ ...province, heroImage }} />
         <ProvinceIntro province={{ ...province, introImage }} />
+        {infoImage && (
+          <div className="province-info-banner">
+            <h2 className="province-info-banner__title">Thông tin tổng quát về {province.name}</h2>
+            <img src={infoImage} alt={`Thông tin ${province.name}`} className="province-info-banner__img" />
+          </div>
+        )}
         <ProvinceCharts province={province} />
         <ProvinceTimeline province={province} />
         <ProvinceCulture province={province} />

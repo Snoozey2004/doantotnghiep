@@ -9,6 +9,7 @@ import huTieuImage from "/Images/hutieu.jpg";
 import thangLongImage from "/Images/dsvh-hoang-thanh-thang-long.png";
 import hueCitadelImage from "/Images/kinhdophuxuan.jpg";
 import heroLandscape from "/Images/homepage.png";
+import homeInfoImage from "/Images/homeinfo.png";
 import heroBg0 from "/Images/background0.jpg";
 import heroBg1 from "/Images/background1.jpg";
 import heroBg2 from "/Images/background2.jpg";
@@ -358,6 +359,17 @@ export default function HomePage() {
           </motion.div>
         </section>
 
+        <section className="home-info-banner">
+          <motion.img
+            src={homeInfoImage}
+            alt="Thông tin tổng quan Việt Nam"
+            className="home-info-banner__img"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          />
+        </section>
+
         <section className="home-section home-festivals-section">
           <div className="container">
             <div className="section-heading section-heading--center">
@@ -543,7 +555,11 @@ export default function HomePage() {
                 <p>Việt Nam trải dài hơn 1.650 km từ địa đầu Hà Giang đến mũi Cà Mau, với diện tích đất liền khoảng 331.000 km² và đường bờ biển dài hơn 3.260 km. Thủ đô Hà Nội ở phía Bắc và thành phố Hồ Chí Minh ở phía Nam là hai đô thị lớn nhất, là trung tâm kinh tế, văn hóa và chính trị của cả nước.</p>
                 <p>Lãnh thổ quốc gia bao gồm vùng đất liền, vùng biển và hai quần đảo Hoàng Sa và Trường Sa — là phần lãnh thổ thiêng liêng không thể tách rời của Tổ quốc Việt Nam.</p>
                 <ul className="home-map-stats">
-                  <li><span className="home-map-stat-num">63</span><span>tỉnh thành</span></li>
+                  <li>
+                    <span className="home-map-stat-num">34</span>
+                    <span>tỉnh thành</span>
+                    <span className="home-map-stat-note">(sau sáp nhập từ 63 tỉnh thành)</span>
+                  </li>
                   <li><span className="home-map-stat-num">3.260 km</span><span>đường bờ biển</span></li>
                   <li><span className="home-map-stat-num">54</span><span>dân tộc</span></li>
                 </ul>

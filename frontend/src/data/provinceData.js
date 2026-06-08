@@ -16,8 +16,8 @@ const provinces = [
     description:
       "Thủ đô nghìn năm tuổi lưu giữ di sản, ẩm thực tinh tế và nhịp sống thanh lịch của người Tràng An.",
     accentColor: "#b45309",
-    heroImage: thangLongImage,
-    introImage: phoImage,
+    heroImage: "/Images/Landingpagehanoi/istockphoto-525833203-612x612.jpg",
+    introImage: "/Images/Landingpagehanoi/istockphoto-538868764-612x612.jpg",
     stats: [
       { value: "1000+", label: "Năm lịch sử" },
       { value: "30+", label: "Di tích nổi tiếng" },
@@ -30,28 +30,28 @@ const provinces = [
         title: "Kinh đô Thăng Long ra đời",
         description: "Vua Lý Thái Tổ ban Chiếu dời đô từ Hoa Lư về Đại La, đặt tên là Thăng Long, mở đầu thời kỳ phát triển nghìn năm của đất kinh kỳ.",
         icon: "🏯",
-        image: thangLongImage
+        image: "/Images/Landingpagehanoi/istockphoto-478073811-612x612.jpg"
       },
       {
         year: "1070",
         title: "Văn Miếu – Quốc Tử Giám",
         description: "Vua Lý Thánh Tông cho xây Văn Miếu, sau đó Quốc Tử Giám được thành lập – trường đại học đầu tiên của Việt Nam, biểu tượng tinh thần hiếu học.",
         icon: "📚",
-        image: thangLongImage
+        image: "/Images/Landingpagehanoi/istockphoto-2153199185-612x612.jpg"
       },
       {
         year: "1945",
         title: "Thủ đô độc lập",
         description: "Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập tại Quảng trường Ba Đình, khai sinh nước Việt Nam Dân chủ Cộng hòa.",
         icon: "🇻🇳",
-        image: heroLandscape
+        image: "/Images/Landingpagehanoi/pexels-vtnt2-31647021.jpg"
       },
       {
         year: "Hiện đại",
         title: "Thủ đô hội nhập",
         description: "Hà Nội phát triển vượt bậc, hội nhập quốc tế trong khi vẫn bảo tồn di sản văn hóa nghìn năm của đất kinh kỳ.",
         icon: "🌟",
-        image: cuisineImage
+        image: "/Images/Landingpagehanoi/istockphoto-523822972-612x612.jpg"
       }
     ],
     specialties: [
@@ -59,28 +59,28 @@ const provinces = [
         name: "Phở Hà Nội",
         description: "Nước dùng trong, vị ngọt thanh từ xương hầm lâu, bánh phở mềm mượt – biểu tượng ẩm thực đất kinh kỳ.",
         origin: "Phố cổ Hà Nội",
-        image: phoImage,
+        image: "/Images/Landingpagehanoi/pexels-fox-58267-1265626.jpg",
         icon: "🍜"
       },
       {
         name: "Bún Chả",
         description: "Thịt lợn nướng thơm lừng trên than hoa, bún trắng mềm, nước chấm chua ngọt đậm đà – hương vị không thể nhầm lẫn.",
         origin: "Phố cổ Hà Nội",
-        image: cuisineImage,
+        image: "/Images/Landingpagehanoi/pexels-markus-winkler-1430818-3858270.jpg",
         icon: "🔥"
       },
       {
         name: "Chả Cá Lã Vọng",
         description: "Cá lăng nướng nghệ thì là trên bếp than, ăn kèm bún và mắm tôm – món ăn trứ danh từ thế kỷ XIX.",
         origin: "Phố Chả Cá",
-        image: seafoodImage,
+        image: "/Images/Landingpagehanoi/pexels-nguyendesigner-14192638.jpg",
         icon: "🐟"
       },
       {
         name: "Cà Phê Trứng",
         description: "Sáng tạo độc đáo của Hà Nội: cà phê robusta đậm đặc pha cùng lòng đỏ trứng đánh bông, béo ngậy và thơm nồng.",
         origin: "Phố Đinh Tiên Hoàng",
-        image: coffeeImage,
+        image: "/Images/Landingpagehanoi/pexels-soc-nang-d-ng-2150345854-35775552.jpg",
         icon: "☕"
       }
     ],
@@ -91,7 +91,7 @@ const provinces = [
         yearBuilt: "Thế kỷ XV",
         historicalValue: "Linh địa nghìn năm, gắn với truyền thuyết Hồ Hoàn Kiếm",
         highlight: "Tháp Rùa, cầu Thê Húc",
-        image: heroLandscape
+        image: "/Images/Landingpagehanoi/pexels-phamthe-13519138.jpg"
       },
       {
         name: "Hoàng thành Thăng Long",
@@ -99,7 +99,7 @@ const provinces = [
         yearBuilt: "Năm 1010",
         historicalValue: "Di sản thế giới UNESCO, trung tâm quyền lực 13 thế kỷ",
         highlight: "Khu khảo cổ, Đoan Môn, Hậu Lâu",
-        image: thangLongImage
+        image: "/Images/Landingpagehanoi/pexels-nguyen-ngoc-tien-1321490019-33763568.jpg"
       },
       {
         name: "Văn Miếu – Quốc Tử Giám",
@@ -107,19 +107,19 @@ const provinces = [
         yearBuilt: "Năm 1070",
         historicalValue: "Trung tâm học thuật nghìn năm, lưu giữ 82 bia Tiến sĩ",
         highlight: "Khuê Văn Các, bia đá Tiến sĩ",
-        image: thangLongImage
+        image: "/Images/Landingpagehanoi/istockphoto-2153199185-612x612.jpg"
       }
     ],
     culture: [
       {
         name: "Lễ hội Gióng",
         description: "Lễ hội truyền thống tôn vinh tinh thần thượng võ chống giặc ngoại xâm của dân tộc Việt.",
-        image: heroLandscape
+        image: "/Images/Landingpagehanoi/pexels-hson-30843558.jpg"
       },
       {
         name: "Múa rối nước",
         description: "Nghệ thuật dân gian độc đáo xuất phát từ đồng bằng Bắc Bộ, kể chuyện làng quê và truyền thuyết trên mặt nước.",
-        image: cuisineImage
+        image: "/Images/Landingpagehanoi/pexels-klub-boks-1437055-9114436.jpg"
       }
     ],
     craftVillages: [
@@ -127,28 +127,28 @@ const provinces = [
         name: "Làng gốm Bát Tràng",
         product: "Gốm sứ",
         description: "Làng nghề gốm sứ hơn 500 năm lịch sử, sản xuất các sản phẩm tinh xảo và nghệ thuật được xuất khẩu toàn cầu.",
-        image: thangLongImage,
+        image: "/Images/Landingpagehanoi/pexels-s-bat-trang-108848915-18376874.jpg",
         age: "500+ năm"
       },
       {
         name: "Làng lụa Vạn Phúc",
         product: "Lụa tơ tằm",
         description: "Làng dệt lụa nổi tiếng với chất lụa mềm mại, hoa văn tinh tế, được ưa chuộng từ triều đình đến nay.",
-        image: cuisineImage,
+        image: "/Images/Landingpagehanoi/pexels-quang-nguyen-vinh-222549-6350926.jpg",
         age: "1000+ năm"
       },
       {
         name: "Làng tranh Đông Hồ",
         product: "Tranh dân gian",
         description: "Dòng tranh khắc gỗ in màu tự nhiên, lưu giữ giá trị văn hóa dân gian đặc sắc từ thế kỷ XVII.",
-        image: heroLandscape,
+        image: "/Images/Landingpagehanoi/pexels-soc-nang-d-ng-2150345854-36850531.jpg",
         age: "Từ thế kỷ XVII"
       },
       {
         name: "Làng thêu Quất Động",
         product: "Thêu tay",
         description: "Nổi tiếng với nghề thêu tay điêu luyện, tạo ra những bức tranh thêu và sản phẩm mang giá trị nghệ thuật cao.",
-        image: phoImage,
+        image: "/Images/Landingpagehanoi/pexels-nhavan-36930586.jpg",
         age: "Truyền thống lâu đời"
       }
     ],
@@ -158,31 +158,38 @@ const provinces = [
         date: "Tháng 4 âm lịch",
         description: "Lễ hội tôn vinh Thánh Gióng – biểu tượng tinh thần thượng võ chống giặc ngoại xâm của dân tộc Việt Nam.",
         significance: "Di sản văn hóa phi vật thể UNESCO",
-        image: thangLongImage
+        image: "/Images/Landingpagehanoi/pexels-ninh-tien-dat-393934339-35090977.jpg"
       },
       {
         name: "Festival Thu Hà Nội",
         date: "Tháng 9 – 10 hàng năm",
         description: "Sự kiện văn hóa đặc trưng mùa thu Hà Nội với các hoạt động nghệ thuật, trình diễn và triển lãm đặc sắc.",
         significance: "Sự kiện văn hóa thường niên",
-        image: cuisineImage
+        image: "/Images/Landingpagehanoi/pexels-hoffman11-19328539.jpg"
       },
       {
         name: "Lễ hội Hoa Anh Đào",
         date: "Tháng 3 – 4",
         description: "Lễ hội kỷ niệm quan hệ hữu nghị Việt – Nhật với trưng bày hoa anh đào rực rỡ tại không gian Hồ Hoàn Kiếm.",
         significance: "Giao lưu văn hóa quốc tế",
-        image: heroLandscape
+        image: "/Images/Landingpagehanoi/pexels-ivi-nnnnnn-129330-37396390.jpg"
       },
       {
         name: "Lễ hội Chùa Hương",
         date: "Mùng 6 tháng Giêng – tháng 3 âm lịch",
         description: "Một trong những lễ hội lớn nhất Việt Nam, hành hương về chùa Hương giữa phong cảnh núi non hùng vĩ.",
         significance: "Lễ hội tâm linh lớn nhất miền Bắc",
-        image: heroLandscape
+        image: "/Images/Landingpagehanoi/pexels-thanhhoa-tran-640546-1621248.jpg"
       }
     ],
-    gallery: [phoImage, thangLongImage, heroLandscape, cuisineImage, seafoodImage, halongImage],
+    gallery: [
+      "/Images/Landingpagehanoi/istockphoto-2171248303-612x612.jpg",
+      "/Images/Landingpagehanoi/istockphoto-1444726693-612x612.jpg",
+      "/Images/Landingpagehanoi/pexels-hson-25949473.jpg",
+      "/Images/Landingpagehanoi/istockphoto-1461240621-612x612.jpg",
+      "/Images/Landingpagehanoi/istockphoto-1180719633-612x612.jpg",
+      "/Images/Landingpagehanoi/pexels-dwanghong-30411837.jpg"
+    ],
     charts: {
       barChart: {
         title: "Di tích theo quận",
