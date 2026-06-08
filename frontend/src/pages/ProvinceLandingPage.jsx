@@ -3,11 +3,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout.jsx";
 import ProvinceHero from "../components/landing/ProvinceHero.jsx";
 import ProvinceIntro from "../components/landing/ProvinceIntro.jsx";
+import ProvinceTimeline from "../components/landing/ProvinceTimeline.jsx";
 import ProvinceSpecialties from "../components/landing/ProvinceSpecialties.jsx";
-import ProvinceTourism from "../components/landing/ProvinceTourism.jsx";
 import ProvinceCulture from "../components/landing/ProvinceCulture.jsx";
+import ProvinceCraftVillages from "../components/landing/ProvinceCraftVillages.jsx";
+import ProvinceFestivals from "../components/landing/ProvinceFestivals.jsx";
 import ProvinceGallery from "../components/landing/ProvinceGallery.jsx";
 import ProvinceCTA from "../components/landing/ProvinceCTA.jsx";
+import ProvinceCharts from "../components/landing/ProvinceCharts.jsx";
 import provinces from "../data/provinceData";
 import { provinceApi } from "../api/provinceApi";
 import { landingConfigApi } from "../api/landingConfigApi";
@@ -287,53 +290,33 @@ export default function ProvinceLandingPage() {
   const introImage = featuredMedia.find((item) => item.mediaType === "intro")?.url
     || province.introImage;
 
-  const configBlocks = config?.blocks || [];
-  const hasBackendLandingBlocks = configBlocks.length > 0;
+  const infoImageMap = {
+    "ha-noi": "/Images/infohanoi.png",
+    "hai-phong": "/Images/infohaiphong.png",
+    "ho-chi-minh": "/Images/infothanhphohochiminh.png",
+    "hue": "/Images/infohue.jpg",
+    "da-nang": "/Images/infodanang.jpg",
+  };
+  const infoImage = infoImageMap[slug];
 
   return (
     <MainLayout>
       <div className="province-page" style={{ "--accent": accentColor }}>
-        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 12 }}>
-          <button
-            type="button"
-            className="btn btn-outline btn-sm"
-            onClick={handleEditLanding}
-            disabled={isImportingLanding}
-          >
-            {isImportingLanding ? "Đang nhập..." : "Edit landing page"}
-          </button>
-        </div>
-        {hasBackendLandingBlocks ? (
-          <LandingPageRenderer
-            province={{
-              ...province,
-              ...provinceData,
-              name: provinceData?.name || province.name,
-              description: provinceData?.description || province.description,
-              slogan: provinceData?.overview || province.slogan,
-              heroImage: config?.backgroundUrl || heroImage,
-              introImage,
-              body: provinceData?.body || province.body,
-              keyFeatures: provinceData?.keyFeatures || province.keyFeatures,
-              imageUrl: provinceData?.imageUrl || province.imageUrl,
-              videoUrl: provinceData?.videoUrl || province.videoUrl
-            }}
-            blocks={configBlocks}
-            posts={posts}
-            products={products}
-            mediaItems={mediaItems}
-          />
-        ) : (
-          <>
-            <ProvinceHero province={{ ...province, heroImage }} />
-            <ProvinceIntro province={{ ...province, introImage }} />
-            <ProvinceSpecialties province={province} />
-            <ProvinceTourism province={province} />
-            <ProvinceCulture province={province} />
-            <ProvinceGallery province={province} />
-            <ProvinceCTA />
-          </>
+        <ProvinceHero province={{ ...province, heroImage }} />
+        <ProvinceIntro province={{ ...province, introImage }} />
+        {infoImage && (
+          <div className="province-info-banner">
+            <h2 className="province-info-banner__title">Thông tin tổng quát về {province.name}</h2>
+            <img src={infoImage} alt={`Thông tin ${province.name}`} className="province-info-banner__img" />
+          </div>
         )}
+        <ProvinceCharts province={province} />
+        <ProvinceTimeline province={province} />
+        <ProvinceCulture province={province} />
+        <ProvinceSpecialties province={province} />
+        <ProvinceCraftVillages province={province} />
+        <ProvinceFestivals province={province} />
+        <ProvinceGallery province={province} />
       </div>
     </MainLayout>
   );
