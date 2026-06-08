@@ -2,14 +2,46 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import searchApi from '../api/searchApi';
+import localProvinces from '../data/provinceData';
 import '../styles/search.css';
 
+const PROVINCE_SLUGS_ORDERED = [
+  'ha-noi', 'hai-phong', 'hue', 'da-nang', 'can-tho', 'ho-chi-minh',
+  'cao-bang', 'dien-bien', 'lai-chau', 'lao-cai', 'son-la', 'lang-son',
+  'tuyen-quang', 'thai-nguyen', 'phu-tho', 'quang-ninh', 'bac-ninh',
+  'hung-yen', 'ninh-binh', 'thanh-hoa', 'nghe-an', 'ha-tinh', 'quang-tri',
+  'quang-ngai', 'gia-lai', 'khanh-hoa', 'lam-dong', 'dak-lak', 'dong-nai',
+  'tay-ninh', 'dong-thap', 'vinh-long', 'an-giang', 'ca-mau'
+];
+
+const provinceMap = new Map(localProvinces.map(p => [p.slug, p]));
+
+function buildLocalProvinceResults() {
+  return PROVINCE_SLUGS_ORDERED.map((slug, index) => {
+    const p = provinceMap.get(slug);
+    if (!p) return null;
+    return {
+      id: slug,
+      itemType: 'Province',
+      slug: p.slug,
+      title: p.name,
+      description: p.description,
+      imageUrl: typeof p.heroImage === 'string' ? p.heroImage : null,
+      isHighlighted: false,
+      relevanceScore: 100 - index,
+      region: null,
+      category: null,
+      tags: null
+    };
+  }).filter(Boolean);
+}
+
 const CATEGORIES = [
-  { value: 'History', label: 'Lịch sử' },
-  { value: 'Culture', label: 'Văn hóa' },
-  { value: 'Tourism', label: 'Du lịch' },
-  { value: 'Cuisine', label: 'Ẩm thực' },
-  { value: 'Festival', label: 'Lễ hội' }
+  { value: 'History', label: 'Lịch sử', icon: '🏛' },
+  { value: 'Culture', label: 'Văn hóa', icon: '🎭' },
+  { value: 'Tourism', label: 'Du lịch', icon: '🗺' },
+  { value: 'Cuisine', label: 'Ẩm thực', icon: '🍜' },
+  { value: 'Festival', label: 'Lễ hội', icon: '🎊' }
 ];
 const REGIONS = [
   { value: 'North', label: 'Miền Bắc' },
@@ -28,6 +60,27 @@ const MEDIA_TYPES = [
   { value: 'Video', label: 'Video' }
 ];
 
+const TYPE_LABELS = {
+  Province: 'Tỉnh/Thành',
+  Post: 'Bài viết',
+  Media: 'Media',
+  Product: 'Sản phẩm',
+};
+
+function SkeletonCard() {
+  return (
+    <div className="skeleton-card">
+      <div className="skeleton-img" />
+      <div className="skeleton-body">
+        <div className="skeleton-line w60" />
+        <div className="skeleton-line w90" />
+        <div className="skeleton-line w80" />
+        <div className="skeleton-line w40" />
+      </div>
+    </div>
+  );
+}
+
 const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -40,8 +93,8 @@ const SearchPage = () => {
   const [results, setResults] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1);
+  const inputRef = useRef(null);
 
-  // Filter states
   const [filters, setFilters] = useState({
     region: searchParams.get('region') || '',
     category: searchParams.get('category') || '',
@@ -50,57 +103,54 @@ const SearchPage = () => {
     tags: searchParams.get('tags') || ''
   });
 
-  useEffect(() => {
-    if (isComposing) {
-      return;
-    }
+  const activeFilterCount = [
+    filters.region,
+    filters.category,
+    filters.contentType !== 'All' ? filters.contentType : '',
+    filters.mediaType,
+    filters.tags
+  ].filter(Boolean).length;
 
+  useEffect(() => {
+    if (isComposing) return;
     const urlKeyword = searchParams.get('keyword') || searchParams.get('q') || '';
     setKeyword((prev) => (prev === urlKeyword ? prev : urlKeyword));
   }, [searchParams, isComposing]);
 
-  // Fetch suggestions while typing
   useEffect(() => {
-    if (isComposing) {
-      setShowSuggestions(false);
-      return;
-    }
-
+    if (isComposing) { setShowSuggestions(false); return; }
     if (keyword.length > 1) {
       const timer = setTimeout(async () => {
         try {
-          const suggestions = await searchApi.getSuggestions(keyword);
-          setSuggestions(suggestions || []);
+          const s = await searchApi.getSuggestions(keyword);
+          setSuggestions(s || []);
           setShowSuggestions(true);
-        } catch (error) {
-          console.error('Error fetching suggestions:', error);
+        } catch {
           setSuggestions([]);
         }
       }, 300);
       return () => clearTimeout(timer);
     }
-
     setSuggestions([]);
     setShowSuggestions(false);
   }, [keyword, isComposing]);
 
-  // Perform search
   useEffect(() => {
-    if (isComposing) {
-      return;
-    }
-
+    if (isComposing) return;
     const performSearch = async () => {
       const trimmedKeyword = keyword.trim();
       if (!trimmedKeyword) {
-        setResults([]);
-        setTotalCount(0);
+        const allLocal = buildLocalProvinceResults();
+        const pageSize = 10;
+        const start = (currentPage - 1) * pageSize;
+        setResults(allLocal.slice(start, start + pageSize));
+        setTotalCount(allLocal.length);
+        setShowSuggestions(false);
+        setLoading(false);
         return;
       }
-
       const requestId = latestSearchRequestRef.current + 1;
       latestSearchRequestRef.current = requestId;
-
       setLoading(true);
       try {
         const data = await searchApi.search({
@@ -113,16 +163,10 @@ const SearchPage = () => {
           page: currentPage,
           pageSize: 10
         });
-
-        if (requestId !== latestSearchRequestRef.current) {
-          return;
-        }
-
+        if (requestId !== latestSearchRequestRef.current) return;
         setResults(data.results || []);
         setTotalCount(data.totalCount || 0);
         setShowSuggestions(false);
-
-        // Update URL with search params
         const params = new URLSearchParams({
           keyword: trimmedKeyword,
           ...(filters.region ? { region: filters.region } : {}),
@@ -133,21 +177,14 @@ const SearchPage = () => {
           ...(currentPage > 1 ? { page: String(currentPage) } : {})
         });
         setSearchParams(params);
-      } catch (error) {
-        if (requestId !== latestSearchRequestRef.current) {
-          return;
-        }
-
-        console.error('Search error:', error);
+      } catch {
+        if (requestId !== latestSearchRequestRef.current) return;
         setResults([]);
         setTotalCount(0);
       } finally {
-        if (requestId === latestSearchRequestRef.current) {
-          setLoading(false);
-        }
+        if (requestId === latestSearchRequestRef.current) setLoading(false);
       }
     };
-
     performSearch();
   }, [keyword, filters, currentPage, setSearchParams, isComposing]);
 
@@ -157,247 +194,270 @@ const SearchPage = () => {
   };
 
   const handleFilterChange = (filterName, value) => {
-    setFilters(prev => ({
-      ...prev,
-      [filterName]: value
-    }));
+    setFilters(prev => ({ ...prev, [filterName]: value }));
     setCurrentPage(1);
   };
 
   const handleClearFilters = () => {
-    setFilters({
-      region: '',
-      category: '',
-      contentType: 'All',
-      mediaType: '',
-      tags: ''
-    });
+    setFilters({ region: '', category: '', contentType: 'All', mediaType: '', tags: '' });
     setCurrentPage(1);
   };
 
-  const getTotalPages = () => {
-    return Math.ceil(totalCount / 10);
-  };
+  const getTotalPages = () => Math.ceil(totalCount / 10);
 
   const handleItemClick = (item) => {
-    if (item.itemType === 'Province') {
-      navigate(`/province/${item.slug}`);
-    } else if (item.itemType === 'Post') {
-      navigate(`/post/${item.id}`);
-    }
+    if (item.itemType === 'Province') navigate(`/province/${item.slug}`);
+    else if (item.itemType === 'Post') navigate(`/post/${item.id}`);
   };
 
   return (
     <MainLayout>
       <div className="search-page">
-        <div className="search-header">
-          <div className="search-container">
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Tìm tỉnh thành, bài viết, media và nhiều nội dung khác..."
-              value={keyword}
-              onCompositionStart={() => setIsComposing(true)}
-              onCompositionEnd={(e) => {
-                setIsComposing(false);
-                setKeyword(e.currentTarget.value);
-              }}
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-            {showSuggestions && suggestions.length > 0 && (
-              <div className="suggestions-dropdown">
-                {suggestions.map((suggestion, index) => (
-                  <div
-                    key={index}
-                    className="suggestion-item"
-                    onClick={() => handleSuggestionClick(suggestion)}
-                  >
-                    {suggestion}
+
+        {/* ── Hero search header ── */}
+        <div className="search-hero">
+          <div className="search-hero-inner">
+            <p className="search-hero-kicker">Khám phá</p>
+            <h1 className="search-hero-title">Tìm kiếm nội dung</h1>
+
+            <div className="search-bar-wrap">
+              <span className="search-icon">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.7">
+                  <circle cx="8.5" cy="8.5" r="5.5" />
+                  <line x1="13" y1="13" x2="18" y2="18" />
+                </svg>
+              </span>
+              <input
+                ref={inputRef}
+                type="text"
+                className="search-input"
+                placeholder="Tìm tỉnh thành, bài viết, ẩm thực, lễ hội..."
+                value={keyword}
+                onCompositionStart={() => setIsComposing(true)}
+                onCompositionEnd={(e) => { setIsComposing(false); setKeyword(e.currentTarget.value); }}
+                onChange={(e) => setKeyword(e.target.value)}
+                onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+              />
+              {keyword && (
+                <button className="search-clear" onClick={() => { setKeyword(''); inputRef.current?.focus(); }} aria-label="Xóa">
+                  <svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>
+                </button>
+              )}
+
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="suggestions-dropdown">
+                  {suggestions.map((s, i) => (
+                    <div key={i} className="suggestion-item" onMouseDown={() => handleSuggestionClick(s)}>
+                      <svg className="sug-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <circle cx="6.5" cy="6.5" r="4" /><line x1="10" y1="10" x2="14" y2="14" />
+                      </svg>
+                      {s}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* ── Filter chips ── */}
+            <div className="filter-rows">
+              {/* Content type */}
+              <div className="filter-row">
+                <span className="filter-row-label">Loại</span>
+                <div className="chip-group">
+                  {CONTENT_TYPES.map(t => (
+                    <button
+                      key={t.value}
+                      className={`chip${filters.contentType === t.value ? ' chip--active' : ''}`}
+                      onClick={() => handleFilterChange('contentType', t.value)}
+                    >{t.label}</button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Region */}
+              <div className="filter-row">
+                <span className="filter-row-label">Vùng</span>
+                <div className="chip-group">
+                  <button
+                    className={`chip${!filters.region ? ' chip--active' : ''}`}
+                    onClick={() => handleFilterChange('region', '')}
+                  >Tất cả</button>
+                  {REGIONS.map(r => (
+                    <button
+                      key={r.value}
+                      className={`chip${filters.region === r.value ? ' chip--active' : ''}`}
+                      onClick={() => handleFilterChange('region', r.value)}
+                    >{r.label}</button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Category */}
+              <div className="filter-row">
+                <span className="filter-row-label">Chủ đề</span>
+                <div className="chip-group">
+                  <button
+                    className={`chip${!filters.category ? ' chip--active' : ''}`}
+                    onClick={() => handleFilterChange('category', '')}
+                  >Tất cả</button>
+                  {CATEGORIES.map(c => (
+                    <button
+                      key={c.value}
+                      className={`chip${filters.category === c.value ? ' chip--active' : ''}`}
+                      onClick={() => handleFilterChange('category', c.value)}
+                    ><span className="chip-icon">{c.icon}</span>{c.label}</button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Media type row — only when content type is Media */}
+              {filters.contentType === 'Media' && (
+                <div className="filter-row">
+                  <span className="filter-row-label">Media</span>
+                  <div className="chip-group">
+                    <button
+                      className={`chip${!filters.mediaType ? ' chip--active' : ''}`}
+                      onClick={() => handleFilterChange('mediaType', '')}
+                    >Tất cả</button>
+                    {MEDIA_TYPES.map(m => (
+                      <button
+                        key={m.value}
+                        className={`chip${filters.mediaType === m.value ? ' chip--active' : ''}`}
+                        onClick={() => handleFilterChange('mediaType', m.value)}
+                      >{m.label}</button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {activeFilterCount > 0 && (
+                <button className="btn-clear-filters" onClick={handleClearFilters}>
+                  × Xóa {activeFilterCount} bộ lọc
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Results area ── */}
+        <div className="search-body">
+          <div className="search-body-inner">
+
+            {/* Results meta */}
+            {!loading && results.length > 0 && (
+              <div className="results-meta">
+                <span className="results-count">
+                  {keyword.trim()
+                    ? <><strong>{totalCount.toLocaleString()}</strong> kết quả cho "<em>{keyword}</em>"</>
+                    : <><strong>{totalCount}</strong> tỉnh/thành phố</>}
+                </span>
+              </div>
+            )}
+
+            {/* Loading skeletons */}
+            {loading && (
+              <div className="results-list">
+                {Array.from({ length: 5 }).map((_, i) => <SkeletonCard key={i} />)}
+              </div>
+            )}
+
+            {/* Empty state */}
+            {!loading && results.length === 0 && (
+              <div className="empty-state">
+                <div className="empty-state-icon">🔍</div>
+                <h3>{keyword.trim() ? `Không tìm thấy kết quả cho "${keyword}"` : 'Nhập từ khóa để tìm kiếm'}</h3>
+                <p>{keyword.trim() ? 'Thử thay đổi từ khóa hoặc xóa bộ lọc để tìm thêm nội dung.' : 'Tìm kiếm tỉnh thành, bài viết, ẩm thực, lễ hội và nhiều nội dung khác.'}</p>
+                {activeFilterCount > 0 && (
+                  <button className="btn-clear-filters-lg" onClick={handleClearFilters}>Xóa bộ lọc</button>
+                )}
+              </div>
+            )}
+
+            {/* Result cards */}
+            {!loading && results.length > 0 && (
+              <div className="results-list">
+                {results.map((item) => (
+                  <div key={item.id} className="result-card" onClick={() => handleItemClick(item)}>
+                    {item.imageUrl ? (
+                      <div className="result-card-img">
+                        <img src={item.imageUrl} alt={item.title} loading="lazy" />
+                      </div>
+                    ) : (
+                      <div className="result-card-img result-card-img--placeholder">
+                        <span>{item.title?.[0] ?? '?'}</span>
+                      </div>
+                    )}
+
+                    <div className="result-card-body">
+                      <div className="result-card-top">
+                        <span className={`result-badge type-${item.itemType?.toLowerCase()}`}>
+                          {TYPE_LABELS[item.itemType] ?? item.itemType}
+                        </span>
+                        {item.region && <span className="result-badge result-badge--region">{item.region}</span>}
+                        {item.category && <span className="result-badge result-badge--cat">{item.category}</span>}
+                        {item.isHighlighted && <span className="result-badge result-badge--star">★ Nổi bật</span>}
+                      </div>
+
+                      <h3 className="result-card-title">{item.title}</h3>
+                      <p className="result-card-desc">
+                        {item.description ? item.description.substring(0, 160) + (item.description.length > 160 ? '…' : '') : ''}
+                      </p>
+
+                      {item.tags && (
+                        <div className="result-card-tags">
+                          {item.tags.split(',').slice(0, 4).map((tag, idx) => (
+                            <span key={idx} className="result-tag">{tag.trim()}</span>
+                          ))}
+                        </div>
+                      )}
+
+                      <span className="result-card-arrow">Xem chi tiết →</span>
+                    </div>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {/* Pagination */}
+            {getTotalPages() > 1 && !loading && (
+              <div className="pagination">
+                <button
+                  className="page-btn"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >← Trước</button>
+
+                <div className="page-numbers">
+                  {Array.from({ length: getTotalPages() }, (_, i) => i + 1)
+                    .filter(p => p === 1 || p === getTotalPages() || Math.abs(p - currentPage) <= 2)
+                    .reduce((acc, p, i, arr) => {
+                      if (i > 0 && p - arr[i - 1] > 1) acc.push('…');
+                      acc.push(p);
+                      return acc;
+                    }, [])
+                    .map((p, i) =>
+                      p === '…'
+                        ? <span key={`ellipsis-${i}`} className="page-ellipsis">…</span>
+                        : <button
+                            key={p}
+                            className={`page-num${p === currentPage ? ' page-num--active' : ''}`}
+                            onClick={() => setCurrentPage(p)}
+                          >{p}</button>
+                    )
+                  }
+                </div>
+
+                <button
+                  className="page-btn"
+                  disabled={currentPage === getTotalPages()}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >Sau →</button>
               </div>
             )}
           </div>
         </div>
 
-        <div className="search-content">
-          {/* Filter Panel */}
-          <aside className="search-filters">
-            <h3>Bộ lọc</h3>
-
-            {/* Content Type Filter */}
-            <div className="filter-group">
-              <label>Loại nội dung</label>
-              <select
-                value={filters.contentType}
-                onChange={(e) => handleFilterChange('contentType', e.target.value)}
-              >
-                {CONTENT_TYPES.map(type => (
-                  <option key={type.value} value={type.value}>{type.label}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Region Filter */}
-            <div className="filter-group">
-              <label>Khu vực</label>
-              <select
-                value={filters.region}
-                onChange={(e) => handleFilterChange('region', e.target.value)}
-              >
-                <option value="">Tất cả khu vực</option>
-                {REGIONS.map(region => (
-                  <option key={region.value} value={region.value}>{region.label}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Category Filter */}
-            <div className="filter-group">
-              <label>Chủ đề</label>
-              <select
-                value={filters.category}
-                onChange={(e) => handleFilterChange('category', e.target.value)}
-              >
-                <option value="">Tất cả chủ đề</option>
-                {CATEGORIES.map(category => (
-                  <option key={category.value} value={category.value}>{category.label}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Media Type Filter */}
-            <div className="filter-group">
-              <label>Loại media</label>
-              <select
-                value={filters.mediaType}
-                onChange={(e) => handleFilterChange('mediaType', e.target.value)}
-              >
-                <option value="">Tất cả media</option>
-                {MEDIA_TYPES.map(type => (
-                  <option key={type.value} value={type.value}>{type.label}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Tags Filter */}
-            <div className="filter-group">
-              <label>Thẻ (phân tách bằng dấu phẩy)</label>
-              <input
-                type="text"
-                value={filters.tags}
-                onChange={(e) => handleFilterChange('tags', e.target.value)}
-                placeholder="ví dụ: cultural, historic"
-              />
-            </div>
-
-            <button className="btn-clear-filters" onClick={handleClearFilters}>
-              Xóa bộ lọc
-            </button>
-          </aside>
-
-          {/* Results */}
-          <main className="search-results">
-            {loading && <div className="loading">Đang tìm kiếm...</div>}
-
-            {!loading && results.length === 0 && keyword.trim() && (
-              <div className="no-results">
-                Không tìm thấy kết quả cho "{keyword}"
-              </div>
-            )}
-
-            {!loading && !keyword.trim() && (
-              <div className="empty-search">
-                Bắt đầu nhập để tìm kiếm tỉnh thành, bài viết, media và nhiều nội dung khác.
-              </div>
-            )}
-
-            {results.length > 0 && (
-              <>
-                <div className="results-info">
-                  Tìm thấy {totalCount} kết quả cho "{keyword}"
-                </div>
-
-                <div className="results-list">
-                  {results.map((item) => (
-                    <div
-                      key={item.id}
-                      className="search-result-item"
-                      onClick={() => handleItemClick(item)}
-                    >
-                      {item.imageUrl && (
-                        <div className="result-image">
-                          <img src={item.imageUrl} alt={item.title} />
-                        </div>
-                      )}
-                      {item.videoUrl && !item.imageUrl && (
-                        <div className="result-video">
-                          <video src={item.videoUrl} />
-                        </div>
-                      )}
-
-                      <div className="result-content">
-                        <div className="result-header">
-                          <h3 className="result-title">{item.title}</h3>
-                          <span className={`result-type type-${item.itemType.toLowerCase()}`}>
-                            {item.itemType}
-                          </span>
-                        </div>
-
-                        {item.category && (
-                          <span className="result-category">{item.category}</span>
-                        )}
-
-                        {item.region && (
-                          <span className="result-region">{item.region}</span>
-                        )}
-
-                        <p className="result-description">
-                          {item.description ? item.description.substring(0, 150) : 'No description available'}...
-                        </p>
-
-                        {item.tags && (
-                          <div className="result-tags">
-                            {item.tags.split(',').slice(0, 3).map((tag, idx) => (
-                              <span key={idx} className="tag">{tag.trim()}</span>
-                            ))}
-                          </div>
-                        )}
-
-                        <div className="result-meta">
-                          {item.isHighlighted && (
-                            <span className="badge-highlighted">★ Featured</span>
-                          )}
-                          <span className="relevance">
-                            Relevance: {item.relevanceScore}%
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {getTotalPages() > 1 && (
-                  <div className="pagination">
-                    <button
-                      disabled={currentPage === 1}
-                      onClick={() => setCurrentPage(currentPage - 1)}
-                    >
-                      Trước
-                    </button>
-                    <span>Trang {currentPage} / {getTotalPages()}</span>
-                    <button
-                      disabled={currentPage === getTotalPages()}
-                      onClick={() => setCurrentPage(currentPage + 1)}
-                    >
-                      Sau
-                    </button>
-                  </div>
-                )}
-              </>
-            )}
-          </main>
-        </div>
       </div>
     </MainLayout>
   );

@@ -57,9 +57,9 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="container header-content">
-        <Link to="/" className="logo">
+        <a href="/" className="logo">
           Vietnam Identity
-        </Link>
+        </a>
         <nav className="header-nav">
           <form onSubmit={handleSearchSubmit} className="header-search">
             <input

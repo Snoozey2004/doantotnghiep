@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 
 export default function ProvinceHero({ province }) {
+  const stats = province.stats || [];
+
   return (
     <section
       className="province-hero"
@@ -22,7 +24,7 @@ export default function ProvinceHero({ province }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
         >
-          {province.name}
+          Khám Phá Tinh Hoa Văn Hóa {province.name}
         </motion.h1>
         <motion.p
           className="province-hero-slogan"
@@ -41,15 +43,35 @@ export default function ProvinceHero({ province }) {
           {province.description}
         </motion.p>
         <motion.div
-          className="province-hero-actions"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.7, delay: 0.45 }}
         >
-          <button className="hero-btn hero-btn-primary">Khám phá đặc sản</button>
-          <button className="hero-btn hero-btn-outline">Điểm đến nổi bật</button>
+          <a href="#province-specialties" className="province-hero-cta-btn">
+            Khám phá ngay
+          </a>
         </motion.div>
       </div>
+
+      {stats.length > 0 && (
+        <motion.div
+          className="province-hero-stats"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.6 }}
+        >
+          <div className="container">
+            <div className="province-hero-stats-grid">
+              {stats.map((stat, i) => (
+                <div key={i} className="province-hero-stat-item">
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      )}
     </section>
   );
 }
