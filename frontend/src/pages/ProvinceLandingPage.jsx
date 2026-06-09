@@ -303,11 +303,32 @@ export default function ProvinceLandingPage() {
   };
   const infoImage = infoImageMap[slug];
 
+  const provinceVideoMap = {
+    "ho-chi-minh": "/Landingpagevideo/hochiminh.mp4",
+  };
+  const provinceVideo = provinceVideoMap[slug];
+
   return (
     <MainLayout>
       <div className="province-page" style={{ "--accent": accentColor }}>
         <ProvinceHero province={{ ...province, heroImage }} />
         <ProvinceIntro province={{ ...province, introImage }} />
+        {provinceVideo && (
+          <div className="province-video-section">
+            <div className="container">
+              <p className="province-video-section__kicker">Khám phá</p>
+              <h2 className="province-video-section__title">Video về {province.name}</h2>
+              <video
+                className="province-video"
+                src={provinceVideo}
+                controls
+                muted
+                loop
+                playsInline
+              />
+            </div>
+          </div>
+        )}
         {infoImage && (
           <div className="province-info-banner">
             <h2 className="province-info-banner__title">Thông tin tổng quát về {province.name}</h2>
