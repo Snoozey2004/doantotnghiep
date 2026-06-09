@@ -647,6 +647,38 @@ a {
   margin-top: 4px;
 }
 
+/* ── Province Video Section ── */
+.province-video-section {
+  width: 100%;
+  background: #f6f1e8;
+  padding: 90px 0;
+}
+
+.province-video-section__kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.province-video-section__title {
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  color: #2b251f;
+  font-weight: 700;
+  margin-bottom: 36px;
+}
+
+.province-video {
+  display: block;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  border-radius: 16px;
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.15);
+}
+
 /* ── Province Info Banner ── */
 .province-info-banner {
   width: 100%;
