@@ -20,6 +20,7 @@ import { mediaApi } from "../api/mediaApi";
 import { analyticsApi } from "../api/analyticsApi";
 import LandingPageRenderer from "../components/landing/LandingPageRenderer.jsx";
 import { uiBlockApi } from "../api/uiBlockApi";
+import TrongDongDecor from "../components/common/TrongDongDecor.jsx";
 
 export default function ProvinceLandingPage() {
   const { slug } = useParams();
@@ -336,12 +337,6 @@ export default function ProvinceLandingPage() {
             </div>
           </div>
         )}
-        {infoImage && (
-          <div className="province-info-banner">
-            <h2 className="province-info-banner__title">Thông tin tổng quát về {province.name}</h2>
-            <img src={infoImage} alt={`Thông tin ${province.name}`} className="province-info-banner__img" />
-          </div>
-        )}
         <ProvinceCharts province={province} />
         <ProvinceTimeline province={province} />
         <ProvinceCulture province={province} />
@@ -349,6 +344,22 @@ export default function ProvinceLandingPage() {
         <ProvinceCraftVillages province={province} />
         <ProvinceFestivals province={province} />
         <ProvinceGallery province={province} />
+        {infoImage && (
+          <div className="province-info-banner">
+            <div className="province-info-banner__inner">
+              <div className="province-info-banner__decoration" aria-hidden="true">
+                <TrongDongDecor />
+              </div>
+              <div className="province-info-banner__content">
+                <h2 className="province-info-banner__title">Thông tin tổng quát về {province.name}</h2>
+                <img src={infoImage} alt={`Thông tin ${province.name}`} className="province-info-banner__img" />
+              </div>
+              <div className="province-info-banner__decoration" aria-hidden="true">
+                <TrongDongDecor />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </MainLayout>
   );
