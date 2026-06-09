@@ -305,6 +305,13 @@ export default function ProvinceLandingPage() {
 
   const provinceVideoMap = {
     "ho-chi-minh": "/Landingpagevideo/hochiminh.mp4",
+    "ha-noi": "/Landingpagevideo/hanoi.mp4",
+    "hai-phong": "/Landingpagevideo/haiphong.mp4",
+    "da-nang": "/Landingpagevideo/danang.mp4",
+    "hue": "/Landingpagevideo/hue.mp4",
+    "can-tho": "/Landingpagevideo/cantho.mp4",
+    "cao-bang": "/Landingpagevideo/caobang.mp4",
+    "dien-bien": "/Landingpagevideo/dienbien.mp4",
   };
   const provinceVideo = provinceVideoMap[slug];
 
