@@ -54,6 +54,10 @@ export default function ProvinceLandingPage() {
   });
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
+
+  useEffect(() => {
     let isMounted = true;
 
     const loadData = async () => {
