@@ -650,7 +650,7 @@ a {
 /* ── Province Video Section ── */
 .province-video-section {
   width: 100%;
-  background: #f6f1e8;
+  background: #ece6d8;
   padding: 90px 0;
 }
 
@@ -682,9 +682,44 @@ a {
 /* ── Province Info Banner ── */
 .province-info-banner {
   width: 100%;
-  background: #fffbea;
+  background: transparent;
   padding: 40px 0;
 }
+
+.province-info-banner__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  gap: 0;
+}
+
+.province-info-banner__decoration {
+  flex: 0 0 160px;
+  width: 160px;
+  opacity: 0.10;
+  color: #8b5e10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.province-info-banner__decoration svg {
+  width: 100%;
+  height: auto;
+}
+
+.province-info-banner__content {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
 .province-info-banner__title {
   text-align: center;
   font-size: clamp(1.2rem, 2vw, 1.6rem);
@@ -696,9 +731,15 @@ a {
 .province-info-banner__img {
   display: block;
   max-width: 600px;
-  width: 70%;
+  width: 90%;
   height: auto;
   margin: 0 auto;
+}
+
+@media (max-width: 640px) {
+  .province-info-banner__decoration {
+    display: none;
+  }
 }
 
 /* ── Home Info Banner ── */
@@ -1611,6 +1652,10 @@ a {
   padding: 6px 12px;
   border-radius: 999px;
   width: fit-content;
+}
+
+.province-gallery {
+  background: #ece6d8;
 }
 
 .province-gallery-grid {
