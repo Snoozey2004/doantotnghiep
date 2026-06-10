@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
 
-export default function ProvinceTimeline({ province }) {
+export default function ProvinceTimeline({ province, bgColor }) {
   const timeline = province.timeline || [];
   if (!timeline.length) return null;
 
   return (
-    <section className="province-section province-timeline-section">
+    <section
+      className="province-section province-timeline-section"
+      style={bgColor ? { backgroundColor: bgColor } : undefined}
+    >
       <div className="container">
         <div className="province-section-heading">
           <span className="province-section-kicker">Dòng chảy lịch sử</span>

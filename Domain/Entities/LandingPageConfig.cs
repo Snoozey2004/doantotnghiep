@@ -8,6 +8,7 @@ public class LandingPageConfig
     public string FontFamily { get; set; } = string.Empty;
     public string BackgroundUrl { get; set; } = string.Empty;
     public string Layout { get; set; } = string.Empty;
+    public string SectionColorsJson { get; set; } = string.Empty;
     public Province? Province { get; set; }
     public ICollection<UIBlock> Blocks { get; set; } = new List<UIBlock>();
 }
