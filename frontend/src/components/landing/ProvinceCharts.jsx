@@ -42,13 +42,16 @@ const CustomPieTooltip = ({ active, payload }) => {
 };
 
 
-export default function ProvinceCharts({ province }) {
+export default function ProvinceCharts({ province, bgColor }) {
   const { barChart, pieChart } = province.charts || {};
   const [pieAnimating, setPieAnimating] = useState(true);
   if (!barChart && !pieChart) return null;
 
   return (
-    <section className="province-section province-charts-section">
+    <section
+      className="province-section province-charts-section"
+      style={bgColor ? { backgroundColor: bgColor } : undefined}
+    >
       <div className="container">
         <div className="province-section-heading">
           <span className="province-section-kicker">Dữ liệu thống kê</span>

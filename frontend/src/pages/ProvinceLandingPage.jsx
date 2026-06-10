@@ -290,6 +290,7 @@ export default function ProvinceLandingPage() {
   }
 
   const accentColor = config?.themeColor || province.accentColor;
+  const sc = config?.sectionColors || {};
   const heroImage = featuredMedia.find((item) => item.mediaType === "hero")?.url
     || province.heroImage;
   const introImage = featuredMedia.find((item) => item.mediaType === "intro")?.url
@@ -345,10 +346,13 @@ export default function ProvinceLandingPage() {
   return (
     <MainLayout>
       <div className="province-page" style={{ "--accent": accentColor }}>
-        <ProvinceHero province={{ ...province, heroImage }} />
-        <ProvinceIntro province={{ ...province, introImage }} />
+        <ProvinceHero province={{ ...province, heroImage }} bgColor={sc.hero} />
+        <ProvinceIntro province={{ ...province, introImage }} bgColor={sc.intro} />
         {provinceVideo && (
-          <div className="province-video-section">
+          <div
+            className="province-video-section"
+            style={sc.video ? { backgroundColor: sc.video } : undefined}
+          >
             <div className="container">
               <p className="province-video-section__kicker">Khám phá</p>
               <h2 className="province-video-section__title">Video về {province.name}</h2>
@@ -363,15 +367,18 @@ export default function ProvinceLandingPage() {
             </div>
           </div>
         )}
-        <ProvinceCharts province={province} />
-        <ProvinceTimeline province={province} />
-        <ProvinceCulture province={province} />
-        <ProvinceSpecialties province={province} />
-        <ProvinceCraftVillages province={province} />
-        <ProvinceFestivals province={province} />
-        <ProvinceGallery province={province} />
+        <ProvinceCharts province={province} bgColor={sc.charts} />
+        <ProvinceTimeline province={province} bgColor={sc.timeline} />
+        <ProvinceCulture province={province} bgColor={sc.culture} />
+        <ProvinceSpecialties province={province} bgColor={sc.specialties} />
+        <ProvinceCraftVillages province={province} bgColor={sc.craftVillages} />
+        <ProvinceFestivals province={province} bgColor={sc.festivals} />
+        <ProvinceGallery province={province} bgColor={sc.gallery} />
         {infoImage && (
-          <div className="province-info-banner">
+          <div
+            className="province-info-banner"
+            style={sc.info ? { backgroundColor: sc.info } : undefined}
+          >
             <div className="province-info-banner__inner">
               <div className="province-info-banner__decoration" aria-hidden="true">
                 <TrongDongDecor />

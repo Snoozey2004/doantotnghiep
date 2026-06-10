@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
 
-export default function ProvinceCraftVillages({ province }) {
+export default function ProvinceCraftVillages({ province, bgColor }) {
   const craftVillages = province.craftVillages || [];
   if (!craftVillages.length) return null;
 
   return (
-    <section className="province-section province-craft-section">
+    <section
+      className="province-section province-craft-section"
+      style={bgColor ? { backgroundColor: bgColor } : undefined}
+    >
       <div className="container">
         <div className="province-section-heading">
           <span className="province-section-kicker">Làng nghề truyền thống</span>

@@ -10,5 +10,6 @@ public class LandingPageConfigDto
     public string FontFamily { get; set; } = string.Empty;
     public string BackgroundUrl { get; set; } = string.Empty;
     public string Layout { get; set; } = string.Empty;
+    public Dictionary<string, string> SectionColors { get; set; } = new();
     public List<UIBlockDto> Blocks { get; set; } = new();
 }
