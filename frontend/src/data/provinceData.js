@@ -1931,8 +1931,8 @@ const provinces = [
     description:
       "Khánh Hòa nổi tiếng với biển Nha Trang trong xanh, đảo đẹp và hải sản phong phú.",
     accentColor: "#0284c7",
-    heroImage: seafoodImage,
-    introImage: seafoodImage,
+    heroImage: "/Images/Landingpagekhanhhoa/Vinh-Nha-Trang-15.jpg",
+    introImage: "/Images/Landingpagekhanhhoa/Vịnh-Nha-Trang-ivivu.jpg",
     stats: [
       { value: "400+", label: "Năm lịch sử" },
       { value: "150+", label: "Di tích danh thắng" },
@@ -1940,73 +1940,80 @@ const provinces = [
       { value: "30+", label: "Làng nghề đặc sắc" }
     ],
     timeline: [
-      { year: "Thế kỷ VII-XV", title: "Vương quốc Chăm Pa", description: "Khánh Hòa là vùng đất trung tâm của Vương quốc Chăm Pa với nhiều công trình kiến trúc Chăm kỳ vĩ, điển hình là Tháp Bà Ponagar.", icon: "🏛️", image: heroLandscape },
-      { year: "1653", title: "Sáp nhập Đại Việt", description: "Sau khi Chúa Nguyễn Phúc Tần chinh phục, Khánh Hòa chính thức sáp nhập vào lãnh thổ Đại Việt và phát triển thành trung tâm thương mại miền Trung.", icon: "🗺️", image: heroLandscape },
-      { year: "Thế kỷ XIX", title: "Nha Trang hình thành", description: "Thành phố Nha Trang dần hình thành dưới thời Pháp thuộc với các công trình thuộc địa, bến cảng và khu nghỉ dưỡng ven biển.", icon: "🏖️", image: heroLandscape },
-      { year: "Hiện đại", title: "Thành phố biển đẳng cấp quốc tế", description: "Nha Trang trở thành thành phố biển hàng đầu Đông Nam Á với hệ thống resort, cáp treo vượt biển và các lễ hội du lịch quốc tế.", icon: "🌊", image: heroLandscape }
+      { year: "Thế kỷ VII-XV", title: "Vương quốc Chăm Pa", description: "Khánh Hòa là vùng đất trung tâm của Vương quốc Chăm Pa với nhiều công trình kiến trúc Chăm kỳ vĩ, điển hình là Tháp Bà Ponagar.", icon: "🏛️", image: "/Images/Landingpagekhanhhoa/kien-truc-cham-pa-4.jpg" },
+      { year: "1653", title: "Sáp nhập Đại Việt", description: "Sau khi Chúa Nguyễn Phúc Tần chinh phục, Khánh Hòa chính thức sáp nhập vào lãnh thổ Đại Việt và phát triển thành trung tâm thương mại miền Trung.", icon: "🗺️", image: "/Images/Landingpagekhanhhoa/nha-trang-xua-1965-compressed.jpg" },
+      { year: "Thế kỷ XIX", title: "Nha Trang hình thành", description: "Thành phố Nha Trang dần hình thành dưới thời Pháp thuộc với các công trình thuộc địa, bến cảng và khu nghỉ dưỡng ven biển.", icon: "🏖️", image: "/Images/Landingpagekhanhhoa/958d40ce-ban-do-khanh-hoa-1.jpg" },
+      { year: "Hiện đại", title: "Thành phố biển đẳng cấp quốc tế", description: "Nha Trang trở thành thành phố biển hàng đầu Đông Nam Á với hệ thống resort, cáp treo vượt biển và các lễ hội du lịch quốc tế.", icon: "🌊", image: "/Images/Landingpagekhanhhoa/kham-pha-festival-bien-nha-trang-khong-gian-le-hoi-quang-ba-bien-dao-day-sac-mau-1027.jpg" }
     ],
     craftVillages: [
-      { name: "Làng nghề yến sào Khánh Hòa", product: "Yến sào cao cấp", description: "Khánh Hòa là vùng khai thác yến sào tự nhiên lớn nhất Việt Nam, sản xuất yến chất lượng cao có giá trị dinh dưỡng và kinh tế vượt trội.", image: heroLandscape, age: "300+ năm" },
-      { name: "Làng đúc nồi đất Vạn Khánh", product: "Đồ gốm đất nung", description: "Nghề đúc nồi đất truyền thống với phương pháp thủ công độc đáo, tạo ra nồi đất nung chất lượng phục vụ nấu nướng gia đình.", image: heroLandscape, age: "200+ năm" },
-      { name: "Nghề đóng thuyền Vĩnh Lương", product: "Thuyền gỗ đánh cá", description: "Làng nghề đóng thuyền gỗ truyền thống cung cấp phương tiện đánh bắt hải sản cho ngư dân Khánh Hòa và các tỉnh lân cận.", image: heroLandscape, age: "200+ năm" },
-      { name: "Làng đá granit Diên Khánh", product: "Đá granit tự nhiên", description: "Vùng khai thác và chế tác đá granit nổi tiếng miền Trung, cung cấp vật liệu xây dựng cao cấp và đồ trang trí cho thị trường cả nước.", image: heroLandscape, age: "100+ năm" }
+      { name: "Làng nghề yến sào Khánh Hòa", product: "Yến sào cao cấp", description: "Khánh Hòa là vùng khai thác yến sào tự nhiên lớn nhất Việt Nam, sản xuất yến chất lượng cao có giá trị dinh dưỡng và kinh tế vượt trội.", image: "/Images/Landingpagekhanhhoa/yen-sao-san-vat-quy-gia-tu-nhung-mom-da-cheo-leo-ngoai-khoi-xa-6-1622485990.jpg", age: "300+ năm" },
+      { name: "Làng đúc nồi đất Vạn Khánh", product: "Đồ gốm đất nung", description: "Nghề đúc nồi đất truyền thống với phương pháp thủ công độc đáo, tạo ra nồi đất nung chất lượng phục vụ nấu nướng gia đình.", image: "/Images/Landingpagekhanhhoa/www.khoahocphothong.com.vn-vnt_upload-file-05_2023-_tho_lam_noi_dat_tai_lang_nghe_tru_son.jpg", age: "200+ năm" },
+      { name: "Nghề đóng thuyền Vĩnh Lương", product: "Thuyền gỗ đánh cá", description: "Làng nghề đóng thuyền gỗ truyền thống cung cấp phương tiện đánh bắt hải sản cho ngư dân Khánh Hòa và các tỉnh lân cận.", image: "/Images/Landingpagekhanhhoa/1829669_toan_canh_xuong_dong_sua_chua_tau_thuyen_cua_gia_dinh_ong_le_duc_minh_o_khu_8_phuong_phong_hai_tx_quang_yen_09465518.jpg", age: "200+ năm" },
+      { name: "Làng đá granit Diên Khánh", product: "Đá granit tự nhiên", description: "Vùng khai thác và chế tác đá granit nổi tiếng miền Trung, cung cấp vật liệu xây dựng cao cấp và đồ trang trí cho thị trường cả nước.", image: "/Images/Landingpagekhanhhoa/quy-trinh-khai-thac-da-tu-nhien-3.jpg", age: "100+ năm" }
     ],
     festivals: [
-      { name: "Lễ hội Tháp Bà Ponagar", date: "20-23 tháng 3 âm lịch", description: "Lễ hội lớn nhất Khánh Hòa tại Tháp Bà Ponagar – công trình Chăm Pa cổ, với nghi lễ tắm tượng, múa bóng rỗi và hát chầu văn.", significance: "Lễ hội tín ngưỡng Tháp Bà", image: heroLandscape },
-      { name: "Lễ hội Cầu Ngư", date: "Tháng Giêng âm lịch", description: "Lễ hội cầu ngư truyền thống của ngư dân ven biển với lễ rước linh và đua thuyền sôi động cầu mong mùa biển bình yên và cá đầy thuyền.", significance: "Lễ hội ngư dân truyền thống", image: heroLandscape },
-      { name: "Festival Biển Nha Trang", date: "Tháng 6-7 hàng năm", description: "Lễ hội du lịch quốc tế với nhiều hoạt động văn hóa, nghệ thuật, thể thao biển và trình diễn ánh sáng rực rỡ trên vịnh Nha Trang.", significance: "Sự kiện du lịch quốc tế", image: heroLandscape },
-      { name: "Lễ hội Am Chúa", date: "Mùng 1-3 tháng 3 âm lịch", description: "Lễ hội tôn vinh Thiên Y A Na (Bà Chúa Ngọc) tại Am Chúa, Diên Khánh với nhiều nghi lễ dân gian đặc sắc.", significance: "Tín ngưỡng thờ Mẫu đặc trưng", image: heroLandscape }
+      { name: "Lễ hội Tháp Bà Ponagar", date: "20-23 tháng 3 âm lịch", description: "Lễ hội lớn nhất Khánh Hòa tại Tháp Bà Ponagar – công trình Chăm Pa cổ, với nghi lễ tắm tượng, múa bóng rỗi và hát chầu văn.", significance: "Lễ hội tín ngưỡng Tháp Bà", image: "/Images/Landingpagekhanhhoa/thap-ba-ponagar-o-nha-trang.jpg" },
+      { name: "Lễ hội Cầu Ngư", date: "Tháng Giêng âm lịch", description: "Lễ hội cầu ngư truyền thống của ngư dân ven biển với lễ rước linh và đua thuyền sôi động cầu mong mùa biển bình yên và cá đầy thuyền.", significance: "Lễ hội ngư dân truyền thống", image: "/Images/Landingpagekhanhhoa/Le_hoi_cau_ngu_net_dep_van_hoa_cua_nguoi_mien_bien_7f20b8dac7.jpg" },
+      { name: "Festival Biển Nha Trang", date: "Tháng 6-7 hàng năm", description: "Lễ hội du lịch quốc tế với nhiều hoạt động văn hóa, nghệ thuật, thể thao biển và trình diễn ánh sáng rực rỡ trên vịnh Nha Trang.", significance: "Sự kiện du lịch quốc tế", image: "/Images/Landingpagekhanhhoa/festival-bien-nha-trang-0.jpg" },
+      { name: "Lễ hội Am Chúa", date: "Mùng 1-3 tháng 3 âm lịch", description: "Lễ hội tôn vinh Thiên Y A Na (Bà Chúa Ngọc) tại Am Chúa, Diên Khánh với nhiều nghi lễ dân gian đặc sắc.", significance: "Tín ngưỡng thờ Mẫu đặc trưng", image: "/Images/Landingpagekhanhhoa/le-hoi-cau-ngu.-anh-ngoc-lan.jpg" }
     ],
     specialties: [
       {
         name: "Bún cá Nha Trang",
         description: "Nước dùng thanh, cá tươi ngọt.",
         origin: "Nha Trang",
-        image: seafoodImage
+        image: "/Images/Landingpagekhanhhoa/bun-ca-nha-trang-banner.jpg"
       },
       {
         name: "Nem nướng",
         description: "Nem thơm, ăn kèm bánh tráng.",
         origin: "Ninh Hòa",
-        image: cuisineImage
+        image: "/Images/Landingpagekhanhhoa/nem-nuong-noi-tieng-nha-trang.jpg"
       },
       {
         name: "Yến sào",
         description: "Đặc sản quý của vùng biển.",
         origin: "Đảo yến",
-        image: heroLandscape
+        image: "/Images/Landingpagekhanhhoa/yen-sao-san-vat-quy-gia-tu-nhung-mom-da-cheo-leo-ngoai-khoi-xa-6-1622485990.jpg"
       }
     ],
     tourism: [
       {
         name: "Vịnh Nha Trang",
         description: "Một trong những vịnh đẹp nhất thế giới.",
-        image: seafoodImage
+        image: "/Images/Landingpagekhanhhoa/Vinh-Nha-Trang-15.jpg"
       },
       {
         name: "Đảo Hòn Mun",
         description: "Thiên đường lặn biển.",
-        image: halongImage
+        image: "/Images/Landingpagekhanhhoa/hon-mun-3.jpg"
       },
       {
         name: "Tháp Bà Ponagar",
         description: "Di tích văn hóa Chăm.",
-        image: thangLongImage
+        image: "/Images/Landingpagekhanhhoa/Thap-Po-Nagar-09.jpg"
       }
     ],
     culture: [
       {
         name: "Lễ hội biển Nha Trang",
         description: "Sôi động, tôn vinh văn hóa biển.",
-        image: heroLandscape
+        image: "/Images/Landingpagekhanhhoa/kham-pha-festival-bien-nha-trang-khong-gian-le-hoi-quang-ba-bien-dao-day-sac-mau-1027.jpg"
       },
       {
         name: "Lễ hội yến sào",
         description: "Tôn vinh nghề khai thác yến.",
-        image: cuisineImage
+        image: "/Images/Landingpagekhanhhoa/le-hoi-yen-sao-nha-trang-khanh-hoa-ton-vinh-lang-nghe-truyen-thong-dac-sac-tai-nha-trang-1625645933.jpg"
       }
     ],
-    gallery: [seafoodImage, halongImage, heroLandscape, cuisineImage, phoImage, coffeeImage],
+    gallery: [
+      "/Images/Landingpagekhanhhoa/Vinh-Nha-Trang-15.jpg",
+      "/Images/Landingpagekhanhhoa/hon-mun-3.jpg",
+      "/Images/Landingpagekhanhhoa/Thap-Po-Nagar-09.jpg",
+      "/Images/Landingpagekhanhhoa/bun-ca-nha-trang-banner.jpg",
+      "/Images/Landingpagekhanhhoa/nem-nuong-noi-tieng-nha-trang.jpg",
+      "/Images/Landingpagekhanhhoa/festival-bien-nha-trang-0.jpg"
+    ],
     charts: {
       barChart: {
         title: "Điểm du lịch theo khu vực",
