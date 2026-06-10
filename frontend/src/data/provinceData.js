@@ -2043,104 +2043,195 @@ const provinces = [
     name: "Lâm Đồng",
     slogan: "Đà Lạt mộng mơ giữa cao nguyên",
     description:
-      "Lâm Đồng sở hữu thành phố Đà Lạt mát lành, rừng thông và văn hóa cà phê.",
+      "Lâm Đồng – xứ sở của ngàn hoa, rừng thông vi vút và thành phố Đà Lạt mát lành quanh năm ở độ cao 1.500m. Nơi giao thoa giữa kiến trúc Pháp cổ kính, văn hóa bản địa K'Ho và thiên nhiên cao nguyên hùng vĩ.",
     accentColor: "#0f766e",
-    heroImage: coffeeImage,
-    introImage: coffeeImage,
+    heroImage: "/Images/landingpagelamdong/Dalat3.jpg",
+    introImage: "/Images/landingpagelamdong/ho-xuan-huong-da-lat-1.jpg",
     stats: [
-      { value: "120+", label: "Năm thành phố Đà Lạt" },
+      { value: "130+", label: "Năm thành phố Đà Lạt" },
       { value: "300+", label: "Loài hoa đặc trưng" },
       { value: "50+", label: "Lễ hội văn hóa" },
-      { value: "30+", label: "Làng nghề đặc sắc" }
+      { value: "1.500m", label: "Độ cao trung bình" }
     ],
     timeline: [
-      { year: "1893", title: "Bác sĩ Yersin khám phá Đà Lạt", description: "Bác sĩ Alexandre Yersin khám phá cao nguyên Lang Biang 1893, đề xuất xây dựng thành phố nghỉ dưỡng trên cao nguyên mát mẻ này.", icon: "🔭", image: heroLandscape },
-      { year: "1916", title: "Thành phố Đà Lạt ra đời", description: "Đà Lạt chính thức được thành lập, xây dựng theo kiểu quy hoạch đô thị Pháp với các biệt thự cổ và vườn hoa tuyệt đẹp.", icon: "🏘️", image: heroLandscape },
-      { year: "1944", title: "Trường Võ Bị Quốc Gia", description: "Trường Võ Bị Quốc Gia Đà Lạt thành lập, khẳng định vị trí giáo dục đặc biệt của thành phố cao nguyên trong lịch sử Việt Nam.", icon: "🎓", image: heroLandscape },
-      { year: "Hiện đại", title: "Thành phố hoa quốc tế", description: "Đà Lạt nổi tiếng khắp thế giới với Festival Hoa quốc tế và trở thành điểm đến du lịch, nghỉ dưỡng hàng đầu Đông Nam Á.", icon: "🌸", image: heroLandscape }
+      {
+        year: "1893",
+        title: "Bác sĩ Yersin khám phá Lang Biang",
+        description: "Bác sĩ Alexandre Yersin lần đầu đặt chân lên cao nguyên Lang Biang, kinh ngạc trước khí hậu mát mẻ quanh năm và đề xuất xây dựng thành phố nghỉ dưỡng trên vùng cao nguyên tuyệt đẹp này.",
+        icon: "🔭",
+        image: "/Images/landingpagelamdong/alexandre-yersin-institutpasteur_46576.jpg"
+      },
+      {
+        year: "1916",
+        title: "Thành phố Đà Lạt chính thức ra đời",
+        description: "Đà Lạt được thành lập theo quy hoạch đô thị Pháp với hệ thống biệt thự cổ, vườn hoa rực rỡ và cơ sở hạ tầng hiện đại – mở ra kỷ nguyên vàng son của 'Paris thu nhỏ' giữa Tây Nguyên.",
+        icon: "🏘️",
+        image: "/Images/landingpagelamdong/Langbian_Palace_1920s.jpg"
+      },
+      {
+        year: "1944",
+        title: "Trường Võ Bị Quốc Gia Đà Lạt",
+        description: "Trường Võ Bị Quốc Gia Đà Lạt thành lập, khẳng định vị trí đặc biệt của thành phố trong lịch sử quân sự và giáo dục Việt Nam, đào tạo nhiều thế hệ sĩ quan ưu tú.",
+        icon: "🎓",
+        image: "/Images/landingpagelamdong/Trường_Võ-bị_Quốc-gia.JPG"
+      },
+      {
+        year: "Hiện đại",
+        title: "Thành phố hoa quốc tế",
+        description: "Festival Hoa Đà Lạt quốc tế tổ chức 2 năm một lần thu hút hàng triệu du khách. Lâm Đồng trở thành trung tâm nông nghiệp công nghệ cao, du lịch sinh thái hàng đầu Đông Nam Á.",
+        icon: "🌸",
+        image: "/Images/landingpagelamdong/ruc-ro-le-hoi-hoa-o-da-lat-5ece160609332.jpg"
+      }
     ],
     craftVillages: [
-      { name: "Làng hoa Vạn Thành", product: "Hoa tươi cao cấp", description: "Vùng trồng hoa tươi lớn nhất Đà Lạt cung cấp hoa hồng, cẩm chướng, lay ơn cho thị trường cả nước và xuất khẩu.", image: heroLandscape, age: "70+ năm" },
-      { name: "Làng nghề dệt thổ cẩm K'Ho", product: "Thổ cẩm K'Ho", description: "Nghề dệt thổ cẩm truyền thống của người K'Ho tại Lạc Dương với hoa văn độc đáo phản ánh văn hóa cao nguyên.", image: heroLandscape, age: "Truyền thống lâu đời" },
-      { name: "Gốm mỹ nghệ Đà Lạt", product: "Gốm nghệ thuật", description: "Làng nghề gốm mỹ nghệ sản xuất đồ lưu niệm và nghệ thuật phong phú, khai thác đất sét địa phương và phong cách thiết kế hiện đại.", image: heroLandscape, age: "50+ năm" },
-      { name: "Làng chè oolong Cầu Đất", product: "Chè Oolong cao cấp", description: "Vùng chè Oolong Cầu Đất với độ cao trên 1600m tạo ra chè chất lượng cao, hương vị thơm ngon được xuất khẩu sang nhiều quốc gia.", image: heroLandscape, age: "100+ năm" }
+      {
+        name: "Làng hoa Vạn Thành",
+        product: "Hoa tươi cao cấp",
+        description: "Vùng trồng hoa tươi lớn nhất Đà Lạt, chuyên cung cấp hoa hồng, cẩm chướng, lay ơn và hàng trăm loài hoa khác cho thị trường cả nước và xuất khẩu sang Nhật Bản, Hàn Quốc.",
+        image: "/Images/landingpagelamdong/lang-hoa-van-thanh-1.jpg",
+        age: "70+ năm"
+      },
+      {
+        name: "Làng dệt thổ cẩm K'Ho",
+        product: "Thổ cẩm K'Ho truyền thống",
+        description: "Nghề dệt thổ cẩm truyền thống của người K'Ho tại Lạc Dương với hoa văn chim thú và hình học độc đáo, phản ánh vũ trụ quan và đời sống tâm linh phong phú của đồng bào cao nguyên.",
+        image: "/Images/landingpagelamdong/Det-tho-cam-truyen-thong-cua-nguoi-KHo-Lam-Dong-duoc-gioi-thieu-tai-hoi-nghi.jpg",
+        age: "Truyền thống lâu đời"
+      },
+      {
+        name: "Gốm mỹ nghệ Đà Lạt",
+        product: "Gốm nghệ thuật",
+        description: "Làng nghề gốm mỹ nghệ khai thác đất sét địa phương kết hợp phong cách thiết kế hiện đại, tạo ra những sản phẩm lưu niệm độc đáo mang đậm hồn cốt cao nguyên.",
+        image: "/Images/landingpagelamdong/pexels-mesayu-elida-irawati-2155088933-37232086.jpg",
+        age: "50+ năm"
+      },
+      {
+        name: "Làng chè oolong Cầu Đất",
+        product: "Chè Oolong cao cấp",
+        description: "Vùng chè Oolong Cầu Đất ở độ cao trên 1.600m với khí hậu sương mù quanh năm tạo ra hương vị thơm ngon đặc biệt, được xuất khẩu sang Đài Loan, Nhật Bản và nhiều quốc gia châu Á.",
+        image: "/Images/landingpagelamdong/doi-che-cau-dat-1.jpg",
+        age: "100+ năm"
+      }
     ],
     festivals: [
-      { name: "Festival Hoa Đà Lạt", date: "Tháng 12 (2 năm một lần)", description: "Lễ hội hoa quốc tế lớn nhất Việt Nam với hàng triệu bông hoa trang trí khắp thành phố, thu hút khách quốc tế và trong nước.", significance: "Lễ hội hoa quốc tế", image: heroLandscape },
-      { name: "Lễ hội Cồng Chiêng K'Ho", date: "Tháng 1-2 hàng năm", description: "Lễ hội cồng chiêng của người K'Ho Lang Biang tái hiện không gian văn hóa Tây Nguyên với các điệu múa và nhạc cụ truyền thống.", significance: "Di sản văn hóa cồng chiêng", image: heroLandscape },
-      { name: "Lễ hội trà Bảo Lộc", date: "Tháng 11 hàng năm", description: "Lễ hội tôn vinh ngành chè Bảo Lộc với các hoạt động thưởng trà, thi hái chè và trình diễn pha trà nghệ thuật.", significance: "Lễ hội nông nghiệp đặc trưng", image: heroLandscape },
-      { name: "Lễ hội Nhật Nguyệt Lang Biang", date: "Tháng Giêng âm lịch", description: "Lễ hội truyền thống của người K'Ho tại núi Lang Biang với các nghi lễ cầu Yàng ban phúc và lửa trại cộng đồng hoành tráng.", significance: "Lễ hội núi Lang Biang", image: heroLandscape }
+      {
+        name: "Festival Hoa Đà Lạt",
+        date: "Tháng 12 (2 năm một lần)",
+        description: "Lễ hội hoa quốc tế lớn nhất Việt Nam với hàng triệu bông hoa trang trí khắp thành phố, các cuộc thi kết hoa, triển lãm hoa nghệ thuật và chương trình văn hóa đặc sắc thu hút khách quốc tế.",
+        significance: "Lễ hội hoa quốc tế",
+        image: "/Images/landingpagelamdong/ruc-ro-le-hoi-hoa-o-da-lat-5ece160609332.jpg"
+      },
+      {
+        name: "Lễ hội Cồng Chiêng K'Ho",
+        date: "Tháng 1–2 hàng năm",
+        description: "Lễ hội cồng chiêng truyền thống của người K'Ho tại Lang Biang tái hiện không gian văn hóa Tây Nguyên với các điệu múa xoang, nhạc cụ cổ và nghi lễ mừng lúa mới hoành tráng.",
+        significance: "Di sản văn hóa cồng chiêng Tây Nguyên",
+        image: "/Images/landingpagelamdong/521-kon_tum-phuocsonkt@gmailcom-le_hoi_mung_lua_moi.jpg"
+      },
+      {
+        name: "Lễ hội trà Bảo Lộc",
+        date: "Tháng 11 hàng năm",
+        description: "Lễ hội tôn vinh ngành chè Bảo Lộc với các hoạt động thưởng trà nghệ thuật, thi hái chè, triển lãm sản phẩm chè và giao lưu văn hóa giữa các vùng trà nổi tiếng trong và ngoài nước.",
+        significance: "Lễ hội nông nghiệp đặc trưng",
+        image: "/Images/landingpagelamdong/doi-che-cau-dat-o-da-lat-2.png"
+      },
+      {
+        name: "Lễ hội Nhật Nguyệt Lang Biang",
+        date: "Tháng Giêng âm lịch",
+        description: "Lễ hội truyền thống của người K'Ho tại núi Lang Biang linh thiêng với các nghi lễ cầu Yàng ban phúc, lửa trại cộng đồng và màn trình diễn cồng chiêng dưới ánh trăng huyền bí.",
+        significance: "Lễ hội núi Lang Biang",
+        image: "/Images/landingpagelamdong/0031041_ve-tham-quan-langbiang-land.jpeg"
+      }
     ],
     specialties: [
       {
         name: "Cà phê Đà Lạt",
-        description: "Hương thơm dịu, hậu vị ngọt.",
+        description: "Cà phê Arabica trồng ở độ cao 1.500m với hương thơm dịu nhẹ, vị chua thanh tự nhiên và hậu vị ngọt lịm – đặc sản không thể bỏ qua khi đến xứ sở sương mù.",
         origin: "Đà Lạt",
-        image: coffeeImage
+        icon: "☕",
+        image: "/Images/landingpagelamdong/5-quan-ca-phe-song-ao-dep-nhat-khi-den-da-lat-202104092147433320.jpg"
       },
       {
-        name: "Dâu tây",
-        description: "Quả dâu đỏ mọng nổi tiếng.",
+        name: "Dâu tây Đà Lạt",
+        description: "Quả dâu tây đỏ mọng, vị chua ngọt hài hòa được trồng trên những vườn dâu xanh mướt ở độ cao lý tưởng – biểu tượng nông sản sạch của vùng cao nguyên Lâm Đồng.",
         origin: "Đà Lạt",
-        image: heroLandscape
+        icon: "🍓",
+        image: "/Images/landingpagelamdong/pexels-valeriia-tkachenko-1240258405-36855669.jpg"
       },
       {
-        name: "Atiso",
-        description: "Thảo dược thanh lọc cơ thể.",
+        name: "Atiso Đà Lạt",
+        description: "Thảo dược quý thanh nhiệt, lọc gan được trồng trên cao nguyên Lâm Đồng – chế biến thành trà atiso, mứt và thực phẩm chức năng xuất khẩu giá trị cao.",
         origin: "Lâm Đồng",
-        image: cuisineImage
+        icon: "🌿",
+        image: "/Images/landingpagelamdong/pexels-helloaesthe-31735571.jpg"
       }
     ],
     tourism: [
       {
         name: "Hồ Xuân Hương",
-        description: "Biểu tượng thơ mộng của Đà Lạt.",
-        image: heroLandscape
+        description: "Hồ nhân tạo biểu tượng của Đà Lạt nằm giữa trung tâm thành phố, được bao quanh bởi rừng thông và vườn hoa rực rỡ – điểm đến lãng mạn của mọi du khách.",
+        yearBuilt: "1919",
+        historicalValue: "Biểu tượng thơ mộng Đà Lạt",
+        highlight: true,
+        image: "/Images/landingpagelamdong/ho-xuan-huong-da-lat-1.jpg"
       },
       {
         name: "Đồi chè Cầu Đất",
-        description: "Đồi chè xanh bạt ngàn.",
-        image: coffeeImage
+        description: "Những đồi chè xanh bạt ngàn trải dài dưới làn sương mờ ảo ở độ cao 1.600m, tạo nên bức tranh thiên nhiên hùng vĩ và là điểm chụp ảnh đẹp nhất vùng cao nguyên.",
+        yearBuilt: "Đầu thế kỷ XX",
+        historicalValue: "Vùng chè Oolong số một Việt Nam",
+        highlight: true,
+        image: "/Images/landingpagelamdong/doi-che-cau-dat-o-da-lat-2.png"
       },
       {
         name: "Thung lũng Tình Yêu",
-        description: "Điểm đến lãng mạn giữa rừng thông.",
-        image: halongImage
+        description: "Thung lũng thơ mộng giữa rừng thông nguyên sinh Đà Lạt với hồ nước trong xanh, vườn hoa bốn mùa và không gian lãng mạn – điểm hẹn hò lý tưởng của các cặp đôi.",
+        yearBuilt: "1953",
+        historicalValue: "Điểm du lịch nổi tiếng nhất Đà Lạt",
+        highlight: false,
+        image: "/Images/landingpagelamdong/VéThamQuanThungLũngTìnhYêuởĐàLạt-KlookViệtNam.jpg"
       }
     ],
     culture: [
       {
         name: "Lễ hội Hoa Đà Lạt",
-        description: "Sự kiện văn hóa đặc trưng cao nguyên.",
-        image: heroLandscape
+        description: "Sự kiện văn hóa quốc tế đặc trưng của thành phố ngàn hoa, biến Đà Lạt thành rừng hoa khổng lồ rực rỡ sắc màu mỗi kỳ tổ chức.",
+        image: "/Images/landingpagelamdong/10.-dan-hoa-dalat-ha-huu-net.jpg"
       },
       {
-        name: "Không gian cồng chiêng",
-        description: "Di sản văn hóa Tây Nguyên.",
-        image: cuisineImage
+        name: "Không gian cồng chiêng K'Ho",
+        description: "Di sản văn hóa phi vật thể của người K'Ho bản địa Lang Biang – tiếng cồng chiêng vang vọng núi rừng trong các dịp lễ mừng lúa mới, cưới hỏi và hội tụ cộng đồng.",
+        image: "/Images/landingpagelamdong/231-gia_lai-huytinhphoto@gmail.jpg"
       }
     ],
-    gallery: [coffeeImage, heroLandscape, cuisineImage, seafoodImage, halongImage, phoImage],
+    gallery: [
+      "/Images/landingpagelamdong/pexels-quang-nguyen-vinh-222549-35105955.jpg",
+      "/Images/landingpagelamdong/ruc-ro-le-hoi-hoa-o-da-lat-5ece160609332.jpg",
+      "/Images/landingpagelamdong/lang-hoa-van-thanh-13.jpg",
+      "/Images/landingpagelamdong/TLTY2.jpg",
+      "/Images/landingpagelamdong/ho-xuan-huong-da-lat-1.jpg",
+      "/Images/landingpagelamdong/doi-che-cau-dat-1.jpg",
+    ],
     charts: {
       barChart: {
         title: "Điểm du lịch theo huyện",
         subtitle: "Số lượng điểm du lịch nổi tiếng theo từng huyện của Lâm Đồng",
         data: [
           { name: "Đà Lạt", value: 51 },
+          { name: "Lạc Dương", value: 28 },
+          { name: "Đức Trọng", value: 19 },
           { name: "Bảo Lộc", value: 23 },
           { name: "Di Linh", value: 16 },
-          { name: "Đức Trọng", value: 19 },
-          { name: "Lạc Dương", value: 28 },
         ]
       },
       pieChart: {
         title: "Phân loại điểm đến văn hóa",
         subtitle: "Tỷ lệ các hạng mục điểm đến tiêu biểu của Lâm Đồng",
         data: [
-          { name: "Di tích lịch sử", value: 18 },
-          { name: "Ẩm thực đặc sản", value: 22 },
-          { name: "Lễ hội truyền thống", value: 15 },
           { name: "Làng nghề / Sinh thái", value: 45 },
+          { name: "Ẩm thực đặc sản", value: 22 },
+          { name: "Di tích lịch sử", value: 18 },
+          { name: "Lễ hội truyền thống", value: 15 },
         ]
       }
     }
