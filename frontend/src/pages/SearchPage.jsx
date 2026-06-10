@@ -14,26 +14,55 @@ const PROVINCE_SLUGS_ORDERED = [
   'tay-ninh', 'dong-thap', 'vinh-long', 'an-giang', 'ca-mau'
 ];
 
+const PROVINCE_REGION_MAP = {
+  'ha-noi': 'North', 'hai-phong': 'North', 'cao-bang': 'North', 'dien-bien': 'North',
+  'lai-chau': 'North', 'lao-cai': 'North', 'son-la': 'North', 'lang-son': 'North',
+  'tuyen-quang': 'North', 'thai-nguyen': 'North', 'phu-tho': 'North',
+  'quang-ninh': 'North', 'bac-ninh': 'North', 'hung-yen': 'North', 'ninh-binh': 'North',
+  'hue': 'Central', 'da-nang': 'Central', 'thanh-hoa': 'Central', 'nghe-an': 'Central',
+  'ha-tinh': 'Central', 'quang-tri': 'Central', 'quang-ngai': 'Central',
+  'gia-lai': 'Central', 'khanh-hoa': 'Central', 'lam-dong': 'Central', 'dak-lak': 'Central',
+  'ho-chi-minh': 'South', 'can-tho': 'South', 'dong-nai': 'South', 'tay-ninh': 'South',
+  'dong-thap': 'South', 'vinh-long': 'South', 'an-giang': 'South', 'ca-mau': 'South'
+};
+
 const provinceMap = new Map(localProvinces.map(p => [p.slug, p]));
 
-function buildLocalProvinceResults() {
-  return PROVINCE_SLUGS_ORDERED.map((slug, index) => {
-    const p = provinceMap.get(slug);
-    if (!p) return null;
-    return {
-      id: slug,
-      itemType: 'Province',
-      slug: p.slug,
-      title: p.name,
-      description: p.description,
-      imageUrl: typeof p.heroImage === 'string' ? p.heroImage : null,
-      isHighlighted: false,
-      relevanceScore: 100 - index,
-      region: null,
-      category: null,
-      tags: null
-    };
-  }).filter(Boolean);
+function normalizeVi(str) {
+  if (!str) return '';
+  return str.toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/đ/g, 'd').replace(/Đ/g, 'd');
+}
+
+function buildLocalProvinceResults(filters = {}, keyword = '') {
+  if (filters.contentType && filters.contentType !== 'Province') return [];
+  const normKw = normalizeVi(keyword.trim());
+  return PROVINCE_SLUGS_ORDERED
+    .filter(slug => !filters.region || PROVINCE_REGION_MAP[slug] === filters.region)
+    .map((slug, index) => {
+      const p = provinceMap.get(slug);
+      if (!p) return null;
+      if (normKw) {
+        const haystack = normalizeVi([p.name, p.description, p.slogan].join(' '));
+        if (!haystack.includes(normKw)) return null;
+      }
+      return {
+        id: slug,
+        itemType: 'Province',
+        slug: p.slug,
+        title: p.name,
+        description: p.description,
+        imageUrl: typeof p.heroImage === 'string' ? p.heroImage : null,
+        isHighlighted: false,
+        relevanceScore: normKw ? (normalizeVi(p.name).includes(normKw) ? 100 : 60) : 100 - index,
+        region: PROVINCE_REGION_MAP[slug] || null,
+        category: null,
+        tags: null
+      };
+    }).filter(Boolean)
+    .sort((a, b) => b.relevanceScore - a.relevanceScore);
 }
 
 const CATEGORIES = [
@@ -49,7 +78,6 @@ const REGIONS = [
   { value: 'South', label: 'Miền Nam' }
 ];
 const CONTENT_TYPES = [
-  { value: 'All', label: 'Tất cả' },
   { value: 'Province', label: 'Tỉnh/Thành' },
   { value: 'Post', label: 'Bài viết' },
   { value: 'Media', label: 'Media' },
@@ -65,6 +93,12 @@ const TYPE_LABELS = {
   Post: 'Bài viết',
   Media: 'Media',
   Product: 'Sản phẩm',
+};
+
+const REGION_LABELS = {
+  North: 'Miền Bắc',
+  Central: 'Miền Trung',
+  South: 'Miền Nam',
 };
 
 function SkeletonCard() {
@@ -98,7 +132,7 @@ const SearchPage = () => {
   const [filters, setFilters] = useState({
     region: searchParams.get('region') || '',
     category: searchParams.get('category') || '',
-    contentType: searchParams.get('contentType') || 'All',
+    contentType: searchParams.get('contentType') || 'Province',
     mediaType: searchParams.get('mediaType') || '',
     tags: searchParams.get('tags') || ''
   });
@@ -106,7 +140,6 @@ const SearchPage = () => {
   const activeFilterCount = [
     filters.region,
     filters.category,
-    filters.contentType !== 'All' ? filters.contentType : '',
     filters.mediaType,
     filters.tags
   ].filter(Boolean).length;
@@ -137,29 +170,41 @@ const SearchPage = () => {
 
   useEffect(() => {
     if (isComposing) return;
-    const performSearch = async () => {
-      const trimmedKeyword = keyword.trim();
-      if (!trimmedKeyword) {
-        const allLocal = buildLocalProvinceResults();
-        const pageSize = 10;
-        const start = (currentPage - 1) * pageSize;
-        setResults(allLocal.slice(start, start + pageSize));
-        setTotalCount(allLocal.length);
-        setShowSuggestions(false);
-        setLoading(false);
-        return;
-      }
+    const trimmedKeyword = keyword.trim();
+
+    if (!trimmedKeyword) {
+      const allLocal = buildLocalProvinceResults(filters);
+      const pageSize = 10;
+      const start = (currentPage - 1) * pageSize;
+      setResults(allLocal.slice(start, start + pageSize));
+      setTotalCount(allLocal.length);
+      setShowSuggestions(false);
+      setLoading(false);
+      return;
+    }
+
+    // Province: search local data, no API needed
+    if (!filters.contentType || filters.contentType === 'Province') {
+      const allLocal = buildLocalProvinceResults(filters, trimmedKeyword);
+      const pageSize = 10;
+      const start = (currentPage - 1) * pageSize;
+      setResults(allLocal.slice(start, start + pageSize));
+      setTotalCount(allLocal.length);
+      setShowSuggestions(false);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    const timer = setTimeout(async () => {
       const requestId = latestSearchRequestRef.current + 1;
       latestSearchRequestRef.current = requestId;
-      setLoading(true);
       try {
         const data = await searchApi.search({
           keyword: trimmedKeyword,
           region: filters.region,
-          category: filters.category,
           mediaType: filters.mediaType,
           contentType: filters.contentType,
-          tags: filters.tags,
           page: currentPage,
           pageSize: 10
         });
@@ -170,10 +215,8 @@ const SearchPage = () => {
         const params = new URLSearchParams({
           keyword: trimmedKeyword,
           ...(filters.region ? { region: filters.region } : {}),
-          ...(filters.category ? { category: filters.category } : {}),
-          ...(filters.contentType && filters.contentType !== 'All' ? { contentType: filters.contentType } : {}),
+          ...(filters.contentType ? { contentType: filters.contentType } : {}),
           ...(filters.mediaType ? { mediaType: filters.mediaType } : {}),
-          ...(filters.tags ? { tags: filters.tags } : {}),
           ...(currentPage > 1 ? { page: String(currentPage) } : {})
         });
         setSearchParams(params);
@@ -184,8 +227,9 @@ const SearchPage = () => {
       } finally {
         if (requestId === latestSearchRequestRef.current) setLoading(false);
       }
-    };
-    performSearch();
+    }, 350);
+
+    return () => clearTimeout(timer);
   }, [keyword, filters, currentPage, setSearchParams, isComposing]);
 
   const handleSuggestionClick = (suggestion) => {
@@ -199,7 +243,7 @@ const SearchPage = () => {
   };
 
   const handleClearFilters = () => {
-    setFilters({ region: '', category: '', contentType: 'All', mediaType: '', tags: '' });
+    setFilters({ region: '', category: '', contentType: 'Province', mediaType: '', tags: '' });
     setCurrentPage(1);
   };
 
@@ -293,25 +337,7 @@ const SearchPage = () => {
                 </div>
               </div>
 
-              {/* Category */}
-              <div className="filter-row">
-                <span className="filter-row-label">Chủ đề</span>
-                <div className="chip-group">
-                  <button
-                    className={`chip${!filters.category ? ' chip--active' : ''}`}
-                    onClick={() => handleFilterChange('category', '')}
-                  >Tất cả</button>
-                  {CATEGORIES.map(c => (
-                    <button
-                      key={c.value}
-                      className={`chip${filters.category === c.value ? ' chip--active' : ''}`}
-                      onClick={() => handleFilterChange('category', c.value)}
-                    ><span className="chip-icon">{c.icon}</span>{c.label}</button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Media type row — only when content type is Media */}
+{/* Media type row — only when content type is Media */}
               {filters.contentType === 'Media' && (
                 <div className="filter-row">
                   <span className="filter-row-label">Media</span>
@@ -394,7 +420,7 @@ const SearchPage = () => {
                         <span className={`result-badge type-${item.itemType?.toLowerCase()}`}>
                           {TYPE_LABELS[item.itemType] ?? item.itemType}
                         </span>
-                        {item.region && <span className="result-badge result-badge--region">{item.region}</span>}
+                        {item.region && <span className="result-badge result-badge--region">{REGION_LABELS[item.region] ?? item.region}</span>}
                         {item.category && <span className="result-badge result-badge--cat">{item.category}</span>}
                         {item.isHighlighted && <span className="result-badge result-badge--star">★ Nổi bật</span>}
                       </div>
