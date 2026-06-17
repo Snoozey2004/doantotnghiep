@@ -220,8 +220,11 @@ export default function AIChatWidget() {
           {/* Context bar */}
           {provinceName && (
             <div className="ai-chat-context-bar">
-              <span className="ai-chat-context-dot">📍</span>
-              Đang xem: <strong>{provinceName}</strong> — Hỏi tôi về ẩm thực & du lịch nơi này!
+              <span aria-hidden="true">📍</span>
+              <span className="ai-chat-context-label">Đang xem:</span>
+              <strong className="ai-chat-context-name">{provinceName}</strong>
+              <span className="ai-chat-context-sep">·</span>
+              <span className="ai-chat-context-hint">Hỏi về ẩm thực &amp; du lịch nơi này!</span>
             </div>
           )}
 

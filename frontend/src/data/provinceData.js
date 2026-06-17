@@ -2243,8 +2243,8 @@ const provinces = [
     description:
       "Đắk Lắk nổi bật với cà phê Buôn Ma Thuột, văn hóa cồng chiêng và thác nước hùng vĩ.",
     accentColor: "#92400e",
-    heroImage: coffeeImage,
-    introImage: coffeeImage,
+    heroImage: "/Images/Landingpagedaklak/Draynur_falls.jpg",
+    introImage: "/Images/Landingpagedaklak/Ho-Lak-Dak-Lak-18.jpg",
     stats: [
       { value: "500+", label: "Năm lịch sử" },
       { value: "100+", label: "Buôn làng truyền thống" },
@@ -2252,73 +2252,80 @@ const provinces = [
       { value: "Số 1", label: "Cà phê Việt Nam" }
     ],
     timeline: [
-      { year: "Thế kỷ XV-XVIII", title: "Vương quốc Mơ Nông", description: "Đắk Lắk là vùng đất của các dân tộc Ê Đê, M'Nông với hệ thống buôn làng tự trị và truyền thống săn voi nổi tiếng.", icon: "🐘", image: heroLandscape },
-      { year: "1899", title: "Buôn Ma Thuột thành lập", description: "Người Pháp thành lập tỉnh lỵ Buôn Ma Thuột, đưa cây cà phê vào trồng đại trà và biến Tây Nguyên thành vựa cà phê Đông Dương.", icon: "☕", image: heroLandscape },
-      { year: "2005", title: "Di sản cồng chiêng UNESCO", description: "Không gian văn hóa cồng chiêng Tây Nguyên được UNESCO vinh danh – đóng góp lớn của Đắk Lắk với các buôn Ê Đê, M'Nông.", icon: "🥁", image: heroLandscape },
-      { year: "Hiện đại", title: "Thủ phủ cà phê thế giới", description: "Buôn Ma Thuột được mệnh danh là thủ phủ cà phê, nơi tổ chức Festival Cà phê quốc tế và xuất khẩu cà phê đến hơn 80 quốc gia.", icon: "🌍", image: heroLandscape }
+      { year: "Thế kỷ XV-XVIII", title: "Vương quốc Mơ Nông", description: "Đắk Lắk là vùng đất của các dân tộc Ê Đê, M'Nông với hệ thống buôn làng tự trị và truyền thống săn voi nổi tiếng.", icon: "🐘", image: "/Images/Landingpagedaklak/img_7800.jpg" },
+      { year: "1899", title: "Buôn Ma Thuột thành lập", description: "Người Pháp thành lập tỉnh lỵ Buôn Ma Thuột, đưa cây cà phê vào trồng đại trà và biến Tây Nguyên thành vựa cà phê Đông Dương.", icon: "☕", image: "/Images/Landingpagedaklak/lich-su-va-vung-dat-trong-ca-phe.jpg" },
+      { year: "2005", title: "Di sản cồng chiêng UNESCO", description: "Không gian văn hóa cồng chiêng Tây Nguyên được UNESCO vinh danh – đóng góp lớn của Đắk Lắk với các buôn Ê Đê, M'Nông.", icon: "🥁", image: "/Images/Landingpagedaklak/Cong_Chieng_Tay_Nguyen_1.jpg" },
+      { year: "Hiện đại", title: "Thủ phủ cà phê thế giới", description: "Buôn Ma Thuột được mệnh danh là thủ phủ cà phê, nơi tổ chức Festival Cà phê quốc tế và xuất khẩu cà phê đến hơn 80 quốc gia.", icon: "🌍", image: "/Images/Landingpagedaklak/choang-ngop-voi-le-hoi-ca-phe-buon-ma-thuot-dam-da-sac-mau-van-hoa-04-1651916038.jpg" }
     ],
     craftVillages: [
-      { name: "Buôn Ako Dhông", product: "Thủ công truyền thống Ê Đê", description: "Buôn cổ truyền thống nhất Buôn Ma Thuột với nhà dài Ê Đê, nghề dệt thổ cẩm và các nghề thủ công truyền thống còn được bảo tồn nguyên vẹn.", image: heroLandscape, age: "Truyền thống lâu đời" },
-      { name: "Làng gốm M'Nông", product: "Gốm đất nung truyền thống", description: "Nghề làm gốm bằng tay không dùng bàn xoay của người M'Nông – kỹ thuật cổ xưa tạo ra những chiếc ché rượu cần độc đáo.", image: heroLandscape, age: "Hàng trăm năm" },
-      { name: "Làng dệt thổ cẩm Ê Đê", product: "Thổ cẩm Ê Đê", description: "Nghề dệt thổ cẩm Ê Đê với hoa văn chim thú, hình học tinh tế, màu sắc rực rỡ – sản phẩm văn hóa không thể thiếu trong đời sống cộng đồng.", image: heroLandscape, age: "Truyền thống" },
-      { name: "Cà phê đặc sản Buôn Ma Thuột", product: "Cà phê Robusta cao nguyên", description: "Vùng cà phê Robusta số một Việt Nam với quy trình chế biến ướt, rang xay thủ công tạo ra hạt cà phê chất lượng xuất khẩu hàng đầu.", image: heroLandscape, age: "120+ năm" }
+      { name: "Buôn Ako Dhông", product: "Thủ công truyền thống Ê Đê", description: "Buôn cổ truyền thống nhất Buôn Ma Thuột với nhà dài Ê Đê, nghề dệt thổ cẩm và các nghề thủ công truyền thống còn được bảo tồn nguyên vẹn.", image: "/Images/Landingpagedaklak/Buon-Ako-Dhong-4.jpg", age: "Truyền thống lâu đời" },
+      { name: "Làng gốm M'Nông", product: "Gốm đất nung truyền thống", description: "Nghề làm gốm bằng tay không dùng bàn xoay của người M'Nông – kỹ thuật cổ xưa tạo ra những chiếc ché rượu cần độc đáo.", image: "/Images/Landingpagedaklak/gom-12a-scaled.jpg", age: "Hàng trăm năm" },
+      { name: "Làng dệt thổ cẩm Ê Đê", product: "Thổ cẩm Ê Đê", description: "Nghề dệt thổ cẩm Ê Đê với hoa văn chim thú, hình học tinh tế, màu sắc rực rỡ – sản phẩm văn hóa không thể thiếu trong đời sống cộng đồng.", image: "/Images/Landingpagedaklak/det-tho-cam-4-9007.jpg", age: "Truyền thống" },
+      { name: "Cà phê đặc sản Buôn Ma Thuột", product: "Cà phê Robusta cao nguyên", description: "Vùng cà phê Robusta số một Việt Nam với quy trình chế biến ướt, rang xay thủ công tạo ra hạt cà phê chất lượng xuất khẩu hàng đầu.", image: "/Images/Landingpagedaklak/hinhbia_CPIE.jpg", age: "120+ năm" }
     ],
     festivals: [
-      { name: "Festival Cà phê Buôn Ma Thuột", date: "Tháng 3 (2 năm một lần)", description: "Lễ hội cà phê quốc tế lớn nhất Việt Nam với triển lãm, hội thảo, thi pha chế và lễ hội cồng chiêng hoành tráng.", significance: "Sự kiện cà phê quốc tế", image: heroLandscape },
-      { name: "Lễ hội Cầu Mưa (H'Drăm)", date: "Tháng 3-4 âm lịch", description: "Lễ cầu mưa của người Ê Đê vào đầu mùa canh tác, cầu thần nước ban mưa thuận cho mùa vụ với nghi lễ hiến tế và hát sử thi Khan.", significance: "Nghi lễ tín ngưỡng Ê Đê", image: heroLandscape },
-      { name: "Lễ hội Đua voi Buôn Đôn", date: "Tháng 3 hàng năm", description: "Lễ hội đua voi độc đáo tại Buôn Đôn – nơi có truyền thống thuần phục và nuôi voi lâu đời nhất Việt Nam, thu hút khách quốc tế.", significance: "Lễ hội voi đặc trưng", image: heroLandscape },
-      { name: "Lễ bỏ mả M'Nông", date: "Sau tang lễ 3-5 năm", description: "Nghi lễ tiễn biệt cuối cùng của người M'Nông với tiệc cộng đồng, múa hát và tạc tượng gỗ – nét văn hóa tâm linh đặc sắc.", significance: "Nghi lễ tâm linh đặc trưng", image: heroLandscape }
+      { name: "Festival Cà phê Buôn Ma Thuột", date: "Tháng 3 (2 năm một lần)", description: "Lễ hội cà phê quốc tế lớn nhất Việt Nam với triển lãm, hội thảo, thi pha chế và lễ hội cồng chiêng hoành tráng.", significance: "Sự kiện cà phê quốc tế", image: "/Images/Landingpagedaklak/KhaimacLHcaphe2015.jpg" },
+      { name: "Lễ hội Cầu Mưa (H'Drăm)", date: "Tháng 3-4 âm lịch", description: "Lễ cầu mưa của người Ê Đê vào đầu mùa canh tác, cầu thần nước ban mưa thuận cho mùa vụ với nghi lễ hiến tế và hát sử thi Khan.", significance: "Nghi lễ tín ngưỡng Ê Đê", image: "/Images/Landingpagedaklak/ttocf3.jpg" },
+      { name: "Lễ hội Đua voi Buôn Đôn", date: "Tháng 3 hàng năm", description: "Lễ hội đua voi độc đáo tại Buôn Đôn – nơi có truyền thống thuần phục và nuôi voi lâu đời nhất Việt Nam, thu hút khách quốc tế.", significance: "Lễ hội voi đặc trưng", image: "/Images/Landingpagedaklak/Le-hoi-dua-voi-7.jpg" },
+      { name: "Lễ bỏ mả M'Nông", date: "Sau tang lễ 3-5 năm", description: "Nghi lễ tiễn biệt cuối cùng của người M'Nông với tiệc cộng đồng, múa hát và tạc tượng gỗ – nét văn hóa tâm linh đặc sắc.", significance: "Nghi lễ tâm linh đặc trưng", image: "/Images/Landingpagedaklak/photo3jpg.jpg" }
     ],
     specialties: [
       {
         name: "Cà phê Buôn Ma Thuột",
         description: "Đậm đà, thơm nồng đặc trưng.",
         origin: "Buôn Ma Thuột",
-        image: coffeeImage
+        image: "/Images/Landingpagedaklak/cafe-vie1bb87t1.jpg"
       },
       {
         name: "Gà nướng bản Đôn",
         description: "Thịt gà thơm vị núi rừng.",
         origin: "Buôn Đôn",
-        image: seafoodImage
+        image: "/Images/Landingpagedaklak/Anhbia-1200x676-6.jpg"
       },
       {
         name: "Cơm lam",
         description: "Gạo nếp nướng ống tre.",
         origin: "Krông Ana",
-        image: cuisineImage
+        image: "/Images/Landingpagedaklak/com-lam-thit-nuong-ong-tre-tay-giang-d.jpg"
       }
     ],
     tourism: [
       {
         name: "Thác Dray Nur",
         description: "Thác nước hùng vĩ giữa rừng xanh.",
-        image: halongImage
+        image: "/Images/Landingpagedaklak/Draynur_falls.jpg"
       },
       {
         name: "Hồ Lắk",
         description: "Hồ nước tự nhiên lớn nhất Tây Nguyên.",
-        image: heroLandscape
+        image: "/Images/Landingpagedaklak/Ho-Lak-Dak-Lak-18.jpg"
       },
       {
         name: "Buôn Đôn",
         description: "Làng văn hóa với truyền thống săn voi.",
-        image: thangLongImage
+        image: "/Images/Landingpagedaklak/b400b825-buon-don-dak-lak-01.jpg"
       }
     ],
     culture: [
       {
         name: "Lễ hội cà phê",
         description: "Tôn vinh đặc sản Tây Nguyên.",
-        image: heroLandscape
+        image: "/Images/Landingpagedaklak/choang-ngop-voi-le-hoi-ca-phe-buon-ma-thuot-dam-da-sac-mau-van-hoa-04-1651916038.jpg"
       },
       {
         name: "Cồng chiêng",
         description: "Di sản văn hóa Tây Nguyên.",
-        image: cuisineImage
+        image: "/Images/Landingpagedaklak/Cong_Chieng_Tay_Nguyen_1.jpg"
       }
     ],
-    gallery: [coffeeImage, heroLandscape, cuisineImage, seafoodImage, halongImage, phoImage],
+    gallery: [
+      "/Images/Landingpagedaklak/DSC08603756-scaled.jpg",
+      "/Images/Landingpagedaklak/Ho-Lak-Dak-Lak-18.jpg",
+      "/Images/Landingpagedaklak/Draynur_falls.jpg",
+      "/Images/Landingpagedaklak/trai-nghiem-van-hoa-doc-dao-tai-buon-ako-dhong-7-1651563609.jpg",
+      "/Images/Landingpagedaklak/nhung-con-voi-dung-manh-cua-buon-don-dang-tren-tren-duong-dua.jpg",
+      "/Images/Landingpagedaklak/kham-pha-le-po-thi-bo-ma-buon-ma-thuot-doc-dao-04-1651918948.jpg"
+    ],
     charts: {
       barChart: {
         title: "Điểm văn hóa theo huyện",
@@ -2350,8 +2357,8 @@ const provinces = [
     description:
       "Đồng Nai sở hữu khu dự trữ sinh quyển, trái cây phong phú và không gian xanh rộng lớn.",
     accentColor: "#15803d",
-    heroImage: heroLandscape,
-    introImage: cuisineImage,
+    heroImage: "/Images/Landingpagedongnai/vuon-quoc-gia-cat-tien.jpg",
+    introImage: "/Images/Landingpagedongnai/Dong-Nai-3.jpg",
     stats: [
       { value: "300+", label: "Năm lịch sử" },
       { value: "200+", label: "Di tích văn hóa" },
@@ -2359,73 +2366,80 @@ const provinces = [
       { value: "40+", label: "Làng nghề đặc sắc" }
     ],
     timeline: [
-      { year: "Thế kỷ XVII", title: "Di dân người Việt phương Nam", description: "Các lưu dân người Việt bắt đầu khai khẩn vùng đất Đồng Nai – Gia Định, xây dựng định cư đầu tiên tại Cù Lao Phố (Biên Hòa).", icon: "🚢", image: heroLandscape },
-      { year: "1698", title: "Phủ Gia Định thành lập", description: "Chúa Nguyễn lập Phủ Gia Định gồm vùng Đồng Nai, mở đầu giai đoạn quản lý hành chính chính thức của người Việt tại đất phương Nam.", icon: "🏛️", image: heroLandscape },
-      { year: "Thế kỷ XIX", title: "Trung tâm thương mại Biên Hòa", description: "Biên Hòa phát triển thành trung tâm thương mại quan trọng với gốm sứ, gỗ và nông sản trao đổi sôi động với Sài Gòn và quốc tế.", icon: "⚓", image: heroLandscape },
-      { year: "Hiện đại", title: "Cửa ngõ công nghiệp", description: "Đồng Nai trở thành trung tâm công nghiệp lớn nhất miền Nam với các khu công nghiệp thu hút đầu tư nước ngoài hàng tỷ đô.", icon: "🏭", image: heroLandscape }
+      { year: "Thế kỷ XVII", title: "Di dân người Việt phương Nam", description: "Các lưu dân người Việt bắt đầu khai khẩn vùng đất Đồng Nai – Gia Định, xây dựng định cư đầu tiên tại Cù Lao Phố (Biên Hòa).", icon: "🚢", image: "/Images/Landingpagedongnai/Lich-su-Dong-Nai.jpg" },
+      { year: "1698", title: "Phủ Gia Định thành lập", description: "Chúa Nguyễn lập Phủ Gia Định gồm vùng Đồng Nai, mở đầu giai đoạn quản lý hành chính chính thức của người Việt tại đất phương Nam.", icon: "🏛️", image: "/Images/Landingpagedongnai/vanmieutranbienvov-1683876680.jpg" },
+      { year: "Thế kỷ XIX", title: "Trung tâm thương mại Biên Hòa", description: "Biên Hòa phát triển thành trung tâm thương mại quan trọng với gốm sứ, gỗ và nông sản trao đổi sôi động với Sài Gòn và quốc tế.", icon: "⚓", image: "/Images/Landingpagedongnai/Dong-Nai-1.jpg" },
+      { year: "Hiện đại", title: "Cửa ngõ công nghiệp", description: "Đồng Nai trở thành trung tâm công nghiệp lớn nhất miền Nam với các khu công nghiệp thu hút đầu tư nước ngoài hàng tỷ đô.", icon: "🏭", image: "/Images/Landingpagedongnai/Long-Thanh-3.jpg" }
     ],
     craftVillages: [
-      { name: "Gốm sứ Biên Hòa", product: "Gốm mỹ nghệ", description: "Gốm Biên Hòa nổi tiếng từ thế kỷ XIX với men rạn đặc trưng màu xanh lam, được sưu tầm và trưng bày tại nhiều bảo tàng quốc tế.", image: heroLandscape, age: "200+ năm" },
-      { name: "Làng nghề đá ong Long Khánh", product: "Đá ong xây dựng", description: "Vùng khai thác và chế tác đá ong – loại đá xây dựng tự nhiên đặc trưng Nam Bộ, được dùng xây nhà cổ và công trình văn hóa.", image: heroLandscape, age: "200+ năm" },
-      { name: "Nghề đan lát Cẩm Mỹ", product: "Lục bình, mây tre", description: "Làng nghề đan lát lục bình, mây tre tạo ra sản phẩm thủ công mỹ nghệ xuất khẩu sang châu Âu và châu Á.", image: heroLandscape, age: "100+ năm" },
-      { name: "Vườn bưởi Tân Triều", product: "Bưởi đặc sản", description: "Vùng trồng bưởi Tân Triều nổi tiếng cả nước với hương thơm đặc biệt và múi bưởi ngọt thanh được thị trường ưa chuộng.", image: heroLandscape, age: "100+ năm" }
+      { name: "Gốm sứ Biên Hòa", product: "Gốm mỹ nghệ", description: "Gốm Biên Hòa nổi tiếng từ thế kỷ XIX với men rạn đặc trưng màu xanh lam, được sưu tầm và trưng bày tại nhiều bảo tàng quốc tế.", image: "/Images/Landingpagedongnai/thuong-hieu-gom-bien-hoa-vang-danh-the-gioi-mot-thoi-1635135453.jpg", age: "200+ năm" },
+      { name: "Làng nghề đá ong Long Khánh", product: "Đá ong xây dựng", description: "Vùng khai thác và chế tác đá ong – loại đá xây dựng tự nhiên đặc trưng Nam Bộ, được dùng xây nhà cổ và công trình văn hóa.", image: "/Images/Landingpagedongnai/Trang-Bom-6.jpg", age: "200+ năm" },
+      { name: "Nghề đan lát Cẩm Mỹ", product: "Lục bình, mây tre", description: "Làng nghề đan lát lục bình, mây tre tạo ra sản phẩm thủ công mỹ nghệ xuất khẩu sang châu Âu và châu Á.", image: "/Images/Landingpagedongnai/nguoi-dang-trong_XBJH.jpg", age: "100+ năm" },
+      { name: "Vườn bưởi Tân Triều", product: "Bưởi đặc sản", description: "Vùng trồng bưởi Tân Triều nổi tiếng cả nước với hương thơm đặc biệt và múi bưởi ngọt thanh được thị trường ưa chuộng.", image: "/Images/Landingpagedongnai/lang-buoi-tan-trieu-o-dong-nai-ivivu-4.jpg", age: "100+ năm" }
     ],
     festivals: [
-      { name: "Lễ hội Cúng đình", date: "Kỳ Yên tháng 2 âm lịch", description: "Lễ hội cúng đình Kỳ Yên truyền thống của người miền Nam tại các đình làng Đồng Nai với hát bội, múa lân và lễ cầu an.", significance: "Lễ hội đình làng Nam Bộ", image: heroLandscape },
-      { name: "Lễ hội trái cây Long Khánh", date: "Tháng 5-6 hàng năm", description: "Lễ hội tôn vinh các loại trái cây đặc sản Long Khánh gồm sầu riêng, chôm chôm, bưởi... với nhiều hoạt động vui chơi hấp dẫn.", significance: "Lễ hội nông nghiệp đặc trưng", image: heroLandscape },
-      { name: "Lễ Nguyên Tiêu Biên Hòa", date: "Rằm tháng Giêng", description: "Lễ hội rằm tháng Giêng tại Biên Hòa – nơi có cộng đồng Hoa lớn – với đèn lồng rực rỡ và các hoạt động văn hóa truyền thống.", significance: "Lễ hội cộng đồng Hoa người Việt", image: heroLandscape },
-      { name: "Hội Chùa Ông Biên Hòa", date: "Mùng 14-15 tháng Giêng", description: "Lễ hội tại Chùa Ông – Thất Phủ Cổ Miếu do người Hoa lập từ thế kỷ XVIII – với các nghi lễ cầu an và biểu diễn văn hóa truyền thống.", significance: "Di tích lịch sử cộng đồng Hoa", image: heroLandscape }
+      { name: "Lễ hội Cúng đình", date: "Kỳ Yên tháng 2 âm lịch", description: "Lễ hội cúng đình Kỳ Yên truyền thống của người miền Nam tại các đình làng Đồng Nai với hát bội, múa lân và lễ cầu an.", significance: "Lễ hội đình làng Nam Bộ", image: "/Images/Landingpagedongnai/le-hoi-dong-nai-4.jpg" },
+      { name: "Lễ hội trái cây Long Khánh", date: "Tháng 5-6 hàng năm", description: "Lễ hội tôn vinh các loại trái cây đặc sản Long Khánh gồm sầu riêng, chôm chôm, bưởi... với nhiều hoạt động vui chơi hấp dẫn.", significance: "Lễ hội nông nghiệp đặc trưng", image: "/Images/Landingpagedongnai/le-hoi-trai-cay-long-khanh-2770.jpg" },
+      { name: "Lễ Nguyên Tiêu Biên Hòa", date: "Rằm tháng Giêng", description: "Lễ hội rằm tháng Giêng tại Biên Hòa – nơi có cộng đồng Hoa lớn – với đèn lồng rực rỡ và các hoạt động văn hóa truyền thống.", significance: "Lễ hội cộng đồng Hoa người Việt", image: "/Images/Landingpagedongnai/Den-Long.jpg" },
+      { name: "Hội Chùa Ông Biên Hòa", date: "Mùng 14-15 tháng Giêng", description: "Lễ hội tại Chùa Ông – Thất Phủ Cổ Miếu do người Hoa lập từ thế kỷ XVIII – với các nghi lễ cầu an và biểu diễn văn hóa truyền thống.", significance: "Di tích lịch sử cộng đồng Hoa", image: "/Images/Landingpagedongnai/Chua-Ong-1.jpg" }
     ],
     specialties: [
       {
         name: "Gỏi cá Biên Hòa",
         description: "Vị chua cay hài hòa.",
         origin: "Biên Hòa",
-        image: seafoodImage
+        image: "/Images/Landingpagedongnai/goi-ca-bien-hoa-avatar.jpg"
       },
       {
         name: "Bưởi Tân Triều",
         description: "Trái cây đặc sản ngọt thanh.",
         origin: "Vĩnh Cửu",
-        image: heroLandscape
+        image: "/Images/Landingpagedongnai/lang-buoi-tan-trieu-o-dong-nai-ivivu-4.jpg"
       },
       {
         name: "Lẩu lá khổ qua",
         description: "Món ăn thanh mát đặc trưng.",
         origin: "Đồng Nai",
-        image: phoImage
+        image: "/Images/Landingpagedongnai/lau-kho-qua-nam-thumbnail.jpg"
       }
     ],
     tourism: [
       {
         name: "Vườn quốc gia Cát Tiên",
         description: "Hệ sinh thái rừng nhiệt đới đa dạng.",
-        image: halongImage
+        image: "/Images/Landingpagedongnai/vuon-quoc-gia-cat-tien.jpg"
       },
       {
         name: "Khu du lịch Bửu Long",
         description: "Hồ nước và núi đá nên thơ.",
-        image: heroLandscape
+        image: "/Images/Landingpagedongnai/khu_du_lich_buu_long.jpg"
       },
       {
         name: "Thác Giang Điền",
         description: "Thác nước mát lành.",
-        image: halongImage
+        image: "/Images/Landingpagedongnai/giang-dien-waterfall-in-dong-nai-vietnam_04.jpg"
       }
     ],
     culture: [
       {
         name: "Lễ hội trái cây",
         description: "Sắc màu nông sản Đông Nam Bộ.",
-        image: heroLandscape
+        image: "/Images/Landingpagedongnai/0606lehoitraicaylongkhanh-1686039543098-1686039543590158930275.jpg"
       },
       {
         name: "Đờn ca tài tử",
         description: "Không gian âm nhạc Nam Bộ.",
-        image: cuisineImage
+        image: "/Images/Landingpagedongnai/le-hoi-dong-nai-thumbnail.jpg"
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    gallery: [
+      "/Images/Landingpagedongnai/DJI_0217.jpg",
+      "/Images/Landingpagedongnai/vuon-quoc-gia-cat-tien.jpg",
+      "/Images/Landingpagedongnai/khu_du_lich_buu_long.jpg",
+      "/Images/Landingpagedongnai/giang-dien-waterfall-in-dong-nai-vietnam_04.jpg",
+      "/Images/Landingpagedongnai/le-hoi-trai-cay-long-khanh-2770.jpg",
+      "/Images/Landingpagedongnai/thuong-hieu-gom-bien-hoa-vang-danh-the-gioi-mot-thoi-1635135453.jpg"
+    ],
     charts: {
       barChart: {
         title: "Di tích theo huyện",
