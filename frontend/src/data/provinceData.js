@@ -2471,8 +2471,8 @@ const provinces = [
     description:
       "Tây Ninh là cửa ngõ Đông Nam Bộ, nổi bật với núi Bà Đen và ẩm thực độc đáo.",
     accentColor: "#b45309",
-    heroImage: heroLandscape,
-    introImage: cuisineImage,
+    heroImage: "/Images/Landingpagetayninh/nui-Ba-Den-ivivu-7-1.jpg",
+    introImage: "/Images/Landingpagetayninh/canh-dep-2.jpg",
     stats: [
       { value: "300+", label: "Năm lịch sử" },
       { value: "100+", label: "Di tích văn hóa" },
@@ -2480,73 +2480,80 @@ const provinces = [
       { value: "986m", label: "Núi Bà Đen" }
     ],
     timeline: [
-      { year: "Thế kỷ XVII", title: "Khai hoang đất phương Nam", description: "Các lưu dân người Việt đến khai phá vùng đất Tây Ninh, lập làng xã và trồng trọt trên vùng đất màu mỡ bên dãy núi Bà Đen.", icon: "🌾", image: heroLandscape },
-      { year: "1926", title: "Đạo Cao Đài ra đời", description: "Đạo Cao Đài được khai sáng tại Tây Ninh – tôn giáo dung hợp Phật, Lão, Khổng đặc trưng Nam Bộ với Tòa Thánh Tây Ninh nổi tiếng.", icon: "⭐", image: heroLandscape },
-      { year: "1975", title: "Chiến trường biên giới Tây Nam", description: "Tây Ninh là chiến trường ác liệt trong cuộc chiến tranh bảo vệ biên giới Tây Nam 1975-1979 chống lại chế độ Khmer Đỏ.", icon: "🛡️", image: heroLandscape },
-      { year: "Hiện đại", title: "Vùng đất tâm linh hành hương", description: "Tây Ninh nổi lên là điểm đến tâm linh lớn với núi Bà Đen và Tòa Thánh Cao Đài thu hút hàng triệu du khách hành hương mỗi năm.", icon: "⛰️", image: heroLandscape }
+      { year: "Thế kỷ XVII", title: "Khai hoang đất phương Nam", description: "Các lưu dân người Việt đến khai phá vùng đất Tây Ninh, lập làng xã và trồng trọt trên vùng đất màu mỡ bên dãy núi Bà Đen.", icon: "🌾", image: "/Images/Landingpagetayninh/chien-khu-duong-minh-chau-noi-phao-dai-kien-cuong-cua-tinh-quan-dan_20241210084433532.jpg" },
+      { year: "1926", title: "Đạo Cao Đài ra đời", description: "Đạo Cao Đài được khai sáng tại Tây Ninh – tôn giáo dung hợp Phật, Lão, Khổng đặc trưng Nam Bộ với Tòa Thánh Tây Ninh nổi tiếng.", icon: "⭐", image: "/Images/Landingpagetayninh/Cao_Dai_Holy_See.jpg" },
+      { year: "1975", title: "Chiến trường biên giới Tây Nam", description: "Tây Ninh là chiến trường ác liệt trong cuộc chiến tranh bảo vệ biên giới Tây Nam 1975-1979 chống lại chế độ Khmer Đỏ.", icon: "🛡️", image: "/Images/Landingpagetayninh/cau-k13-nhan-dan-vui-mung-uoc-ve.jpg" },
+      { year: "Hiện đại", title: "Vùng đất tâm linh hành hương", description: "Tây Ninh nổi lên là điểm đến tâm linh lớn với núi Bà Đen và Tòa Thánh Cao Đài thu hút hàng triệu du khách hành hương mỗi năm.", icon: "⛰️", image: "/Images/Landingpagetayninh/hanh-huong-nui-ba-den-1.png" }
     ],
     craftVillages: [
-      { name: "Làng nghề muối tôm Tây Ninh", product: "Muối tôm đặc sản", description: "Muối tôm Tây Ninh – gia vị nổi tiếng cả nước được làm từ tôm tươi và muối hột với công thức bí truyền gia đình, dùng chấm trái cây.", image: heroLandscape, age: "100+ năm" },
-      { name: "Làng bánh tráng Trảng Bàng", product: "Bánh tráng phơi sương", description: "Bánh tráng Trảng Bàng phơi sương đêm – đặc sản nổi tiếng cả nước, dẻo thơm nhờ quy trình phơi đặc biệt theo truyền thống.", image: heroLandscape, age: "200+ năm" },
-      { name: "Nghề chạm khắc Cao Đài", product: "Đồ thờ Cao Đài", description: "Nghề làm đồ thờ và trang trí cho các thánh thất Cao Đài với hoa văn đặc trưng của đạo, kết hợp thủ công điêu khắc tinh xảo.", image: heroLandscape, age: "100+ năm" },
-      { name: "Làng nghề đan đát Tây Ninh", product: "Đồ đan thủ công", description: "Làng nghề đan lát mây tre tạo ra các sản phẩm gia dụng như thúng, mủng, giỏ phục vụ đời sống và thị trường địa phương.", image: heroLandscape, age: "150+ năm" }
+      { name: "Làng nghề muối tôm Tây Ninh", product: "Muối tôm đặc sản", description: "Muối tôm Tây Ninh – gia vị nổi tiếng cả nước được làm từ tôm tươi và muối hột với công thức bí truyền gia đình, dùng chấm trái cây.", image: "/Images/Landingpagetayninh/muoi-tom-tay-ninh-thumbnail.jpg", age: "100+ năm" },
+      { name: "Làng bánh tráng Trảng Bàng", product: "Bánh tráng phơi sương", description: "Bánh tráng Trảng Bàng phơi sương đêm – đặc sản nổi tiếng cả nước, dẻo thơm nhờ quy trình phơi đặc biệt theo truyền thống.", image: "/Images/Landingpagetayninh/banh-trang-phoi-suong-5-3083.jpg", age: "200+ năm" },
+      { name: "Nghề chạm khắc Cao Đài", product: "Đồ thờ Cao Đài", description: "Nghề làm đồ thờ và trang trí cho các thánh thất Cao Đài với hoa văn đặc trưng của đạo, kết hợp thủ công điêu khắc tinh xảo.", image: "/Images/Landingpagetayninh/cac-gia-tri-cua-dao-cao-dai-trong-doi-song-cu-dan-nam-bo-c4c3afc21f2d4a4f89c8feb4548c8d60.jpg", age: "100+ năm" },
+      { name: "Làng nghề đan đát Tây Ninh", product: "Đồ đan thủ công", description: "Làng nghề đan lát mây tre tạo ra các sản phẩm gia dụng như thúng, mủng, giỏ phục vụ đời sống và thị trường địa phương.", image: "/Images/Landingpagetayninh/Lang-Nghe-Bot-Khoai--05.jpg", age: "150+ năm" }
     ],
     festivals: [
-      { name: "Hội Xuân Núi Bà Đen", date: "Mùng 4-6 tháng Giêng", description: "Lễ hội hành hương lớn nhất Nam Bộ tại núi Bà Đen – ngọn núi thiêng cao nhất Nam Bộ, thu hút hàng triệu phật tử leo núi cầu nguyện.", significance: "Lễ hội hành hương lớn nhất Nam Bộ", image: heroLandscape },
-      { name: "Lễ hội Cao Đài", date: "Các ngày lễ Cao Đài", description: "Lễ hội tâm linh của đạo Cao Đài tại Tòa Thánh Tây Ninh với nghi thức đặc sắc, áo lễ rực rỡ và kèn trống hùng tráng.", significance: "Lễ hội tôn giáo Cao Đài", image: heroLandscape },
-      { name: "Lễ hội trái cây Tây Ninh", date: "Tháng 5-6", description: "Lễ hội tôn vinh các loại trái cây đặc sản Tây Ninh: mãng cầu Bà Đen, mì Tây Ninh và các sản phẩm nông nghiệp địa phương.", significance: "Lễ hội nông nghiệp địa phương", image: heroLandscape },
-      { name: "Lễ Kỳ Yên đình làng", date: "Tháng 2-3 âm lịch", description: "Lễ Kỳ Yên cầu an mùa màng tại các đình làng Tây Ninh với hát bội, múa lân và lễ cúng thần hoàng làng truyền thống Nam Bộ.", significance: "Lễ hội đình làng Nam Bộ", image: heroLandscape }
+      { name: "Hội Xuân Núi Bà Đen", date: "Mùng 4-6 tháng Giêng", description: "Lễ hội hành hương lớn nhất Nam Bộ tại núi Bà Đen – ngọn núi thiêng cao nhất Nam Bộ, thu hút hàng triệu phật tử leo núi cầu nguyện.", significance: "Lễ hội hành hương lớn nhất Nam Bộ", image: "/Images/Landingpagetayninh/le-hoi-nui-ba-den-ivivu-9-1.jpg" },
+      { name: "Lễ hội Cao Đài", date: "Các ngày lễ Cao Đài", description: "Lễ hội tâm linh của đạo Cao Đài tại Tòa Thánh Tây Ninh với nghi thức đặc sắc, áo lễ rực rỡ và kèn trống hùng tráng.", significance: "Lễ hội tôn giáo Cao Đài", image: "/Images/Landingpagetayninh/1402.hop_bao_-_le_hoi_chay_tay_ninh_3.jpg" },
+      { name: "Lễ hội trái cây Tây Ninh", date: "Tháng 5-6", description: "Lễ hội tôn vinh các loại trái cây đặc sản Tây Ninh: mãng cầu Bà Đen, mì Tây Ninh và các sản phẩm nông nghiệp địa phương.", significance: "Lễ hội nông nghiệp địa phương", image: "/Images/Landingpagetayninh/le-hoi-tay-ninh-4.jpg" },
+      { name: "Lễ Kỳ Yên đình làng", date: "Tháng 2-3 âm lịch", description: "Lễ Kỳ Yên cầu an mùa màng tại các đình làng Tây Ninh với hát bội, múa lân và lễ cúng thần hoàng làng truyền thống Nam Bộ.", significance: "Lễ hội đình làng Nam Bộ", image: "/Images/Landingpagetayninh/le-hoi-ky-yen-thumbnail.jpg" }
     ],
     specialties: [
       {
         name: "Bánh tráng phơi sương",
         description: "Dẻo thơm, ăn kèm thịt luộc.",
         origin: "Trảng Bàng",
-        image: cuisineImage
+        image: "/Images/Landingpagetayninh/banh-trang-phoi-suong-5-3083.jpg"
       },
       {
         name: "Muối tôm",
         description: "Gia vị đậm đà nổi tiếng.",
         origin: "Tây Ninh",
-        image: heroLandscape
+        image: "/Images/Landingpagetayninh/muoi-tom-tay-ninh-thumbnail.jpg"
       },
       {
         name: "Bò tơ",
         description: "Thịt mềm, ngọt thơm.",
         origin: "Gò Dầu",
-        image: seafoodImage
+        image: "/Images/Landingpagetayninh/bo-to-dat-tay-ninh.jpg"
       }
     ],
     tourism: [
       {
         name: "Núi Bà Đen",
         description: "Ngọn núi linh thiêng cao nhất Nam Bộ.",
-        image: halongImage
+        image: "/Images/Landingpagetayninh/du-lich-nui-ba-den.jpg"
       },
       {
         name: "Tòa thánh Cao Đài",
         description: "Kiến trúc độc đáo của đạo Cao Đài.",
-        image: thangLongImage
+        image: "/Images/Landingpagetayninh/Cao_Dai_Holy_See.jpg"
       },
       {
         name: "Hồ Dầu Tiếng",
         description: "Hồ nước rộng lớn và yên bình.",
-        image: heroLandscape
+        image: "/Images/Landingpagetayninh/hodautieng23_WZVN.jpg"
       }
     ],
     culture: [
       {
         name: "Lễ hội núi Bà",
         description: "Lễ hội tâm linh lớn của vùng.",
-        image: heroLandscape
+        image: "/Images/Landingpagetayninh/fd67c1c2-le-hoi-nui-ba-den.jpg"
       },
       {
         name: "Ẩm thực chay",
         description: "Văn hóa ẩm thực gắn với đạo Cao Đài.",
-        image: cuisineImage
+        image: "/Images/Landingpagetayninh/Com-chay.jpg"
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    gallery: [
+      "/Images/Landingpagetayninh/nui-Ba-Den-ivivu-7-1.jpg",
+      "/Images/Landingpagetayninh/Cao_Dai_Holy_See.jpg",
+      "/Images/Landingpagetayninh/hodautieng23_WZVN.jpg",
+      "/Images/Landingpagetayninh/banh-trang-phoi-suong-5-3083.jpg",
+      "/Images/Landingpagetayninh/le-hoi-nui-ba-den-ivivu-9-1.jpg",
+      "/Images/Landingpagetayninh/bo-to-dat-tay-ninh.jpg"
+    ],
     charts: {
       barChart: {
         title: "Di tích theo huyện",
