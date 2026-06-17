@@ -3630,18 +3630,38 @@ a {
 .ai-chat-context-bar {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
+  gap: 5px;
+  padding: 7px 16px;
   background: linear-gradient(90deg, rgba(194, 87, 10, 0.08), rgba(124, 45, 18, 0.05));
   border-bottom: 1px solid rgba(194, 87, 10, 0.13);
-  font-size: 0.77rem;
+  font-size: 0.76rem;
   color: #92400e;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ai-chat-context-label {
+  opacity: 0.8;
   flex-shrink: 0;
 }
 
-.ai-chat-context-bar strong {
-  font-weight: 600;
+.ai-chat-context-name {
+  font-weight: 700;
   color: #7c2d12;
+  flex-shrink: 0;
+}
+
+.ai-chat-context-sep {
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+.ai-chat-context-hint {
+  opacity: 0.7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 /* --- Messages area --- */
