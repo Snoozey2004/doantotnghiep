@@ -2585,8 +2585,8 @@ const provinces = [
     description:
       "Vĩnh Long nằm giữa sông Tiền và sông Hậu, nổi bật với vườn trái cây và chợ nổi.",
     accentColor: "#16a34a",
-    heroImage: heroLandscape,
-    introImage: heroLandscape,
+    heroImage: "/Images/Landingpagevinhlong/Vinh-Long-1.jpg",
+    introImage: "/Images/Landingpagevinhlong/cu-lao-an-binh-mua-trai-chin-voi-nhung-kinh-nghiem-checkin-sieu-xinh-1663000611.jpg",
     stats: [
       { value: "300+", label: "Năm lịch sử" },
       { value: "100+", label: "Di tích danh thắng" },
@@ -2594,73 +2594,80 @@ const provinces = [
       { value: "50+", label: "Làng nghề đặc sắc" }
     ],
     timeline: [
-      { year: "Thế kỷ XVII", title: "Khai hoang đất miệt vườn", description: "Lưu dân người Việt đến khai phá vùng đất ngập lũ giữa sông Tiền và sông Hậu, lập vườn cây và xây dựng cộng đồng trên cù lao.", icon: "🌿", image: heroLandscape },
-      { year: "1832", title: "Tỉnh Vĩnh Long thành lập", description: "Vua Minh Mạng lập tỉnh Vĩnh Long thuộc lục tỉnh Nam Kỳ – một trong 6 tỉnh đầu tiên của miền Nam dưới triều Nguyễn.", icon: "🏛️", image: heroLandscape },
-      { year: "Thế kỷ XIX", title: "Trung tâm văn hóa Nam Bộ", description: "Vĩnh Long nổi lên là trung tâm giáo dục và văn hóa Nam Kỳ với nhiều sĩ phu nổi tiếng như Phan Thanh Giản, Nguyễn Thông.", icon: "📚", image: heroLandscape },
-      { year: "Hiện đại", title: "Vương quốc trái cây miền Tây", description: "Vĩnh Long phát triển mạnh du lịch miệt vườn với các vườn trái cây xanh mướt trên cù lao, đờn ca tài tử và gốm đỏ Mang Thít.", icon: "🍊", image: heroLandscape }
+      { year: "Thế kỷ XVII", title: "Khai hoang đất miệt vườn", description: "Lưu dân người Việt đến khai phá vùng đất ngập lũ giữa sông Tiền và sông Hậu, lập vườn cây và xây dựng cộng đồng trên cù lao.", icon: "🌿", image: "/Images/Landingpagevinhlong/68b7bc26f2bd1b765cb9ff67_1200px-cua_huu_thanh_long_ho.jpg" },
+      { year: "1832", title: "Tỉnh Vĩnh Long thành lập", description: "Vua Minh Mạng lập tỉnh Vĩnh Long thuộc lục tỉnh Nam Kỳ – một trong 6 tỉnh đầu tiên của miền Nam dưới triều Nguyễn.", icon: "🏛️", image: "/Images/Landingpagevinhlong/bvl_18.4_p.thuy-_bai_bao_tang_2_20250419103712.jpg" },
+      { year: "Thế kỷ XIX", title: "Trung tâm văn hóa Nam Bộ", description: "Vĩnh Long nổi lên là trung tâm giáo dục và văn hóa Nam Kỳ với nhiều sĩ phu nổi tiếng như Phan Thanh Giản, Nguyễn Thông.", icon: "📚", image: "/Images/Landingpagevinhlong/2910.vinh_long.jpg" },
+      { year: "Hiện đại", title: "Vương quốc trái cây miền Tây", description: "Vĩnh Long phát triển mạnh du lịch miệt vườn với các vườn trái cây xanh mướt trên cù lao, đờn ca tài tử và gốm đỏ Mang Thít.", icon: "🍊", image: "/Images/Landingpagevinhlong/trai-cay-miet-vuon.jpg" }
     ],
     craftVillages: [
-      { name: "Làng gốm đỏ Mang Thít", product: "Gạch gốm đỏ", description: "Vùng lò gạch gốm đỏ Mang Thít – di sản kiến trúc độc đáo với hàng trăm lò nung gạch cổ sắp xếp dọc sông, đang hồi sinh thành điểm du lịch.", image: heroLandscape, age: "200+ năm" },
-      { name: "Vườn trái cây Cù lao An Bình", product: "Trái cây miệt vườn", description: "Cù lao An Bình nổi tiếng với các vườn trái cây xanh tươi trên đảo giữa sông Cổ Chiên, cho khách trải nghiệm hái trái và sống cùng nông dân.", image: heroLandscape, age: "200+ năm" },
-      { name: "Đan đát lục bình", product: "Đồ thủ công lục bình", description: "Nghề đan đát lục bình phổ biến ở Vĩnh Long, tạo ra sản phẩm thủ công mỹ nghệ xuất khẩu từ cây lục bình hoang dã sông nước.", image: heroLandscape, age: "100+ năm" },
-      { name: "Làng nghề nem Vĩnh Long", product: "Nem chua, chả lụa", description: "Làng nghề làm nem chua và chả lụa truyền thống của người dân Vĩnh Long với hương vị đặc trưng miền Tây được bày bán rộng rãi.", image: heroLandscape, age: "100+ năm" }
+      { name: "Làng gốm đỏ Mang Thít", product: "Gạch gốm đỏ", description: "Vùng lò gạch gốm đỏ Mang Thít – di sản kiến trúc độc đáo với hàng trăm lò nung gạch cổ sắp xếp dọc sông, đang hồi sinh thành điểm du lịch.", image: "/Images/Landingpagevinhlong/Vinhlong_Mangthit7.jpg", age: "200+ năm" },
+      { name: "Vườn trái cây Cù lao An Bình", product: "Trái cây miệt vườn", description: "Cù lao An Bình nổi tiếng với các vườn trái cây xanh tươi trên đảo giữa sông Cổ Chiên, cho khách trải nghiệm hái trái và sống cùng nông dân.", image: "/Images/Landingpagevinhlong/culaoanbinh1.jpg", age: "200+ năm" },
+      { name: "Đan đát lục bình", product: "Đồ thủ công lục bình", description: "Nghề đan đát lục bình phổ biến ở Vĩnh Long, tạo ra sản phẩm thủ công mỹ nghệ xuất khẩu từ cây lục bình hoang dã sông nước.", image: "/Images/Landingpagevinhlong/87-du-khach-duoc-trai-nghiem-va-thuong-thuc-san-pham-cua-lang-nghe-lam-com-no-vinh-long.jpg", age: "100+ năm" },
+      { name: "Làng nghề nem Vĩnh Long", product: "Nem chua, chả lụa", description: "Làng nghề làm nem chua và chả lụa truyền thống của người dân Vĩnh Long với hương vị đặc trưng miền Tây được bày bán rộng rãi.", image: "/Images/Landingpagevinhlong/nem-chua20240223093624.png", age: "100+ năm" }
     ],
     festivals: [
-      { name: "Lễ hội Đua ghe ngo", date: "Rằm tháng 10 âm lịch", description: "Lễ hội đua ghe ngo truyền thống của người Khmer Vĩnh Long – ghe ngo dài hơn 20m với hàng chục tay chèo đua trên sông Cổ Chiên.", significance: "Lễ hội đua ghe người Khmer", image: heroLandscape },
-      { name: "Lễ hội Nghinh Ông", date: "Tháng Giêng âm lịch", description: "Lễ hội cầu ngư của ngư dân vùng sông nước Vĩnh Long với lễ rước linh và các hoạt động cầu bình an cho năm mới.", significance: "Lễ hội tín ngưỡng sông nước", image: heroLandscape },
-      { name: "Lễ hội trái cây miệt vườn", date: "Mùa trái cây tháng 5-7", description: "Lễ hội tôn vinh sản vật miệt vườn với trưng bày, thi hái trái và thưởng thức các loại trái cây đặc sản Vĩnh Long.", significance: "Lễ hội nông nghiệp miệt vườn", image: heroLandscape },
-      { name: "Lễ Kỳ Yên", date: "Tháng 2 âm lịch", description: "Lễ cúng đình Kỳ Yên cầu an năm mới tại các đình làng Vĩnh Long với hát bội, múa lân và lễ cúng thần hoàng truyền thống.", significance: "Lễ hội đình làng Nam Bộ", image: heroLandscape }
+      { name: "Lễ hội Đua ghe ngo", date: "Rằm tháng 10 âm lịch", description: "Lễ hội đua ghe ngo truyền thống của người Khmer Vĩnh Long – ghe ngo dài hơn 20m với hàng chục tay chèo đua trên sông Cổ Chiên.", significance: "Lễ hội đua ghe người Khmer", image: "/Images/Landingpagevinhlong/ghe-ngo-2-2174.jpg" },
+      { name: "Lễ hội Nghinh Ông", date: "Tháng Giêng âm lịch", description: "Lễ hội cầu ngư của ngư dân vùng sông nước Vĩnh Long với lễ rước linh và các hoạt động cầu bình an cho năm mới.", significance: "Lễ hội tín ngưỡng sông nước", image: "/Images/Landingpagevinhlong/le-hoi-nghinh-ong-2.jpg" },
+      { name: "Lễ hội trái cây miệt vườn", date: "Mùa trái cây tháng 5-7", description: "Lễ hội tôn vinh sản vật miệt vườn với trưng bày, thi hái trái và thưởng thức các loại trái cây đặc sản Vĩnh Long.", significance: "Lễ hội nông nghiệp miệt vườn", image: "/Images/Landingpagevinhlong/hang-nghin-nguoi-do-ve-tham-quan-le-hoi-trai-cay-o-mien-tay-547.jpg" },
+      { name: "Lễ Kỳ Yên", date: "Tháng 2 âm lịch", description: "Lễ cúng đình Kỳ Yên cầu an năm mới tại các đình làng Vĩnh Long với hát bội, múa lân và lễ cúng thần hoàng truyền thống.", significance: "Lễ hội đình làng Nam Bộ", image: "/Images/Landingpagevinhlong/le-hoi-ky-yen-2.jpg" }
     ],
     specialties: [
       {
         name: "Bánh xèo",
         description: "Vỏ giòn, nhân tôm thịt đầy đặn.",
         origin: "Vĩnh Long",
-        image: cuisineImage
+        image: "/Images/Landingpagevinhlong/banh-xeo-hen-cu-lao-dai-gion-rum-mon-banh-dac-san-vinh-long-doc-dao.jpg"
       },
       {
         name: "Cam sành",
         description: "Vị ngọt thanh mát.",
         origin: "Trà Ôn",
-        image: heroLandscape
+        image: "/Images/Landingpagevinhlong/CAM---SANH-3.jpg"
       },
       {
         name: "Cá tai tượng",
         description: "Cá chiên giòn đặc trưng miền Tây.",
         origin: "Cù lao An Bình",
-        image: seafoodImage
+        image: "/Images/Landingpagevinhlong/ca-tai-tuong-dac-san-vinh-long-1526701515.jpg"
       }
     ],
     tourism: [
       {
         name: "Cù lao An Bình",
         description: "Du lịch miệt vườn yên bình.",
-        image: heroLandscape
+        image: "/Images/Landingpagevinhlong/package-tour-du-lich-cu-lao-an-binh-vinh-long--5eod_1481.jpg"
       },
       {
         name: "Chợ nổi Trà Ôn",
         description: "Nét văn hóa giao thương sông nước.",
-        image: halongImage
+        image: "/Images/Landingpagevinhlong/khudulich-chonoitraon.jpg"
       },
       {
         name: "Lò gạch Mang Thít",
         description: "Di sản kiến trúc độc đáo.",
-        image: thangLongImage
+        image: "/Images/Landingpagevinhlong/Vinhlong_Mangthit9.jpg"
       }
     ],
     culture: [
       {
         name: "Đờn ca tài tử",
         description: "Âm nhạc truyền thống miền Tây.",
-        image: heroLandscape
+        image: "/Images/Landingpagevinhlong/dan-ca-tai-tu-nha-co-cai-cuong20250731110819.jpg"
       },
       {
         name: "Làng nghề gốm",
         description: "Nghề truyền thống lâu đời.",
-        image: cuisineImage
+        image: "/Images/Landingpagevinhlong/gom-99338519876824955402514-29664672874026656370978.png"
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    gallery: [
+      "/Images/Landingpagevinhlong/Vinh-Long-1.jpg",
+      "/Images/Landingpagevinhlong/cu-lao-an-binh-mua-trai-chin-voi-nhung-kinh-nghiem-checkin-sieu-xinh-1663000611.jpg",
+      "/Images/Landingpagevinhlong/Vinhlong_Mangthit7.jpg",
+      "/Images/Landingpagevinhlong/le-hoi-nghinh-ong-2.jpg",
+      "/Images/Landingpagevinhlong/CAM---SANH-3.jpg",
+      "/Images/Landingpagevinhlong/ca-tai-tuong-dac-san-vinh-long-1526701515.jpg"
+    ],
     charts: {
       barChart: {
         title: "Điểm văn hóa theo huyện",
@@ -2692,8 +2699,8 @@ const provinces = [
     description:
       "Đồng Tháp nổi tiếng với đồng sen, vườn quốc gia Tràm Chim và ẩm thực dân dã.",
     accentColor: "#b91c1c",
-    heroImage: heroLandscape,
-    introImage: heroLandscape,
+    heroImage: "/Images/Landingpagedongthap/canh-dong-sen-phu-thien-va-ve-dep-ngay-ngat-long-nguoi-3-1660051967.jpg",
+    introImage: "/Images/Landingpagedongthap/canh-dong-sen-phu-thien-va-ve-dep-ngay-ngat-long-nguoi-3-1660051967.jpg",
     stats: [
       { value: "300+", label: "Năm lịch sử" },
       { value: "100+", label: "Di tích danh thắng" },
@@ -2701,73 +2708,80 @@ const provinces = [
       { value: "40+", label: "Làng nghề đặc sắc" }
     ],
     timeline: [
-      { year: "Thế kỷ XVII", title: "Khai hoang đất Đồng Tháp Mười", description: "Lưu dân người Việt bắt đầu khai hoang vùng Đồng Tháp Mười – vùng trũng lớn nhất Nam Bộ với lau sậy và nước lũ mênh mông.", icon: "🌾", image: heroLandscape },
-      { year: "1832", title: "Tỉnh An Giang và Sa Đéc", description: "Khu vực Đồng Tháp ngày nay từng thuộc tỉnh An Giang và Sa Đéc dưới triều Nguyễn, là vùng sản xuất lúa gạo quan trọng Nam Kỳ.", icon: "🏛️", image: heroLandscape },
-      { year: "Thế kỷ XIX-XX", title: "Kháng chiến Đồng Tháp Mười", description: "Đồng Tháp Mười là vùng căn cứ kháng chiến quan trọng trong cả hai cuộc kháng chiến chống Pháp và chống Mỹ.", icon: "⭐", image: heroLandscape },
-      { year: "Hiện đại", title: "Xứ sen hồng Sa Đéc", description: "Đồng Tháp nổi tiếng với làng hoa Sa Đéc, đồng sen bạt ngàn và hủ tiếu Sa Đéc thương hiệu – điểm đến du lịch sinh thái hấp dẫn.", icon: "🌸", image: heroLandscape }
+      { year: "Thế kỷ XVII", title: "Khai hoang đất Đồng Tháp Mười", description: "Lưu dân người Việt bắt đầu khai hoang vùng Đồng Tháp Mười – vùng trũng lớn nhất Nam Bộ với lau sậy và nước lũ mênh mông.", icon: "🌾", image: "/Images/Landingpagedongthap/images1680019-anh-tu-lieu.jpg" },
+      { year: "1832", title: "Tỉnh An Giang và Sa Đéc", description: "Khu vực Đồng Tháp ngày nay từng thuộc tỉnh An Giang và Sa Đéc dưới triều Nguyễn, là vùng sản xuất lúa gạo quan trọng Nam Kỳ.", icon: "🏛️", image: "/Images/Landingpagedongthap/images2033783-nha-dc-le-van-phi-lip.jpg" },
+      { year: "Thế kỷ XIX-XX", title: "Kháng chiến Đồng Tháp Mười", description: "Đồng Tháp Mười là vùng căn cứ kháng chiến quan trọng trong cả hai cuộc kháng chiến chống Pháp và chống Mỹ.", icon: "⭐", image: "/Images/Landingpagedongthap/khu-di-tich-go-thap0-1728748681.jpg" },
+      { year: "Hiện đại", title: "Xứ sen hồng Sa Đéc", description: "Đồng Tháp nổi tiếng với làng hoa Sa Đéc, đồng sen bạt ngàn và hủ tiếu Sa Đéc thương hiệu – điểm đến du lịch sinh thái hấp dẫn.", icon: "🌸", image: "/Images/Landingpagedongthap/Vuon-hoa-sadec-06.jpg" }
     ],
     craftVillages: [
-      { name: "Làng hoa Sa Đéc", product: "Hoa tươi đặc sắc", description: "Làng hoa Sa Đéc cung cấp hoa tươi cho cả nước dịp Tết và quanh năm, nổi tiếng với các loại hoa cúc, hoa hồng và cây kiểng.", image: heroLandscape, age: "100+ năm" },
-      { name: "Làng nghề nem Lai Vung", product: "Nem chua đặc sản", description: "Nem Lai Vung – đặc sản nổi tiếng cả nước với vị chua ngọt, thơm lừng từ thịt heo và bì heo lên men theo công thức truyền thống.", image: heroLandscape, age: "100+ năm" },
-      { name: "Làng chiếu Định Yên", product: "Chiếu cói", description: "Làng nghề dệt chiếu cói Định Yên nổi tiếng vùng đồng bằng với chợ chiếu họp vào ban đêm dưới ánh đèn – nét văn hóa độc đáo hiếm có.", image: heroLandscape, age: "200+ năm" },
-      { name: "Làng dệt thổ cẩm Khmer Lấp Vò", product: "Thổ cẩm Khmer", description: "Nghề dệt thổ cẩm của người Khmer Lấp Vò với màu sắc rực rỡ, hoa văn độc đáo phản ánh văn hóa dân tộc Khmer Nam Bộ.", image: heroLandscape, age: "Truyền thống lâu đời" }
+      { name: "Làng hoa Sa Đéc", product: "Hoa tươi đặc sắc", description: "Làng hoa Sa Đéc cung cấp hoa tươi cho cả nước dịp Tết và quanh năm, nổi tiếng với các loại hoa cúc, hoa hồng và cây kiểng.", image: "/Images/Landingpagedongthap/63910-lang-hoa-kieng-sa-dec.jpg", age: "100+ năm" },
+      { name: "Làng nghề nem Lai Vung", product: "Nem chua đặc sản", description: "Nem Lai Vung – đặc sản nổi tiếng cả nước với vị chua ngọt, thơm lừng từ thịt heo và bì heo lên men theo công thức truyền thống.", image: "/Images/Landingpagedongthap/nem-Lai-Vung-ivivu-3.jpg", age: "100+ năm" },
+      { name: "Làng chiếu Định Yên", product: "Chiếu cói", description: "Làng nghề dệt chiếu cói Định Yên nổi tiếng vùng đồng bằng với chợ chiếu họp vào ban đêm dưới ánh đèn – nét văn hóa độc đáo hiếm có.", image: "/Images/Landingpagedongthap/lang-chieu-Dinh-Yen-ivivu1-e1726567231289.jpg", age: "200+ năm" },
+      { name: "Làng dệt thổ cẩm Khmer Lấp Vò", product: "Thổ cẩm Khmer", description: "Nghề dệt thổ cẩm của người Khmer Lấp Vò với màu sắc rực rỡ, hoa văn độc đáo phản ánh văn hóa dân tộc Khmer Nam Bộ.", image: "/Images/Landingpagedongthap/vna-potal-danh-thuc-tiem-nang-lang-nghe-det-tho-cam-cua-dong-bao-khmer-an-giang-85708254-10-11-40.jpg", age: "Truyền thống lâu đời" }
     ],
     festivals: [
-      { name: "Lễ hội Sen hồng Đồng Tháp", date: "Tháng 5-6 hàng năm", description: "Lễ hội tôn vinh hoa sen – loài hoa biểu trưng của Đồng Tháp với các hoạt động tham quan đồng sen, thưởng thức ẩm thực sen.", significance: "Lễ hội hoa sen đặc trưng", image: heroLandscape },
-      { name: "Lễ hội Xây Chầu – Đại Bội", date: "Rằm tháng 11 âm lịch", description: "Lễ hội dân gian đặc sắc tại các đình làng Đồng Tháp với nghi thức hát bội, cúng đình và các trò chơi dân gian.", significance: "Lễ hội đình làng Nam Bộ", image: heroLandscape },
-      { name: "Lễ Vu Lan người Khmer (Sen Dolta)", date: "Tháng 8-9 âm lịch", description: "Lễ hội cúng tổ tiên của người Khmer diễn ra tại các chùa, kéo dài vài ngày với lễ dâng cơm, thả đèn nước và múa Apsara.", significance: "Lễ hội Phật giáo người Khmer", image: heroLandscape },
-      { name: "Lễ hội Ok Om Bok", date: "Rằm tháng 10 âm lịch", description: "Lễ hội cúng trăng của người Khmer với lễ đút cốm dẹp và đua ghe ngo trên sông – sự kiện văn hóa đặc sắc Đồng Tháp.", significance: "Lễ hội đua ghe ngo Khmer", image: heroLandscape }
+      { name: "Lễ hội Sen hồng Đồng Tháp", date: "Tháng 5-6 hàng năm", description: "Lễ hội tôn vinh hoa sen – loài hoa biểu trưng của Đồng Tháp với các hoạt động tham quan đồng sen, thưởng thức ẩm thực sen.", significance: "Lễ hội hoa sen đặc trưng", image: "/Images/Landingpagedongthap/Le-Hoi-Sen-Dong-Thap.jpg" },
+      { name: "Lễ hội Xây Chầu – Đại Bội", date: "Rằm tháng 11 âm lịch", description: "Lễ hội dân gian đặc sắc tại các đình làng Đồng Tháp với nghi thức hát bội, cúng đình và các trò chơi dân gian.", significance: "Lễ hội đình làng Nam Bộ", image: "/Images/Landingpagedongthap/le-hoi-dong-thap-4.jpg" },
+      { name: "Lễ Vu Lan người Khmer (Sen Dolta)", date: "Tháng 8-9 âm lịch", description: "Lễ hội cúng tổ tiên của người Khmer diễn ra tại các chùa, kéo dài vài ngày với lễ dâng cơm, thả đèn nước và múa Apsara.", significance: "Lễ hội Phật giáo người Khmer", image: "/Images/Landingpagedongthap/Sen-Dolta-2.jpg" },
+      { name: "Lễ hội Ok Om Bok", date: "Rằm tháng 10 âm lịch", description: "Lễ hội cúng trăng của người Khmer với lễ đút cốm dẹp và đua ghe ngo trên sông – sự kiện văn hóa đặc sắc Đồng Tháp.", significance: "Lễ hội đua ghe ngo Khmer", image: "/Images/Landingpagedongthap/dac-sac-le-hoi-ok-om-bok-cua-dong-bao-khmer-tai-can-tho-1-1649199760.jpg" }
     ],
     specialties: [
       {
         name: "Cá lóc nướng trui",
         description: "Món ăn dân dã, thơm lừng.",
         origin: "Sa Đéc",
-        image: seafoodImage
+        image: "/Images/Landingpagedongthap/cam-long-sao-dang-voi-top-quan-ca-loc-nuong-trui-can-tho-01-1649324152.jpg"
       },
       {
         name: "Hủ tiếu Sa Đéc",
         description: "Sợi hủ tiếu dai, nước dùng ngọt.",
         origin: "Sa Đéc",
-        image: phoImage
+        image: "/Images/Landingpagedongthap/kham-pha-suc-hut-cua-hu-tieu-mi-sa-dec-kieu-loan-can-tho-01-1649241179.jpg"
       },
       {
         name: "Nem Lai Vung",
         description: "Nem chua ngọt thơm.",
         origin: "Lai Vung",
-        image: cuisineImage
+        image: "/Images/Landingpagedongthap/Combo-8_Nemlaivung.jpg"
       }
     ],
     tourism: [
       {
         name: "Vườn quốc gia Tràm Chim",
         description: "Khu sinh thái ngập nước nổi tiếng.",
-        image: halongImage
+        image: "/Images/Landingpagedongthap/vuon-quoc-gia-tram-chim-2.jpg"
       },
       {
         name: "Làng hoa Sa Đéc",
         description: "Thiên đường hoa rực rỡ.",
-        image: heroLandscape
+        image: "/Images/Landingpagedongthap/tour-lang-hoa-sa-dec-min.jpg"
       },
       {
         name: "Đồng sen",
         description: "Khung cảnh sen nở thơ mộng.",
-        image: heroLandscape
+        image: "/Images/Landingpagedongthap/hoa-sen-4135.jpg"
       }
     ],
     culture: [
       {
         name: "Lễ hội sen",
         description: "Tôn vinh biểu tượng Đồng Tháp.",
-        image: heroLandscape
+        image: "/Images/Landingpagedongthap/le-hoi-sen-1-8198.jpg"
       },
       {
         name: "Làng nghề bánh phồng",
         description: "Nghề truyền thống lâu đời.",
-        image: cuisineImage
+        image: "/Images/Landingpagedongthap/langnghebanhphongphumy01.jpg"
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    gallery: [
+      "/Images/Landingpagedongthap/dji_0565.jpg",
+      "/Images/Landingpagedongthap/canh-dong-sen-phu-thien-va-ve-dep-ngay-ngat-long-nguoi-3-1660051967.jpg",
+      "/Images/Landingpagedongthap/vuon-quoc-gia-tram-chim-2.jpg",
+      "/Images/Landingpagedongthap/Vuon-hoa-sadec-06.jpg",
+      "/Images/Landingpagedongthap/Le-Hoi-Sen-Dong-Thap.jpg",
+      "/Images/Landingpagedongthap/nem-Lai-Vung-ivivu-3.jpg"
+    ],
     charts: {
       barChart: {
         title: "Điểm văn hóa theo huyện",
@@ -2799,8 +2813,8 @@ const provinces = [
     description:
       "Cà Mau là vùng đất cuối trời Nam với rừng ngập mặn, biển cả và hải sản phong phú.",
     accentColor: "#065f46",
-    heroImage: heroLandscape,
-    introImage: seafoodImage,
+    heroImage: "/Images/Landingpagecamau/muicamau249104700am.jpg",
+    introImage: "/Images/Landingpagecamau/30-1620656446-nuoi-tom-trong-rung-ngap-man-anh-dang-quang-minh.jpg",
     stats: [
       { value: "300+", label: "Năm lịch sử" },
       { value: "100+", label: "Di tích danh thắng" },
@@ -2808,73 +2822,80 @@ const provinces = [
       { value: "3 triệu ha", label: "Rừng ngập mặn" }
     ],
     timeline: [
-      { year: "Thế kỷ XVIII", title: "Khai hoang đất Cà Mau", description: "Các lưu dân người Việt đến khai phá vùng đất cuối trời Nam – vùng rừng ngập mặn hoang vu bên biển Đông và vịnh Thái Lan.", icon: "🌿", image: heroLandscape },
-      { year: "1832", title: "Tỉnh An Giang mở rộng", description: "Vùng đất Cà Mau thuộc hạt Hà Tiên sau đó sáp nhập dần vào lãnh thổ Nam Kỳ qua các đợt khai hoang và cải cách hành chính.", icon: "🗺️", image: heroLandscape },
-      { year: "1975", title: "Điểm cuối hành trình thống nhất", description: "Mũi Cà Mau trở thành biểu tượng hòa bình khi cả nước thống nhất – điểm Cực Nam của Tổ quốc như một câu chuyện huyền thoại về đất nước.", icon: "🇻🇳", image: heroLandscape },
-      { year: "Hiện đại", title: "Kinh tế biển và rừng ngập mặn", description: "Cà Mau phát triển kinh tế biển với tôm cua hải sản phong phú và rừng U Minh – khu dự trữ sinh quyển thế giới tại vùng đất cuối trời Nam.", icon: "🦀", image: heroLandscape }
+      { year: "Thế kỷ XVIII", title: "Khai hoang đất Cà Mau", description: "Các lưu dân người Việt đến khai phá vùng đất cuối trời Nam – vùng rừng ngập mặn hoang vu bên biển Đông và vịnh Thái Lan.", icon: "🌿", image: "/Images/Landingpagecamau/nam-ky-luc-tinh-xua-2039.jpg" },
+      { year: "1832", title: "Tỉnh An Giang mở rộng", description: "Vùng đất Cà Mau thuộc hạt Hà Tiên sau đó sáp nhập dần vào lãnh thổ Nam Kỳ qua các đợt khai hoang và cải cách hành chính.", icon: "🗺️", image: "/Images/Landingpagecamau/Lich-su-8-bai-6-700.jpg" },
+      { year: "1975", title: "Điểm cuối hành trình thống nhất", description: "Mũi Cà Mau trở thành biểu tượng hòa bình khi cả nước thống nhất – điểm Cực Nam của Tổ quốc như một câu chuyện huyền thoại về đất nước.", icon: "🇻🇳", image: "/Images/Landingpagecamau/Tuongdaimuicamau.jpg" },
+      { year: "Hiện đại", title: "Kinh tế biển và rừng ngập mặn", description: "Cà Mau phát triển kinh tế biển với tôm cua hải sản phong phú và rừng U Minh – khu dự trữ sinh quyển thế giới tại vùng đất cuối trời Nam.", icon: "🦀", image: "/Images/Landingpagecamau/thu-hoach-tom4_1562030978.jpg" }
     ],
     craftVillages: [
-      { name: "Nghề nuôi tôm Năm Căn", product: "Tôm sú nuôi trồng", description: "Năm Căn nổi tiếng với nghề nuôi tôm sú trong rừng ngập mặn – mô hình sinh thái bền vững tạo ra tôm sạch chất lượng xuất khẩu.", image: heroLandscape, age: "50+ năm" },
-      { name: "Nghề làm mắm Cà Mau", product: "Mắm cá biển", description: "Nghề làm mắm cá biển truyền thống của người Cà Mau với nhiều loại mắm: mắm cá sặc, mắm ba khía, mắm lóc... mỗi loại có hương vị riêng.", image: heroLandscape, age: "200+ năm" },
-      { name: "Đan đát cần xé", product: "Đồ đan lát", description: "Nghề đan cần xé và thúng mủng từ tre nứa của người dân Cà Mau phục vụ nhu cầu đánh bắt và nuôi trồng thủy sản.", image: heroLandscape, age: "Truyền thống" },
-      { name: "Nghề khai thác ba khía", product: "Ba khía muối", description: "Nghề khai thác và muối ba khía – loài cua nhỏ đặc trưng rừng ngập mặn Cà Mau, trở thành đặc sản nổi tiếng được người dân yêu thích.", image: heroLandscape, age: "Truyền thống" }
+      { name: "Nghề nuôi tôm Năm Căn", product: "Tôm sú nuôi trồng", description: "Năm Căn nổi tiếng với nghề nuôi tôm sú trong rừng ngập mặn – mô hình sinh thái bền vững tạo ra tôm sạch chất lượng xuất khẩu.", image: "/Images/Landingpagecamau/tom-su-1.png", age: "50+ năm" },
+      { name: "Nghề làm mắm Cà Mau", product: "Mắm cá biển", description: "Nghề làm mắm cá biển truyền thống của người Cà Mau với nhiều loại mắm: mắm cá sặc, mắm ba khía, mắm lóc... mỗi loại có hương vị riêng.", image: "/Images/Landingpagecamau/nghe-lam-mam-o-ca-mau-va-mon-ngon-dac-san-van-nguoi-me-01-1664278878.jpeg", age: "200+ năm" },
+      { name: "Đan đát cần xé", product: "Đồ đan lát", description: "Nghề đan cần xé và thúng mủng từ tre nứa của người dân Cà Mau phục vụ nhu cầu đánh bắt và nuôi trồng thủy sản.", image: "/Images/Landingpagecamau/Nghe-dan-can-xe-bang-tre.jpg", age: "Truyền thống" },
+      { name: "Nghề khai thác ba khía", product: "Ba khía muối", description: "Nghề khai thác và muối ba khía – loài cua nhỏ đặc trưng rừng ngập mặn Cà Mau, trở thành đặc sản nổi tiếng được người dân yêu thích.", image: "/Images/Landingpagecamau/ba-khia-tron-toi-ot-thumbnail.jpg", age: "Truyền thống" }
     ],
     festivals: [
-      { name: "Lễ hội Nghinh Ông Cà Mau", date: "Tháng Giêng âm lịch", description: "Lễ hội cầu ngư truyền thống của ngư dân Cà Mau với lễ rước kiệu Ông Nam Hải xuống biển, cầu bình an và mùa cá bội thu.", significance: "Lễ hội ngư dân truyền thống", image: heroLandscape },
-      { name: "Lễ hội Vàm Lũng", date: "Tháng 4 (30/4)", description: "Lễ kỷ niệm tại Vàm Lũng – bến cảng lịch sử tiếp nhận vũ khí theo đường Hồ Chí Minh trên biển, tưởng nhớ anh hùng liệt sỹ.", significance: "Lễ kỷ niệm lịch sử", image: heroLandscape },
-      { name: "Lễ hội Ok Om Bok", date: "Rằm tháng 10 âm lịch", description: "Lễ hội cúng trăng của người Khmer Cà Mau với lễ đút cốm dẹp và đua ghe ngo trên sông – nét văn hóa đa dân tộc đặc trưng.", significance: "Lễ hội dân tộc Khmer", image: heroLandscape },
-      { name: "Lễ Kỳ Yên Đình Cà Mau", date: "Tháng 2 âm lịch", description: "Lễ cúng đình Kỳ Yên cầu an năm mới tại các đình làng Cà Mau với hát bội và các nghi lễ dân gian truyền thống miền Nam.", significance: "Lễ hội đình làng Nam Bộ", image: heroLandscape }
+      { name: "Lễ hội Nghinh Ông Cà Mau", date: "Tháng Giêng âm lịch", description: "Lễ hội cầu ngư truyền thống của ngư dân Cà Mau với lễ rước kiệu Ông Nam Hải xuống biển, cầu bình an và mùa cá bội thu.", significance: "Lễ hội ngư dân truyền thống", image: "/Images/Landingpagecamau/lehoinghinhongsongdoc.jpg" },
+      { name: "Lễ hội Vàm Lũng", date: "Tháng 4 (30/4)", description: "Lễ kỷ niệm tại Vàm Lũng – bến cảng lịch sử tiếp nhận vũ khí theo đường Hồ Chí Minh trên biển, tưởng nhớ anh hùng liệt sỹ.", significance: "Lễ kỷ niệm lịch sử", image: "/Images/Landingpagecamau/1724641919-nguoi-dan-hao-huc-don-le-nghinh-ong.jpg" },
+      { name: "Lễ hội Ok Om Bok", date: "Rằm tháng 10 âm lịch", description: "Lễ hội cúng trăng của người Khmer Cà Mau với lễ đút cốm dẹp và đua ghe ngo trên sông – nét văn hóa đa dân tộc đặc trưng.", significance: "Lễ hội dân tộc Khmer", image: "/Images/Landingpagecamau/le-hoi-ok-om-bok-5.jpg" },
+      { name: "Lễ Kỳ Yên Đình Cà Mau", date: "Tháng 2 âm lịch", description: "Lễ cúng đình Kỳ Yên cầu an năm mới tại các đình làng Cà Mau với hát bội và các nghi lễ dân gian truyền thống miền Nam.", significance: "Lễ hội đình làng Nam Bộ", image: "/Images/Landingpagecamau/le-ky-yen-dinh-than-tan-loc-kham-pha-net-dep-van-hoa-cua-nguoi-dan-ca-mau-1663084894.jpg" }
     ],
     specialties: [
       {
         name: "Cua Cà Mau",
         description: "Cua chắc thịt, thơm ngọt.",
         origin: "Năm Căn",
-        image: seafoodImage
+        image: "/Images/Landingpagecamau/cua_hap_7a97351a183e4eefa778dcb4b39a16b0.jpg"
       },
       {
         name: "Lẩu mắm",
         description: "Đậm đà hương vị miền Tây.",
         origin: "Cà Mau",
-        image: cuisineImage
+        image: "/Images/Landingpagecamau/nghe-lam-mam-o-ca-mau-va-mon-ngon-dac-san-van-nguoi-me-04-1664278879.jpeg"
       },
       {
         name: "Ba khía",
         description: "Món ăn dân dã đặc trưng.",
         origin: "Rạch Gốc",
-        image: heroLandscape
+        image: "/Images/Landingpagecamau/ba-khia-tron-toi-ot-thumbnail.jpg"
       }
     ],
     tourism: [
       {
         name: "Mũi Cà Mau",
         description: "Điểm cực Nam Tổ quốc.",
-        image: heroLandscape
+        image: "/Images/Landingpagecamau/Tuongdaimuicamau.jpg"
       },
       {
         name: "Rừng U Minh",
         description: "Rừng ngập mặn đặc trưng.",
-        image: halongImage
+        image: "/Images/Landingpagecamau/30-1620656446-nuoi-tom-trong-rung-ngap-man-anh-dang-quang-minh.jpg"
       },
       {
         name: "Đầm Thị Tường",
         description: "Đầm nước rộng lớn miền Tây.",
-        image: heroLandscape
+        image: "/Images/Landingpagecamau/damthituongcamau.jpg"
       }
     ],
     culture: [
       {
         name: "Lễ hội Nghinh Ông",
         description: "Nghi lễ cầu mùa của ngư dân.",
-        image: heroLandscape
+        image: "/Images/Landingpagecamau/vna-potal-ca-mau-tung-bung-le-hoi-nghinh-ong-song-doc-66149037-13-16-16.jpg"
       },
       {
         name: "Đờn ca tài tử",
         description: "Âm nhạc truyền thống miền Tây.",
-        image: cuisineImage
+        image: "/Images/Landingpagecamau/don-ca-tai-tu-2.jpg"
       }
     ],
-    gallery: [heroLandscape, seafoodImage, cuisineImage, phoImage, halongImage, coffeeImage],
+    gallery: [
+      "/Images/Landingpagecamau/muicamau249104700am.jpg",
+      "/Images/Landingpagecamau/damthituongcamau.jpg",
+      "/Images/Landingpagecamau/lehoinghinhongsongdoc.jpg",
+      "/Images/Landingpagecamau/cua_hap_7a97351a183e4eefa778dcb4b39a16b0.jpg",
+      "/Images/Landingpagecamau/30-1620656446-nuoi-tom-trong-rung-ngap-man-anh-dang-quang-minh.jpg",
+      "/Images/Landingpagecamau/don-ca-tai-tu-2.jpg"
+    ],
     charts: {
       barChart: {
         title: "Điểm sinh thái theo huyện",
@@ -2906,8 +2927,8 @@ const provinces = [
     description:
       "An Giang gắn liền với núi Cấm, mùa nước nổi và văn hóa đa dạng.",
     accentColor: "#15803d",
-    heroImage: heroLandscape,
-    introImage: heroLandscape,
+    heroImage: "/Images/Landingpageangiang/du-lich-an-giang-ivivu-1.png",
+    introImage: "/Images/Landingpageangiang/rung-tram-Tra-Su.jpg",
     stats: [
       { value: "300+", label: "Năm lịch sử" },
       { value: "100+", label: "Di tích văn hóa" },
@@ -2915,73 +2936,80 @@ const provinces = [
       { value: "Số 1", label: "Lúa gạo miền Nam" }
     ],
     timeline: [
-      { year: "Thế kỷ XVII", title: "Đất Hà Tiên thuở ban đầu", description: "Vùng An Giang ngày nay là phần đất phía bắc của trấn Hà Tiên xưa, được khai hoang bởi dòng người Việt di dân từ miền Trung.", icon: "🌾", image: heroLandscape },
-      { year: "1832", title: "Tỉnh An Giang thành lập", description: "Vua Minh Mạng lập tỉnh An Giang – một trong 6 tỉnh Nam Kỳ đầu tiên, trở thành trung tâm hành chính và kinh tế vùng biên giới.", icon: "🏛️", image: heroLandscape },
-      { year: "1849", title: "Đạo Bửu Sơn Kỳ Hương", description: "Đức Phật Thầy Tây An khai lập đạo Bửu Sơn Kỳ Hương tại núi Sam – tôn giáo đặc trưng Nam Bộ có ảnh hưởng sâu rộng đến người dân An Giang.", icon: "⭐", image: heroLandscape },
-      { year: "Hiện đại", title: "Vựa lúa và điểm hành hương", description: "An Giang là tỉnh đầu nguồn sông Cửu Long với sản lượng lúa lớn nhất miền Nam và là điểm hành hương nổi tiếng tại núi Sam, núi Cấm.", icon: "🏔️", image: heroLandscape }
+      { year: "Thế kỷ XVII", title: "Đất Hà Tiên thuở ban đầu", description: "Vùng An Giang ngày nay là phần đất phía bắc của trấn Hà Tiên xưa, được khai hoang bởi dòng người Việt di dân từ miền Trung.", icon: "🌾", image: "/Images/Landingpageangiang/Ky-3-Cac-Chua-Nguyen-khai-khan-vung-Nam-Bo-291-1568298059-width500height280.jpg" },
+      { year: "1832", title: "Tỉnh An Giang thành lập", description: "Vua Minh Mạng lập tỉnh An Giang – một trong 6 tỉnh Nam Kỳ đầu tiên, trở thành trung tâm hành chính và kinh tế vùng biên giới.", icon: "🏛️", image: "/Images/Landingpageangiang/Ben-thuyen-cho-Long-Xuyen-thap-nien-1920s.jpg" },
+      { year: "1849", title: "Đạo Bửu Sơn Kỳ Hương", description: "Đức Phật Thầy Tây An khai lập đạo Bửu Sơn Kỳ Hương tại núi Sam – tôn giáo đặc trưng Nam Bộ có ảnh hưởng sâu rộng đến người dân An Giang.", icon: "⭐", image: "/Images/Landingpageangiang/800px-ChC3B9a_ThE1BB9Bi_SC6A1n_E1BB9F_TE1BB8Bnh_BiC3AAn.jpg" },
+      { year: "Hiện đại", title: "Vựa lúa và điểm hành hương", description: "An Giang là tỉnh đầu nguồn sông Cửu Long với sản lượng lúa lớn nhất miền Nam và là điểm hành hương nổi tiếng tại núi Sam, núi Cấm.", icon: "🏔️", image: "/Images/Landingpageangiang/hanh-huong-nui-cam-tim-ve-noi-linh-thieng-va-ky-bi-o-vung-nam-bo-07-1660155614.jpg" }
     ],
     craftVillages: [
-      { name: "Làng lụa Tân Châu", product: "Lụa mặc nưa", description: "Lụa Tân Châu (lụa mặc nưa) – đặc sản vải lụa nhuộm đen từ trái mặc nưa độc đáo nhất Việt Nam, mềm mịn và bền màu theo thời gian.", image: heroLandscape, age: "200+ năm" },
-      { name: "Làng nghề mộc Long Điền", product: "Đồ gỗ mỹ nghệ", description: "Làng nghề chế tác gỗ Long Điền Chợ sản xuất tủ thờ, bàn ghế và đồ mỹ nghệ gỗ quý với kỹ thuật điêu khắc tinh xảo.", image: heroLandscape, age: "200+ năm" },
-      { name: "Làng mắm Châu Đốc", product: "Mắm cá đồng", description: "Châu Đốc nổi tiếng là thủ đô mắm miền Tây với hàng chục loại mắm cá khác nhau, được sản xuất thủ công bằng cá đồng nước ngọt.", image: heroLandscape, age: "200+ năm" },
-      { name: "Bonsai kiểng cổ Long Xuyên", product: "Cây kiểng nghệ thuật", description: "Nghề chơi và chế tác cây kiểng bonsai tại Long Xuyên với những tác phẩm nghệ thuật độc đáo từ cây tự nhiên địa phương.", image: heroLandscape, age: "100+ năm" }
+      { name: "Làng lụa Tân Châu", product: "Lụa mặc nưa", description: "Lụa Tân Châu (lụa mặc nưa) – đặc sản vải lụa nhuộm đen từ trái mặc nưa độc đáo nhất Việt Nam, mềm mịn và bền màu theo thời gian.", image: "/Images/Landingpageangiang/lang-lua-tan-chau-an-giang-25-.1097.jpg", age: "200+ năm" },
+      { name: "Làng nghề mộc Long Điền", product: "Đồ gỗ mỹ nghệ", description: "Làng nghề chế tác gỗ Long Điền Chợ sản xuất tủ thờ, bàn ghế và đồ mỹ nghệ gỗ quý với kỹ thuật điêu khắc tinh xảo.", image: "/Images/Landingpageangiang/24725500-lang-nghe-1.png", age: "200+ năm" },
+      { name: "Làng mắm Châu Đốc", product: "Mắm cá đồng", description: "Châu Đốc nổi tiếng là thủ đô mắm miền Tây với hàng chục loại mắm cá khác nhau, được sản xuất thủ công bằng cá đồng nước ngọt.", image: "/Images/Landingpageangiang/dac_san_mam_chau_doc_an_giang_laodong_min.jpg", age: "200+ năm" },
+      { name: "Bonsai kiểng cổ Long Xuyên", product: "Cây kiểng nghệ thuật", description: "Nghề chơi và chế tác cây kiểng bonsai tại Long Xuyên với những tác phẩm nghệ thuật độc đáo từ cây tự nhiên địa phương.", image: "/Images/Landingpageangiang/cay-dao-bonsai.jpg", age: "100+ năm" }
     ],
     festivals: [
-      { name: "Lễ hội Vía Bà Chúa Xứ núi Sam", date: "24-27 tháng 4 âm lịch", description: "Một trong những lễ hội lớn nhất Nam Bộ tại Miếu Bà Chúa Xứ với lễ rước bà, tắm bà và đám rước hoành tráng thu hút hàng triệu du khách.", significance: "Lễ hội lớn nhất Nam Bộ", image: heroLandscape },
-      { name: "Lễ hội Đua bò Bảy Núi", date: "Rằm tháng 10 âm lịch", description: "Lễ hội đua bò độc đáo nhất Việt Nam của người Khmer Bảy Núi với các cặp bò đua trên ruộng lúa trong không khí sôi động.", significance: "Lễ hội đua bò độc đáo nhất VN", image: heroLandscape },
-      { name: "Lễ Ok Om Bok", date: "Rằm tháng 10 âm lịch", description: "Lễ cúng trăng của người Khmer An Giang với lễ đút cốm dẹp cầu mưa thuận gió hòa và thả đèn gió rực sáng trên bầu trời đêm.", significance: "Lễ hội tín ngưỡng người Khmer", image: heroLandscape },
-      { name: "Lễ hội Mùa nước nổi", date: "Tháng 8-10 dương lịch", description: "Lễ hội tôn vinh mùa lũ đặc trưng đồng bằng sông Cửu Long tại An Giang với các hoạt động câu cá, bắt cá và thưởng thức hải sản mùa lũ.", significance: "Lễ hội đặc trưng mùa nước nổi", image: heroLandscape }
+      { name: "Lễ hội Vía Bà Chúa Xứ núi Sam", date: "24-27 tháng 4 âm lịch", description: "Một trong những lễ hội lớn nhất Nam Bộ tại Miếu Bà Chúa Xứ với lễ rước bà, tắm bà và đám rước hoành tráng thu hút hàng triệu du khách.", significance: "Lễ hội lớn nhất Nam Bộ", image: "/Images/Landingpageangiang/491b1585-le-hoi-ba-chua-xu-6.jpg" },
+      { name: "Lễ hội Đua bò Bảy Núi", date: "Rằm tháng 10 âm lịch", description: "Lễ hội đua bò độc đáo nhất Việt Nam của người Khmer Bảy Núi với các cặp bò đua trên ruộng lúa trong không khí sôi động.", significance: "Lễ hội đua bò độc đáo nhất VN", image: "/Images/Landingpageangiang/Hoi-Dua-Bo-Bay-Nui-2.jpg" },
+      { name: "Lễ Ok Om Bok", date: "Rằm tháng 10 âm lịch", description: "Lễ cúng trăng của người Khmer An Giang với lễ đút cốm dẹp cầu mưa thuận gió hòa và thả đèn gió rực sáng trên bầu trời đêm.", significance: "Lễ hội tín ngưỡng người Khmer", image: "/Images/Landingpageangiang/le-hoi-ok-om-bok-5.jpg" },
+      { name: "Lễ hội Mùa nước nổi", date: "Tháng 8-10 dương lịch", description: "Lễ hội tôn vinh mùa lũ đặc trưng đồng bằng sông Cửu Long tại An Giang với các hoạt động câu cá, bắt cá và thưởng thức hải sản mùa lũ.", significance: "Lễ hội đặc trưng mùa nước nổi", image: "/Images/Landingpageangiang/tungbungngayhoicuaca20240304150629.jpg" }
     ],
     specialties: [
       {
         name: "Bún cá Châu Đốc",
         description: "Nước dùng thơm nghệ, cá lóc tươi.",
         origin: "Châu Đốc",
-        image: seafoodImage
+        image: "/Images/Landingpageangiang/bun-ca-chau-doc-an-giang.jpg"
       },
       {
         name: "Mắm Châu Đốc",
         description: "Đặc sản đậm đà miền biên giới.",
         origin: "Châu Đốc",
-        image: cuisineImage
+        image: "/Images/Landingpageangiang/mam-chau-doc-topbanner.jpg"
       },
       {
         name: "Gà đốt Ô Thum",
         description: "Gà nướng thơm vị sả.",
         origin: "Tri Tôn",
-        image: phoImage
+        image: "/Images/Landingpageangiang/ga-dot-o-thum-an-giang-du-lich-viet.jpg"
       }
     ],
     tourism: [
       {
         name: "Núi Cấm",
         description: "Điểm hành hương nổi tiếng.",
-        image: halongImage
+        image: "/Images/Landingpageangiang/hanh-huong-nui-cam-tim-ve-noi-linh-thieng-va-ky-bi-o-vung-nam-bo-03-1660155614.jpeg"
       },
       {
         name: "Rừng tràm Trà Sư",
         description: "Cảnh sắc xanh mát mùa nước nổi.",
-        image: heroLandscape
+        image: "/Images/Landingpageangiang/rung-tram-Tra-Su.jpg"
       },
       {
         name: "Chợ Châu Đốc",
         description: "Giao thương sôi động vùng biên.",
-        image: cuisineImage
+        image: "/Images/Landingpageangiang/An-Giang-6.jpg"
       }
     ],
     culture: [
       {
         name: "Lễ hội Bà Chúa Xứ",
         description: "Lễ hội tâm linh lớn nhất miền Tây.",
-        image: heroLandscape
+        image: "/Images/Landingpageangiang/491b1585-le-hoi-ba-chua-xu-6.jpg"
       },
       {
         name: "Văn hóa Khmer",
         description: "Sắc màu văn hóa đa dạng vùng biên.",
-        image: cuisineImage
+        image: "/Images/Landingpageangiang/441_thang_11_ve_tra_vinh_tham_gia_le_hoi_ok_om_bok_nam.jpg"
       }
     ],
-    gallery: [heroLandscape, cuisineImage, phoImage, seafoodImage, halongImage, coffeeImage],
+    gallery: [
+      "/Images/Landingpageangiang/An-Giang-3.jpg",
+      "/Images/Landingpageangiang/rung-tram-Tra-Su.jpg",
+      "/Images/Landingpageangiang/hanh-huong-nui-cam-tim-ve-noi-linh-thieng-va-ky-bi-o-vung-nam-bo-07-1660155614.jpg",
+      "/Images/Landingpageangiang/491b1585-le-hoi-ba-chua-xu-6.jpg",
+      "/Images/Landingpageangiang/Hoi-Dua-Bo-Bay-Nui-2.jpg",
+      "/Images/Landingpageangiang/bun-ca-chau-doc-an-giang.jpg"
+    ],
     charts: {
       barChart: {
         title: "Điểm văn hóa theo huyện",
