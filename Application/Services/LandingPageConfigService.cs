@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Text.Json;
 using WebApplication1.Application.DTOs.LandingPageConfigDTOs;
 using WebApplication1.Application.DTOs.UIBlockDTOs;
 using WebApplication1.Application.Interfaces.Repositories;
@@ -23,22 +24,61 @@ public class LandingPageConfigService : ILandingPageConfigService
         _mapper = mapper;
     }
 
+    private static Dictionary<string, string> DeserializeSectionColors(string json)
+    {
+        if (string.IsNullOrEmpty(json)) return new Dictionary<string, string>();
+        try { return JsonSerializer.Deserialize<Dictionary<string, string>>(json) ?? new Dictionary<string, string>(); }
+        catch { return new Dictionary<string, string>(); }
+    }
+
+    private static string SerializeSectionColors(Dictionary<string, string>? dict) =>
+        dict != null && dict.Count > 0 ? JsonSerializer.Serialize(dict) : string.Empty;
+
+    private static List<string> DeserializeSectionOrder(string json)
+    {
+        if (string.IsNullOrEmpty(json)) return new List<string>();
+        try { return JsonSerializer.Deserialize<List<string>>(json) ?? new List<string>(); }
+        catch { return new List<string>(); }
+    }
+
+    private static string SerializeSectionOrder(List<string>? list) =>
+        list != null && list.Count > 0 ? JsonSerializer.Serialize(list) : string.Empty;
+
+    private static Dictionary<string, bool> DeserializeSectionVisibility(string json)
+    {
+        if (string.IsNullOrEmpty(json)) return new Dictionary<string, bool>();
+        try { return JsonSerializer.Deserialize<Dictionary<string, bool>>(json) ?? new Dictionary<string, bool>(); }
+        catch { return new Dictionary<string, bool>(); }
+    }
+
+    private static string SerializeSectionVisibility(Dictionary<string, bool>? dict) =>
+        dict != null && dict.Count > 0 ? JsonSerializer.Serialize(dict) : string.Empty;
+
+    private LandingPageConfigDto ToDto(LandingPageConfig config)
+    {
+        var dto = _mapper.Map<LandingPageConfigDto>(config);
+        dto.SectionColors = DeserializeSectionColors(config.SectionColorsJson);
+        dto.SectionOrder = DeserializeSectionOrder(config.SectionOrderJson);
+        dto.SectionVisibility = DeserializeSectionVisibility(config.SectionVisibilityJson);
+        return dto;
+    }
+
     public async Task<LandingPageConfigDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         var config = await _configRepository.GetByIdAsync(id, cancellationToken);
-        return config is null ? null : _mapper.Map<LandingPageConfigDto>(config);
+        return config is null ? null : ToDto(config);
     }
 
     public async Task<LandingPageConfigDto?> GetByProvinceIdAsync(Guid provinceId, CancellationToken cancellationToken)
     {
         var config = await _configRepository.GetByProvinceIdAsync(provinceId, cancellationToken);
-        return config is null ? null : _mapper.Map<LandingPageConfigDto>(config);
+        return config is null ? null : ToDto(config);
     }
 
     public async Task<LandingPageConfigDto?> GetByProvinceSlugAsync(string slug, CancellationToken cancellationToken)
     {
         var config = await _configRepository.GetByProvinceSlugAsync(slug, cancellationToken);
-        return config is null ? null : _mapper.Map<LandingPageConfigDto>(config);
+        return config is null ? null : ToDto(config);
     }
 
     public async Task<LandingPageConfigDto> CreateAsync(LandingPageConfigCreateDto dto, CancellationToken cancellationToken)
@@ -51,9 +91,12 @@ public class LandingPageConfigService : ILandingPageConfigService
 
         var config = _mapper.Map<LandingPageConfig>(dto);
         config.Id = Guid.NewGuid();
+        config.SectionColorsJson = SerializeSectionColors(dto.SectionColors);
+        config.SectionOrderJson = SerializeSectionOrder(dto.SectionOrder);
+        config.SectionVisibilityJson = SerializeSectionVisibility(dto.SectionVisibility);
         config.Blocks = dto.Blocks.Select(MapCreateBlock).ToList();
         await _configRepository.AddAsync(config, cancellationToken);
-        return _mapper.Map<LandingPageConfigDto>(config);
+        return ToDto(config);
     }
 
     public async Task<LandingPageConfigDto?> UpdateAsync(Guid id, LandingPageConfigUpdateDto dto, CancellationToken cancellationToken)
@@ -65,9 +108,15 @@ public class LandingPageConfigService : ILandingPageConfigService
         }
 
         _mapper.Map(dto, config);
-        config.Blocks = dto.Blocks.Select(block => MapUpdateBlock(block, config.Id)).ToList();
+        config.SectionColorsJson = SerializeSectionColors(dto.SectionColors);
+        if (dto.SectionOrder != null)
+            config.SectionOrderJson = SerializeSectionOrder(dto.SectionOrder);
+        if (dto.SectionVisibility != null)
+            config.SectionVisibilityJson = SerializeSectionVisibility(dto.SectionVisibility);
+        if (dto.Blocks != null)
+            config.Blocks = dto.Blocks.Select(block => MapUpdateBlock(block, config.Id)).ToList();
         await _configRepository.UpdateAsync(config, cancellationToken);
-        return _mapper.Map<LandingPageConfigDto>(config);
+        return ToDto(config);
     }
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken)

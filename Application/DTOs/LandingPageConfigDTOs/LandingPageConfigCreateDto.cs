@@ -9,5 +9,8 @@ public class LandingPageConfigCreateDto
     public string FontFamily { get; set; } = string.Empty;
     public string BackgroundUrl { get; set; } = string.Empty;
     public string Layout { get; set; } = string.Empty;
+    public Dictionary<string, string> SectionColors { get; set; } = new();
+    public List<string> SectionOrder { get; set; } = new();
+    public Dictionary<string, bool> SectionVisibility { get; set; } = new();
     public List<UIBlockCreateDto> Blocks { get; set; } = new();
 }

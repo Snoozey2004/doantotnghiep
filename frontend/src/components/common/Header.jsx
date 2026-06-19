@@ -97,6 +97,14 @@ export default function Header() {
                 </Link>
                 {isAdminOrEditor && (
                   <Link
+                    to="/editor"
+                    onClick={() => setIsAccountOpen(false)}
+                  >
+                    Editor Dashboard
+                  </Link>
+                )}
+                {isAdmin && (
+                  <Link
                     to="/admin"
                     onClick={() => setIsAccountOpen(false)}
                   >

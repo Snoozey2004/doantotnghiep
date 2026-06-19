@@ -26,6 +26,8 @@ import AdminLandingEdit from "../pages/AdminLandingEdit.jsx";
 import AdminLandingDelete from "../pages/AdminLandingDelete.jsx";
 import AdminFeaturedContent from "../pages/AdminFeaturedContent.jsx";
 import AdminContentStatistics from "../pages/AdminContentStatistics.jsx";
+import EditorDashboard from "../pages/EditorDashboard.jsx";
+import EditorAnalytics from "../pages/EditorAnalytics.jsx";
 import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
 import RequireAuth from "./RequireAuth.jsx";
 
@@ -39,6 +41,24 @@ export default function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/account" element={<AccountPage />} />
+
+      {/* Editor routes - Editor (1) only */}
+      <Route
+        path="/editor"
+        element={
+          <ProtectedRoute requiredRoles={[1]}>
+            <EditorDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/editor/analytics"
+        element={
+          <ProtectedRoute requiredRoles={[1]}>
+            <EditorAnalytics />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Protected Admin Routes - Admin (0) and Editor (1) only */}
       <Route

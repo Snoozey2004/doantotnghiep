@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
 
-export default function ProvinceFestivals({ province }) {
+export default function ProvinceFestivals({ province, bgColor }) {
   const festivals = province.festivals || [];
   if (!festivals.length) return null;
 
   return (
-    <section className="province-section province-festivals-section">
+    <section
+      className="province-section province-festivals-section"
+      style={bgColor ? { backgroundColor: bgColor } : undefined}
+    >
       <div className="container">
         <div className="province-section-heading">
           <span className="province-section-kicker">Lễ hội văn hóa</span>

@@ -20,9 +20,20 @@ public class AutoMapperProfile : Profile
         CreateMap<ProvinceCreateDto, Province>();
         CreateMap<ProvinceUpdateDto, Province>();
 
-        CreateMap<LandingPageConfig, LandingPageConfigDto>();
-        CreateMap<LandingPageConfigCreateDto, LandingPageConfig>();
-        CreateMap<LandingPageConfigUpdateDto, LandingPageConfig>();
+        CreateMap<LandingPageConfig, LandingPageConfigDto>()
+            .ForMember(dest => dest.SectionColors, opt => opt.Ignore())
+            .ForMember(dest => dest.SectionOrder, opt => opt.Ignore())
+            .ForMember(dest => dest.SectionVisibility, opt => opt.Ignore());
+
+        CreateMap<LandingPageConfigCreateDto, LandingPageConfig>()
+            .ForMember(dest => dest.SectionColorsJson, opt => opt.Ignore())
+            .ForMember(dest => dest.SectionOrderJson, opt => opt.Ignore())
+            .ForMember(dest => dest.SectionVisibilityJson, opt => opt.Ignore());
+
+        CreateMap<LandingPageConfigUpdateDto, LandingPageConfig>()
+            .ForMember(dest => dest.SectionColorsJson, opt => opt.Ignore())
+            .ForMember(dest => dest.SectionOrderJson, opt => opt.Ignore())
+            .ForMember(dest => dest.SectionVisibilityJson, opt => opt.Ignore());
 
         CreateMap<UIBlock, UIBlockDto>();
         CreateMap<UIBlockCreateDto, UIBlock>();

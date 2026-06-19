@@ -1,12 +1,15 @@
 import { motion } from "framer-motion";
 import useRevealOnScroll from "../../hooks/useRevealOnScroll";
 
-export default function ProvinceGallery({ province }) {
+export default function ProvinceGallery({ province, bgColor }) {
   const ref = useRevealOnScroll();
   const gallery = province.gallery || [];
 
   return (
-    <section className="province-section province-gallery">
+    <section
+      className="province-section province-gallery"
+      style={bgColor ? { backgroundColor: bgColor } : undefined}
+    >
       <div className="container reveal" ref={ref}>
         <div className="province-section-heading">
           <span className="province-section-kicker">Image gallery</span>

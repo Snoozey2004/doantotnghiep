@@ -1,4 +1,5 @@
 ﻿using WebApplication1.Application.DTOs.AnalyticsDTOs;
+using WebApplication1.Application.Interfaces.Repositories;
 
 namespace WebApplication1.Application.Interfaces.Services;
 
@@ -10,4 +11,7 @@ public interface IAnalyticsService
 
     /// <summary>Get comprehensive content statistics (categories, media types, regions, featured counts, etc.).</summary>
     Task<ContentStatsDto> GetContentStatsAsync(Guid? provinceId, CancellationToken cancellationToken);
+
+    /// <summary>Get page_view, specialty_click, craft_click counts per province.</summary>
+    Task<List<ProvinceInteractionRow>> GetProvinceInteractionsAsync(CancellationToken cancellationToken);
 }

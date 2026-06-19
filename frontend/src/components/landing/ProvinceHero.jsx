@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 
-export default function ProvinceHero({ province }) {
+export default function ProvinceHero({ province, bgColor }) {
   const stats = province.stats || [];
 
   return (
     <section
       className="province-hero"
-      style={{ backgroundImage: `url(${province.heroImage})` }}
+      style={{ backgroundImage: `url(${province.heroImage})`, ...(bgColor ? { backgroundColor: bgColor } : {}) }}
     >
       <div className="province-hero-overlay" />
       <div className="container province-hero-content">

@@ -78,6 +78,18 @@ namespace WebApplication1.Migrations
                     b.Property<Guid>("ProvinceId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("SectionColorsJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SectionOrderJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SectionVisibilityJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("ThemeColor")
                         .IsRequired()
                         .HasMaxLength(50)

@@ -1,4 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout.jsx";
 import ProvinceHero from "../components/landing/ProvinceHero.jsx";
@@ -20,6 +21,7 @@ import { mediaApi } from "../api/mediaApi";
 import { analyticsApi } from "../api/analyticsApi";
 import LandingPageRenderer from "../components/landing/LandingPageRenderer.jsx";
 import { uiBlockApi } from "../api/uiBlockApi";
+import TrongDongDecor from "../components/common/TrongDongDecor.jsx";
 
 export default function ProvinceLandingPage() {
   const { slug } = useParams();
@@ -289,6 +291,13 @@ export default function ProvinceLandingPage() {
   }
 
   const accentColor = config?.themeColor || province.accentColor;
+  const sc = config?.sectionColors || {};
+  const fontFamily = config?.fontFamily || "";
+  const layout = config?.layout || "default";
+  const sectionOrder = config?.sectionOrder?.length > 0
+    ? config.sectionOrder
+    : ["hero","intro","video","charts","timeline","culture","specialties","craftVillages","festivals","gallery","info"];
+  const sectionVisibility = config?.sectionVisibility || {};
   const heroImage = featuredMedia.find((item) => item.mediaType === "hero")?.url
     || province.heroImage;
   const introImage = featuredMedia.find((item) => item.mediaType === "intro")?.url
@@ -305,43 +314,100 @@ export default function ProvinceLandingPage() {
 
   const provinceVideoMap = {
     "ho-chi-minh": "/Landingpagevideo/hochiminh.mp4",
+    "ha-noi": "/Landingpagevideo/hanoi.mp4",
+    "hai-phong": "/Landingpagevideo/haiphong.mp4",
+    "da-nang": "/Landingpagevideo/danang.mp4",
+    "hue": "/Landingpagevideo/hue.mp4",
+    "can-tho": "/Landingpagevideo/cantho.mp4",
+    "cao-bang": "/Landingpagevideo/caobang.mp4",
+    "dien-bien": "/Landingpagevideo/dienbien.mp4",
+    "lai-chau": "/Landingpagevideo/laichau.mp4",
+    "lang-son": "/Landingpagevideo/langson.mp4",
+    "lao-cai": "/Landingpagevideo/laocai.mp4",
+    "thai-nguyen": "/Landingpagevideo/thainguyen.mp4",
+    "phu-tho": "/Landingpagevideo/phutho.mp4",
+    "bac-ninh": "/Landingpagevideo/bacninh.mp4",
+    "hung-yen": "/Landingpagevideo/hungyen.mp4",
+    "ninh-binh": "/Landingpagevideo/ninhbinh.mp4",
+    "quang-ninh": "/Landingpagevideo/quangninh.mp4",
+    "son-la": "/Landingpagevideo/sonla.mp4",
+    "tuyen-quang": "/Landingpagevideo/tuyenquan.mp4",
+    "thanh-hoa": "/Landingpagevideo/thanhhoa.mp4",
+    "nghe-an": "/Landingpagevideo/nghean.mp4",
+    "ha-tinh": "/Landingpagevideo/hatinh.mp4",
+    "quang-tri": "/Landingpagevideo/quangtri.mp4",
+    "quang-ngai": "/Landingpagevideo/quangngai.mp4",
+    "gia-lai": "/Landingpagevideo/gialai.mp4",
+    "khanh-hoa": "/Landingpagevideo/khanhhoa.mp4",
+    "lam-dong": "/Landingpagevideo/lamdong.mp4",
+    "dak-lak": "/Landingpagevideo/daklak.mp4",
+    "dong-nai": "/Landingpagevideo/dongnai.mp4",
+    "tay-ninh": "/Landingpagevideo/tayninh.mp4",
+    "vinh-long": "/Landingpagevideo/vinhlong.mp4",
+    "dong-thap": "/Landingpagevideo/dongthap.mp4",
+    "an-giang": "/Landingpagevideo/angiang.mp4",
+    "ca-mau": "/Landingpagevideo/camau.mp4",
   };
   const provinceVideo = provinceVideoMap[slug];
 
-  return (
-    <MainLayout>
-      <div className="province-page" style={{ "--accent": accentColor }}>
-        <ProvinceHero province={{ ...province, heroImage }} />
-        <ProvinceIntro province={{ ...province, introImage }} />
-        {provinceVideo && (
-          <div className="province-video-section">
-            <div className="container">
-              <p className="province-video-section__kicker">Khám phá</p>
-              <h2 className="province-video-section__title">Video về {province.name}</h2>
-              <video
-                className="province-video"
-                src={provinceVideo}
-                controls
-                muted
-                loop
-                playsInline
-              />
-            </div>
-          </div>
-        )}
-        {infoImage && (
-          <div className="province-info-banner">
+  const sectionElements = {
+    hero: <ProvinceHero key="hero" province={{ ...province, heroImage }} bgColor={sc.hero} />,
+    intro: <ProvinceIntro key="intro" province={{ ...province, introImage }} bgColor={sc.intro} />,
+    video: provinceVideo ? (
+      <div key="video" className="province-video-section" style={sc.video ? { backgroundColor: sc.video } : undefined}>
+        <div className="container">
+          <p className="province-video-section__kicker">Khám phá</p>
+          <h2 className="province-video-section__title">Video về {province.name}</h2>
+          <video className="province-video" src={provinceVideo} controls muted loop playsInline />
+        </div>
+      </div>
+    ) : null,
+    charts: layout !== "minimal" ? <ProvinceCharts key="charts" province={province} bgColor={sc.charts} /> : null,
+    timeline: layout !== "minimal" ? <ProvinceTimeline key="timeline" province={province} bgColor={sc.timeline} /> : null,
+    culture: <ProvinceCulture key="culture" province={province} bgColor={sc.culture} />,
+    specialties: <ProvinceSpecialties key="specialties" province={province} bgColor={sc.specialties} />,
+    craftVillages: <ProvinceCraftVillages key="craftVillages" province={province} bgColor={sc.craftVillages} />,
+    festivals: <ProvinceFestivals key="festivals" province={province} bgColor={sc.festivals} />,
+    gallery: <ProvinceGallery key="gallery" province={province} bgColor={sc.gallery} />,
+    info: infoImage ? (
+      <div key="info" className="province-info-banner" style={sc.info ? { backgroundColor: sc.info } : undefined}>
+        <div className="province-info-banner__inner">
+          <div className="province-info-banner__decoration" aria-hidden="true"><TrongDongDecor /></div>
+          <div className="province-info-banner__content">
             <h2 className="province-info-banner__title">Thông tin tổng quát về {province.name}</h2>
             <img src={infoImage} alt={`Thông tin ${province.name}`} className="province-info-banner__img" />
           </div>
-        )}
-        <ProvinceCharts province={province} />
-        <ProvinceTimeline province={province} />
-        <ProvinceCulture province={province} />
-        <ProvinceSpecialties province={province} />
-        <ProvinceCraftVillages province={province} />
-        <ProvinceFestivals province={province} />
-        <ProvinceGallery province={province} />
+          <div className="province-info-banner__decoration" aria-hidden="true"><TrongDongDecor /></div>
+        </div>
+      </div>
+    ) : null,
+  };
+
+  const metaDescription = province.description
+    || province.overview
+    || province.introduction
+    || `Khám phá ${province.name} – vùng đất với bản sắc văn hóa độc đáo, ẩm thực phong phú và danh thắng nổi tiếng.`;
+  const metaImage = heroImage || province.heroImage || "";
+
+  return (
+    <MainLayout>
+      <Helmet>
+        <title>{province.name} | Vietnam Identity</title>
+        <meta name="description" content={metaDescription.slice(0, 160)} />
+        <meta property="og:title" content={`${province.name} | Vietnam Identity`} />
+        <meta property="og:description" content={metaDescription.slice(0, 160)} />
+        {metaImage && <meta property="og:image" content={metaImage} />}
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${province.name} | Vietnam Identity`} />
+        <meta name="twitter:description" content={metaDescription.slice(0, 160)} />
+        {metaImage && <meta name="twitter:image" content={metaImage} />}
+      </Helmet>
+      <div
+        className={["province-page", layout !== "default" ? `province-layout-${layout}` : ""].filter(Boolean).join(" ")}
+        style={{ "--accent": accentColor, ...(fontFamily ? { fontFamily } : {}) }}
+      >
+        {sectionOrder.map((key) => sectionVisibility[key] === false ? null : (sectionElements[key] ?? null))}
       </div>
     </MainLayout>
   );

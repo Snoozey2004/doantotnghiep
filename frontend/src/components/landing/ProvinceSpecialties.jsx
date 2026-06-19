@@ -1,12 +1,26 @@
 import { motion } from "framer-motion";
 import useRevealOnScroll from "../../hooks/useRevealOnScroll";
+import { analyticsApi } from "../../api/analyticsApi";
 
-export default function ProvinceSpecialties({ province }) {
+export default function ProvinceSpecialties({ province, bgColor }) {
   const ref = useRevealOnScroll();
   const specialties = province.specialties || [];
 
+  const handleSpecialtyClick = (item) => {
+    if (!province?.id) return;
+    analyticsApi.track({
+      provinceId: province.id,
+      eventType: "specialty_click",
+      metadataJson: JSON.stringify({ name: item.name, origin: item.origin }),
+    }).catch(() => {});
+  };
+
   return (
-    <section className="province-section province-specialties" id="province-specialties">
+    <section
+      className="province-section province-specialties"
+      id="province-specialties"
+      style={bgColor ? { backgroundColor: bgColor } : undefined}
+    >
       <div className="container reveal" ref={ref}>
         <div className="province-section-heading">
           <span className="province-section-kicker">Ẩm thực đặc sắc</span>
@@ -24,6 +38,8 @@ export default function ProvinceSpecialties({ province }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
+              onClick={() => handleSpecialtyClick(item)}
+              style={{ cursor: "pointer" }}
             >
               <div
                 className="province-food-image"

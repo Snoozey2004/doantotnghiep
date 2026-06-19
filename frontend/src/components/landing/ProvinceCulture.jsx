@@ -1,13 +1,16 @@
 import { motion } from "framer-motion";
 import useRevealOnScroll from "../../hooks/useRevealOnScroll";
 
-export default function ProvinceCulture({ province }) {
+export default function ProvinceCulture({ province, bgColor }) {
   const ref = useRevealOnScroll();
   const tourism = province.tourism || [];
   const culture = province.culture || [];
 
   return (
-    <section className="province-section province-heritage-section">
+    <section
+      className="province-section province-heritage-section"
+      style={bgColor ? { backgroundColor: bgColor } : undefined}
+    >
       <div className="container reveal" ref={ref}>
         <div className="province-section-heading">
           <span className="province-section-kicker">Di sản & danh thắng</span>

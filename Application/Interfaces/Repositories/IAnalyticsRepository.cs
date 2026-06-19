@@ -35,4 +35,9 @@ public interface IAnalyticsRepository
 
     /// <summary>Get media count for a specific province.</summary>
     Task<int> CountMediaByProvinceAsync(Guid provinceId, CancellationToken cancellationToken);
+
+    /// <summary>Get page_view, specialty_click, craft_click counts grouped by provinceId.</summary>
+    Task<List<ProvinceInteractionRow>> GetProvinceInteractionsAsync(CancellationToken cancellationToken);
 }
+
+public record ProvinceInteractionRow(Guid ProvinceId, int PageViews, int SpecialtyClicks, int CraftClicks);

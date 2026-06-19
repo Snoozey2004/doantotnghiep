@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
 import useRevealOnScroll from "../../hooks/useRevealOnScroll";
 
-export default function ProvinceIntro({ province }) {
+export default function ProvinceIntro({ province, bgColor }) {
   const ref = useRevealOnScroll();
 
   return (
-    <section className="province-section province-intro">
+    <section
+      className="province-section province-intro"
+      style={bgColor ? { backgroundColor: bgColor } : undefined}
+    >
       <div className="container province-intro-content reveal" ref={ref}>
         <div>
           <span className="province-section-kicker">Giới thiệu địa phương</span>

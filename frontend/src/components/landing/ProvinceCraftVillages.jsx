@@ -1,11 +1,24 @@
 import { motion } from "framer-motion";
+import { analyticsApi } from "../../api/analyticsApi";
 
-export default function ProvinceCraftVillages({ province }) {
+export default function ProvinceCraftVillages({ province, bgColor }) {
   const craftVillages = province.craftVillages || [];
   if (!craftVillages.length) return null;
 
+  const handleCraftClick = (item) => {
+    if (!province?.id) return;
+    analyticsApi.track({
+      provinceId: province.id,
+      eventType: "craft_click",
+      metadataJson: JSON.stringify({ name: item.name, product: item.product }),
+    }).catch(() => {});
+  };
+
   return (
-    <section className="province-section province-craft-section">
+    <section
+      className="province-section province-craft-section"
+      style={bgColor ? { backgroundColor: bgColor } : undefined}
+    >
       <div className="container">
         <div className="province-section-heading">
           <span className="province-section-kicker">Làng nghề truyền thống</span>
@@ -24,6 +37,8 @@ export default function ProvinceCraftVillages({ province }) {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.65, delay: index * 0.1 }}
+              onClick={() => handleCraftClick(item)}
+              style={{ cursor: "pointer" }}
             >
               <div
                 className="province-craft-image"

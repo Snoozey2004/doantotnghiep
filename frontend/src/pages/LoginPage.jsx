@@ -47,7 +47,7 @@ export default function LoginPage() {
         role: normalizedRole
       }, result.expiresAt);
 
-      const target = normalizedRole === 0 || normalizedRole === 1 ? "/admin" : "/";
+      const target = normalizedRole === 0 ? "/admin" : normalizedRole === 1 ? "/editor" : "/";
       navigate(target, { replace: true });
     } catch (err) {
       setError(err?.response?.data?.message || "❌ Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
