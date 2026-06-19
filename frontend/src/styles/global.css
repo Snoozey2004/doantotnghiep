@@ -213,6 +213,8 @@ a {
   text-align: left;
   color: #2b251f;
   font-weight: 500;
+  font-family: inherit;
+  font-size: inherit;
   cursor: pointer;
 }
 
@@ -392,6 +394,11 @@ a {
   0%   { left: -75%; }
   60%  { left: 125%; }
   100% { left: 125%; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .home-section {
