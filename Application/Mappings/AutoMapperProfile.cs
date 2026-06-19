@@ -21,13 +21,16 @@ public class AutoMapperProfile : Profile
         CreateMap<ProvinceUpdateDto, Province>();
 
         CreateMap<LandingPageConfig, LandingPageConfigDto>()
-            .ForMember(dest => dest.SectionColors, opt => opt.Ignore());
+            .ForMember(dest => dest.SectionColors, opt => opt.Ignore())
+            .ForMember(dest => dest.SectionOrder, opt => opt.Ignore());
 
         CreateMap<LandingPageConfigCreateDto, LandingPageConfig>()
-            .ForMember(dest => dest.SectionColorsJson, opt => opt.Ignore());
+            .ForMember(dest => dest.SectionColorsJson, opt => opt.Ignore())
+            .ForMember(dest => dest.SectionOrderJson, opt => opt.Ignore());
 
         CreateMap<LandingPageConfigUpdateDto, LandingPageConfig>()
-            .ForMember(dest => dest.SectionColorsJson, opt => opt.Ignore());
+            .ForMember(dest => dest.SectionColorsJson, opt => opt.Ignore())
+            .ForMember(dest => dest.SectionOrderJson, opt => opt.Ignore());
 
         CreateMap<UIBlock, UIBlockDto>();
         CreateMap<UIBlockCreateDto, UIBlock>();

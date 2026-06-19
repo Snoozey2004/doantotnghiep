@@ -291,6 +291,11 @@ export default function ProvinceLandingPage() {
 
   const accentColor = config?.themeColor || province.accentColor;
   const sc = config?.sectionColors || {};
+  const fontFamily = config?.fontFamily || "";
+  const layout = config?.layout || "default";
+  const sectionOrder = config?.sectionOrder?.length > 0
+    ? config.sectionOrder
+    : ["hero","intro","video","charts","timeline","culture","specialties","craftVillages","festivals","gallery","info"];
   const heroImage = featuredMedia.find((item) => item.mediaType === "hero")?.url
     || province.heroImage;
   const introImage = featuredMedia.find((item) => item.mediaType === "intro")?.url
@@ -343,56 +348,46 @@ export default function ProvinceLandingPage() {
   };
   const provinceVideo = provinceVideoMap[slug];
 
+  const sectionElements = {
+    hero: <ProvinceHero key="hero" province={{ ...province, heroImage }} bgColor={sc.hero} />,
+    intro: <ProvinceIntro key="intro" province={{ ...province, introImage }} bgColor={sc.intro} />,
+    video: provinceVideo ? (
+      <div key="video" className="province-video-section" style={sc.video ? { backgroundColor: sc.video } : undefined}>
+        <div className="container">
+          <p className="province-video-section__kicker">Khám phá</p>
+          <h2 className="province-video-section__title">Video về {province.name}</h2>
+          <video className="province-video" src={provinceVideo} controls muted loop playsInline />
+        </div>
+      </div>
+    ) : null,
+    charts: layout !== "minimal" ? <ProvinceCharts key="charts" province={province} bgColor={sc.charts} /> : null,
+    timeline: layout !== "minimal" ? <ProvinceTimeline key="timeline" province={province} bgColor={sc.timeline} /> : null,
+    culture: <ProvinceCulture key="culture" province={province} bgColor={sc.culture} />,
+    specialties: <ProvinceSpecialties key="specialties" province={province} bgColor={sc.specialties} />,
+    craftVillages: <ProvinceCraftVillages key="craftVillages" province={province} bgColor={sc.craftVillages} />,
+    festivals: <ProvinceFestivals key="festivals" province={province} bgColor={sc.festivals} />,
+    gallery: <ProvinceGallery key="gallery" province={province} bgColor={sc.gallery} />,
+    info: infoImage ? (
+      <div key="info" className="province-info-banner" style={sc.info ? { backgroundColor: sc.info } : undefined}>
+        <div className="province-info-banner__inner">
+          <div className="province-info-banner__decoration" aria-hidden="true"><TrongDongDecor /></div>
+          <div className="province-info-banner__content">
+            <h2 className="province-info-banner__title">Thông tin tổng quát về {province.name}</h2>
+            <img src={infoImage} alt={`Thông tin ${province.name}`} className="province-info-banner__img" />
+          </div>
+          <div className="province-info-banner__decoration" aria-hidden="true"><TrongDongDecor /></div>
+        </div>
+      </div>
+    ) : null,
+  };
+
   return (
     <MainLayout>
-      <div className="province-page" style={{ "--accent": accentColor }}>
-        <ProvinceHero province={{ ...province, heroImage }} bgColor={sc.hero} />
-        <ProvinceIntro province={{ ...province, introImage }} bgColor={sc.intro} />
-        {provinceVideo && (
-          <div
-            className="province-video-section"
-            style={sc.video ? { backgroundColor: sc.video } : undefined}
-          >
-            <div className="container">
-              <p className="province-video-section__kicker">Khám phá</p>
-              <h2 className="province-video-section__title">Video về {province.name}</h2>
-              <video
-                className="province-video"
-                src={provinceVideo}
-                controls
-                muted
-                loop
-                playsInline
-              />
-            </div>
-          </div>
-        )}
-        <ProvinceCharts province={province} bgColor={sc.charts} />
-        <ProvinceTimeline province={province} bgColor={sc.timeline} />
-        <ProvinceCulture province={province} bgColor={sc.culture} />
-        <ProvinceSpecialties province={province} bgColor={sc.specialties} />
-        <ProvinceCraftVillages province={province} bgColor={sc.craftVillages} />
-        <ProvinceFestivals province={province} bgColor={sc.festivals} />
-        <ProvinceGallery province={province} bgColor={sc.gallery} />
-        {infoImage && (
-          <div
-            className="province-info-banner"
-            style={sc.info ? { backgroundColor: sc.info } : undefined}
-          >
-            <div className="province-info-banner__inner">
-              <div className="province-info-banner__decoration" aria-hidden="true">
-                <TrongDongDecor />
-              </div>
-              <div className="province-info-banner__content">
-                <h2 className="province-info-banner__title">Thông tin tổng quát về {province.name}</h2>
-                <img src={infoImage} alt={`Thông tin ${province.name}`} className="province-info-banner__img" />
-              </div>
-              <div className="province-info-banner__decoration" aria-hidden="true">
-                <TrongDongDecor />
-              </div>
-            </div>
-          </div>
-        )}
+      <div
+        className={["province-page", layout !== "default" ? `province-layout-${layout}` : ""].filter(Boolean).join(" ")}
+        style={{ "--accent": accentColor, ...(fontFamily ? { fontFamily } : {}) }}
+      >
+        {sectionOrder.map((key) => sectionElements[key] ?? null)}
       </div>
     </MainLayout>
   );
