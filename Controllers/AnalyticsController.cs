@@ -51,4 +51,12 @@ public class AnalyticsController : ControllerBase
         var result = await _analyticsService.GetContentStatsAsync(provinceId, cancellationToken);
         return Ok(result);
     }
+
+    [HttpGet("province-interactions")]
+    [Authorize(Roles = "0,Admin,1,Editor")]
+    public async Task<IActionResult> GetProvinceInteractions(CancellationToken cancellationToken)
+    {
+        var result = await _analyticsService.GetProvinceInteractionsAsync(cancellationToken);
+        return Ok(result);
+    }
 }

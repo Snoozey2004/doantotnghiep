@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext.jsx";
 
 const navItems = [
   { label: "🎨 Chỉnh sửa thiết kế giao diện Landing Page", path: "/editor" },
+  { label: "📊 Thống kê tương tác", path: "/editor/analytics" },
 ];
 
 export default function EditorLayout({ children }) {

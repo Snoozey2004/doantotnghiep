@@ -10,5 +10,6 @@ public class LandingPageConfigUpdateDto
     public string Layout { get; set; } = string.Empty;
     public Dictionary<string, string> SectionColors { get; set; } = new();
     public List<string>? SectionOrder { get; set; }
+    public Dictionary<string, bool>? SectionVisibility { get; set; }
     public List<UIBlockUpdateDto>? Blocks { get; set; }
 }
