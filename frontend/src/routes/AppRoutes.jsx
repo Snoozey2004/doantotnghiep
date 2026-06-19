@@ -1,4 +1,33 @@
-﻿import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "../pages/client/HomePage.jsx";
+import ProvinceLandingPage from "../pages/client/ProvinceLandingPage.jsx";
+import PostDetailPage from "../pages/client/PostDetailPage.jsx";
+import LoginPage from "../pages/client/LoginPage.jsx";
+import RegisterPage from "../pages/client/RegisterPage.jsx";
+import SearchPage from "../pages/client/SearchPage.jsx";
+import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
+import AccountPage from "../pages/client/AccountPage.jsx";
+import AdminProvinceCreate from "../pages/admin/AdminProvinceCreate.jsx";
+import AdminProvinceEdit from "../pages/admin/AdminProvinceEdit.jsx";
+import AdminProvinceDelete from "../pages/admin/AdminProvinceDelete.jsx";
+import AdminPostsDashboard from "../pages/admin/AdminPostsDashboard.jsx";
+import AdminPostCreate from "../pages/admin/AdminPostCreate.jsx";
+import AdminPostEdit from "../pages/admin/AdminPostEdit.jsx";
+import AdminPostDelete from "../pages/admin/AdminPostDelete.jsx";
+import AdminMediaDashboard from "../pages/admin/AdminMediaDashboard.jsx";
+import AdminMediaCreate from "../pages/admin/AdminMediaCreate.jsx";
+import AdminMediaEdit from "../pages/admin/AdminMediaEdit.jsx";
+import AdminMediaDelete from "../pages/admin/AdminMediaDelete.jsx";
+import AdminUsersDashboard from "../pages/admin/AdminUsersDashboard.jsx";
+import AdminUserEdit from "../pages/admin/AdminUserEdit.jsx";
+import AdminLandingDashboard from "../pages/admin/AdminLandingDashboard.jsx";
+import AdminLandingCreate from "../pages/admin/AdminLandingCreate.jsx";
+import AdminLandingEdit from "../pages/admin/AdminLandingEdit.jsx";
+import AdminLandingDelete from "../pages/admin/AdminLandingDelete.jsx";
+import AdminFeaturedContent from "../pages/admin/AdminFeaturedContent.jsx";
+import AdminContentStatistics from "../pages/admin/AdminContentStatistics.jsx";
+import ProductInfographicPage from "../pages/client/ProductInfographicPage.jsx";
+import ProvinceProductsPage from "../pages/client/ProvinceProductsPage.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import ProvinceLandingPage from "../pages/ProvinceLandingPage.jsx";
 import PostDetailPage from "../pages/PostDetailPage.jsx";
@@ -31,6 +60,9 @@ import EditorAnalytics from "../pages/EditorAnalytics.jsx";
 import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
 import RequireAuth from "./RequireAuth.jsx";
 
+import TestInfographicForm from "../infographic/editor/TestInfographicForm.jsx";
+import TestEditorPage from "../infographic/editor/TestEditorPage.jsx";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -41,6 +73,17 @@ export default function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/account" element={<AccountPage />} />
+
+      <Route
+        path="/province/:slug/dac-san"
+        element={<ProvinceProductsPage />}
+      />
+      <Route
+        path="/province/:provinceSlug/dac-san/:productSlug"
+        element={<ProductInfographicPage />}
+      />
+      <Route path="/test-infographic" element={<TestInfographicForm />} />
+      <Route path="/test-editor" element={<TestEditorPage />} />
 
       {/* Editor routes - Editor (1) only */}
       <Route

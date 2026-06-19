@@ -7,7 +7,12 @@
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.4), transparent 55%),
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(59, 130, 246, 0.4),
+      transparent 55%
+    ),
     linear-gradient(120deg, rgba(15, 23, 42, 0.85), rgba(30, 64, 175, 0.65));
   z-index: 0;
 }
@@ -57,7 +62,9 @@ a {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
-  transition: color 0.25s ease, letter-spacing 0.25s ease;
+  transition:
+    color 0.25s ease,
+    letter-spacing 0.25s ease;
 }
 
 .logo:hover {
@@ -90,7 +97,9 @@ a {
   padding: 0 14px;
   color: #2b251f;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .header-search-input::placeholder {
@@ -114,7 +123,9 @@ a {
   color: inherit;
   padding: 6px 10px;
   border-radius: 8px;
-  transition: color 0.2s ease, background 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
   position: relative;
 }
 
@@ -146,7 +157,10 @@ a {
   color: #f6f1e8;
   font-size: 0.9rem;
   letter-spacing: 0.02em;
-  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
 }
 
 .header-cta:hover {
@@ -237,14 +251,20 @@ a {
 }
 
 .hero-card {
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(56, 189, 248, 0.18));
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.12),
+    rgba(56, 189, 248, 0.18)
+  );
   border-radius: 24px;
   padding: 28px;
   box-shadow: 0 24px 60px rgba(37, 99, 235, 0.18);
 }
 
 .card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .card-hover:hover {
@@ -323,8 +343,8 @@ a {
 
 .home-hero-kicker {
   text-transform: uppercase;
-  letter-spacing: 0.28em;
-  font-size: 0.72rem;
+  letter-spacing: 0.1rem;
+  font-size: 1.5rem;
   color: #fbbf24;
   font-weight: 700;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
@@ -362,7 +382,9 @@ a {
   color: #1c1009;
   background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
   box-shadow: 0 4px 20px rgba(251, 191, 36, 0.35);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .btn-hero::after {
@@ -391,9 +413,15 @@ a {
 }
 
 @keyframes btnShimmer {
-  0%   { left: -75%; }
-  60%  { left: 125%; }
-  100% { left: 125%; }
+  0% {
+    left: -75%;
+  }
+  60% {
+    left: 125%;
+  }
+  100% {
+    left: 125%;
+  }
 }
 
 @keyframes shimmer {
@@ -464,6 +492,7 @@ a {
   color: #6b6152;
   line-height: 1.65;
   font-size: 0.95rem;
+  text-align: justify;
 }
 
 .home-history-section {
@@ -836,6 +865,7 @@ a {
   font-size: 0.95rem;
   color: #5c4a32;
   line-height: 1.85;
+  text-align: justify;
 }
 
 @media (max-width: 768px) {
@@ -857,7 +887,9 @@ a {
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(73, 60, 42, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
   display: flex;
   flex-direction: column;
 }
@@ -894,7 +926,11 @@ a {
 .home-culture-image-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 55%, rgba(20, 14, 8, 0.45) 100%);
+  background: linear-gradient(
+    180deg,
+    transparent 55%,
+    rgba(20, 14, 8, 0.45) 100%
+  );
   pointer-events: none;
 }
 
@@ -926,6 +962,7 @@ a {
   color: #5a4f44;
   line-height: 1.72;
   flex: 1;
+  text-align: justify;
 }
 
 @media (max-width: 768px) {
@@ -958,9 +995,19 @@ a {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.85), transparent 55%),
-    radial-gradient(circle at 80% 0%, rgba(233, 223, 207, 0.8), transparent 50%),
-    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 0c7 14 7 30 0 44-7 14-7 30 0 44 7 14 7 30 0 44' fill='none' stroke='rgba(150,128,102,0.08)' stroke-width='2'/%3E%3C/svg%3E") repeat;
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(255, 255, 255, 0.85),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 80% 0%,
+      rgba(233, 223, 207, 0.8),
+      transparent 50%
+    ),
+    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 0c7 14 7 30 0 44-7 14-7 30 0 44 7 14 7 30 0 44' fill='none' stroke='rgba(150,128,102,0.08)' stroke-width='2'/%3E%3C/svg%3E")
+      repeat;
   opacity: 0.8;
   z-index: 0;
   pointer-events: none;
@@ -1085,7 +1132,9 @@ a {
   font-weight: 600;
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .hero-btn-primary {
@@ -1113,7 +1162,10 @@ a {
   border-radius: 999px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
 }
 
 .btn-primary:hover {
@@ -1151,7 +1203,12 @@ a {
   position: absolute;
   inset: 0;
   border-radius: 32px;
-  background: radial-gradient(circle at 40% 30%, rgba(245, 176, 98, 0.35), transparent 60%),
+  background:
+    radial-gradient(
+      circle at 40% 30%,
+      rgba(245, 176, 98, 0.35),
+      transparent 60%
+    ),
     radial-gradient(circle at 60% 60%, rgba(177, 90, 43, 0.25), transparent 65%);
   filter: blur(6px);
   z-index: 0;
@@ -1256,7 +1313,6 @@ a {
   overflow: visible;
 }
 
-
 .features-section,
 .region-section,
 .gallery-section {
@@ -1274,8 +1330,8 @@ a {
 
 .section-kicker {
   text-transform: uppercase;
-  letter-spacing: 0.24em;
-  font-size: 0.7rem;
+  letter-spacing: 0.1rem;
+  font-size: 1rem;
   color: #b08b5a;
   font-weight: 600;
 }
@@ -1404,7 +1460,9 @@ a {
 }
 
 .gallery-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .gallery-card:hover {
@@ -1453,7 +1511,12 @@ a {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 25% 20%, rgba(255, 255, 255, 0.15), transparent 55%),
+  background:
+    radial-gradient(
+      circle at 25% 20%,
+      rgba(255, 255, 255, 0.15),
+      transparent 55%
+    ),
     linear-gradient(140deg, rgba(44, 24, 10, 0.88), rgba(132, 88, 36, 0.55));
   z-index: 0;
 }
@@ -1740,7 +1803,9 @@ a {
   font-size: 1rem;
   border-radius: 999px;
   text-decoration: none;
-  transition: opacity 0.2s, transform 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
   margin-top: 8px;
 }
 
@@ -1834,15 +1899,27 @@ a {
 .province-timeline-line {
   flex: 1;
   width: 2px;
-  background: linear-gradient(180deg, var(--accent, #b45309), rgba(180, 83, 9, 0.25));
+  background: linear-gradient(
+    180deg,
+    var(--accent, #b45309),
+    rgba(180, 83, 9, 0.25)
+  );
 }
 
 .province-timeline-line--top {
-  background: linear-gradient(180deg, rgba(180, 83, 9, 0.2), var(--accent, #b45309));
+  background: linear-gradient(
+    180deg,
+    rgba(180, 83, 9, 0.2),
+    var(--accent, #b45309)
+  );
 }
 
 .province-timeline-line--bottom {
-  background: linear-gradient(180deg, var(--accent, #b45309), rgba(180, 83, 9, 0.2));
+  background: linear-gradient(
+    180deg,
+    var(--accent, #b45309),
+    rgba(180, 83, 9, 0.2)
+  );
 }
 
 .province-timeline-dot {
@@ -2066,7 +2143,8 @@ a {
 
 .province-food-body {
   padding: 18px 20px 20px;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
@@ -2080,6 +2158,53 @@ a {
   font-size: 0.9rem;
   color: #6b6152;
   line-height: 1.7;
+}
+
+.province-food-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.province-food-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  margin-top: auto;
+  gap: 12px;
+}
+
+.province-food-detail-link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+
+.province-food-detail-link:hover {
+  transform: translateX(4px);
+}
+
+.province-food-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.province-food-more-btn {
+  padding: 14px 28px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.province-food-more-btn:hover {
+  transform: translateY(-2px);
 }
 
 /* ── Craft Villages ─────────────────────────────────── */
@@ -2255,7 +2380,11 @@ a {
 }
 
 .province-cta {
-  background: linear-gradient(140deg, rgba(177, 90, 43, 0.12), rgba(242, 213, 174, 0.6));
+  background: linear-gradient(
+    140deg,
+    rgba(177, 90, 43, 0.12),
+    rgba(242, 213, 174, 0.6)
+  );
 }
 
 .province-cta-content {
@@ -2344,7 +2473,6 @@ a {
   line-height: 1.8;
 }
 
-
 .home-map-stats {
   list-style: none;
   display: flex;
@@ -2360,20 +2488,20 @@ a {
 }
 
 .home-map-stat-num {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #b45309;
-  line-height: 1;
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  color: #b45309 !important;
+  line-height: 1 !important;
 }
 
 .home-map-stat-note {
-  font-size: 0.72rem;
-  color: #9a8775;
-  font-style: italic;
+  font-size: 0.72rem !important;
+  color: #9a8775 !important;
+  font-style: italic !important;
   line-height: 1.3;
 }
 
-.home-map-stats li span:last-child {
+.home-map-stats li span {
   font-size: 0.78rem;
   color: #8a7a68;
   font-weight: 500;
@@ -2382,7 +2510,7 @@ a {
 .home-map-hint-text {
   font-size: 0.78rem !important;
   color: #8a7a68 !important;
-  margin-top: 4px;
+  margin-top: 4px !important;
 }
 
 .home-map-image {
@@ -2514,6 +2642,7 @@ a {
 .home-landmark-content p {
   color: #6b6152;
   line-height: 1.8;
+  text-align: justify;
 }
 
 .map-svg-container {
@@ -2540,7 +2669,10 @@ a {
 
 .province-region {
   cursor: pointer;
-  transition: fill 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+  transition:
+    fill 0.3s ease,
+    filter 0.3s ease,
+    transform 0.3s ease;
   transform-origin: center;
 }
 
@@ -2629,7 +2761,6 @@ a {
   .home-landmark-row.is-reversed .home-landmark-image {
     order: 0;
   }
-
 }
 
 .stats {
@@ -2659,7 +2790,9 @@ a {
   border: none;
   cursor: pointer;
   font-weight: 600;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .btn-outline {
@@ -2799,7 +2932,9 @@ a {
 .reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
 }
 
 .reveal.is-visible {
@@ -2824,7 +2959,11 @@ a {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(15, 23, 42, 0.8), rgba(30, 64, 175, 0.6));
+  background: linear-gradient(
+    120deg,
+    rgba(15, 23, 42, 0.8),
+    rgba(30, 64, 175, 0.6)
+  );
 }
 
 .hero-content {
@@ -2919,7 +3058,11 @@ a {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   padding: 28px;
   border-radius: 28px;
-  background: linear-gradient(140deg, rgba(255, 255, 255, 0.96), rgba(219, 234, 254, 0.75));
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(219, 234, 254, 0.75)
+  );
   box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
   border: 1px solid rgba(148, 163, 184, 0.25);
 }
@@ -3058,9 +3201,22 @@ a {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.9), transparent 45%),
-    radial-gradient(circle at 85% 10%, rgba(233, 223, 207, 0.8), transparent 42%),
-    radial-gradient(circle at 50% 80%, rgba(255, 250, 242, 0.7), transparent 48%);
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(255, 255, 255, 0.9),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 85% 10%,
+      rgba(233, 223, 207, 0.8),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 50% 80%,
+      rgba(255, 250, 242, 0.7),
+      transparent 48%
+    );
   z-index: 0;
 }
 
@@ -3199,7 +3355,9 @@ a {
   border: 1px solid rgba(155, 138, 112, 0.22);
   font-size: 0.95rem;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   background: rgba(255, 255, 255, 0.8);
 }
 
@@ -3237,7 +3395,9 @@ a {
   outline: none;
   background: rgba(255, 255, 255, 0.8);
   color: #2b251f;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .card input,
@@ -3400,6 +3560,7 @@ a {
   line-height: 1.6;
   padding-left: 16px;
   position: relative;
+  text-align: justify;
 }
 
 .home-chart-highlights-list li::before {
@@ -3973,4 +4134,70 @@ a {
   .ai-chat-input-section {
     padding: 9px 12px 12px;
   }
+}
+
+/* --- Danh sách đặc sản --- */
+.province-products-page {
+  padding: 80px 0;
+}
+
+.province-products-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.province-products-header h1 {
+  font-size: 3rem;
+  margin: 12px 0;
+}
+
+.province-products-header p {
+  color: #6b6152;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.province-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
+  gap: 24px;
+}
+
+.province-products-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0,0,0,.08);
+}
+
+.province-products-image {
+  height: 240px;
+  background-size: cover;
+  background-position: center;
+}
+
+.province-products-body {
+  padding: 20px;
+}
+
+.province-products-body h3 {
+  margin-bottom: 12px;
+}
+
+.province-products-body p {
+  color: #6b6152;
+  line-height: 1.7;
+}
+
+.province-products-footer {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.province-products-footer a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
 }

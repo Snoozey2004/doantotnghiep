@@ -3,12 +3,18 @@
 public class Product
 {
     public Guid Id { get; set; }
-    public Guid ProvinceId { get; set; }
     public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public decimal Price { get; set; }
-    public int Stock { get; set; }
+    public string Slug { get; set; } = string.Empty;
     public string ImageUrl { get; set; } = string.Empty;
-    public Province? Province { get; set; }
-    public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public string VideoUrl { get; set; } = string.Empty;
+    public decimal? Price { get; set; }
+    public bool IsFeatured { get; set; }
+    public bool IsPublished { get; set; }
+    public Guid ProvinceId { get; set; }
+    public Province Province { get; set; } = null!;
+    public ICollection<OrderItem> OrderItems { get; set; }
+    = new List<OrderItem>();
+    public ICollection<ProductGallery> Galleries { get; set; }
+    = new List<ProductGallery>();
+    public ProductInfographic? Infographic { get; set; }
 }

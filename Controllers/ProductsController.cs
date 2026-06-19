@@ -37,6 +37,20 @@ public class ProductsController : ControllerBase
         return Ok(products);
     }
 
+    [HttpGet("slug/{slug}")]
+    public async Task<ActionResult<ProductDto>> GetBySlug(
+        string slug,
+        CancellationToken cancellationToken)
+    {
+        var product = await _productService.GetBySlugAsync(
+            slug,
+            cancellationToken);
+
+        return product is null
+            ? NotFound()
+            : Ok(product);
+    }
+
     [HttpPost]
     [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<ProductDto>> Create([FromBody] ProductCreateDto dto, CancellationToken cancellationToken)

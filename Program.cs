@@ -10,6 +10,10 @@ using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Enums;
 using WebApplication1.Infrastructure.Data;
 using WebApplication1.Infrastructure.Repositories;
+using WebApplication1.Repositories;
+using WebApplication1.Repositories.Interfaces;
+using WebApplication1.Services;
+using WebApplication1.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,6 +79,7 @@ builder.Services.AddScoped<IMediaItemRepository, MediaItemRepository>();
 builder.Services.AddScoped<ISearchRepository, SearchRepository>();
 builder.Services.AddScoped<IUIBlockRepository, UIBlockRepository>();
 builder.Services.AddScoped<IAnalyticsRepository, AnalyticsRepository>();
+builder.Services.AddScoped<IProductInfographicRepository, ProductInfographicRepository>();
 builder.Services.AddScoped<IProvinceService, ProvinceService>();
 builder.Services.AddScoped<ILandingPageConfigService, LandingPageConfigService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -90,6 +95,7 @@ builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 builder.Services.AddScoped<IEmailNotificationService, EmailNotificationService>();
 builder.Services.AddScoped<IHtmlSanitizationService, HtmlSanitizationService>();
+builder.Services.AddScoped<IProductInfographicService, ProductInfographicService>();
 builder.Services.AddSingleton<IRichTextConfigService, RichTextConfigService>();
 
 var app = builder.Build();

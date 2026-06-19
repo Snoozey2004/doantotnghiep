@@ -80,21 +80,20 @@ public class OrderService : IOrderService
                 throw new InvalidOperationException("Product not found.");
             }
 
-            if (product.Stock < item.Quantity)
+            if (!product.Price.HasValue)
             {
-                throw new InvalidOperationException("Insufficient stock.");
+                throw new InvalidOperationException(
+                    "This product is not available for purchase.");
             }
 
-            product.Stock -= item.Quantity;
             await _productRepository.UpdateAsync(product, cancellationToken);
-
             items.Add(new OrderItem
             {
                 Id = Guid.NewGuid(),
                 OrderId = order.Id,
                 ProductId = product.Id,
                 ProductName = product.Name,
-                UnitPrice = product.Price,
+                UnitPrice = product.Price.Value,
                 Quantity = item.Quantity
             });
         }

@@ -37,6 +37,19 @@ public class ProductService : IProductService
         return _mapper.Map<List<ProductDto>>(products);
     }
 
+    public async Task<ProductDto?> GetBySlugAsync(
+        string slug,
+        CancellationToken cancellationToken)
+    {
+        var product = await _productRepository.GetBySlugAsync(
+            slug,
+            cancellationToken);
+
+        return product is null
+            ? null
+            : _mapper.Map<ProductDto>(product);
+    }
+
     public async Task<ProductDto> CreateAsync(ProductCreateDto dto, CancellationToken cancellationToken)
     {
         var province = await _provinceRepository.GetByIdAsync(dto.ProvinceId, cancellationToken);
