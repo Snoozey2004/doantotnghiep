@@ -222,45 +222,98 @@ export default function EditorDashboard() {
 
   const regions = [...new Set(provinces.map((p) => p.region))].filter(Boolean);
 
+  const configuredCount = provinces.filter((p) => configs[p.id]).length;
+
   return (
     <EditorLayout>
-      <div className="admin-header">
-        <h1>🎨 Chỉnh sửa thiết kế giao diện Landing Page</h1>
-        <p className="admin-desc">
-          Tuỳ chỉnh màu nền (background color) cho 11 section của từng trang landing 34 tỉnh thành.
-        </p>
+      {/* ── Page header ── */}
+      <div style={{
+        background: "linear-gradient(135deg, #1c1917 0%, #3d2c1e 60%, #78350f 100%)",
+        borderRadius: "16px", padding: "28px 32px", marginBottom: "28px",
+        position: "relative", overflow: "hidden",
+      }}>
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle at 80% 20%, rgba(180,83,9,0.25) 0%, transparent 60%)", pointerEvents: "none" }} />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "16px" }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+                <span style={{ fontSize: "1.4rem" }}>🎨</span>
+                <h1 style={{ margin: 0, fontSize: "1.4rem", fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>
+                  Thiết kế giao diện Landing Page
+                </h1>
+              </div>
+              <p style={{ margin: 0, fontSize: "0.88rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.5 }}>
+                Tuỳ chỉnh màu sắc, font chữ, bố cục và thứ tự section cho từng tỉnh thành
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: "12px" }}>
+              <div style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "12px", padding: "12px 20px", textAlign: "center" }}>
+                <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fcd34d", lineHeight: 1 }}>{configuredCount}</div>
+                <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.55)", marginTop: "4px" }}>Đã cấu hình</div>
+              </div>
+              <div style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "12px", padding: "12px 20px", textAlign: "center" }}>
+                <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", lineHeight: 1 }}>{provinces.length}</div>
+                <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.55)", marginTop: "4px" }}>Tổng tỉnh thành</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div style={{ display: "flex", gap: "12px", marginBottom: "24px", flexWrap: "wrap" }}>
-        <input
-          type="text"
-          placeholder="Tìm tỉnh thành..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{
-            padding: "8px 14px", borderRadius: "8px", border: "1px solid #e5e0d8",
-            fontSize: "0.9rem", minWidth: "200px", background: "#faf8f5"
-          }}
-        />
-        <select
-          value={regionFilter}
-          onChange={(e) => setRegionFilter(e.target.value)}
-          style={{
-            padding: "8px 14px", borderRadius: "8px", border: "1px solid #e5e0d8",
-            fontSize: "0.9rem", background: "#faf8f5", cursor: "pointer"
-          }}
-        >
-          <option value="">Tất cả vùng</option>
-          {regions.map((r) => (
-            <option key={r} value={r}>{REGION_VI[r] || r}</option>
+      {/* ── Toolbar ── */}
+      <div style={{
+        display: "flex", gap: "10px", marginBottom: "20px", flexWrap: "wrap",
+        background: "#fff", border: "1px solid #ede8e0", borderRadius: "12px",
+        padding: "12px 16px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+        alignItems: "center",
+      }}>
+        <div style={{ position: "relative", flex: "1 1 200px", minWidth: "160px" }}>
+          <span style={{ position: "absolute", left: "11px", top: "50%", transform: "translateY(-50%)", fontSize: "0.9rem", color: "#bbb", pointerEvents: "none" }}>🔍</span>
+          <input
+            type="text"
+            placeholder="Tìm tỉnh thành..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{
+              width: "100%", padding: "8px 12px 8px 34px", borderRadius: "8px",
+              border: "1.5px solid #e5e0d8", fontSize: "0.88rem", background: "#faf8f5",
+              boxSizing: "border-box", outline: "none", color: "#333",
+              transition: "border-color 0.15s",
+            }}
+            onFocus={(e) => e.target.style.borderColor = "#b45309"}
+            onBlur={(e) => e.target.style.borderColor = "#e5e0d8"}
+          />
+        </div>
+        <div style={{ display: "flex", gap: "4px", flexShrink: 0 }}>
+          {[{ value: "", label: "Tất cả" }, ...regions.map((r) => ({ value: r, label: REGION_VI[r] || r }))].map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => setRegionFilter(opt.value)}
+              style={{
+                padding: "7px 14px", borderRadius: "8px", border: "none",
+                fontSize: "0.82rem", fontWeight: 600, cursor: "pointer",
+                background: regionFilter === opt.value ? "#b45309" : "#f5f0ea",
+                color: regionFilter === opt.value ? "#fff" : "#7c6a58",
+                transition: "all 0.15s",
+              }}
+            >
+              {opt.label}
+            </button>
           ))}
-        </select>
+        </div>
+        <div style={{ marginLeft: "auto", fontSize: "0.8rem", color: "#aaa", flexShrink: 0 }}>
+          {filtered.length} tỉnh thành
+        </div>
       </div>
 
       {loading ? (
-        <p style={{ color: "#888" }}>Đang tải danh sách tỉnh thành...</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {[1,2,3].map((i) => (
+            <div key={i} style={{ height: "64px", borderRadius: "12px", background: "linear-gradient(90deg, #f5f0ea 25%, #ede8e0 50%, #f5f0ea 75%)", backgroundSize: "200% 100%", animation: "shimmer 1.4s infinite" }} />
+          ))}
+        </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           {filtered.map((province) => {
             const isOpen = expanded[province.id] || false;
             const isSaving = saving[province.id];
@@ -268,74 +321,80 @@ export default function EditorDashboard() {
             const colors = sectionColors[province.id] || {};
             const settings = configSettings[province.id] || {};
             const order = sectionOrders[province.id] || SECTIONS.map((s) => s.key);
+            const isConfigured = !!configs[province.id];
+            const accentColor = settings.themeColor || "#b45309";
 
             return (
               <div
                 key={province.id}
                 style={{
                   background: "#fff",
-                  border: "1px solid #ede8e0",
+                  borderTop: `1px solid ${isOpen ? "#d4c5b0" : "#ede8e0"}`,
+                  borderRight: `1px solid ${isOpen ? "#d4c5b0" : "#ede8e0"}`,
+                  borderBottom: `1px solid ${isOpen ? "#d4c5b0" : "#ede8e0"}`,
+                  borderLeft: `4px solid ${accentColor}`,
                   borderRadius: "12px",
                   overflow: "hidden",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+                  boxShadow: isOpen ? "0 4px 20px rgba(0,0,0,0.09)" : "0 1px 4px rgba(0,0,0,0.05)",
+                  transition: "box-shadow 0.2s",
                 }}
               >
-                {/* Header row */}
+                {/* ── Card header ── */}
                 <div
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "14px 20px",
-                    cursor: "pointer",
-                    userSelect: "none",
+                    display: "flex", alignItems: "center", justifyContent: "space-between",
+                    padding: "14px 18px", cursor: "pointer", userSelect: "none",
+                    background: isOpen ? "#fdf9f5" : "#fff",
+                    transition: "background 0.15s",
                   }}
                   onClick={() => toggleExpand(province.id)}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                    <div style={{ display: "flex", gap: "3px" }}>
-                      {SECTIONS.slice(0, 6).map((s) => (
-                        <div
-                          key={s.key}
-                          title={s.label}
-                          style={{
-                            width: "14px", height: "14px", borderRadius: "3px",
-                            background: colors[s.key] || "#e5e0d8",
-                            border: "1px solid rgba(0,0,0,0.1)",
-                            flexShrink: 0,
-                          }}
-                        />
+                  <div style={{ display: "flex", alignItems: "center", gap: "14px", minWidth: 0 }}>
+                    {/* Color preview dots */}
+                    <div style={{ display: "flex", gap: "3px", flexShrink: 0 }}>
+                      {SECTIONS.slice(0, 8).map((s) => (
+                        <div key={s.key} title={s.label} style={{ width: "10px", height: "10px", borderRadius: "2px", background: colors[s.key] || "#e8e2d9", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
                       ))}
                     </div>
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: "1rem", color: "#1a1a1a" }}>
-                        {province.name}
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                        <span style={{ fontWeight: 700, fontSize: "0.97rem", color: "#1a1a1a" }}>{province.name}</span>
+                        <span style={{ fontSize: "0.7rem", fontWeight: 600, padding: "2px 8px", borderRadius: "20px", background: REGION_VI[province.region] === "Miền Bắc" ? "#eff6ff" : REGION_VI[province.region] === "Miền Nam" ? "#f0fdf4" : "#fef3c7", color: REGION_VI[province.region] === "Miền Bắc" ? "#2563eb" : REGION_VI[province.region] === "Miền Nam" ? "#16a34a" : "#b45309" }}>
+                          {REGION_VI[province.region] || province.region}
+                        </span>
+                        {isConfigured && (
+                          <span style={{ fontSize: "0.68rem", fontWeight: 600, padding: "2px 7px", borderRadius: "20px", background: "#f0fdf4", color: "#16a34a", border: "1px solid #bbf7d0" }}>✓ Đã cấu hình</span>
+                        )}
                       </div>
-                      <div style={{ fontSize: "0.78rem", color: "#999", marginTop: "1px" }}>
-                        {REGION_VI[province.region] || province.region}
-                      </div>
+                      {!isOpen && isConfigured && (
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "3px" }}>
+                          <div style={{ width: "10px", height: "10px", borderRadius: "2px", background: accentColor, flexShrink: 0 }} />
+                          <span style={{ fontSize: "0.73rem", color: "#999" }}>{accentColor}</span>
+                          {settings.fontFamily && <span style={{ fontSize: "0.73rem", color: "#bbb" }}>·</span>}
+                          {settings.fontFamily && <span style={{ fontSize: "0.73rem", color: "#999", fontStyle: "italic" }}>{settings.fontFamily.replace(/'/g, "").split(",")[0]}</span>}
+                          {settings.layout && settings.layout !== "default" && <span style={{ fontSize: "0.68rem", color: "#b45309", background: "#fff7ed", padding: "1px 6px", borderRadius: "4px" }}>{settings.layout}</span>}
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
                     <Link
                       to={`/province/${province.slug}`}
                       target="_blank"
                       onClick={(e) => e.stopPropagation()}
-                      style={{ fontSize: "0.78rem", color: "#b45309", textDecoration: "none" }}
+                      style={{ fontSize: "0.78rem", color: "#b45309", textDecoration: "none", fontWeight: 600, padding: "4px 10px", borderRadius: "6px", background: "#fff7ed", border: "1px solid #fed7aa" }}
                     >
                       Xem trang ↗
                     </Link>
-                    <span style={{
-                      fontSize: "0.8rem", color: "#888",
-                      transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-                      transition: "transform 0.2s", display: "inline-block"
-                    }}>▼</span>
+                    <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "#f5f0ea", border: "1px solid #e5e0d8", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <span style={{ fontSize: "0.75rem", color: "#888", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.22s", display: "inline-block" }}>▼</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Expanded section colors */}
+                {/* ── Expanded panel ── */}
                 {isOpen && (
-                  <div style={{ borderTop: "1px solid #f0ebe3", padding: "16px 20px" }}>
+                  <div style={{ borderTop: "1px solid #ede8e0", padding: "20px 22px", background: "#fdf9f5" }}>
 
                     {/* === Cấu hình giao diện === */}
                     <div style={{ marginBottom: "24px" }}>
@@ -466,28 +525,13 @@ export default function EditorDashboard() {
                       </div>
                     </div>
 
-                    {/* Toolbar: default / clear */}
-                    <div style={{ display: "flex", gap: "8px", marginBottom: "14px" }}>
-                      <button
-                        onClick={() => applyDefaults(province.id)}
-                        style={{
-                          padding: "6px 14px", borderRadius: "7px",
-                          border: "1px solid #d97706", background: "#fffbeb",
-                          color: "#b45309", fontSize: "0.8rem", fontWeight: 600,
-                          cursor: "pointer",
-                        }}
-                      >
-                        🎨 Đặt màu mặc định
+                    {/* ── Section color toolbar ── */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "14px" }}>
+                      <span style={{ fontSize: "0.72rem", fontWeight: 700, color: "#7c6a58", letterSpacing: "0.08em", textTransform: "uppercase", marginRight: "4px" }}>Màu section:</span>
+                      <button onClick={() => applyDefaults(province.id)} style={{ padding: "5px 12px", borderRadius: "6px", border: "1px solid #d97706", background: "#fffbeb", color: "#b45309", fontSize: "0.78rem", fontWeight: 600, cursor: "pointer" }}>
+                        🎨 Màu mặc định
                       </button>
-                      <button
-                        onClick={() => clearColors(province.id)}
-                        style={{
-                          padding: "6px 14px", borderRadius: "7px",
-                          border: "1px solid #e5e0d8", background: "#faf8f5",
-                          color: "#666", fontSize: "0.8rem", fontWeight: 600,
-                          cursor: "pointer",
-                        }}
-                      >
+                      <button onClick={() => clearColors(province.id)} style={{ padding: "5px 12px", borderRadius: "6px", border: "1px solid #e5e0d8", background: "#f5f0ea", color: "#888", fontSize: "0.78rem", fontWeight: 600, cursor: "pointer" }}>
                         ↺ Xóa màu
                       </button>
                     </div>
@@ -593,40 +637,38 @@ export default function EditorDashboard() {
                       })}
                     </div>
 
-                    {/* Action buttons */}
-                    <div style={{ display: "flex", gap: "10px" }}>
+                    {/* ── Action buttons ── */}
+                    <div style={{ display: "flex", gap: "10px", paddingTop: "4px", borderTop: "1px solid #ede8e0", marginTop: "4px" }}>
                       <button
                         onClick={() => handleSave(province)}
                         disabled={isSaving}
                         style={{
-                          flex: 1, padding: "10px 0",
-                          borderRadius: "8px", border: "none",
+                          flex: 1, padding: "11px 0", borderRadius: "9px", border: "none",
                           cursor: isSaving ? "not-allowed" : "pointer",
-                          fontWeight: 600, fontSize: "0.9rem",
-                          background: isSaved ? "#16a34a" : "#b45309",
-                          color: "#fff",
-                          opacity: isSaving ? 0.7 : 1,
-                          transition: "background 0.3s",
+                          fontWeight: 700, fontSize: "0.9rem",
+                          background: isSaved ? "linear-gradient(135deg,#16a34a,#15803d)" : "linear-gradient(135deg,#b45309,#92400e)",
+                          color: "#fff", letterSpacing: "0.01em",
+                          boxShadow: isSaved ? "0 2px 8px rgba(22,163,74,0.3)" : "0 2px 8px rgba(180,83,9,0.3)",
+                          opacity: isSaving ? 0.65 : 1,
+                          transition: "all 0.25s",
                         }}
                       >
-                        {isSaving ? "Đang lưu..." : isSaved ? "✓ Đã lưu" : "Lưu"}
+                        {isSaving ? "⏳ Đang lưu..." : isSaved ? "✓ Đã lưu thành công" : "💾 Lưu thay đổi"}
                       </button>
                       <button
                         onClick={() => handleSaveAndView(province)}
                         disabled={isSaving}
                         style={{
-                          flex: 1, padding: "10px 0",
-                          borderRadius: "8px",
+                          flex: 1, padding: "11px 0", borderRadius: "9px",
                           border: "2px solid #b45309",
                           cursor: isSaving ? "not-allowed" : "pointer",
-                          fontWeight: 600, fontSize: "0.9rem",
-                          background: "#fff",
-                          color: "#b45309",
-                          opacity: isSaving ? 0.7 : 1,
+                          fontWeight: 700, fontSize: "0.9rem",
+                          background: "#fff", color: "#b45309", letterSpacing: "0.01em",
+                          opacity: isSaving ? 0.65 : 1,
                           transition: "all 0.2s",
                         }}
                       >
-                        💾 Lưu & Xem trang
+                        🔍 Lưu & Xem trang
                       </button>
                     </div>
                   </div>
