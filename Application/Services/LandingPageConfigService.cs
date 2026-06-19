@@ -34,10 +34,21 @@ public class LandingPageConfigService : ILandingPageConfigService
     private static string SerializeSectionColors(Dictionary<string, string>? dict) =>
         dict != null && dict.Count > 0 ? JsonSerializer.Serialize(dict) : string.Empty;
 
+    private static List<string> DeserializeSectionOrder(string json)
+    {
+        if (string.IsNullOrEmpty(json)) return new List<string>();
+        try { return JsonSerializer.Deserialize<List<string>>(json) ?? new List<string>(); }
+        catch { return new List<string>(); }
+    }
+
+    private static string SerializeSectionOrder(List<string>? list) =>
+        list != null && list.Count > 0 ? JsonSerializer.Serialize(list) : string.Empty;
+
     private LandingPageConfigDto ToDto(LandingPageConfig config)
     {
         var dto = _mapper.Map<LandingPageConfigDto>(config);
         dto.SectionColors = DeserializeSectionColors(config.SectionColorsJson);
+        dto.SectionOrder = DeserializeSectionOrder(config.SectionOrderJson);
         return dto;
     }
 
@@ -70,6 +81,7 @@ public class LandingPageConfigService : ILandingPageConfigService
         var config = _mapper.Map<LandingPageConfig>(dto);
         config.Id = Guid.NewGuid();
         config.SectionColorsJson = SerializeSectionColors(dto.SectionColors);
+        config.SectionOrderJson = SerializeSectionOrder(dto.SectionOrder);
         config.Blocks = dto.Blocks.Select(MapCreateBlock).ToList();
         await _configRepository.AddAsync(config, cancellationToken);
         return ToDto(config);
@@ -85,7 +97,10 @@ public class LandingPageConfigService : ILandingPageConfigService
 
         _mapper.Map(dto, config);
         config.SectionColorsJson = SerializeSectionColors(dto.SectionColors);
-        config.Blocks = dto.Blocks.Select(block => MapUpdateBlock(block, config.Id)).ToList();
+        if (dto.SectionOrder != null)
+            config.SectionOrderJson = SerializeSectionOrder(dto.SectionOrder);
+        if (dto.Blocks != null)
+            config.Blocks = dto.Blocks.Select(block => MapUpdateBlock(block, config.Id)).ToList();
         await _configRepository.UpdateAsync(config, cancellationToken);
         return ToDto(config);
     }

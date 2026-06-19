@@ -3,7 +3,7 @@ import MainLayout from "./MainLayout.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
 
 const navItems = [
-  { label: "🎨 Chỉnh màu Landing Page", path: "/editor" },
+  { label: "🎨 Chỉnh sửa thiết kế giao diện Landing Page", path: "/editor" },
 ];
 
 export default function EditorLayout({ children }) {
@@ -23,7 +23,7 @@ export default function EditorLayout({ children }) {
           <aside className="admin-sidebar">
             <div className="admin-brand">
               <h2>Editor Workspace</h2>
-              <p>Chỉnh thiết kế landing page</p>
+              <p>Chỉnh sửa thiết kế giao diện Landing Page</p>
             </div>
             {navItems.map((item) => {
               const isActive = location.pathname === item.path || location.pathname.startsWith(`${item.path}/`);

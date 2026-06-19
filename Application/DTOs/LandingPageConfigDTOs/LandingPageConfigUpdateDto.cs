@@ -1,4 +1,4 @@
-﻿using WebApplication1.Application.DTOs.UIBlockDTOs;
+using WebApplication1.Application.DTOs.UIBlockDTOs;
 
 namespace WebApplication1.Application.DTOs.LandingPageConfigDTOs;
 
@@ -9,5 +9,6 @@ public class LandingPageConfigUpdateDto
     public string BackgroundUrl { get; set; } = string.Empty;
     public string Layout { get; set; } = string.Empty;
     public Dictionary<string, string> SectionColors { get; set; } = new();
-    public List<UIBlockUpdateDto> Blocks { get; set; } = new();
+    public List<string>? SectionOrder { get; set; }
+    public List<UIBlockUpdateDto>? Blocks { get; set; }
 }
