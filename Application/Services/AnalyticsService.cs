@@ -69,6 +69,9 @@ public class AnalyticsService : IAnalyticsService
         };
     }
 
+    public Task<List<ProvinceInteractionRow>> GetProvinceInteractionsAsync(CancellationToken cancellationToken)
+        => _analyticsRepository.GetProvinceInteractionsAsync(cancellationToken);
+
     public async Task<ContentStatsDto> GetContentStatsAsync(Guid? provinceId, CancellationToken cancellationToken)
     {
         var postsByCategory = await _analyticsRepository.CountPostsByCategoryAsync(provinceId, cancellationToken);

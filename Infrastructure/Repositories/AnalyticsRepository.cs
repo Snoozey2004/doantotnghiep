@@ -144,4 +144,22 @@ public class AnalyticsRepository : IAnalyticsRepository
 
     public Task<int> CountMediaByProvinceAsync(Guid provinceId, CancellationToken cancellationToken)
         => _dbContext.MediaItems.AsNoTracking().CountAsync(m => m.ProvinceId == provinceId, cancellationToken);
+
+    public async Task<List<ProvinceInteractionRow>> GetProvinceInteractionsAsync(CancellationToken cancellationToken)
+    {
+        var relevant = new[] { "page_view", "specialty_click", "craft_click" };
+        var grouped = await _dbContext.AnalyticsEvents.AsNoTracking()
+            .Where(e => e.ProvinceId != null && relevant.Contains(e.EventType))
+            .GroupBy(e => new { e.ProvinceId, e.EventType })
+            .Select(g => new { g.Key.ProvinceId, g.Key.EventType, Count = g.Count() })
+            .ToListAsync(cancellationToken);
+
+        var byProvince = grouped.GroupBy(r => r.ProvinceId!.Value);
+        return byProvince.Select(g => new ProvinceInteractionRow(
+            g.Key,
+            g.FirstOrDefault(r => r.EventType == "page_view")?.Count ?? 0,
+            g.FirstOrDefault(r => r.EventType == "specialty_click")?.Count ?? 0,
+            g.FirstOrDefault(r => r.EventType == "craft_click")?.Count ?? 0
+        )).ToList();
+    }
 }

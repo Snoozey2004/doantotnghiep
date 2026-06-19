@@ -51,13 +51,13 @@ export default function EditorDashboard() {
   const [sectionColors, setSectionColors] = useState({});
   const [configSettings, setConfigSettings] = useState({});
   const [sectionOrders, setSectionOrders] = useState({});
+  const [sectionVisibility, setSectionVisibility] = useState({});
   const [expanded, setExpanded] = useState({});
   const [saving, setSaving] = useState({});
   const [saved, setSaved] = useState({});
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [regionFilter, setRegionFilter] = useState("");
-  const previewWindowRef = useRef({});
 
   useEffect(() => {
     provinceApi.getAll()
@@ -70,6 +70,7 @@ export default function EditorDashboard() {
         const colorsMap = {};
         const settingsMap = {};
         const ordersMap = {};
+        const visibilityMap = {};
         list.forEach((p, i) => {
           const cfg = results[i];
           cfgMap[p.id] = cfg || null;
@@ -83,11 +84,16 @@ export default function EditorDashboard() {
           ordersMap[p.id] = cfg?.sectionOrder?.length > 0
             ? cfg.sectionOrder
             : SECTIONS.map((s) => s.key);
+          const vis = cfg?.sectionVisibility || {};
+          visibilityMap[p.id] = Object.fromEntries(
+            SECTIONS.map((s) => [s.key, vis[s.key] !== false])
+          );
         });
         setConfigs(cfgMap);
         setSectionColors(colorsMap);
         setConfigSettings(settingsMap);
         setSectionOrders(ordersMap);
+        setSectionVisibility(visibilityMap);
       })
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -136,6 +142,13 @@ export default function EditorDashboard() {
     setDraggingKey(null);
   };
 
+  const handleToggleVisibility = (provinceId, sectionKey) => {
+    setSectionVisibility((prev) => {
+      const cur = prev[provinceId] || {};
+      return { ...prev, [provinceId]: { ...cur, [sectionKey]: !cur[sectionKey] } };
+    });
+  };
+
   const handleColorChange = (provinceId, sectionKey, value) => {
     setSectionColors((prev) => ({
       ...prev,
@@ -161,6 +174,7 @@ export default function EditorDashboard() {
     const colors = sectionColors[province.id] || {};
     const settings = configSettings[province.id] || {};
     const order = sectionOrders[province.id] || SECTIONS.map((s) => s.key);
+    const visibility = sectionVisibility[province.id] || {};
     setSaving((prev) => ({ ...prev, [province.id]: true }));
     try {
       const existing = configs[province.id];
@@ -173,6 +187,7 @@ export default function EditorDashboard() {
           layout: settings.layout || "default",
           sectionColors: colors,
           sectionOrder: order,
+          sectionVisibility: visibility,
         });
       } else {
         updated = await landingConfigApi.create({
@@ -183,6 +198,7 @@ export default function EditorDashboard() {
           layout: settings.layout || "default",
           sectionColors: colors,
           sectionOrder: order,
+          sectionVisibility: visibility,
         });
       }
       setConfigs((prev) => ({ ...prev, [province.id]: updated }));
@@ -194,19 +210,15 @@ export default function EditorDashboard() {
     } finally {
       setSaving((prev) => ({ ...prev, [province.id]: false }));
     }
-  }, [sectionColors, configSettings, sectionOrders, configs]);
+  }, [sectionColors, configSettings, sectionOrders, sectionVisibility, configs]);
 
-  const handleSaveAndView = useCallback(async (province) => {
+  const handleSaveAndPreview = useCallback(async (province) => {
+    const win = window.open("", "_blank");
     const ok = await handleSave(province);
     if (ok !== false) {
-      const url = `/province/${province.slug}`;
-      const win = previewWindowRef.current[province.id];
-      if (win && !win.closed) {
-        win.location.href = url;
-        win.focus();
-      } else {
-        previewWindowRef.current[province.id] = window.open(url, `preview_${province.id}`);
-      }
+      win.location.href = `/province/${province.slug}`;
+    } else {
+      win.close();
     }
   }, [handleSave]);
 
@@ -321,6 +333,7 @@ export default function EditorDashboard() {
             const colors = sectionColors[province.id] || {};
             const settings = configSettings[province.id] || {};
             const order = sectionOrders[province.id] || SECTIONS.map((s) => s.key);
+            const visibility = sectionVisibility[province.id] || Object.fromEntries(SECTIONS.map((s) => [s.key, true]));
             const isConfigured = !!configs[province.id];
             const accentColor = settings.themeColor || "#b45309";
 
@@ -378,14 +391,13 @@ export default function EditorDashboard() {
                     </div>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
-                    <Link
-                      to={`/province/${province.slug}`}
-                      target="_blank"
-                      onClick={(e) => e.stopPropagation()}
-                      style={{ fontSize: "0.78rem", color: "#b45309", textDecoration: "none", fontWeight: 600, padding: "4px 10px", borderRadius: "6px", background: "#fff7ed", border: "1px solid #fed7aa" }}
+                    <button
+                      onClick={(e) => { e.stopPropagation(); window.open(`/province/${province.slug}`, "_blank"); }}
+                      style={{ fontSize: "0.78rem", color: "#7c3aed", fontWeight: 600, padding: "4px 10px", borderRadius: "6px", background: "#f5f3ff", border: "1px solid #ddd6fe", cursor: "pointer" }}
+                      title="Mở trang trong tab mới (phản ánh lần lưu gần nhất)"
                     >
-                      Xem trang ↗
-                    </Link>
+                      👁 Preview ↗
+                    </button>
                     <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "#f5f0ea", border: "1px solid #e5e0d8", display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <span style={{ fontSize: "0.75rem", color: "#888", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.22s", display: "inline-block" }}>▼</span>
                     </div>
@@ -506,7 +518,15 @@ export default function EditorDashboard() {
                             >
                               <span style={{ fontSize: "1rem", color: isDragging ? "#7c3aed" : "#bbb", flexShrink: 0 }}>⠿⠿</span>
                               <span style={{ width: "22px", height: "22px", borderRadius: "50%", background: isDragging ? "#ede0ff" : "#f5f0ea", border: `1px solid ${isDragging ? "#c4b5fd" : "#e8e2d9"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.68rem", fontWeight: 700, color: isDragging ? "#7c3aed" : "#b45309", flexShrink: 0 }}>{idx + 1}</span>
-                              <span style={{ flex: 1, fontSize: "0.85rem", fontWeight: 500, color: "#3d3530" }}>{sec.label}</span>
+                              <span style={{ flex: 1, fontSize: "0.85rem", fontWeight: 500, color: visibility[key] !== false ? "#3d3530" : "#bbb", textDecoration: visibility[key] !== false ? "none" : "line-through" }}>{sec.label}</span>
+                              {/* Toggle bật/tắt */}
+                              <button
+                                onClick={(e) => { e.stopPropagation(); handleToggleVisibility(province.id, key); }}
+                                title={visibility[key] !== false ? "Đang hiện — click để ẩn" : "Đang ẩn — click để hiện"}
+                                style={{ width: "36px", height: "20px", borderRadius: "10px", border: "none", cursor: "pointer", position: "relative", flexShrink: 0, background: visibility[key] !== false ? "#16a34a" : "#d1d5db", transition: "background 0.2s" }}
+                              >
+                                <span style={{ position: "absolute", top: "2px", width: "16px", height: "16px", borderRadius: "50%", background: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,0.2)", transition: "left 0.2s", left: visibility[key] !== false ? "18px" : "2px" }} />
+                              </button>
                               <div style={{ display: "flex", gap: "3px" }}>
                                 <button
                                   onClick={(e) => { e.stopPropagation(); handleMoveSection(province.id, idx, -1); }}
@@ -656,19 +676,19 @@ export default function EditorDashboard() {
                         {isSaving ? "⏳ Đang lưu..." : isSaved ? "✓ Đã lưu thành công" : "💾 Lưu thay đổi"}
                       </button>
                       <button
-                        onClick={() => handleSaveAndView(province)}
+                        onClick={() => handleSaveAndPreview(province)}
                         disabled={isSaving}
                         style={{
                           flex: 1, padding: "11px 0", borderRadius: "9px",
-                          border: "2px solid #b45309",
+                          border: "2px solid #7c3aed",
                           cursor: isSaving ? "not-allowed" : "pointer",
                           fontWeight: 700, fontSize: "0.9rem",
-                          background: "#fff", color: "#b45309", letterSpacing: "0.01em",
+                          background: "#fff", color: "#7c3aed", letterSpacing: "0.01em",
                           opacity: isSaving ? 0.65 : 1,
                           transition: "all 0.2s",
                         }}
                       >
-                        🔍 Lưu & Xem trang
+                        👁 Lưu & Preview
                       </button>
                     </div>
                   </div>
@@ -678,6 +698,7 @@ export default function EditorDashboard() {
           })}
         </div>
       )}
+
     </EditorLayout>
   );
 }

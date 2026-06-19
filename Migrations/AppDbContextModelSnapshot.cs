@@ -86,6 +86,10 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("SectionVisibilityJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("ThemeColor")
                         .IsRequired()
                         .HasMaxLength(50)

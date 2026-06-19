@@ -1,4 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout.jsx";
 import ProvinceHero from "../components/landing/ProvinceHero.jsx";
@@ -296,6 +297,7 @@ export default function ProvinceLandingPage() {
   const sectionOrder = config?.sectionOrder?.length > 0
     ? config.sectionOrder
     : ["hero","intro","video","charts","timeline","culture","specialties","craftVillages","festivals","gallery","info"];
+  const sectionVisibility = config?.sectionVisibility || {};
   const heroImage = featuredMedia.find((item) => item.mediaType === "hero")?.url
     || province.heroImage;
   const introImage = featuredMedia.find((item) => item.mediaType === "intro")?.url
@@ -381,13 +383,31 @@ export default function ProvinceLandingPage() {
     ) : null,
   };
 
+  const metaDescription = province.description
+    || province.overview
+    || province.introduction
+    || `Khám phá ${province.name} – vùng đất với bản sắc văn hóa độc đáo, ẩm thực phong phú và danh thắng nổi tiếng.`;
+  const metaImage = heroImage || province.heroImage || "";
+
   return (
     <MainLayout>
+      <Helmet>
+        <title>{province.name} | Vietnam Identity</title>
+        <meta name="description" content={metaDescription.slice(0, 160)} />
+        <meta property="og:title" content={`${province.name} | Vietnam Identity`} />
+        <meta property="og:description" content={metaDescription.slice(0, 160)} />
+        {metaImage && <meta property="og:image" content={metaImage} />}
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${province.name} | Vietnam Identity`} />
+        <meta name="twitter:description" content={metaDescription.slice(0, 160)} />
+        {metaImage && <meta name="twitter:image" content={metaImage} />}
+      </Helmet>
       <div
         className={["province-page", layout !== "default" ? `province-layout-${layout}` : ""].filter(Boolean).join(" ")}
         style={{ "--accent": accentColor, ...(fontFamily ? { fontFamily } : {}) }}
       >
-        {sectionOrder.map((key) => sectionElements[key] ?? null)}
+        {sectionOrder.map((key) => sectionVisibility[key] === false ? null : (sectionElements[key] ?? null))}
       </div>
     </MainLayout>
   );
