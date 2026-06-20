@@ -14,12 +14,17 @@ public class AppDbContext : DbContext
     public DbSet<LandingPageConfig> LandingPageConfigs => Set<LandingPageConfig>();
     public DbSet<UIBlock> UIBlocks => Set<UIBlock>();
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<ProductGallery> ProductGalleries => Set<ProductGallery>();
     public DbSet<User> Users => Set<User>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
     public DbSet<Post> Posts => Set<Post>();
     public DbSet<MediaItem> MediaItems => Set<MediaItem>();
     public DbSet<AnalyticsEvent> AnalyticsEvents => Set<AnalyticsEvent>();
+    public DbSet<ProductInfographic> ProductInfographics
+        => Set<ProductInfographic>();
+    public DbSet<InfographicBlock> InfographicBlocks
+        => Set<InfographicBlock>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -62,6 +67,23 @@ public class AppDbContext : DbContext
             entity.HasOne(x => x.Province)
                 .WithMany(p => p.Products)
                 .HasForeignKey(x => x.ProvinceId)
+                .OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(x => x.Infographic)
+                .WithOne(x => x.Product)
+                .HasForeignKey<ProductInfographic>(x => x.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<ProductGallery>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+
+            entity.Property(x => x.ImageUrl)
+                .IsRequired();
+
+            entity.HasOne(x => x.Product)
+                .WithMany(x => x.Galleries)
+                .HasForeignKey(x => x.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
@@ -143,5 +165,11 @@ public class AppDbContext : DbContext
                 .HasForeignKey(x => x.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
+
+        modelBuilder.ApplyConfiguration(
+            new ProductInfographicConfiguration());
+
+        modelBuilder.ApplyConfiguration(
+            new InfographicBlockConfiguration());
     }
 }

@@ -6,8 +6,16 @@
 .search-page {
   min-height: calc(100vh - 80px);
   background:
-    radial-gradient(circle at 15% 0%, rgba(233, 218, 195, 0.55), transparent 46%),
-    radial-gradient(circle at 88% 10%, rgba(198, 166, 128, 0.22), transparent 40%),
+    radial-gradient(
+      circle at 15% 0%,
+      rgba(233, 218, 195, 0.55),
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 88% 10%,
+      rgba(198, 166, 128, 0.22),
+      transparent 40%
+    ),
     #f6f1e8;
   color: #2b251f;
 }
@@ -15,8 +23,11 @@
 /* ── Hero search header ──────────────────── */
 .search-hero {
   padding: 48px 20px 0;
-  background: linear-gradient(180deg, rgba(246,241,232,0.85) 0%, transparent 100%);
-  border-bottom: 1px solid rgba(155, 138, 112, 0.14);
+  background: linear-gradient(
+    180deg,
+    rgba(246, 241, 232, 0.85) 0%,
+    transparent 100%
+  );
 }
 
 .search-hero-inner {
@@ -73,8 +84,12 @@
   border-radius: 16px;
   background: rgba(255, 250, 244, 0.96);
   color: #1a140e;
-  box-shadow: 0 4px 20px rgba(73, 60, 42, 0.08), 0 1px 3px rgba(73, 60, 42, 0.06);
-  transition: border-color 0.18s, box-shadow 0.18s;
+  box-shadow:
+    0 4px 20px rgba(73, 60, 42, 0.08),
+    0 1px 3px rgba(73, 60, 42, 0.06);
+  transition:
+    border-color 0.18s,
+    box-shadow 0.18s;
   box-sizing: border-box;
 }
 
@@ -85,7 +100,9 @@
 .search-input:focus {
   outline: none;
   border-color: #b15a2b;
-  box-shadow: 0 0 0 3px rgba(177, 90, 43, 0.13), 0 4px 20px rgba(73, 60, 42, 0.1);
+  box-shadow:
+    0 0 0 3px rgba(177, 90, 43, 0.13),
+    0 4px 20px rgba(73, 60, 42, 0.1);
 }
 
 .search-clear {
@@ -103,7 +120,9 @@
   background: rgba(155, 138, 112, 0.14);
   color: #7a6a5c;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .search-clear:hover {
@@ -142,7 +161,9 @@
   border-bottom: 1px solid rgba(155, 138, 112, 0.08);
 }
 
-.suggestion-item:last-child { border-bottom: none; }
+.suggestion-item:last-child {
+  border-bottom: none;
+}
 
 .suggestion-item:hover {
   background: rgba(177, 90, 43, 0.06);
@@ -198,7 +219,11 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s,
+    box-shadow 0.15s;
   white-space: nowrap;
 }
 
@@ -238,7 +263,9 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
   margin-top: 2px;
 }
 
@@ -291,7 +318,10 @@
   overflow: hidden;
   background: rgba(255, 250, 244, 0.92);
   cursor: pointer;
-  transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+  transition:
+    border-color 0.18s,
+    box-shadow 0.18s,
+    transform 0.18s;
   box-shadow: 0 2px 8px rgba(73, 60, 42, 0.06);
 }
 
@@ -506,8 +536,13 @@
 }
 
 @keyframes skeleton-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.55; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
 }
 
 .skeleton-img {
@@ -518,8 +553,12 @@
 }
 
 @keyframes skeleton-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .skeleton-body {
@@ -537,10 +576,19 @@
   animation: skeleton-shimmer 1.6s linear infinite;
 }
 
-.skeleton-line.w40 { width: 40%; }
-.skeleton-line.w60 { width: 60%; height: 18px; }
-.skeleton-line.w80 { width: 80%; }
-.skeleton-line.w90 { width: 90%; }
+.skeleton-line.w40 {
+  width: 40%;
+}
+.skeleton-line.w60 {
+  width: 60%;
+  height: 18px;
+}
+.skeleton-line.w80 {
+  width: 80%;
+}
+.skeleton-line.w90 {
+  width: 90%;
+}
 
 /* ── Pagination ─────────────────────────── */
 .pagination {
@@ -553,6 +601,16 @@
   border-top: 1px solid rgba(155, 138, 112, 0.14);
 }
 
+.pagination-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -20px;
+  padding-top: 24px;
+  gap: 8px;
+  border-top: 1px solid rgba(155, 138, 112, 0.14);
+}
+
 .page-btn {
   padding: 8px 18px;
   border-radius: 10px;
@@ -562,7 +620,10 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s;
 }
 
 .page-btn:hover:not(:disabled) {
@@ -595,7 +656,10 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s;
 }
 
 .page-num:hover {

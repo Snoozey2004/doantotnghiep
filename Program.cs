@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApplication1.Application.Interfaces.Repositories;
@@ -11,6 +10,10 @@ using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Enums;
 using WebApplication1.Infrastructure.Data;
 using WebApplication1.Infrastructure.Repositories;
+using WebApplication1.Repositories;
+using WebApplication1.Repositories.Interfaces;
+using WebApplication1.Services;
+using WebApplication1.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,9 +52,6 @@ builder.Services.AddAuthorization(options =>
 
     options.AddPolicy("EditorPolicy", policy =>
         policy.RequireRole("0", "1"));
-
-    options.AddPolicy("SellerPolicy", policy =>
-        policy.RequireRole("0", "1", "2"));
 });
 
 builder.Services.AddCors(options =>
@@ -79,6 +79,7 @@ builder.Services.AddScoped<IMediaItemRepository, MediaItemRepository>();
 builder.Services.AddScoped<ISearchRepository, SearchRepository>();
 builder.Services.AddScoped<IUIBlockRepository, UIBlockRepository>();
 builder.Services.AddScoped<IAnalyticsRepository, AnalyticsRepository>();
+builder.Services.AddScoped<IProductInfographicRepository, ProductInfographicRepository>();
 builder.Services.AddScoped<IProvinceService, ProvinceService>();
 builder.Services.AddScoped<ILandingPageConfigService, LandingPageConfigService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -94,6 +95,7 @@ builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 builder.Services.AddScoped<IEmailNotificationService, EmailNotificationService>();
 builder.Services.AddScoped<IHtmlSanitizationService, HtmlSanitizationService>();
+builder.Services.AddScoped<IProductInfographicService, ProductInfographicService>();
 builder.Services.AddSingleton<IRichTextConfigService, RichTextConfigService>();
 
 var app = builder.Build();

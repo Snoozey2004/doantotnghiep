@@ -22,6 +22,96 @@ namespace WebApplication1.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("InfographicBlock", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("BlockType")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DataJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsVisible")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("LayoutType")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("ProductInfographicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductInfographicId", "SortOrder");
+
+                    b.ToTable("InfographicBlocks");
+                });
+
+            modelBuilder.Entity("ProductGallery", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductGalleries");
+                });
+
+            modelBuilder.Entity("ProductInfographic", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("PublishedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique();
+
+                    b.ToTable("ProductInfographics");
+                });
+
             modelBuilder.Entity("WebApplication1.Domain.Entities.AnalyticsEvent", b =>
                 {
                     b.Property<Guid>("Id")
@@ -300,27 +390,34 @@ namespace WebApplication1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsFeatured")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("ProvinceId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Stock")
-                        .HasColumnType("integer");
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("VideoUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -463,7 +560,7 @@ namespace WebApplication1.Migrations
                     b.Property<int>("Role")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasDefaultValue(3);
+                        .HasDefaultValue(2);
 
                     b.HasKey("Id");
 
@@ -471,6 +568,39 @@ namespace WebApplication1.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("InfographicBlock", b =>
+                {
+                    b.HasOne("ProductInfographic", "ProductInfographic")
+                        .WithMany("Blocks")
+                        .HasForeignKey("ProductInfographicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProductInfographic");
+                });
+
+            modelBuilder.Entity("ProductGallery", b =>
+                {
+                    b.HasOne("WebApplication1.Domain.Entities.Product", "Product")
+                        .WithMany("Galleries")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ProductInfographic", b =>
+                {
+                    b.HasOne("WebApplication1.Domain.Entities.Product", "Product")
+                        .WithOne("Infographic")
+                        .HasForeignKey("ProductInfographic", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.AnalyticsEvent", b =>
@@ -575,6 +705,11 @@ namespace WebApplication1.Migrations
                     b.Navigation("LandingPageConfig");
                 });
 
+            modelBuilder.Entity("ProductInfographic", b =>
+                {
+                    b.Navigation("Blocks");
+                });
+
             modelBuilder.Entity("WebApplication1.Domain.Entities.LandingPageConfig", b =>
                 {
                     b.Navigation("Blocks");
@@ -587,6 +722,10 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.Product", b =>
                 {
+                    b.Navigation("Galleries");
+
+                    b.Navigation("Infographic");
+
                     b.Navigation("OrderItems");
                 });
 

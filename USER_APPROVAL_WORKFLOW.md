@@ -10,7 +10,7 @@ The user approval workflow ensures that Editor accounts are reviewed and approve
 ### 1. **Registration with Approval Status**
 - **Location**: `/register`
 - **Behavior**:
-  - Customers & Sellers: Automatically approved on registration
+  - Customers: Automatically approved on registration
   - Editors: Created with `IsApproved = false`, must wait for Admin approval
   - Success message shows approval status for Editors
 
@@ -30,7 +30,7 @@ The user approval workflow ensures that Editor accounts are reviewed and approve
 	- Pending users (orange)
 	- Admin/Editor count
   - Filter by approval status: "Đã phê duyệt" / "Chờ phê duyệt"
-  - Filter by role: Admin, Editor, Seller, Customer
+  - Filter by role: Admin, Editor, Customer
   - Status badge on each user row
   - **NEW**: Approve/Reject buttons for pending users
 
@@ -69,7 +69,7 @@ The user approval workflow ensures that Editor accounts are reviewed and approve
 User fills Register Form
 	↓
 [Select Role]
-	├─→ Customer/Seller → IsApproved = true → Auto-approved ✅
+	├─→ Customer → IsApproved = true → Auto-approved ✅
 	└─→ Editor → IsApproved = false → Needs approval ⏳
 		↓
 	Success message shown
@@ -229,7 +229,6 @@ Response:
 |------|-----------------|--------------------------|-------------------|
 | Admin | true | - | - |
 | Editor | false | ❌ No | ✅ Yes |
-| Seller | true | ✅ Yes | ❌ No |
 | Customer | true | ✅ Yes | ❌ No |
 
 ---

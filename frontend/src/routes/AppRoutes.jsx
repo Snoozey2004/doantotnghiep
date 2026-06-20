@@ -1,4 +1,7 @@
-﻿import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+
+import ProductInfographicPage from "../pages/ProductInfographicPage.jsx";
+import ProvinceProductsPage from "../pages/ProvinceProductsPage.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import ProvinceLandingPage from "../pages/ProvinceLandingPage.jsx";
 import PostDetailPage from "../pages/PostDetailPage.jsx";
@@ -31,6 +34,9 @@ import EditorAnalytics from "../pages/EditorAnalytics.jsx";
 import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
 import RequireAuth from "./RequireAuth.jsx";
 
+import TestInfographicForm from "../infographic/editor/TestInfographicForm.jsx";
+import TestEditorPage from "../infographic/editor/TestEditorPage.jsx";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -41,6 +47,17 @@ export default function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/account" element={<AccountPage />} />
+
+      <Route
+        path="/province/:slug/dac-san"
+        element={<ProvinceProductsPage />}
+      />
+      <Route
+        path="/province/:provinceSlug/dac-san/:productSlug"
+        element={<ProductInfographicPage />}
+      />
+      <Route path="/test-infographic" element={<TestInfographicForm />} />
+      <Route path="/test-editor" element={<TestEditorPage />} />
 
       {/* Editor routes - Editor (1) only */}
       <Route

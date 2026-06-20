@@ -22,7 +22,6 @@ Form:
   - Email
   - Role Dropdown (with descriptions)
 	- "Editor (cần admin duyệt)"  ← Shows requirement
-	- "Seller"
 	- "Customer"
   - Password
   - [Register Button]
@@ -95,7 +94,6 @@ BEFORE:
   • All          • All
   • Admin        • Approved
   • Editor       • Pending
-  • Seller
   • Customer
 
 AFTER (Same, better usage now) ✓
@@ -108,8 +106,8 @@ BEFORE:
 │ Tên         │ Email        │ Role    │ Trạng    │ Hành động        │
 │             │              │         │ thái     │                  │
 ├─────────────┼──────────────┼─────────┼──────────┼──────────────────┤
-│ John Doe    │ john@...     │ Editor  │ Chờ ✓   │ [Sửa] [Xóa]     │
-│ Jane Smith  │ jane@...     │ Seller  │ Đã ✓    │ [Sửa] [Xóa]     │
+│ John Doe    │ john@...     │ Editor  │ Chờ ✓    │ [Sửa] [Xóa]     │
+│ Jane Smith  │ jane@...     │ Customer│ Đã ✓     │ [Sửa] [Xóa]     │
 └─────────────┴──────────────┴─────────┴──────────┴──────────────────┘
 
 AFTER ✨
@@ -118,7 +116,7 @@ AFTER ✨
 │             │              │         │ thái     │                                         │
 ├─────────────┼──────────────┼─────────┼──────────┼─────────────────────────────────────────┤
 │ John Doe    │ john@...     │ Editor  │ Chờ ⏳  │ [✓ Phê duyệt] [✕ Từ chối] [Sửa] [Xóa]│
-│ Jane Smith  │ jane@...     │ Seller  │ Đã ✓    │ [Sửa] [Xóa]                             │
+│ Jane Smith  │ jane@...     │ Customer│ Đã ✓    │ [Sửa] [Xóa]                             │
 └─────────────┴──────────────┴─────────┴──────────┴─────────────────────────────────────────┘
 
 NEW BUTTONS:
@@ -142,7 +140,7 @@ Unapproved User Row:
 
 Approved User Row:
 ┌────────────────────────────────────────────────────────────┐
-│ Jane Smith | jane@... | Seller | Đã ✓                     │
+│ Jane Smith | jane@... | Editor | Đã ✓                     │
 │ Actions:                                                    │
 │                      ┌──────┐  ┌──────┐                    │
 │                      │ Sửa  │  │ Xóa  │                    │
