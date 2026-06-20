@@ -95,25 +95,25 @@ const provinces = [
         image: "/Images/Landingpagehanoi/pexels-soc-nang-d-ng-2150345854-36204083.jpg",
         icon: "🍮",
       },
-      {
-        slug: "cha-ca-la-vong",
-        name: "Chả Cá Lã Vọng",
-        description:
-          "Cá lăng nướng nghệ thì là trên bếp than, ăn kèm bún và mắm tôm – món ăn trứ danh từ thế kỷ XIX.",
-        origin: "Phố Chả Cá",
-        image: "/Images/Landingpagehanoi/pexels-nguyendesigner-14192638.jpg",
-        icon: "🐟",
-      },
-      {
-        slug: "ca-phe-trung",
-        name: "Cà Phê Trứng",
-        description:
-          "Sáng tạo độc đáo của Hà Nội: cà phê robusta đậm đặc pha cùng lòng đỏ trứng đánh bông, béo ngậy và thơm nồng.",
-        origin: "Phố Đinh Tiên Hoàng",
-        image:
-          "/Images/Landingpagehanoi/pexels-soc-nang-d-ng-2150345854-35775552.jpg",
-        icon: "☕",
-      },
+      // {
+      //   slug: "cha-ca-la-vong",
+      //   name: "Chả Cá Lã Vọng",
+      //   description:
+      //     "Cá lăng nướng nghệ thì là trên bếp than, ăn kèm bún và mắm tôm – món ăn trứ danh từ thế kỷ XIX.",
+      //   origin: "Phố Chả Cá",
+      //   image: "/Images/Landingpagehanoi/pexels-nguyendesigner-14192638.jpg",
+      //   icon: "🐟",
+      // },
+      // {
+      //   slug: "ca-phe-trung",
+      //   name: "Cà Phê Trứng",
+      //   description:
+      //     "Sáng tạo độc đáo của Hà Nội: cà phê robusta đậm đặc pha cùng lòng đỏ trứng đánh bông, béo ngậy và thơm nồng.",
+      //   origin: "Phố Đinh Tiên Hoàng",
+      //   image:
+      //     "/Images/Landingpagehanoi/pexels-soc-nang-d-ng-2150345854-35775552.jpg",
+      //   icon: "☕",
+      // },
     ],
     tourism: [
       {
@@ -7341,9 +7341,9 @@ const provincesWithSpecialtySlugs = provinces.map((province) => ({
   ...province,
   specialties: Array.isArray(province.specialties)
     ? province.specialties.map((specialty) => ({
-        ...specialty,
-        slug: slugify(specialty.name),
-      }))
+      ...specialty,
+      slug: slugify(specialty.name),
+    }))
     : province.specialties,
 }));
 
