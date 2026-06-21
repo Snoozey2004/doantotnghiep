@@ -45,6 +45,153 @@ const DEFAULT_COLORS = {
 
 const EMPTY_COLORS = Object.fromEntries(SECTIONS.map((s) => [s.key, "#ffffff"]));
 
+const FONTS = [
+  { value: "'Inter', sans-serif",          label: "Inter",             desc: "Hiện đại & sắc nét",    category: "sans" },
+  { value: "'Poppins', sans-serif",        label: "Poppins",           desc: "Tròn trịa & trẻ trung", category: "sans" },
+  { value: "'DM Sans', sans-serif",        label: "DM Sans",           desc: "Tối giản hiện đại",     category: "sans" },
+  { value: "'Nunito', sans-serif",         label: "Nunito",            desc: "Thân thiện & dễ đọc",   category: "sans" },
+  { value: "'Open Sans', sans-serif",      label: "Open Sans",         desc: "Phổ biến & dễ đọc",     category: "sans" },
+  { value: "'Quicksand', sans-serif",      label: "Quicksand",         desc: "Nhẹ nhàng & tươi trẻ",  category: "sans" },
+  { value: "'Roboto', sans-serif",         label: "Roboto",            desc: "Phổ thông",             category: "sans" },
+  { value: "'Montserrat', sans-serif",     label: "Montserrat",        desc: "Thanh lịch & sang",     category: "display" },
+  { value: "'Raleway', sans-serif",        label: "Raleway",           desc: "Tinh tế & cao cấp",     category: "display" },
+  { value: "'Josefin Sans', sans-serif",   label: "Josefin Sans",      desc: "Hình học & nghệ thuật", category: "display" },
+  { value: "'Outfit', sans-serif",         label: "Outfit",            desc: "Hiện đại & năng động",  category: "display" },
+  { value: "'Oswald', sans-serif",         label: "Oswald",            desc: "Đậm nét & mạnh mẽ",     category: "display" },
+  { value: "'Lora', serif",               label: "Lora",              desc: "Cổ điển & ấm áp",       category: "serif" },
+  { value: "'Playfair Display', serif",    label: "Playfair Display",  desc: "Sang trọng & biên tập", category: "serif" },
+  { value: "'Merriweather', serif",        label: "Merriweather",      desc: "Dễ đọc & chuyên nghiệp",category: "serif" },
+  { value: "'Crimson Text', serif",        label: "Crimson Text",      desc: "Văn học & tinh tế",     category: "serif" },
+  { value: "'Cormorant Garamond', serif",  label: "Cormorant Garamond",desc: "Xuất bản & cao cấp",    category: "serif" },
+  { value: "'Be Vietnam Pro', sans-serif", label: "Be Vietnam Pro",    desc: "Tối ưu tiếng Việt",     category: "viet" },
+];
+
+const FONT_GROUPS = [
+  { key: "sans",    label: "Sans-serif Hiện đại",  color: "#6366f1", bg: "#eef2ff" },
+  { key: "display", label: "Display & Thanh lịch", color: "#0891b2", bg: "#e0f2fe" },
+  { key: "serif",   label: "Serif Cổ điển",        color: "#b45309", bg: "#fef3c7" },
+  { key: "viet",    label: "Tối ưu Tiếng Việt",    color: "#16a34a", bg: "#dcfce7" },
+];
+
+function FontPicker({ value, onChange }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) setIsOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [isOpen]);
+
+  const current = FONTS.find((f) => f.value === value) || null;
+
+  return (
+    <div ref={containerRef} style={{ position: "relative", marginBottom: "10px" }}>
+      {/* Trigger */}
+      <div
+        onClick={() => setIsOpen((o) => !o)}
+        style={{
+          display: "flex", alignItems: "center", gap: "10px",
+          padding: "10px 13px", borderRadius: "10px", cursor: "pointer",
+          border: `1.5px solid ${isOpen ? "#6366f1" : "#e5e0d8"}`,
+          background: isOpen ? "#fafafe" : "#faf8f5",
+          boxShadow: isOpen ? "0 0 0 3px rgba(99,102,241,0.1)" : "none",
+          transition: "all 0.15s",
+        }}
+      >
+        {current ? (
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: current.value, fontSize: "1rem", fontWeight: 600, color: "#1a1a1a", lineHeight: 1.2 }}>
+              {current.label}
+            </div>
+            <div style={{ fontSize: "0.64rem", color: "#6366f1", marginTop: "2px" }}>{current.desc}</div>
+          </div>
+        ) : (
+          <div style={{ flex: 1, fontSize: "0.87rem", color: "#9ca3af", fontWeight: 500 }}>Mặc định hệ thống</div>
+        )}
+        <span style={{
+          fontSize: "0.7rem", color: "#94a3b8", flexShrink: 0,
+          transform: isOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s",
+        }}>▾</span>
+      </div>
+
+      {/* Dropdown panel */}
+      {isOpen && (
+        <div style={{
+          position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 300,
+          background: "#fff", border: "1.5px solid #e8e2d9", borderRadius: "14px",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.18)", overflow: "hidden",
+          maxHeight: "320px", overflowY: "auto",
+        }}>
+          {/* Default */}
+          <div
+            onClick={() => { onChange(""); setIsOpen(false); }}
+            style={{
+              padding: "10px 14px", cursor: "pointer", display: "flex",
+              alignItems: "center", justifyContent: "space-between",
+              background: !value ? "#f5f3ff" : "#fff", borderBottom: "1px solid #f0ebe3",
+            }}
+            onMouseEnter={(e) => { if (value) e.currentTarget.style.background = "#faf8f5"; }}
+            onMouseLeave={(e) => { if (value) e.currentTarget.style.background = "#fff"; }}
+          >
+            <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#374151" }}>Mặc định hệ thống</span>
+            {!value && <span style={{ width: 18, height: 18, borderRadius: "50%", background: "#6366f1", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.6rem", color: "#fff", fontWeight: 700 }}>✓</span>}
+          </div>
+
+          {FONT_GROUPS.map((group) => (
+            <div key={group.key}>
+              <div style={{
+                padding: "6px 14px 5px", fontSize: "0.58rem", fontWeight: 800,
+                color: group.color, background: group.bg,
+                textTransform: "uppercase", letterSpacing: "0.12em",
+                borderBottom: `1px solid ${group.color}22`,
+              }}>
+                {group.label}
+              </div>
+              {FONTS.filter((f) => f.category === group.key).map((font) => {
+                const sel = value === font.value;
+                return (
+                  <div
+                    key={font.value}
+                    onClick={() => { onChange(font.value); setIsOpen(false); }}
+                    style={{
+                      padding: "9px 14px", cursor: "pointer",
+                      background: sel ? "#f5f3ff" : "#fff",
+                      borderBottom: "1px solid #f9f9f9",
+                      display: "flex", alignItems: "center", gap: "10px",
+                      transition: "background 0.1s",
+                    }}
+                    onMouseEnter={(e) => { if (!sel) e.currentTarget.style.background = "#faf8f5"; }}
+                    onMouseLeave={(e) => { if (!sel) e.currentTarget.style.background = sel ? "#f5f3ff" : "#fff"; }}
+                  >
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontFamily: font.value, fontSize: "1rem", fontWeight: 600, color: "#1a1a1a", lineHeight: 1.25 }}>
+                        {font.label}
+                      </div>
+                      <div style={{ fontSize: "0.6rem", color: "#b0a99e", marginTop: "1px" }}>{font.desc}</div>
+                    </div>
+                    <div style={{ fontFamily: font.value, fontSize: "0.75rem", color: sel ? "#6366f1" : "#d0c8c0", fontStyle: "italic", flexShrink: 0 }}>
+                      Khám phá
+                    </div>
+                    {sel && (
+                      <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#6366f1", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <span style={{ color: "#fff", fontSize: "0.6rem", fontWeight: 700 }}>✓</span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function EditorDashboard() {
   const [provinces, setProvinces] = useState([]);
   const [configs, setConfigs] = useState({});
@@ -55,6 +202,7 @@ export default function EditorDashboard() {
   const [expanded, setExpanded] = useState({});
   const [saving, setSaving] = useState({});
   const [saved, setSaved] = useState({});
+  const [saveError, setSaveError] = useState({});
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [regionFilter, setRegionFilter] = useState("");
@@ -203,9 +351,13 @@ export default function EditorDashboard() {
       }
       setConfigs((prev) => ({ ...prev, [province.id]: updated }));
       setSaved((prev) => ({ ...prev, [province.id]: true }));
+      setSaveError((prev) => ({ ...prev, [province.id]: null }));
       setTimeout(() => setSaved((prev) => ({ ...prev, [province.id]: false })), 2500);
       return true;
-    } catch {
+    } catch (err) {
+      const msg = err?.response?.data?.message || err?.response?.status || err?.message || "Lỗi không xác định";
+      setSaveError((prev) => ({ ...prev, [province.id]: String(msg) }));
+      setTimeout(() => setSaveError((prev) => ({ ...prev, [province.id]: null })), 5000);
       return false;
     } finally {
       setSaving((prev) => ({ ...prev, [province.id]: false }));
@@ -330,6 +482,7 @@ export default function EditorDashboard() {
             const isOpen = expanded[province.id] || false;
             const isSaving = saving[province.id];
             const isSaved = saved[province.id];
+            const isError = saveError[province.id];
             const colors = sectionColors[province.id] || {};
             const settings = configSettings[province.id] || {};
             const order = sectionOrders[province.id] || SECTIONS.map((s) => s.key);
@@ -365,7 +518,7 @@ export default function EditorDashboard() {
                   <div style={{ display: "flex", alignItems: "center", gap: "14px", minWidth: 0 }}>
                     {/* Color preview dots */}
                     <div style={{ display: "flex", gap: "3px", flexShrink: 0 }}>
-                      {SECTIONS.slice(0, 8).map((s) => (
+                      {SECTIONS.map((s) => (
                         <div key={s.key} title={s.label} style={{ width: "10px", height: "10px", borderRadius: "2px", background: colors[s.key] || "#e8e2d9", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
                       ))}
                     </div>
@@ -439,27 +592,62 @@ export default function EditorDashboard() {
                         {/* Font chữ */}
                         <div style={{ background: "#fff", border: "1px solid #e8e2d9", borderLeft: "3px solid #6366f1", borderRadius: "10px", padding: "14px 16px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
                           <div style={{ fontSize: "0.7rem", fontWeight: 700, color: "#6366f1", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "0.08em" }}>Font chữ</div>
-                          <select value={settings.fontFamily || ""} onChange={(e) => handleSettingChange(province.id, "fontFamily", e.target.value)} style={{ width: "100%", padding: "8px 10px", borderRadius: "7px", border: "1px solid #e5e0d8", fontSize: "0.85rem", background: "#faf8f5", cursor: "pointer", color: "#333", marginBottom: "10px" }}>
-                            <option value="">Mặc định hệ thống</option>
-                            <option value="'Inter', sans-serif">Inter – Hiện đại</option>
-                            <option value="'Roboto', sans-serif">Roboto – Phổ thông</option>
-                            <option value="'Montserrat', sans-serif">Montserrat – Thanh lịch</option>
-                            <option value="'Lora', serif">Lora – Cổ điển</option>
-                            <option value="'Playfair Display', serif">Playfair Display – Sang trọng</option>
-                            <option value="'Be Vietnam Pro', sans-serif">Be Vietnam Pro – Việt hóa</option>
-                          </select>
+                          <FontPicker
+                            value={settings.fontFamily || ""}
+                            onChange={(v) => handleSettingChange(province.id, "fontFamily", v)}
+                          />
                           <div style={{ padding: "8px 12px", borderRadius: "7px", background: "#faf8f5", border: "1px solid #f0ebe3", fontFamily: settings.fontFamily || "inherit", fontSize: "0.95rem", color: "#3d3530", lineHeight: 1.5, minHeight: "36px", display: "flex", alignItems: "center" }}>
-                            {settings.fontFamily ? `Chào mừng đến ${province.name}` : <span style={{ color: "#ccc", fontSize: "0.78rem", fontStyle: "italic" }}>Chọn font để xem trước…</span>}
+                            {`Chào mừng đến ${province.name}`}
                           </div>
                         </div>
 
                         {/* Hình nền */}
                         <div style={{ background: "#fff", border: "1px solid #e8e2d9", borderLeft: "3px solid #0891b2", borderRadius: "10px", padding: "14px 16px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
                           <div style={{ fontSize: "0.7rem", fontWeight: 700, color: "#0891b2", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "0.08em" }}>Hình nền trang</div>
-                          <input type="text" placeholder="/Images/... hoặc https://..." value={settings.backgroundUrl || ""} onChange={(e) => handleSettingChange(province.id, "backgroundUrl", e.target.value)} style={{ width: "100%", padding: "8px 10px", borderRadius: "7px", border: "1px solid #e5e0d8", fontSize: "0.82rem", background: "#faf8f5", boxSizing: "border-box", color: "#333", marginBottom: "8px" }} />
-                          <div style={{ height: "56px", borderRadius: "7px", border: "1px solid #e5e0d8", overflow: "hidden", background: "#f5f0ea", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            {settings.backgroundUrl ? <img src={settings.backgroundUrl} alt="preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={(e) => { e.currentTarget.style.display = "none"; }} /> : <span style={{ fontSize: "0.73rem", color: "#ccc" }}>Dùng làm ảnh hero khi chưa có media</span>}
-                          </div>
+                          <input type="file" accept="image/*" id={`bg-${province.id}`} style={{ display: "none" }}
+                            onChange={async (e) => {
+                              const file = e.target.files[0];
+                              if (!file) return;
+                              e.target.value = "";
+                              const form = new FormData();
+                              form.append("file", file);
+                              form.append("folder", "backgrounds");
+                              try {
+                                const token = localStorage.getItem("accessToken");
+                                const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5134"}/api/uploads`, {
+                                  method: "POST",
+                                  headers: { Authorization: `Bearer ${token}` },
+                                  body: form,
+                                });
+                                if (!res.ok) throw new Error("Upload failed");
+                                const data = await res.json();
+                                handleSettingChange(province.id, "backgroundUrl", data.url);
+                              } catch {
+                                alert("Upload ảnh thất bại, vui lòng thử lại.");
+                              }
+                            }}
+                          />
+                          {settings.backgroundUrl ? (
+                            <div style={{ position: "relative", borderRadius: "8px", overflow: "hidden" }}>
+                              <div style={{ height: "84px", background: "#f5f0ea" }}>
+                                <img src={settings.backgroundUrl} alt="preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={(e) => { e.currentTarget.style.display = "none"; }} />
+                              </div>
+                              <div style={{ position: "absolute", top: "6px", right: "6px", display: "flex", gap: "5px" }}>
+                                <label htmlFor={`bg-${province.id}`} style={{ padding: "4px 10px", borderRadius: "6px", background: "rgba(0,0,0,0.55)", backdropFilter: "blur(4px)", color: "#fff", fontSize: "0.7rem", fontWeight: 600, cursor: "pointer" }}>🔄 Đổi</label>
+                                <button onClick={() => handleSettingChange(province.id, "backgroundUrl", "")} style={{ padding: "4px 10px", borderRadius: "6px", background: "rgba(225,29,72,0.82)", color: "#fff", border: "none", fontSize: "0.7rem", fontWeight: 600, cursor: "pointer" }}>✕ Xóa</button>
+                              </div>
+                            </div>
+                          ) : (
+                            <label htmlFor={`bg-${province.id}`}
+                              style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "5px", height: "84px", borderRadius: "8px", border: "2px dashed #c4bfbb", background: "#faf8f5", cursor: "pointer", transition: "all 0.15s" }}
+                              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#0891b2"; e.currentTarget.style.background = "#f0fdfe"; }}
+                              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#c4bfbb"; e.currentTarget.style.background = "#faf8f5"; }}
+                            >
+                              <span style={{ fontSize: "1.5rem" }}>🖼️</span>
+                              <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#0891b2" }}>Click để chọn ảnh</span>
+                              <span style={{ fontSize: "0.63rem", color: "#b0a99e" }}>JPG · PNG · WebP</span>
+                            </label>
+                          )}
                         </div>
 
                         {/* Bố cục */}
@@ -491,7 +679,10 @@ export default function EditorDashboard() {
                         <div style={{ width: "3px", height: "16px", borderRadius: "2px", background: "linear-gradient(to bottom, #7c3aed, #a78bfa)", flexShrink: 0 }} />
                         <span style={{ fontSize: "0.72rem", fontWeight: 700, color: "#7c6a58", letterSpacing: "0.1em", textTransform: "uppercase" }}>Thứ tự hiển thị section</span>
                         <div style={{ flex: 1, height: "1px", background: "#ede8e0" }} />
-                        <button onClick={() => setSectionOrders((prev) => ({ ...prev, [province.id]: SECTIONS.map((s) => s.key) }))} style={{ fontSize: "0.72rem", color: "#999", background: "none", border: "none", cursor: "pointer", padding: "2px 6px" }}>↺ Reset</button>
+                        <button onClick={() => {
+                          setSectionOrders((prev) => ({ ...prev, [province.id]: SECTIONS.map((s) => s.key) }));
+                          setSectionVisibility((prev) => ({ ...prev, [province.id]: Object.fromEntries(SECTIONS.map((s) => [s.key, true])) }));
+                        }} style={{ fontSize: "0.72rem", color: "#999", background: "none", border: "none", cursor: "pointer", padding: "2px 6px" }}>↺ Reset</button>
                       </div>
                       <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
                         {order.map((key, idx) => {
@@ -656,6 +847,13 @@ export default function EditorDashboard() {
                         );
                       })}
                     </div>
+
+                    {/* ── Save error ── */}
+                    {isError && (
+                      <div style={{ padding: "8px 12px", borderRadius: "8px", background: "#fef2f2", border: "1px solid #fecaca", color: "#dc2626", fontSize: "0.82rem", marginBottom: "8px" }}>
+                        ⚠ Lưu thất bại: {isError}
+                      </div>
+                    )}
 
                     {/* ── Action buttons ── */}
                     <div style={{ display: "flex", gap: "10px", paddingTop: "4px", borderTop: "1px solid #ede8e0", marginTop: "4px" }}>

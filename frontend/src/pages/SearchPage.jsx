@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import searchApi from '../api/searchApi';
+import { landingConfigApi } from '../api/landingConfigApi';
 import localProvinces from '../data/provinceData';
 import '../styles/search.css';
 
@@ -128,6 +129,7 @@ const SearchPage = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1);
   const inputRef = useRef(null);
+  const [bgMap, setBgMap] = useState({});
 
   const [filters, setFilters] = useState({
     region: searchParams.get('region') || '',
@@ -143,6 +145,16 @@ const SearchPage = () => {
     filters.mediaType,
     filters.tags
   ].filter(Boolean).length;
+
+  useEffect(() => {
+    landingConfigApi.getBackgrounds()
+      .then((list) => {
+        const map = {};
+        (list || []).forEach((item) => { if (item.slug && item.backgroundUrl) map[item.slug] = item.backgroundUrl; });
+        setBgMap(map);
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (isComposing) return;
@@ -176,7 +188,7 @@ const SearchPage = () => {
       const allLocal = buildLocalProvinceResults(filters);
       const pageSize = 10;
       const start = (currentPage - 1) * pageSize;
-      setResults(allLocal.slice(start, start + pageSize));
+      setResults(allLocal.slice(start, start + pageSize).map(r => ({ ...r, imageUrl: bgMap[r.slug] || r.imageUrl })));
       setTotalCount(allLocal.length);
       setShowSuggestions(false);
       setLoading(false);
@@ -188,7 +200,7 @@ const SearchPage = () => {
       const allLocal = buildLocalProvinceResults(filters, trimmedKeyword);
       const pageSize = 10;
       const start = (currentPage - 1) * pageSize;
-      setResults(allLocal.slice(start, start + pageSize));
+      setResults(allLocal.slice(start, start + pageSize).map(r => ({ ...r, imageUrl: bgMap[r.slug] || r.imageUrl })));
       setTotalCount(allLocal.length);
       setShowSuggestions(false);
       setLoading(false);
@@ -230,7 +242,7 @@ const SearchPage = () => {
     }, 350);
 
     return () => clearTimeout(timer);
-  }, [keyword, filters, currentPage, setSearchParams, isComposing]);
+  }, [keyword, filters, currentPage, setSearchParams, isComposing, bgMap]);
 
   const handleSuggestionClick = (suggestion) => {
     setKeyword(suggestion);
