@@ -39,6 +39,17 @@ public class LandingPageConfigRepository : ILandingPageConfigRepository
             .FirstOrDefaultAsync(c => c.Province != null && c.Province.Slug == slug, cancellationToken);
     }
 
+    public async Task<IEnumerable<(string Slug, string BackgroundUrl)>> GetAllBackgroundsAsync(CancellationToken cancellationToken)
+    {
+        var rows = await _dbContext.LandingPageConfigs
+            .Where(c => c.Province != null && !string.IsNullOrEmpty(c.BackgroundUrl))
+            .Include(c => c.Province)
+            .AsNoTracking()
+            .Select(c => new { c.Province!.Slug, c.BackgroundUrl })
+            .ToListAsync(cancellationToken);
+        return rows.Select(x => (x.Slug, x.BackgroundUrl));
+    }
+
     public async Task AddAsync(LandingPageConfig config, CancellationToken cancellationToken)
     {
         _dbContext.LandingPageConfigs.Add(config);

@@ -37,6 +37,13 @@ public class LandingPageConfigsController : ControllerBase
         return config is null ? NotFound() : Ok(config);
     }
 
+    [HttpGet("backgrounds")]
+    public async Task<IActionResult> GetAllBackgrounds(CancellationToken cancellationToken)
+    {
+        var backgrounds = await _configService.GetAllBackgroundsAsync(cancellationToken);
+        return Ok(backgrounds);
+    }
+
     [HttpPost]
     [Authorize(Roles = "0,Admin,1,Editor")]
     public async Task<ActionResult<LandingPageConfigDto>> Create([FromBody] LandingPageConfigCreateDto dto, CancellationToken cancellationToken)

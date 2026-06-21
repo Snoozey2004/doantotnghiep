@@ -81,6 +81,12 @@ public class LandingPageConfigService : ILandingPageConfigService
         return config is null ? null : ToDto(config);
     }
 
+    public async Task<IEnumerable<ProvinceBackgroundDto>> GetAllBackgroundsAsync(CancellationToken cancellationToken)
+    {
+        var pairs = await _configRepository.GetAllBackgroundsAsync(cancellationToken);
+        return pairs.Select(p => new ProvinceBackgroundDto(p.Slug, p.BackgroundUrl));
+    }
+
     public async Task<LandingPageConfigDto> CreateAsync(LandingPageConfigCreateDto dto, CancellationToken cancellationToken)
     {
         var province = await _provinceRepository.GetByIdAsync(dto.ProvinceId, cancellationToken);

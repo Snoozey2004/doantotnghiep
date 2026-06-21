@@ -59,6 +59,7 @@ export default function ProvinceSpecialties({ province, bgColor }) {
                   <Link
                     to={`/province/${province.slug}/dac-san/${item.slug}`}
                     className="province-food-detail-link"
+                    onClick={(e) => { e.stopPropagation(); handleSpecialtyClick(item); }}
                   >
                     Xem chi tiết →
                   </Link>

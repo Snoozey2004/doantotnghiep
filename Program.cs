@@ -58,7 +58,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins("http://localhost:5173", "http://localhost:5174", "https://localhost:5173", "https://localhost:5174")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -117,7 +117,12 @@ static async Task SeedSampleDataAsync(IServiceProvider services)
     await DataSeeder.SeedAsync(dbContext, CancellationToken.None);
 }
 
-app.UseHttpsRedirection();
+app.UseCors("Frontend");
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 // Add security headers middleware
 app.Use(async (context, next) =>
@@ -133,8 +138,6 @@ app.Use(async (context, next) =>
 });
 
 app.UseStaticFiles();
-
-app.UseCors("Frontend");
 
 app.UseAuthentication();
 

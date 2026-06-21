@@ -80,7 +80,7 @@ export default function ProvinceLandingPage() {
         setConfig(resolvedConfig);
 
         if (resolvedProvince?.id) {
-          const [postResult, productResult, mediaResult] = await Promise.all([
+          const [postResult, productResult, mediaResult] = await Promise.allSettled([
             postApi.getByProvince(resolvedProvince.id),
             productApi.getByProvince(resolvedProvince.id),
             mediaApi.getByProvince(resolvedProvince.id)
@@ -88,15 +88,12 @@ export default function ProvinceLandingPage() {
           if (!isMounted) {
             return;
           }
-          setPosts(postResult || []);
-          setProducts(productResult || []);
-          setMediaItems(mediaResult || []);
+          setPosts(postResult.status === "fulfilled" ? (postResult.value || []) : []);
+          setProducts(productResult.status === "fulfilled" ? (productResult.value || []) : []);
+          setMediaItems(mediaResult.status === "fulfilled" ? (mediaResult.value || []) : []);
         }
       } catch {
-        if (isMounted) {
-          setProvinceData(null);
-          setConfig(null);
-        }
+        // only reaches here if the primary allSettled itself throws (extremely rare)
       }
     };
 
@@ -298,7 +295,8 @@ export default function ProvinceLandingPage() {
     ? config.sectionOrder
     : ["hero","intro","video","charts","timeline","culture","specialties","craftVillages","festivals","gallery","info"];
   const sectionVisibility = config?.sectionVisibility || {};
-  const heroImage = featuredMedia.find((item) => item.mediaType === "hero")?.url
+  const heroImage = config?.backgroundUrl
+    || featuredMedia.find((item) => item.mediaType === "hero")?.url
     || province.heroImage;
   const introImage = featuredMedia.find((item) => item.mediaType === "intro")?.url
     || province.introImage;
@@ -365,7 +363,7 @@ export default function ProvinceLandingPage() {
     charts: layout !== "minimal" ? <ProvinceCharts key="charts" province={province} bgColor={sc.charts} /> : null,
     timeline: layout !== "minimal" ? <ProvinceTimeline key="timeline" province={province} bgColor={sc.timeline} /> : null,
     culture: <ProvinceCulture key="culture" province={province} bgColor={sc.culture} />,
-    specialties: <ProvinceSpecialties key="specialties" province={province} bgColor={sc.specialties} />,
+    specialties: <ProvinceSpecialties key="specialties" province={{ ...province, id: provinceData?.id }} bgColor={sc.specialties} />,
     craftVillages: <ProvinceCraftVillages key="craftVillages" province={province} bgColor={sc.craftVillages} />,
     festivals: <ProvinceFestivals key="festivals" province={province} bgColor={sc.festivals} />,
     gallery: <ProvinceGallery key="gallery" province={province} bgColor={sc.gallery} />,

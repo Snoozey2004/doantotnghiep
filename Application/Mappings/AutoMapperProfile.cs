@@ -33,7 +33,11 @@ public class AutoMapperProfile : Profile
         CreateMap<LandingPageConfigUpdateDto, LandingPageConfig>()
             .ForMember(dest => dest.SectionColorsJson, opt => opt.Ignore())
             .ForMember(dest => dest.SectionOrderJson, opt => opt.Ignore())
-            .ForMember(dest => dest.SectionVisibilityJson, opt => opt.Ignore());
+            .ForMember(dest => dest.SectionVisibilityJson, opt => opt.Ignore())
+            .ForMember(dest => dest.Blocks, opt => opt.Ignore())
+            .ForMember(dest => dest.Province, opt => opt.Ignore())
+            .ForMember(dest => dest.ProvinceId, opt => opt.Ignore())
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
 
         CreateMap<UIBlock, UIBlockDto>();
         CreateMap<UIBlockCreateDto, UIBlock>();
