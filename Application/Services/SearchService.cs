@@ -91,11 +91,10 @@ public class SearchService : ISearchService
             {
                 Id = p.Id,
                 Title = p.Name,
-                Description = p.Description,
                 ItemType = "Product",
                 Tags = string.Empty,
                 IsHighlighted = false,
-                RelevanceScore = CalculateRelevanceScore(p.Name, p.Description, string.Empty, filter.Keyword),
+                RelevanceScore = CalculateRelevanceScore(p.Name, p.Slug, string.Empty, filter.Keyword),
                 CreatedAt = DateTime.UtcNow
             }));
         }
