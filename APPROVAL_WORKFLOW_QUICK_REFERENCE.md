@@ -26,7 +26,7 @@
 ### ✅ Backend Features
 1. **Registration**
    - Editors: `IsApproved = false` by default
-   - Customers/Sellers: `IsApproved = true` by default
+   - Customers: `IsApproved = true` by default
    - Sends email about pending approval
 
 2. **Login Validation**
@@ -85,7 +85,7 @@ public bool IsApproved { get; set; } = true;
 ```
 
 Default value:
-- `true` for Admin, Customer, Seller roles
+- `true` for Admin, Customer roles
 - `false` for Editor role (set in registration logic)
 
 ---
@@ -122,7 +122,6 @@ userApi.reject(id)       // PUT /api/users/{id} with { isApproved: false }
 |-----------|----------|----------------|------------------|-------------------|
 | Admin | Manual | No | ✅ Yes | N/A |
 | Editor | Self | ✅ Yes | ✅ Yes (if approved) | ✅ Yes (if approved) |
-| Seller | Self | No | ❌ No | ✅ Yes |
 | Customer | Self | No | ❌ No | ❌ No |
 
 ---

@@ -10,7 +10,7 @@ A complete user approval workflow system that requires Admins to approve Editor 
 
 ### 1. Registration with Role-Based Approval
 - **Editors**: Created with `IsApproved = false` (require approval)
-- **Sellers & Customers**: Created with `IsApproved = true` (auto-approved)
+- **Customers**: Created with `IsApproved = true` (auto-approved)
 - Success message informs users of their approval status
 - Approval request email sent to pending Editors
 
@@ -131,7 +131,6 @@ A complete user approval workflow system that requires Admins to approve Editor 
 |-----------|--------------|-----------------|-----------|--------------|
 | Admin | Manual | No | ✅ | ✅ |
 | Editor | Self-Service | ✅ Yes | ❌ (until approved) | ✅ (when approved) |
-| Seller | Self-Service | No | ✅ | ❌ |
 | Customer | Self-Service | No | ✅ | ❌ |
 
 ---
@@ -148,7 +147,7 @@ A complete user approval workflow system that requires Admins to approve Editor 
 ## 📱 User Experience
 
 ### Registration Page Feedback
-- Auto-approval message for Customers/Sellers
+- Auto-approval message for Customers
 - Pending message for Editors
 - Clear next steps communicated
 

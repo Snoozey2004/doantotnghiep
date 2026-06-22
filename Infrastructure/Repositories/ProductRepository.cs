@@ -17,21 +17,36 @@ public class ProductRepository : IProductRepository
     public async Task<List<Product>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await _dbContext.Products
+            .Include(x => x.Galleries)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 
     public async Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        return await _dbContext.Products
+            .Include(x => x.Galleries)
+            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
     public async Task<List<Product>> GetByProvinceIdAsync(Guid provinceId, CancellationToken cancellationToken)
     {
         return await _dbContext.Products
+            .Include(x => x.Galleries)
             .AsNoTracking()
             .Where(p => p.ProvinceId == provinceId)
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<Product?> GetBySlugAsync(
+        string slug,
+        CancellationToken cancellationToken)
+    {
+        return await _dbContext.Products
+            .AsNoTracking()
+            .FirstOrDefaultAsync(
+                x => x.Slug == slug,
+                cancellationToken);
     }
 
     public async Task AddAsync(Product product, CancellationToken cancellationToken)

@@ -1,0 +1,74 @@
+.product-infographic-page {
+  font-family: 'Inter', sans-serif;
+  color: #333;
+}
+
+.product-infographic-page section {
+  overflow-x: hidden;
+}
+
+.product-infographic-page .container {
+  padding: 0 15px;
+}
+
+.product-hero {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+}
+
+.product-hero-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+  z-index: 1;
+}
+
+.product-hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.product-kicker {
+  display: inline-block;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-color: var(--brand-orange, #d2691e);
+  padding: 5px 15px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.product-hero-content h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.product-slogan {
+  font-size: 1.5rem;
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+.product-description {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+  opacity: 0.9;
+}
+
+/* Fallback page styles */
+.product-section {
+  padding: 80px 0;
+  background-color: #fafafa;
+}
