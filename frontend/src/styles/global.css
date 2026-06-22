@@ -2531,13 +2531,142 @@ a {
   }
 }
 
+.home-map-inner {
+  position: relative;
+  width: 100%;
+  transform-origin: center center;
+  --map-scale: 1;
+}
+
 .home-map-image img {
   width: 100%;
   display: block;
   object-fit: contain;
   border-radius: 12px;
   user-select: none;
+}
+
+/* ── Markers 34 tỉnh thành ── */
+.home-map-markers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.home-map-marker {
+  position: absolute;
+  transform: translate(-50%, -50%) scale(calc(1 / var(--map-scale)));
   transform-origin: center center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 2;
+}
+
+.home-map-inner.markers-on .home-map-marker {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.home-map-marker-dot {
+  display: block;
+  position: relative;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #e11d48;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.home-map-marker-dot::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(225, 29, 72, 0.45);
+  transform: translate(-50%, -50%);
+  animation: markerPulse 1.8s ease-out infinite;
+  z-index: -1;
+}
+
+@keyframes markerPulse {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
+}
+
+.home-map-marker-label {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-2px);
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(28, 25, 23, 0.82);
+  padding: 2px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  pointer-events: none;
+}
+
+.home-map-marker:hover {
+  z-index: 5;
+}
+
+.home-map-marker:hover .home-map-marker-dot {
+  transform: scale(1.35);
+  background: #f43f5e;
+}
+
+.home-map-marker:hover .home-map-marker-label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.home-map-marker.is-calib {
+  cursor: move;
+}
+
+.home-map-marker.is-calib .home-map-marker-label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.home-map-marker.is-calib .home-map-marker-dot {
+  background: #2563eb;
+}
+
+.home-map-marker.is-active .home-map-marker-dot {
+  background: #16a34a;
+  transform: scale(1.4);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.35), 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.home-map-zoomhint {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(43, 37, 31, 0.72);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 999px;
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+  white-space: nowrap;
 }
 
 .home-map-hint {

@@ -19,6 +19,9 @@ import heroBg5 from "/Images/background5.jpg";
 import heroBg6 from "/Images/background6.jpg";
 
 const heroBgs = [heroBg0, heroBg1, heroBg2, heroBg3, heroBg4, heroBg5, heroBg6];
+const MARKER_ZOOM_THRESHOLD = 1.5;
+import { PROVINCE_MARKERS, defaultMarkerPositions, mergeMarkerPositions } from "../data/provinceMarkers.js";
+import { mapMarkerApi } from "../api/mapMarkerApi.js";
 import congCuoiDoiMoiImage from "/Images/congcuocdoimoi.jpg";
 import thongNhat1975Image from "/Images/1975.jpg";
 import nhaNuocVanLangImage from "/Images/nhanuocvanlang.jpg";
@@ -51,6 +54,7 @@ export default function HomePage() {
   }, []);
 
   const [hasTransformed, setHasTransformed] = useState(false);
+  const [markersVisible, setMarkersVisible] = useState(false);
   const mapRef = useRef(null);
   const imgRef = useRef(null);
   const dragState = useRef(null);
@@ -58,6 +62,21 @@ export default function HomePage() {
   const scaleRef = useRef(1);
   const rafRef = useRef(null);
   const hasTransformedRef = useRef(false);
+  const markersVisibleRef = useRef(false);
+
+  // Vị trí marker 34 tỉnh — tải từ server (editor chỉnh ở /editor/map), fallback mặc định
+  const [markerPos, setMarkerPos] = useState(defaultMarkerPositions);
+
+  useEffect(() => {
+    mapMarkerApi
+      .getAll()
+      .then((list) => {
+        if (Array.isArray(list) && list.length > 0) {
+          setMarkerPos(mergeMarkerPositions(list));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const clamp = (val, min, max) => Math.min(max, Math.max(min, val));
 
@@ -81,10 +100,16 @@ export default function HomePage() {
         ? "transform 0.08s ease-out"
         : "none";
     img.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+    img.style.setProperty("--map-scale", s);
     const now = s !== 1 || x !== 0 || y !== 0;
     if (now !== hasTransformedRef.current) {
       hasTransformedRef.current = now;
       setHasTransformed(now);
+    }
+    const showMarkers = s >= MARKER_ZOOM_THRESHOLD;
+    if (showMarkers !== markersVisibleRef.current) {
+      markersVisibleRef.current = showMarkers;
+      setMarkersVisible(showMarkers);
     }
   };
 
@@ -119,6 +144,8 @@ export default function HomePage() {
     };
 
     const handleMouseDown = (e) => {
+      // Đừng pan khi đang bấm vào một marker (để click / kéo marker hoạt động)
+      if (e.target.closest && e.target.closest(".home-map-marker")) return;
       e.preventDefault();
       dragState.current = {
         startX: e.clientX,
@@ -370,6 +397,83 @@ export default function HomePage() {
           />
         </section>
 
+        <section className="home-section home-map-section">
+          <div className="container">
+            <div className="home-map-layout">
+              <div className="home-map-info">
+                <span className="section-kicker">Địa lý & lãnh thổ</span>
+                <h2>Khám Phá Bản Đồ Việt Nam</h2>
+                <p>Việt Nam trải dài hơn 1.650 km từ địa đầu Hà Giang đến mũi Cà Mau, với diện tích đất liền khoảng 331.000 km² và đường bờ biển dài hơn 3.260 km. Thủ đô Hà Nội ở phía Bắc và thành phố Hồ Chí Minh ở phía Nam là hai đô thị lớn nhất, là trung tâm kinh tế, văn hóa và chính trị của cả nước.</p>
+                <p>Lãnh thổ quốc gia bao gồm vùng đất liền, vùng biển và hai quần đảo Hoàng Sa và Trường Sa — là phần lãnh thổ thiêng liêng không thể tách rời của Tổ quốc Việt Nam.</p>
+                <ul className="home-map-stats">
+                  <li>
+                    <span className="home-map-stat-num">34</span>
+                    <span>tỉnh thành</span>
+                    <span className="home-map-stat-note">(sau sáp nhập từ 63 tỉnh thành)</span>
+                  </li>
+                  <li><span className="home-map-stat-num">3.260 km</span><span>đường bờ biển</span></li>
+                  <li><span className="home-map-stat-num">54</span><span>dân tộc</span></li>
+                </ul>
+                <p className="home-map-hint-text">🖱 Cuộn chuột để zoom · Kéo để di chuyển<br />Zoom vào để xem chi tiết thông tin tỉnh thành</p>
+              </div>
+
+              <div
+                className="home-map-image"
+                ref={mapRef}
+                title="Cuộn chuột để phóng to / thu nhỏ"
+              >
+                <div
+                  ref={imgRef}
+                  className={`home-map-inner${markersVisible ? " markers-on" : ""}`}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  <img
+                    src={mapVietnamImage}
+                    alt="Bản đồ Việt Nam"
+                    draggable="false"
+                    style={{ userSelect: "none", pointerEvents: "none", display: "block", width: "100%" }}
+                  />
+                  <div className="home-map-markers">
+                    {PROVINCE_MARKERS.map((m) => {
+                      const pos = markerPos[m.slug] || { x: m.x, y: m.y };
+                      return (
+                        <button
+                          key={m.slug}
+                          type="button"
+                          className="home-map-marker"
+                          style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+                          title={m.name}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/province/${m.slug}`);
+                          }}
+                        >
+                          <span className="home-map-marker-dot" />
+                          <span className="home-map-marker-label">{m.name}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+                {hasTransformed && (
+                  <button
+                    className="home-map-reset"
+                    onClick={() => {
+                      scaleRef.current = 1;
+                      offsetRef.current = { x: 0, y: 0 };
+                      applyTransform(true);
+                    }}
+                    title="Về mặc định"
+                  >
+                    ↺ Mặc định
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="home-section home-festivals-section">
           <div className="container">
             <div className="section-heading section-heading--center">
@@ -546,55 +650,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="home-section home-map-section">
-          <div className="container">
-            <div className="home-map-layout">
-              <div className="home-map-info">
-                <span className="section-kicker">Địa lý & lãnh thổ</span>
-                <h2>Khám Phá Bản Đồ Việt Nam</h2>
-                <p>Việt Nam trải dài hơn 1.650 km từ địa đầu Hà Giang đến mũi Cà Mau, với diện tích đất liền khoảng 331.000 km² và đường bờ biển dài hơn 3.260 km. Thủ đô Hà Nội ở phía Bắc và thành phố Hồ Chí Minh ở phía Nam là hai đô thị lớn nhất, là trung tâm kinh tế, văn hóa và chính trị của cả nước.</p>
-                <p>Lãnh thổ quốc gia bao gồm vùng đất liền, vùng biển và hai quần đảo Hoàng Sa và Trường Sa — là phần lãnh thổ thiêng liêng không thể tách rời của Tổ quốc Việt Nam.</p>
-                <ul className="home-map-stats">
-                  <li>
-                    <span className="home-map-stat-num">34</span>
-                    <span>tỉnh thành</span>
-                    <span className="home-map-stat-note">(sau sáp nhập từ 63 tỉnh thành)</span>
-                  </li>
-                  <li><span className="home-map-stat-num">3.260 km</span><span>đường bờ biển</span></li>
-                  <li><span className="home-map-stat-num">54</span><span>dân tộc</span></li>
-                </ul>
-                <p className="home-map-hint-text">🖱 Cuộn chuột để zoom · Kéo để di chuyển</p>
-              </div>
-
-              <div
-                className="home-map-image"
-                ref={mapRef}
-                title="Cuộn chuột để phóng to / thu nhỏ"
-              >
-                <img
-                  ref={imgRef}
-                  src={mapVietnamImage}
-                  alt="Bản đồ Việt Nam"
-                  draggable="false"
-                  style={{ transformOrigin: "center center", userSelect: "none", pointerEvents: "none" }}
-                />
-                {hasTransformed && (
-                  <button
-                    className="home-map-reset"
-                    onClick={() => {
-                      scaleRef.current = 1;
-                      offsetRef.current = { x: 0, y: 0 };
-                      applyTransform(true);
-                    }}
-                    title="Về mặc định"
-                  >
-                    ↺ Mặc định
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
     </MainLayout>
   );

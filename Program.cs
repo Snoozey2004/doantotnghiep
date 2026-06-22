@@ -97,6 +97,7 @@ builder.Services.AddScoped<IEmailNotificationService, EmailNotificationService>(
 builder.Services.AddScoped<IHtmlSanitizationService, HtmlSanitizationService>();
 builder.Services.AddScoped<IProductInfographicService, ProductInfographicService>();
 builder.Services.AddSingleton<IRichTextConfigService, RichTextConfigService>();
+builder.Services.AddSingleton<IMapMarkerService, MapMarkerService>();
 
 var app = builder.Build();
 
