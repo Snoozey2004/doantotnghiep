@@ -1,4 +1,5 @@
 ﻿import { motion } from "framer-motion";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState, useCallback, useEffect } from "react";
 import MainLayout from "../layouts/MainLayout.jsx";
@@ -22,6 +23,26 @@ const heroBgs = [heroBg0, heroBg1, heroBg2, heroBg3, heroBg4, heroBg5, heroBg6];
 const MARKER_ZOOM_THRESHOLD = 1.5;
 import { PROVINCE_MARKERS, defaultMarkerPositions, mergeMarkerPositions } from "../data/provinceMarkers.js";
 import { mapMarkerApi } from "../api/mapMarkerApi.js";
+import provinceData from "../data/provinceData.js";
+import { PROVINCE_CARD_INFO } from "../data/provinceCardInfo.js";
+
+const HERO_BY_SLUG = Object.fromEntries(provinceData.map((p) => [p.slug, p.heroImage]));
+
+// Thông tin hiển thị trên card hover của marker (tên, ảnh hero, mô tả ngắn, đặc sản)
+const PROVINCE_INFO = Object.fromEntries(
+  PROVINCE_MARKERS.map((m) => {
+    const card = PROVINCE_CARD_INFO[m.slug] || {};
+    return [
+      m.slug,
+      {
+        name: m.name,
+        heroImage: HERO_BY_SLUG[m.slug] || null,
+        shortDescription: card.desc || null,
+        specialty: card.specialty || null,
+      },
+    ];
+  })
+);
 import congCuoiDoiMoiImage from "/Images/congcuocdoimoi.jpg";
 import thongNhat1975Image from "/Images/1975.jpg";
 import nhaNuocVanLangImage from "/Images/nhanuocvanlang.jpg";
@@ -77,6 +98,36 @@ export default function HomePage() {
       })
       .catch(() => {});
   }, []);
+
+  // ── Card thông tin khi hover vào marker ──
+  const [hoverCard, setHoverCard] = useState(null);
+  const hoverTimerRef = useRef(null);
+
+  const clearHoverTimer = () => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+  };
+
+  const showHoverCard = (slug, el) => {
+    clearHoverTimer();
+    const info = PROVINCE_INFO[slug];
+    if (!info) return;
+    const rect = el.getBoundingClientRect();
+    const cardW = 300;
+    const margin = 14;
+    const placeRight = rect.right + margin + cardW <= window.innerWidth - 8;
+    const left = placeRight ? rect.right + margin : Math.max(8, rect.left - margin - cardW);
+    const half = 90;
+    const centerY = Math.min(Math.max(rect.top + rect.height / 2, half + 8), window.innerHeight - half - 8);
+    setHoverCard({ ...info, slug, left, top: centerY, side: placeRight ? "right" : "left" });
+  };
+
+  const scheduleHideCard = () => {
+    clearHoverTimer();
+    hoverTimerRef.current = setTimeout(() => setHoverCard(null), 200);
+  };
 
   const clamp = (val, min, max) => Math.min(max, Math.max(min, val));
 
@@ -420,7 +471,6 @@ export default function HomePage() {
               <div
                 className="home-map-image"
                 ref={mapRef}
-                title="Cuộn chuột để phóng to / thu nhỏ"
               >
                 <div
                   ref={imgRef}
@@ -442,15 +492,15 @@ export default function HomePage() {
                           type="button"
                           className="home-map-marker"
                           style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-                          title={m.name}
                           onMouseDown={(e) => e.stopPropagation()}
+                          onMouseEnter={(e) => showHoverCard(m.slug, e.currentTarget)}
+                          onMouseLeave={scheduleHideCard}
                           onClick={(e) => {
                             e.stopPropagation();
                             navigate(`/province/${m.slug}`);
                           }}
                         >
                           <span className="home-map-marker-dot" />
-                          <span className="home-map-marker-label">{m.name}</span>
                         </button>
                       );
                     })}
@@ -651,6 +701,35 @@ export default function HomePage() {
         </section>
 
       </main>
+
+      {hoverCard &&
+        createPortal(
+          <div
+            className={`map-hover-card map-hover-card--${hoverCard.side}`}
+            style={{ left: hoverCard.left, top: hoverCard.top }}
+            onMouseEnter={clearHoverTimer}
+            onMouseLeave={scheduleHideCard}
+            onClick={() => navigate(`/province/${hoverCard.slug}`)}
+          >
+            {hoverCard.heroImage && (
+              <div className="map-hover-card__img">
+                <img src={hoverCard.heroImage} alt={hoverCard.name} />
+              </div>
+            )}
+            <div className="map-hover-card__body">
+              <div className="map-hover-card__name">{hoverCard.name}</div>
+              {hoverCard.shortDescription && (
+                <div className="map-hover-card__desc">{hoverCard.shortDescription}</div>
+              )}
+              {hoverCard.specialty && (
+                <div className="map-hover-card__specialty">
+                  <span>Đặc sản:</span> {hoverCard.specialty}
+                </div>
+              )}
+            </div>
+          </div>,
+          document.body
+        )}
     </MainLayout>
   );
 }
