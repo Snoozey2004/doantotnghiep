@@ -1,0 +1,172 @@
+[
+  {
+    "Slug": "lai-chau",
+    "X": 13.3,
+    "Y": 10.7
+  },
+  {
+    "Slug": "dien-bien",
+    "X": 10.9,
+    "Y": 13.9
+  },
+  {
+    "Slug": "lao-cai",
+    "X": 17,
+    "Y": 12.8
+  },
+  {
+    "Slug": "son-la",
+    "X": 13.8,
+    "Y": 16.4
+  },
+  {
+    "Slug": "tuyen-quang",
+    "X": 22,
+    "Y": 9.3
+  },
+  {
+    "Slug": "cao-bang",
+    "X": 28.6,
+    "Y": 8.3
+  },
+  {
+    "Slug": "lang-son",
+    "X": 28.1,
+    "Y": 11.1
+  },
+  {
+    "Slug": "thai-nguyen",
+    "X": 25.5,
+    "Y": 12.1
+  },
+  {
+    "Slug": "phu-tho",
+    "X": 21.1,
+    "Y": 16.5
+  },
+  {
+    "Slug": "bac-ninh",
+    "X": 27.1,
+    "Y": 15
+  },
+  {
+    "Slug": "ha-noi",
+    "X": 24.4,
+    "Y": 17.1
+  },
+  {
+    "Slug": "quang-ninh",
+    "X": 32.1,
+    "Y": 15.3
+  },
+  {
+    "Slug": "hai-phong",
+    "X": 28.7,
+    "Y": 16.6
+  },
+  {
+    "Slug": "hung-yen",
+    "X": 26.6,
+    "Y": 17.6
+  },
+  {
+    "Slug": "ninh-binh",
+    "X": 25.3,
+    "Y": 19.8
+  },
+  {
+    "Slug": "thanh-hoa",
+    "X": 21.6,
+    "Y": 20.9
+  },
+  {
+    "Slug": "nghe-an",
+    "X": 19,
+    "Y": 25.5
+  },
+  {
+    "Slug": "ha-tinh",
+    "X": 23.8,
+    "Y": 28.7
+  },
+  {
+    "Slug": "quang-tri",
+    "X": 28,
+    "Y": 33
+  },
+  {
+    "Slug": "hue",
+    "X": 33.7,
+    "Y": 37.8
+  },
+  {
+    "Slug": "da-nang",
+    "X": 36.6,
+    "Y": 42
+  },
+  {
+    "Slug": "quang-ngai",
+    "X": 37.3,
+    "Y": 46.1
+  },
+  {
+    "Slug": "gia-lai",
+    "X": 39,
+    "Y": 50.1
+  },
+  {
+    "Slug": "dak-lak",
+    "X": 39.3,
+    "Y": 54.4
+  },
+  {
+    "Slug": "khanh-hoa",
+    "X": 43.1,
+    "Y": 58.7
+  },
+  {
+    "Slug": "lam-dong",
+    "X": 37.1,
+    "Y": 60.9
+  },
+  {
+    "Slug": "tay-ninh",
+    "X": 27.7,
+    "Y": 63.4
+  },
+  {
+    "Slug": "dong-nai",
+    "X": 32,
+    "Y": 61.2
+  },
+  {
+    "Slug": "ho-chi-minh",
+    "X": 34,
+    "Y": 64.9
+  },
+  {
+    "Slug": "dong-thap",
+    "X": 24.1,
+    "Y": 65
+  },
+  {
+    "Slug": "an-giang",
+    "X": 21,
+    "Y": 67.2
+  },
+  {
+    "Slug": "vinh-long",
+    "X": 28.4,
+    "Y": 68.7
+  },
+  {
+    "Slug": "can-tho",
+    "X": 24.8,
+    "Y": 69.7
+  },
+  {
+    "Slug": "ca-mau",
+    "X": 21.3,
+    "Y": 72.9
+  }
+]

@@ -16,6 +16,12 @@ const NAV_ITEMS = [
     label: "Thống kê tương tác",
     desc: "Lượt xem, click ẩm thực theo tỉnh",
   },
+  {
+    path: "/editor/map",
+    icon: "🗺️",
+    label: "Vị trí bản đồ",
+    desc: "Chỉnh vị trí 34 tỉnh trên bản đồ",
+  },
 ];
 
 export default function EditorLayout({ children }) {
