@@ -1,10 +1,10 @@
 import React from 'react';
 import BlockRenderer from '../renderers/BlockRenderer';
 
-export default function PreviewPanel({ blocks, selectedBlockId, onSelectBlock, onDeleteBlock, onToggleVisibility, onMoveUp, onMoveDown }) {
+export default function PreviewPanel({ blocks, selectedBlockId, onSelectBlock, onDeleteBlock, onToggleVisibility, onMoveUp, onMoveDown, onCopyBlock }) {
   return (
-    <div className="preview-panel" style={{ flex: 1, backgroundColor: '#f0f2f5', overflowY: 'auto', position: 'relative' }}>
-      <div style={{ maxWidth: '1000px', margin: '0 auto', backgroundColor: '#fff', minHeight: '100%' }}>
+    <div className="preview-panel" style={{ flex: 1, backgroundColor: '#f0f2f5', overflow: 'auto', position: 'relative' }}>
+      <div style={{ width: '100%', minWidth: '1024px', maxWidth: '1200px', margin: '0 auto', backgroundColor: '#fff', minHeight: '100%' }}>
         {blocks.length === 0 ? (
           <div style={{ padding: '50px', textAlign: 'center', color: '#888' }}>
             Chưa có block nào. Hãy chọn từ danh sách bên trái.
@@ -28,6 +28,7 @@ export default function PreviewPanel({ blocks, selectedBlockId, onSelectBlock, o
                   <button onClick={(e) => { e.stopPropagation(); onToggleVisibility(block.id); }} title="Toggle Visibility">
                     {block.isVisible === false ? '👁️‍🗨️' : '👁️'}
                   </button>
+                  <button onClick={(e) => { e.stopPropagation(); onCopyBlock(block); }} title="Copy Block">📋</button>
                   <button onClick={(e) => { e.stopPropagation(); onDeleteBlock(block.id); }} style={{ color: 'red' }} title="Delete">🗑️</button>
                 </div>
               )}

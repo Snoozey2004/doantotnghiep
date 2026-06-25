@@ -16,10 +16,10 @@ export default function TextOnlyRenderer({ data }) {
               {data.title}
             </h2>
           )}
-          <div 
-            style={{ fontSize: '1.1rem', lineHeight: '1.8', color: '#444' }}
-            dangerouslySetInnerHTML={{ __html: data?.content?.replace(/\n/g, '<br />') || 'Nội dung chi tiết sẽ hiển thị ở đây.' }}
-          />
+            <div 
+              style={{ fontSize: '1.1rem', lineHeight: '1.8', color: '#444' }}
+              dangerouslySetInnerHTML={{ __html: data?.content || 'Nội dung chi tiết sẽ hiển thị ở đây.' }}
+            />
         </motion.div>
       </div>
     </section>

@@ -8,6 +8,9 @@ import TimelineRenderer from './TimelineRenderer';
 import QuoteRenderer from './QuoteRenderer';
 import FAQRenderer from './FAQRenderer';
 import CTARenderer from './CTARenderer';
+import GalleryRenderer from './GalleryRenderer';
+import FeaturesGridRenderer from './FeaturesGridRenderer';
+import VideoRenderer from './VideoRenderer';
 
 export default function BlockRenderer({ block }) {
   if (!block || block.isVisible === false) return null;
@@ -33,6 +36,12 @@ export default function BlockRenderer({ block }) {
       return <FAQRenderer data={data} />;
     case 'CTA':
       return <CTARenderer data={data} />;
+    case 'Gallery':
+      return <GalleryRenderer data={data} />;
+    case 'FeaturesGrid':
+      return <FeaturesGridRenderer data={data} />;
+    case 'Video':
+      return <VideoRenderer data={data} />;
     default:
       return (
         <div style={{ padding: '20px', border: '1px dashed #ccc', margin: '20px' }}>

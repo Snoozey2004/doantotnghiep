@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { authApi } from "../../api/authApi";
 import { useAuth } from "../../contexts/AuthContext.jsx";
@@ -55,6 +55,12 @@ export default function Header() {
     navigate(`/search?q=${encodeURIComponent(keyword)}`);
   };
 
+  // Check if we are on a Product Infographic page
+  const matchInfographic = location.pathname.match(/^\/province\/([^/]+)\/dac-san\/([^/]+)$/);
+  const isInfographicPage = !!matchInfographic;
+  const provinceSlug = isInfographicPage ? matchInfographic[1] : null;
+  const productSlug = isInfographicPage ? matchInfographic[2] : null;
+
   return (
     <>
     <header className="site-header">
@@ -76,8 +82,19 @@ export default function Header() {
         </nav>
         <div className="header-right">
           {isAuthenticated ? (
-            <div ref={accountRef} className="account-menu">
-              <button
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              {isAdminOrEditor && isInfographicPage && (
+                <Link 
+                  to={`/province/${provinceSlug}/dac-san/${productSlug}/edit`}
+                  className="btn btn-sm"
+                  style={{ backgroundColor: "#1890ff", color: "#fff", border: "none" }}
+                  title="Chỉnh sửa Infographic này"
+                >
+                  🎨 Sửa trang
+                </Link>
+              )}
+              <div ref={accountRef} className="account-menu">
+                <button
                 type="button"
                 className="btn btn-outline btn-sm account-trigger"
                 onClick={() => setIsAccountOpen((prev) => !prev)}
@@ -123,6 +140,7 @@ export default function Header() {
                   Đăng xuất
                 </button>
               </div>
+            </div>
             </div>
           ) : (
             <>

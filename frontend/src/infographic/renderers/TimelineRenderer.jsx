@@ -31,7 +31,10 @@ export default function TimelineRenderer({ data }) {
               </div>
               <div>
                 <h3 style={{ margin: '0 0 10px 0', color: '#333', fontSize: '1.4rem' }}>{step.title}</h3>
-                <p style={{ margin: 0, color: '#666', lineHeight: '1.6' }}>{step.description}</p>
+                <div 
+                  style={{ margin: 0, color: '#666', lineHeight: '1.6' }}
+                  dangerouslySetInnerHTML={{ __html: step.description }}
+                />
               </div>
             </motion.div>
           ))}

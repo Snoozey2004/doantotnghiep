@@ -14,9 +14,10 @@ export default function CTARenderer({ data }) {
           <h2 style={{ fontSize: '2.5rem', marginBottom: '20px', fontWeight: '700' }}>
             {data?.title || 'Kêu gọi hành động'}
           </h2>
-          <p style={{ fontSize: '1.2rem', marginBottom: '40px', opacity: 0.9 }}>
-            {data?.content || 'Khuyến khích người dùng mua hàng hoặc trải nghiệm ngay hôm nay!'}
-          </p>
+          <div 
+            style={{ fontSize: '1.2rem', marginBottom: '40px', opacity: 0.9 }}
+            dangerouslySetInnerHTML={{ __html: data?.content || 'Khuyến khích người dùng mua hàng hoặc trải nghiệm ngay hôm nay!' }}
+          />
           <a 
             href={data?.buttonLink || '#'} 
             style={{ 

@@ -28,9 +28,10 @@ export default function ImageLeftTextRightRenderer({ data }) {
           <h2 style={{ fontSize: '2.5rem', color: '#8b4513', marginBottom: '20px' }}>
             {data?.title || 'Tiêu đề phần nội dung'}
           </h2>
-          <p style={{ fontSize: '1.1rem', lineHeight: '1.8', color: '#555' }}>
-            {data?.content || 'Mô tả chi tiết về đặc điểm, tính chất hoặc câu chuyện liên quan đến sản phẩm.'}
-          </p>
+          <div 
+            style={{ fontSize: '1.1rem', lineHeight: '1.8', color: '#555' }}
+            dangerouslySetInnerHTML={{ __html: data?.content || 'Mô tả chi tiết về đặc điểm, tính chất hoặc câu chuyện liên quan đến sản phẩm.' }}
+          />
         </motion.div>
       </div>
     </section>

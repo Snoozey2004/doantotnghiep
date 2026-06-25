@@ -12,9 +12,10 @@ export default function QuoteRenderer({ data }) {
           viewport={{ once: true }}
         >
           <div style={{ fontSize: '4rem', opacity: 0.3, marginBottom: '-20px', lineHeight: 1 }}>"</div>
-          <p style={{ fontSize: '1.8rem', fontStyle: 'italic', fontWeight: '300', lineHeight: '1.6', marginBottom: '20px' }}>
-            {data?.content || 'Một câu trích dẫn hay ho về ẩm thực, văn hóa hoặc sản phẩm.'}
-          </p>
+          <div 
+            style={{ fontSize: '1.8rem', fontStyle: 'italic', fontWeight: '300', lineHeight: '1.6', marginBottom: '20px' }}
+            dangerouslySetInnerHTML={{ __html: data?.content || 'Trích dẫn hay...' }}
+          />
           <div style={{ fontSize: '1.2rem', fontWeight: '600', color: '#f4ecd8' }}>
             - {data?.author || 'Tác giả'} -
           </div>

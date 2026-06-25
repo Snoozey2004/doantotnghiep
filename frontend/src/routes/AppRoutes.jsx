@@ -29,6 +29,10 @@ import AdminLandingEdit from "../pages/AdminLandingEdit.jsx";
 import AdminLandingDelete from "../pages/AdminLandingDelete.jsx";
 import AdminFeaturedContent from "../pages/AdminFeaturedContent.jsx";
 import AdminContentStatistics from "../pages/AdminContentStatistics.jsx";
+import AdminProductsDashboard from "../pages/AdminProductsDashboard.jsx";
+import AdminProductCreate from "../pages/AdminProductCreate.jsx";
+import AdminProductEdit from "../pages/AdminProductEdit.jsx";
+import AdminProductDelete from "../pages/AdminProductDelete.jsx";
 import EditorDashboard from "../pages/EditorDashboard.jsx";
 import EditorAnalytics from "../pages/EditorAnalytics.jsx";
 import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
@@ -56,8 +60,15 @@ export default function AppRoutes() {
         path="/province/:provinceSlug/dac-san/:productSlug"
         element={<ProductInfographicPage />}
       />
+      <Route
+        path="/province/:provinceSlug/dac-san/:slug/edit"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <TestEditorPage />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/test-infographic" element={<TestInfographicForm />} />
-      <Route path="/test-editor" element={<TestEditorPage />} />
 
       {/* Editor routes - Editor (1) only */}
       <Route
@@ -235,6 +246,38 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute requiredRoles={[0, 1]}>
             <AdminContentStatistics />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/products"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <AdminProductsDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/products/new"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <AdminProductCreate />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/products/:id/edit"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <AdminProductEdit />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/products/:id/delete"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <AdminProductDelete />
           </ProtectedRoute>
         }
       />

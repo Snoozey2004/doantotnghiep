@@ -22,12 +22,15 @@ export default function HeroBannerRenderer({ data }) {
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        <h1 style={{ fontSize: '3.5rem', marginBottom: '20px', fontWeight: '800', textShadow: '2px 2px 8px rgba(0,0,0,0.5)' }}>
-          {data?.title || 'Tiêu đề sản phẩm'}
-        </h1>
-        <p style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6', textShadow: '1px 1px 4px rgba(0,0,0,0.5)' }}>
-          {data?.description || 'Mô tả ngắn gọn về sản phẩm, mang lại cảm giác hấp dẫn và thu hút người xem ngay từ cái nhìn đầu tiên.'}
-        </p>
+        <h1 
+          style={{ fontSize: '3.5rem', marginBottom: '20px', fontWeight: '800', textShadow: '2px 2px 8px rgba(0,0,0,0.5)' }}
+          dangerouslySetInnerHTML={{ __html: data?.title || 'Tiêu đề sản phẩm' }}
+        />
+        <div 
+          className="ck-html-content"
+          style={{ fontSize: '1.2rem', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6', textShadow: '1px 1px 4px rgba(0,0,0,0.5)' }}
+          dangerouslySetInnerHTML={{ __html: data?.description || 'Mô tả ngắn gọn về sản phẩm, mang lại cảm giác hấp dẫn và thu hút người xem ngay từ cái nhìn đầu tiên.' }} 
+        />
       </motion.div>
     </section>
   );

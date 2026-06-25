@@ -46,9 +46,10 @@ export default function FAQRenderer({ data }) {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div style={{ padding: '0 20px 20px', color: '#666', lineHeight: '1.6' }}>
-                      {faq.answer}
-                    </div>
+                    <div 
+                      style={{ padding: '0 20px 20px', color: '#666', lineHeight: '1.6' }}
+                      dangerouslySetInnerHTML={{ __html: faq.answer }}
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>
