@@ -27,7 +27,7 @@ export default function ProvinceTourism({ province }) {
             >
               <div
                 className="province-gallery-image"
-                style={{ backgroundImage: `url(${item.image})` }}
+                style={{ backgroundImage: `url("${item.image}")` }}
               />
               <div className="province-gallery-content">
                 <h3>{item.name}</h3>

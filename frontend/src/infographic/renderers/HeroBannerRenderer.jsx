@@ -6,7 +6,7 @@ export default function HeroBannerRenderer({ data }) {
     <section 
       className="infographic-hero"
       style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${data?.image || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1'})`,
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("${data?.image || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1'}")`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',

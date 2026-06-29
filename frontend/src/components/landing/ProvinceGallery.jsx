@@ -27,7 +27,7 @@ export default function ProvinceGallery({ province, bgColor }) {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.05 }}
-              style={{ backgroundImage: `url(${image})` }}
+              style={{ backgroundImage: `url("${image}")` }}
             />
           ))}
         </div>

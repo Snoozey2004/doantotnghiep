@@ -28,7 +28,7 @@ export default function ProvinceIntro({ province, bgColor }) {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          style={{ backgroundImage: `url(${province.introImage})` }}
+          style={{ backgroundImage: `url("${province.introImage}")` }}
         />
       </div>
     </section>

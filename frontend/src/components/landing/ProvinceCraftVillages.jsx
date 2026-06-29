@@ -42,7 +42,7 @@ export default function ProvinceCraftVillages({ province, bgColor }) {
             >
               <div
                 className="province-craft-image"
-                style={{ backgroundImage: `url(${item.image})` }}
+                style={{ backgroundImage: `url("${item.image}")` }}
               />
               <div className="province-craft-content">
                 <span className="province-craft-product">🏺 {item.product}</span>
