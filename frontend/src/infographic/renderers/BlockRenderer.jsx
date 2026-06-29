@@ -11,6 +11,8 @@ import CTARenderer from './CTARenderer';
 import GalleryRenderer from './GalleryRenderer';
 import FeaturesGridRenderer from './FeaturesGridRenderer';
 import VideoRenderer from './VideoRenderer';
+import RestaurantListRenderer from './RestaurantListRenderer';
+import TextImageTextRenderer from './TextImageTextRenderer';
 
 export default function BlockRenderer({ block }) {
   if (!block || block.isVisible === false) return null;
@@ -42,6 +44,10 @@ export default function BlockRenderer({ block }) {
       return <FeaturesGridRenderer data={data} />;
     case 'Video':
       return <VideoRenderer data={data} />;
+    case 'RestaurantList':
+      return <RestaurantListRenderer data={data} />;
+    case 'TextImageText':
+      return <TextImageTextRenderer data={data} />;
     default:
       return (
         <div style={{ padding: '20px', border: '1px dashed #ccc', margin: '20px' }}>

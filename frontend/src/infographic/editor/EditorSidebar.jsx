@@ -17,18 +17,20 @@ import { CSS } from '@dnd-kit/utilities';
 import BlockEditor from './BlockEditor';
 
 const BLOCK_TYPES = [
-  { type: 'HeroBanner', label: 'Hero Banner' },
-  { type: 'TextOnly', label: 'Text Only' },
-  { type: 'ImageLeftTextRight', label: 'Image Left - Text Right' },
-  { type: 'ImageRightTextLeft', label: 'Image Right - Text Left' },
-  { type: 'Statistics', label: 'Statistics' },
-  { type: 'Timeline', label: 'Timeline' },
-  { type: 'Quote', label: 'Quote' },
-  { type: 'FAQ', label: 'FAQ' },
-  { type: 'CTA', label: 'Call to Action' },
-  { type: 'Gallery', label: 'Image Gallery' },
-  { type: 'FeaturesGrid', label: 'Features Grid' },
-  { type: 'Video', label: 'Video Block' },
+  { type: 'HeroBanner', label: 'Ảnh Bìa (Hero Banner)' },
+  { type: 'TextOnly', label: 'Chỉ Văn Bản' },
+  { type: 'ImageLeftTextRight', label: 'Ảnh Trái - Chữ Phải' },
+  { type: 'ImageRightTextLeft', label: 'Ảnh Phải - Chữ Trái' },
+  { type: 'Statistics', label: 'Thống Kê' },
+  { type: 'Timeline', label: 'Dòng Thời Gian' },
+  { type: 'Quote', label: 'Trích Dẫn' },
+  { type: 'FAQ', label: 'Câu Hỏi Thường Gặp' },
+  { type: 'CTA', label: 'Kêu Gọi Hành Động' },
+  { type: 'Gallery', label: 'Thư Viện Ảnh' },
+  { type: 'FeaturesGrid', label: 'Đặc Điểm (Lưới)' },
+  { type: 'Video', label: 'Video' },
+  { type: 'RestaurantList', label: 'Gợi Ý Địa Điểm' },
+  { type: 'TextImageText', label: 'Chữ - Ảnh - Chữ' }
 ];
 
 function SortableItem({ block, onSelect, onToggleVisibility, onCopy, onDelete, isSelected }) {
@@ -65,7 +67,7 @@ function SortableItem({ block, onSelect, onToggleVisibility, onCopy, onDelete, i
         </div>
         <div>
           <div style={{ fontWeight: 'bold', fontSize: '14px', color: '#333' }}>
-            {block.layoutType}
+            {BLOCK_TYPES.find(b => b.type === block.layoutType)?.label || block.layoutType}
           </div>
           <div style={{ fontSize: '11px', color: '#888', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '150px' }}>
             {block.data?.title || 'Chưa có tiêu đề'}
@@ -126,11 +128,11 @@ export default function EditorSidebar({
   const selectedBlock = blocks.find(b => b.id === selectedBlockId);
 
   return (
-    <div className="editor-sidebar" style={{ width: '380px', borderRight: '1px solid #e0e0e0', backgroundColor: '#fff', display: 'flex', flexDirection: 'column', flexShrink: 0, height: '100%', overflowY: 'auto' }}>
+    <div className="editor-sidebar" style={{ width: '380px', borderRight: '1px solid #e0e0e0', backgroundColor: '#fff', display: 'flex', flexDirection: 'column', flexShrink: 0, height: '100%', overflowY: 'hidden' }}>
       
       {view === 'layers' && (
         <>
-          <div style={{ padding: '15px 20px', borderBottom: '1px solid #e0e0e0', backgroundColor: '#fafafa', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10 }}>
+          <div style={{ padding: '15px 20px', borderBottom: '1px solid #e0e0e0', backgroundColor: '#fafafa', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span>Layer Blocks</span>
             <button 
               onClick={onPasteBlock} 
@@ -140,7 +142,7 @@ export default function EditorSidebar({
               📋 Dán
             </button>
           </div>
-          <div style={{ padding: '20px', flex: 1 }}>
+          <div style={{ padding: '20px', flex: 1, overflowY: 'auto' }}>
             {blocks.length === 0 ? (
               <div style={{ textAlign: 'center', color: '#888', fontStyle: 'italic', padding: '20px 0' }}>
                 Chưa có block nào.
@@ -175,11 +177,11 @@ export default function EditorSidebar({
 
       {view === 'add' && (
         <>
-          <div style={{ padding: '15px 20px', borderBottom: '1px solid #e0e0e0', backgroundColor: '#fafafa', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px', position: 'sticky', top: 0, zIndex: 10 }}>
+          <div style={{ padding: '15px 20px', borderBottom: '1px solid #e0e0e0', backgroundColor: '#fafafa', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <button onClick={() => setView('layers')} style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '16px' }}>←</button>
             <span>Thêm Block Mới</span>
           </div>
-          <div style={{ padding: '20px', flex: 1 }}>
+          <div style={{ padding: '20px', flex: 1, overflowY: 'auto' }}>
             {BLOCK_TYPES.map(b => (
               <div 
                 key={b.type} 
@@ -209,11 +211,11 @@ export default function EditorSidebar({
 
       {view === 'edit' && selectedBlock && (
         <>
-          <div style={{ padding: '15px 20px', borderBottom: '1px solid #e0e0e0', backgroundColor: '#fafafa', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px', position: 'sticky', top: 0, zIndex: 10 }}>
+          <div style={{ padding: '15px 20px', borderBottom: '1px solid #e0e0e0', backgroundColor: '#fafafa', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <button onClick={() => { onSelectBlock(null); setView('layers'); }} style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '16px' }}>←</button>
             <span>Tùy chỉnh Block</span>
           </div>
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
             <BlockEditor selectedBlock={selectedBlock} onChangeBlockData={onChangeBlockData} />
           </div>
         </>

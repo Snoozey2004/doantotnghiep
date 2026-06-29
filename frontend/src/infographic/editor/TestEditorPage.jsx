@@ -18,8 +18,9 @@ export default function TestEditorPage() {
   const [isPublished, setIsPublished] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedBlockId, setSelectedBlockId] = useState(null);
+  const [initialBlocksStr, setInitialBlocksStr] = useState("[]");
 
-  const { currentState: blocks, canUndo, canRedo, undo, redo, recordChange, reset } = useUndoRedo([]);
+  const { currentState: blocks = [], canUndo, canRedo, undo, redo, recordChange, reset } = useUndoRedo([]);
   const { saveInfographic, isSaving } = useSaveInfographic();
 
   useEffect(() => {
@@ -38,15 +39,19 @@ export default function TestEditorPage() {
           const infoRes = await productInfographicApi.getByProductId(prodData.id);
           setInfographicId(infoRes.data.id);
           setIsPublished(infoRes.data.status === 'Published');
-          
+
           if (infoRes.data.blocks && infoRes.data.blocks.length > 0) {
-            reset(mapApiToEditor(infoRes.data));
+            const editorBlocks = mapApiToEditor(infoRes.data);
+            reset(editorBlocks);
+            setInitialBlocksStr(JSON.stringify(editorBlocks));
           } else {
             reset([]);
+            setInitialBlocksStr("[]");
           }
         } catch (err) {
           // No infographic yet
           reset([]);
+          setInitialBlocksStr("[]");
         }
       } catch (err) {
         console.error("Failed to load data:", err);
@@ -57,6 +62,29 @@ export default function TestEditorPage() {
 
     loadData();
   }, [slug, reset]);
+
+  const isDirty = JSON.stringify(blocks) !== initialBlocksStr;
+
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
+
+  const handleBack = () => {
+    if (isDirty) {
+      if (window.confirm('Bạn có thay đổi chưa lưu. Bạn có chắc chắn muốn thoát?')) {
+        navigate(-1);
+      }
+    } else {
+      navigate(-1);
+    }
+  };
 
   const handleCopyBlock = (block) => {
     const blockCopy = {
@@ -82,7 +110,7 @@ export default function TestEditorPage() {
         alert('Dữ liệu clipboard không hợp lệ!');
         return;
       }
-      
+
       const newBlock = {
         ...blockData,
         id: crypto.randomUUID(),
@@ -106,10 +134,11 @@ export default function TestEditorPage() {
         case 'Gallery': return 'Gallery';
         case 'FeaturesGrid': return 'FeaturesGrid';
         case 'Video': return 'Video';
+        case 'TextImageText': return 'Content';
         default: return 'Content';
       }
     };
-    
+
     const newBlock = {
       id: crypto.randomUUID(),
       layoutType,
@@ -168,13 +197,14 @@ export default function TestEditorPage() {
       const newId = await saveInfographic(product.id, infographicId, blocks, publish);
       if (!infographicId) setInfographicId(newId);
       setIsPublished(publish);
+      setInitialBlocksStr(JSON.stringify(blocks));
       alert('Đã lưu thành công!');
     } catch (err) {
       alert('Lỗi khi lưu!');
     }
   };
 
-  const selectedBlock = blocks.find(b => b.id === selectedBlockId);
+  const selectedBlock = (blocks || []).find(b => b.id === selectedBlockId);
 
   if (loading) return <div style={{ padding: '50px', textAlign: 'center' }}>Đang tải...</div>;
   if (!product) return <div style={{ padding: '50px', textAlign: 'center' }}>Không tìm thấy sản phẩm với slug: {slug}</div>;
@@ -189,10 +219,16 @@ export default function TestEditorPage() {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
+        @media (max-width: 768px) {
+          .hidden-mobile { display: none !important; }
+        }
+        @media (min-width: 769px) {
+          .hidden-desktop { display: none !important; }
+        }
       `}</style>
       <div style={{ padding: '10px 20px', backgroundColor: '#fff', borderBottom: '1px solid #ddd', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <button onClick={() => navigate(-1)} style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '1.5rem', padding: '0 10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Quay lại">
+          <button onClick={handleBack} style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '1.5rem', padding: '0 10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Quay lại">
             &#8592;
           </button>
           <h2 style={{ margin: 0, fontSize: '1.2rem' }}>Editor: {product.name}</h2>
@@ -206,22 +242,22 @@ export default function TestEditorPage() {
         </div>
       </div>
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        <EditorSidebar 
-          blocks={blocks} 
-          selectedBlockId={selectedBlockId} 
-          onSelectBlock={setSelectedBlockId} 
-          onAddBlock={handleAddBlock} 
-          onPasteBlock={handlePasteBlock} 
-          onDeleteBlock={handleDeleteBlock} 
-          onChangeBlockData={handleChangeBlockData} 
-          onToggleVisibility={handleToggleVisibility} 
+        <EditorSidebar
+          blocks={blocks}
+          selectedBlockId={selectedBlockId}
+          onSelectBlock={setSelectedBlockId}
+          onAddBlock={handleAddBlock}
+          onPasteBlock={handlePasteBlock}
+          onDeleteBlock={handleDeleteBlock}
+          onChangeBlockData={handleChangeBlockData}
+          onToggleVisibility={handleToggleVisibility}
           onCopyBlock={handleCopyBlock}
           onReorderBlocks={handleReorderBlocks}
         />
-        <PreviewPanel 
-          blocks={blocks} 
-          selectedBlockId={selectedBlockId} 
-          onSelectBlock={setSelectedBlockId} 
+        <PreviewPanel
+          blocks={blocks}
+          selectedBlockId={selectedBlockId}
+          onSelectBlock={setSelectedBlockId}
           onDeleteBlock={handleDeleteBlock}
           onToggleVisibility={handleToggleVisibility}
           onMoveUp={handleMoveUp}
@@ -234,19 +270,22 @@ export default function TestEditorPage() {
 }
 
 function getDefaultDataForLayout(layoutType) {
+  const common = { marginTop: 0, marginBottom: 0, textAlign: 'left', textColor: '#333333', visibility: 'all' };
+  let specific = {};
   switch (layoutType) {
-    case 'HeroBanner': return { title: 'Tiêu đề', description: 'Mô tả', image: '' };
-    case 'TextOnly': return { title: 'Tiêu đề', content: 'Nội dung chi tiết', backgroundColor: '#ffffff' };
-    case 'ImageLeftTextRight': return { title: 'Tiêu đề', content: 'Nội dung', image: '', backgroundColor: '#fafafa' };
-    case 'ImageRightTextLeft': return { title: 'Tiêu đề', content: 'Nội dung', image: '', backgroundColor: '#ffffff' };
-    case 'Statistics': return { title: 'Thống kê nổi bật', items: [{ label: 'Năm', value: '100+' }], backgroundColor: '#f4ecd8' };
-    case 'Timeline': return { title: 'Lịch sử', steps: [{ year: '2020', title: 'Khởi đầu', description: 'Mô tả' }], backgroundColor: '#ffffff' };
-    case 'Quote': return { content: 'Một câu nói hay', author: 'Tác giả', backgroundColor: '#8b4513' };
-    case 'FAQ': return { title: 'Câu hỏi thường gặp', items: [{ question: 'Câu hỏi?', answer: 'Trả lời.' }], backgroundColor: '#fafafa' };
-    case 'CTA': return { title: 'Hành động', content: 'Mua ngay hôm nay!', buttonText: 'Mua Ngay', buttonLink: '#', backgroundColor: '#d2691e' };
-    case 'Gallery': return { title: 'Thư viện ảnh', description: 'Hình ảnh chi tiết về sản phẩm', images: [{ url: '', alt: 'Image 1' }], backgroundColor: '#ffffff' };
-    case 'FeaturesGrid': return { title: 'Đặc điểm nổi bật', subtitle: 'Những tính năng vượt trội', items: [{ image: '', title: 'Đặc điểm 1', description: 'Mô tả chi tiết', tag: 'Nổi bật' }], backgroundColor: '#fafafa' };
-    case 'Video': return { title: 'Video Sản phẩm', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', backgroundColor: '#000000' };
-    default: return {};
+    case 'HeroBanner': specific = { title: 'Tiêu đề', description: 'Mô tả', image: '' }; break;
+    case 'TextOnly': specific = { title: 'Tiêu đề', content: 'Nội dung chi tiết', backgroundColor: '#ffffff' }; break;
+    case 'ImageLeftTextRight': specific = { title: 'Tiêu đề', content: 'Nội dung', image: '', backgroundColor: '#fafafa' }; break;
+    case 'ImageRightTextLeft': specific = { title: 'Tiêu đề', content: 'Nội dung', image: '', backgroundColor: '#ffffff' }; break;
+    case 'Statistics': specific = { title: 'Thống kê nổi bật', items: [{ label: 'Năm', value: '100+' }], backgroundColor: '#f4ecd8' }; break;
+    case 'Timeline': specific = { title: 'Lịch sử', steps: [{ year: '2020', title: 'Khởi đầu', description: 'Mô tả' }], backgroundColor: '#ffffff' }; break;
+    case 'Quote': specific = { content: 'Một câu nói hay', author: 'Tác giả', backgroundColor: '#8b4513', textColor: '#ffffff' }; break;
+    case 'FAQ': specific = { title: 'Câu hỏi thường gặp', items: [{ question: 'Câu hỏi?', answer: 'Trả lời.' }], backgroundColor: '#fafafa' }; break;
+    case 'CTA': specific = { title: 'Hành động', content: 'Mua ngay hôm nay!', buttonText: 'Mua Ngay', buttonLink: '#', backgroundColor: '#d2691e', textColor: '#ffffff', textAlign: 'center' }; break;
+    case 'Gallery': specific = { title: 'Thư viện ảnh', description: 'Hình ảnh chi tiết về sản phẩm', images: [{ url: '', alt: 'Image 1' }], backgroundColor: '#ffffff' }; break;
+    case 'FeaturesGrid': specific = { title: 'Đặc điểm nổi bật', subtitle: 'Những tính năng vượt trội', items: [{ image: '', title: 'Đặc điểm 1', description: 'Mô tả chi tiết', tag: 'Nổi bật' }], backgroundColor: '#fafafa' }; break;
+    case 'Video': specific = { title: 'Video Sản phẩm', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', backgroundColor: '#000000', textColor: '#ffffff' }; break;
+    case 'TextImageText': specific = { topText: 'Nội dung bên trái', image: '', bottomText: 'Nội dung bên phải', backgroundColor: '#ffffff' }; break;
   }
+  return { ...common, ...specific };
 }

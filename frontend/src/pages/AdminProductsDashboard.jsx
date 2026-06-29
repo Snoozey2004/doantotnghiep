@@ -200,7 +200,8 @@ export default function AdminProductsDashboard() {
               <tr style={{ borderBottom: "2px solid #eee", textAlign: "left" }}>
                 <th style={{ padding: "12px 8px" }}>Hình ảnh</th>
                 <th style={{ padding: "12px 8px" }}>Tên đặc sản</th>
-                <th style={{ padding: "12px 8px" }}>Giá</th>
+                <th style={{ padding: "12px 8px" }}>Loại</th>
+                <th style={{ padding: "12px 8px" }}>Tỉnh thành</th>
                 <th style={{ padding: "12px 8px" }}>Nổi bật</th>
                 <th style={{ padding: "12px 8px" }}>Trạng thái</th>
                 <th style={{ padding: "12px 8px", width: "220px" }}>Thao tác</th>
@@ -221,7 +222,10 @@ export default function AdminProductsDashboard() {
                     <small style={{ color: "#666" }}>{p.slug}</small>
                   </td>
                   <td style={{ padding: "8px" }}>
-                    {p.price ? new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(p.price) : "Chưa cập nhật"}
+                    {p.type === 1 ? <span style={{ color: "#1890ff" }}>🛒 Bán trực tuyến</span> : p.type === 2 ? <span style={{ color: "#fa8c16" }}>🍽️ Tại chỗ</span> : "Chưa phân loại"}
+                  </td>
+                  <td style={{ padding: "8px" }}>
+                    {provinces.find(prov => prov.id === p.provinceId)?.name || "Chưa xác định"}
                   </td>
                   <td style={{ padding: "8px" }}>
                     {p.isFeatured ? "⭐ Có" : "Không"}

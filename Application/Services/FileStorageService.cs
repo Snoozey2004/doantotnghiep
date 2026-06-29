@@ -60,49 +60,11 @@ public class FileStorageService : IFileStorageService
         var extension = Path.GetExtension(file.FileName);
         string fileName;
 
-        // Generate custom filename if province info is provided
-        if (!string.IsNullOrWhiteSpace(provinceId) && !string.IsNullOrWhiteSpace(provinceName) && !string.IsNullOrWhiteSpace(mediaType))
-        {
-            // Format: {provinceName}_{mediaType}_{counter}.{ext}
-            var sanitizedProvinceName = provinceName.Replace(" ", "-").Replace(".", "-");
-            var counterKey = $"{sanitizedProvinceName}_{mediaType}";
-
-            if (!FileCounters.ContainsKey(counterKey))
-            {
-                FileCounters[counterKey] = 1;
-            }
-            else
-            {
-                FileCounters[counterKey]++;
-            }
-
-            fileName = $"{sanitizedProvinceName}_{mediaType}_{FileCounters[counterKey]}{extension}";
-        }
-        else if (!string.IsNullOrWhiteSpace(provinceName) && !string.IsNullOrWhiteSpace(mediaType))
-        {
-            // For new provinces without ID (create form): {provinceName}_{mediaType}_{counter}.{ext}
-            var sanitizedProvinceName = provinceName.Replace(" ", "-").Replace(".", "-");
-            var counterKey = $"temp_{mediaType}";
-
-            if (!FileCounters.ContainsKey(counterKey))
-            {
-                FileCounters[counterKey] = 1;
-            }
-            else
-            {
-                FileCounters[counterKey]++;
-            }
-
-            fileName = $"{sanitizedProvinceName}_{mediaType}_{FileCounters[counterKey]}{extension}";
-        }
-        else
-        {
-            // Default behavior: sanitized filename with GUID
-            var sanitizedName = Path.GetFileNameWithoutExtension(file.FileName)
-                .Replace(" ", "-")
-                .Replace("..", "-");
-            fileName = $"{sanitizedName}-{Guid.NewGuid():N}{extension}";
-        }
+        // Use original filename (sanitized) to avoid creating duplicate copies
+        var sanitizedName = Path.GetFileNameWithoutExtension(file.FileName)
+            .Replace(" ", "-")
+            .Replace("..", "-");
+        fileName = $"{sanitizedName}{extension}";
 
         var filePath = Path.Combine(folder, fileName);
 

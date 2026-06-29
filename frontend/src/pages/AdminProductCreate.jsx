@@ -25,7 +25,8 @@ const emptyProduct = {
   price: 0,
   isFeatured: false,
   isPublished: true,
-  provinceId: ""
+  provinceId: "",
+  type: 1
 };
 
 export default function AdminProductCreate() {
@@ -66,7 +67,7 @@ export default function AdminProductCreate() {
     const { name, type, checked, value } = event.target;
     let finalValue = type === "checkbox" ? checked : value;
     if (name === "price") {
-        finalValue = parseFloat(value) || 0;
+      finalValue = parseFloat(value) || 0;
     }
     setForm((prev) => {
       const newForm = { ...prev, [name]: finalValue };
@@ -117,21 +118,21 @@ export default function AdminProductCreate() {
 
             <div style={{ display: "grid", gap: 8 }}>
               <label style={{ fontWeight: 600 }}>Slug (*)</label>
-              <input 
-                name="slug" 
-                placeholder="pho-ha-noi" 
-                value={form.slug} 
+              <input
+                name="slug"
+                placeholder="pho-ha-noi"
+                value={form.slug}
                 onChange={(e) => {
                   setIsSlugEdited(true);
                   setForm(prev => ({ ...prev, slug: generateSlug(e.target.value) }));
-                }} 
-                required 
+                }}
+                required
               />
             </div>
 
             <div style={{ display: "grid", gap: 8, position: "relative" }}>
               <label style={{ fontWeight: 600 }}>Địa phương (*)</label>
-              <input 
+              <input
                 value={provinceSearchTerm}
                 onChange={e => {
                   setProvinceSearchTerm(e.target.value);
@@ -144,9 +145,9 @@ export default function AdminProductCreate() {
               />
               {isDropdownOpen && (
                 <>
-                  <div 
-                    style={{ position: "fixed", inset: 0, zIndex: 999 }} 
-                    onClick={() => setIsDropdownOpen(false)} 
+                  <div
+                    style={{ position: "fixed", inset: 0, zIndex: 999 }}
+                    onClick={() => setIsDropdownOpen(false)}
                   />
                   <div style={{
                     position: "absolute",
@@ -168,7 +169,7 @@ export default function AdminProductCreate() {
                       <div style={{ gridColumn: "1 / -1", textAlign: "center", color: "#666" }}>Không tìm thấy địa phương nào.</div>
                     ) : (
                       filteredProvinces.map(p => (
-                        <div 
+                        <div
                           key={p.id}
                           onClick={() => {
                             setForm(prev => ({ ...prev, provinceId: p.id }));
@@ -201,22 +202,36 @@ export default function AdminProductCreate() {
             </div>
 
             <div style={{ display: "grid", gap: 8 }}>
+              <label style={{ fontWeight: 600 }}>Loại đặc sản (*)</label>
+              <select
+                name="type"
+                value={form.type}
+                onChange={(e) => setForm(prev => ({ ...prev, type: parseInt(e.target.value) }))}
+                style={{ padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
+                required
+              >
+                <option value={1}>Có thể bán trực tuyến (Sellable)</option>
+                <option value={2}>Dùng tại chỗ / Nhà hàng (Restaurant)</option>
+              </select>
+            </div>
+
+            <div style={{ display: "grid", gap: 8 }}>
               <label style={{ fontWeight: 600 }}>Giá (VNĐ)</label>
               <input name="price" type="number" placeholder="50000" value={form.price} onChange={handleChange} />
             </div>
 
             <div style={{ display: "grid", gap: 8 }}>
               <label style={{ fontWeight: 600 }}>Hình ảnh</label>
-              <input name="imageUrl" placeholder="Image URL" value={form.imageUrl} onChange={handleChange} />
+              <input name="imageUrl" placeholder="Image URL" value={form.imageUrl} onChange={handleChange} style={{ padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} />
               <input type="file" accept="image/*" onChange={(event) => handleUpload(event, "imageUrl")} />
-              {form.imageUrl && <img src={form.imageUrl} alt="Preview" style={{ width: 150, height: 150, objectFit: "cover", marginTop: 8 }} />}
+              {form.imageUrl && <img src={form.imageUrl} alt="Preview" style={{ width: 150, height: 150, objectFit: "cover", marginTop: 8, borderRadius: 8 }} />}
             </div>
 
             <div style={{ display: "grid", gap: 8 }}>
               <label style={{ fontWeight: 600 }}>Video</label>
-              <input name="videoUrl" placeholder="Video URL" value={form.videoUrl} onChange={handleChange} />
+              <input name="videoUrl" placeholder="Video URL" value={form.videoUrl} onChange={handleChange} style={{ padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }} />
               <input type="file" accept="video/*" onChange={(event) => handleUpload(event, "videoUrl")} />
-              {form.videoUrl && <video src={form.videoUrl} controls style={{ width: 300, marginTop: 8 }} />}
+              {form.videoUrl && <video src={form.videoUrl} controls style={{ width: 300, marginTop: 8, borderRadius: 8 }} />}
             </div>
 
             <div style={{ display: "flex", gap: 24, marginTop: 12 }}>
@@ -231,7 +246,7 @@ export default function AdminProductCreate() {
               </label>
             </div>
           </div>
-          
+
           <div style={{ marginTop: 24, display: "flex", gap: 12 }}>
             <button className="btn btn-primary" type="submit">Lưu Đặc Sản</button>
             <button className="btn btn-outline" type="button" onClick={() => navigate("/admin/products")}>Hủy</button>

@@ -7,23 +7,14 @@ namespace WebApplication1.Migrations
     /// <inheritdoc />
     public partial class ForceAddSectionVisibility : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "SectionVisibilityJson",
-                table: "LandingPageConfigs",
-                type: "text",
-                nullable: false,
-                defaultValue: "");
+            // Already added in previous migration or DB
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "SectionVisibilityJson",
-                table: "LandingPageConfigs");
+            // Already added in previous migration or DB
         }
     }
 }

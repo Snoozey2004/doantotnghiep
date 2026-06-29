@@ -18,11 +18,20 @@ import {
 import 'ckeditor5/ckeditor5.css';
 import { uploadApi } from '../../api/uploadApi';
 
+const COMMON_SETTINGS = [
+  { key: 'marginTop', label: 'Khoảng cách trên (Margin px)', type: 'number' },
+  { key: 'marginBottom', label: 'Khoảng cách dưới (Margin px)', type: 'number' },
+  { key: 'textColor', label: 'Màu chữ', type: 'color' },
+  { key: 'textAlign', label: 'Căn lề', type: 'select', options: [{value: 'left', label: 'Trái'}, {value: 'center', label: 'Giữa'}, {value: 'right', label: 'Phải'}] },
+  { key: 'visibility', label: 'Hiển thị', type: 'select', options: [{value: 'all', label: 'Mọi thiết bị'}, {value: 'desktop', label: 'Chỉ Desktop'}, {value: 'mobile', label: 'Chỉ Mobile'}] }
+];
+
 const LAYOUT_SCHEMAS = {
   HeroBanner: [
     { key: 'title', label: 'Tiêu đề', type: 'string' },
     { key: 'description', label: 'Mô tả', type: 'textarea' },
     { key: 'image', label: 'Ảnh Background (URL)', type: 'image' },
+    { key: 'backgroundColor', label: 'Màu nền Gradient', type: 'color' },
   ],
   TextOnly: [
     { key: 'title', label: 'Tiêu đề', type: 'string' },
@@ -111,6 +120,25 @@ const LAYOUT_SCHEMAS = {
   Video: [
     { key: 'title', label: 'Tiêu đề Video', type: 'string' },
     { key: 'videoUrl', label: 'Đường dẫn Video (Youtube/MP4)', type: 'string' },
+    { key: 'backgroundColor', label: 'Màu nền', type: 'color' }
+  ],
+  RestaurantList: [
+    { key: 'title', label: 'Tiêu đề Gợi ý', type: 'string' },
+    { key: 'description', label: 'Mô tả', type: 'textarea' },
+    { key: 'backgroundColor', label: 'Màu nền', type: 'color' },
+    {
+      key: 'restaurants', label: 'Danh sách Địa điểm', type: 'array', itemSchema: [
+        { key: 'name', label: 'Tên quán/nhà hàng', type: 'string' },
+        { key: 'address', label: 'Địa chỉ cụ thể', type: 'string' },
+        { key: 'mapUrl', label: 'Link Google Maps (Tùy chọn)', type: 'string' },
+        { key: 'image', label: 'Ảnh minh họa', type: 'image' }
+      ]
+    }
+  ],
+  TextImageText: [
+    { key: 'topText', label: 'Nội dung bên trái', type: 'textarea' },
+    { key: 'image', label: 'Ảnh đính kèm (URL)', type: 'image' },
+    { key: 'bottomText', label: 'Nội dung bên phải', type: 'textarea' },
     { key: 'backgroundColor', label: 'Màu nền', type: 'color' }
   ]
 };
@@ -269,6 +297,9 @@ function ColorInput({ label, value, onChange }) {
 function ImageInput({ label, value, onChange }) {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
+  const [isDraggingFocal, setIsDraggingFocal] = useState(false);
+
+  const valObj = typeof value === 'string' ? { url: value, scale: 'cover', focalPoint: 'center' } : (value || { url: '', scale: 'cover', focalPoint: 'center' });
 
   const handleUpload = async (e) => {
     const file = e.target.files?.[0];
@@ -278,8 +309,8 @@ function ImageInput({ label, value, onChange }) {
     setUploadError("");
 
     try {
-      const result = await uploadApi.upload(file, "infographics", null, "infographic-block", "IMG");
-      onChange(result.url);
+      const result = await uploadApi.upload(file, "infographics");
+      onChange({ ...valObj, url: result.url });
     } catch (err) {
       console.error(err);
       setUploadError("Tải ảnh lên thất bại");
@@ -288,6 +319,45 @@ function ImageInput({ label, value, onChange }) {
       e.target.value = "";
     }
   };
+
+  const handleUrlChange = (newUrl) => onChange({ ...valObj, url: newUrl });
+  const handleScaleChange = (newScale) => onChange({ ...valObj, scale: newScale });
+  const handleFocalChange = (newFocal) => onChange({ ...valObj, focalPoint: newFocal });
+
+  const handleImageClickOrDrag = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    let x = ((e.clientX - rect.left) / rect.width) * 100;
+    let y = ((e.clientY - rect.top) / rect.height) * 100;
+    x = Math.max(0, Math.min(100, x));
+    y = Math.max(0, Math.min(100, y));
+    handleFocalChange(`${x.toFixed(0)}% ${y.toFixed(0)}%`);
+  };
+
+  let indicatorX = '50%';
+  let indicatorY = '50%';
+  if (valObj.focalPoint && valObj.focalPoint.includes('%')) {
+    const parts = valObj.focalPoint.split(' ');
+    if (parts.length === 2) {
+      indicatorX = parts[0];
+      indicatorY = parts[1];
+    }
+  } else {
+    const map = {
+      'center': ['50%', '50%'],
+      'top': ['50%', '0%'],
+      'bottom': ['50%', '100%'],
+      'left': ['0%', '50%'],
+      'right': ['100%', '50%'],
+      'top left': ['0%', '0%'],
+      'top right': ['100%', '0%'],
+      'bottom left': ['0%', '100%'],
+      'bottom right': ['100%', '100%']
+    };
+    if (valObj.focalPoint && map[valObj.focalPoint]) {
+      indicatorX = map[valObj.focalPoint][0];
+      indicatorY = map[valObj.focalPoint][1];
+    }
+  }
 
   return (
     <div style={{ marginBottom: '15px' }}>
@@ -313,17 +383,117 @@ function ImageInput({ label, value, onChange }) {
       </label>
       <input
         type="text"
-        value={value || ''}
-        onChange={e => onChange(e.target.value)}
+        value={valObj.url || ''}
+        onChange={e => handleUrlChange(e.target.value)}
         placeholder="Hoặc nhập đường dẫn ảnh (http://...)"
         style={{ width: '100%', padding: '8px 12px', border: '1px solid #d9d9d9', borderRadius: '4px', fontSize: '14px', outline: 'none', marginBottom: '5px', boxSizing: 'border-box' }}
       />
+      
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+        <div style={{ flex: 1 }}>
+          <label style={{ fontSize: '10px', color: '#888', display: 'block', marginBottom: '2px' }}>Kích thước (Scale)</label>
+          <select value={valObj.scale} onChange={e => handleScaleChange(e.target.value)} style={{ width: '100%', padding: '4px', fontSize: '12px', border: '1px solid #ccc', borderRadius: '3px' }}>
+            <option value="cover">Cover (Lấp đầy)</option>
+            <option value="contain">Contain (Vừa vặn)</option>
+            <option value="fill">Fill (Kéo giãn)</option>
+          </select>
+        </div>
+        <div style={{ flex: 1 }}>
+          <label style={{ fontSize: '10px', color: '#888', display: 'block', marginBottom: '2px' }}>Tiêu điểm (Focal)</label>
+          <input 
+            type="text" 
+            value={valObj.focalPoint} 
+            onChange={e => handleFocalChange(e.target.value)} 
+            style={{ width: '100%', padding: '4px', fontSize: '12px', border: '1px solid #ccc', borderRadius: '3px', boxSizing: 'border-box' }} 
+          />
+        </div>
+      </div>
+
       {uploadError && <div style={{ color: 'red', fontSize: '12px', marginBottom: '5px' }}>{uploadError}</div>}
-      {value && (
-        <div style={{ width: '100%', height: '100px', backgroundColor: '#f5f5f5', borderRadius: '4px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px dashed #d9d9d9' }}>
-          <img src={value} alt="Preview" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} onError={(e) => { e.target.style.display = 'none'; e.target.parentNode.innerHTML = '<span style="color:#999;font-size:12px">Ảnh lỗi / Không hiển thị được</span>' }} />
+      {valObj.url && (
+        <div style={{ marginBottom: '10px' }}>
+          <div style={{ fontSize: '10px', color: '#888', marginBottom: '4px' }}>Click hoặc kéo thả trên ảnh để chọn tiêu điểm:</div>
+          <div 
+            style={{ width: '100%', height: '150px', backgroundColor: '#f5f5f5', borderRadius: '4px', overflow: 'hidden', position: 'relative', border: '1px dashed #1890ff', cursor: 'crosshair' }}
+            onMouseDown={(e) => { setIsDraggingFocal(true); handleImageClickOrDrag(e); }}
+            onMouseMove={(e) => { if (isDraggingFocal) handleImageClickOrDrag(e); }}
+            onMouseUp={() => setIsDraggingFocal(false)}
+            onMouseLeave={() => setIsDraggingFocal(false)}
+          >
+            <img src={valObj.url} alt="Preview" style={{ width: '100%', height: '100%', objectFit: valObj.scale, objectPosition: valObj.focalPoint, pointerEvents: 'none' }} onError={(e) => { e.target.style.display = 'none'; e.target.parentNode.innerHTML = '<span style="color:#999;font-size:12px;display:flex;align-items:center;justify-content:center;height:100%">Ảnh lỗi / Không hiển thị được</span>' }} />
+            
+            <div style={{
+              position: 'absolute',
+              left: indicatorX,
+              top: indicatorY,
+              width: '16px',
+              height: '16px',
+              backgroundColor: '#1890ff',
+              border: '2px solid white',
+              borderRadius: '50%',
+              transform: 'translate(-50%, -50%)',
+              pointerEvents: 'none',
+              boxShadow: '0 0 4px rgba(0,0,0,0.5)',
+              transition: isDraggingFocal ? 'none' : 'all 0.2s ease-out'
+            }} />
+          </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function NumberInput({ label, value, onChange }) {
+  return (
+    <div style={{ marginBottom: '15px' }}>
+      <label style={{ display: 'block', fontSize: '12px', fontWeight: 'bold', color: '#555', marginBottom: '5px', textTransform: 'uppercase' }}>
+        {label}
+      </label>
+      <input
+        type="number"
+        value={value !== undefined ? value : ''}
+        onChange={e => onChange(Number(e.target.value))}
+        style={{ width: '100%', padding: '8px 12px', border: '1px solid #d9d9d9', borderRadius: '4px', fontSize: '14px', outline: 'none', transition: 'border-color 0.2s', boxSizing: 'border-box' }}
+        onFocus={e => e.target.style.borderColor = '#40a9ff'}
+        onBlur={e => e.target.style.borderColor = '#d9d9d9'}
+      />
+    </div>
+  );
+}
+
+function SelectInput({ label, value, options, onChange }) {
+  return (
+    <div style={{ marginBottom: '15px' }}>
+      <label style={{ display: 'block', fontSize: '12px', fontWeight: 'bold', color: '#555', marginBottom: '5px', textTransform: 'uppercase' }}>
+        {label}
+      </label>
+      <select
+        value={value || ''}
+        onChange={e => onChange(e.target.value)}
+        style={{ width: '100%', padding: '8px 12px', border: '1px solid #d9d9d9', borderRadius: '4px', fontSize: '14px', outline: 'none', transition: 'border-color 0.2s', boxSizing: 'border-box', backgroundColor: '#fff' }}
+        onFocus={e => e.target.style.borderColor = '#40a9ff'}
+        onBlur={e => e.target.style.borderColor = '#d9d9d9'}
+      >
+        {options?.map(opt => (
+          <option key={opt.value} value={opt.value}>{opt.label}</option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function BooleanInput({ label, value, onChange }) {
+  return (
+    <div style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <input
+        type="checkbox"
+        checked={!!value}
+        onChange={e => onChange(e.target.checked)}
+        style={{ width: '16px', height: '16px', cursor: 'pointer' }}
+      />
+      <label style={{ fontSize: '14px', fontWeight: 'bold', color: '#333', cursor: 'pointer', userSelect: 'none' }} onClick={() => onChange(!value)}>
+        {label}
+      </label>
     </div>
   );
 }
@@ -409,6 +579,12 @@ function FieldRenderer({ field, value, onChange, onOpenRichText }) {
       return <ImageInput label={field.label} value={value} onChange={onChange} />;
     case 'array':
       return <ArrayInput label={field.label} value={value} itemSchema={field.itemSchema} onChange={onChange} onOpenRichText={onOpenRichText} />;
+    case 'number':
+      return <NumberInput label={field.label} value={value} onChange={onChange} />;
+    case 'select':
+      return <SelectInput label={field.label} value={value} options={field.options} onChange={onChange} />;
+    case 'boolean':
+      return <BooleanInput label={field.label} value={value} onChange={onChange} />;
     default:
       return null;
   }
@@ -436,7 +612,8 @@ export default function BlockEditor({ selectedBlock, onChangeBlockData }) {
     );
   }
 
-  const schema = LAYOUT_SCHEMAS[selectedBlock.layoutType] || [];
+  const baseSchema = LAYOUT_SCHEMAS[selectedBlock.layoutType] || [];
+  const schema = baseSchema.length > 0 ? [...baseSchema, ...COMMON_SETTINGS] : [];
 
   const handleFieldChange = (key, val) => {
     const newData = { ...localData, [key]: val };

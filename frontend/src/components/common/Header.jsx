@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { authApi } from "../../api/authApi";
 import { useAuth } from "../../contexts/AuthContext.jsx";
+import { useCart } from "../../contexts/CartContext.jsx";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
+  const { cartCount, setIsCartOpen } = useCart();
   const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem("accessToken")));
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
@@ -81,6 +83,21 @@ export default function Header() {
           </form>
         </nav>
         <div className="header-right">
+          <button 
+            onClick={() => setIsCartOpen(true)}
+            style={{ background: "transparent", border: "none", cursor: "pointer", fontSize: "1.4rem", position: "relative", marginRight: "16px" }}
+          >
+            🛒
+            {cartCount > 0 && (
+              <span style={{
+                position: "absolute", top: "-8px", right: "-12px", background: "#e11d48", color: "#fff",
+                fontSize: "0.75rem", fontWeight: 700, padding: "2px 6px", borderRadius: "10px"
+              }}>
+                {cartCount}
+              </span>
+            )}
+          </button>
+          
           {isAuthenticated ? (
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               {isAdminOrEditor && isInfographicPage && (
