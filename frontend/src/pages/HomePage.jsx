@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useRef, useState, useCallback, useEffect } from "react";
 import MainLayout from "../layouts/MainLayout.jsx";
 import HomeCharts from "../components/landing/HomeCharts.jsx";
+import Button from "../components/common/Button.jsx";
 import phoImage from "/Images/pho-bo-ha-noi.jpeg";
 import hueImage from "/Images/bunbohue.jpg";
 import huTieuImage from "/Images/hutieu.jpg";
@@ -64,6 +65,13 @@ export default function HomePage() {
   const ngayDocLapImage = "/Images/ngaydoclapdantoc.jpg";
   const hienDaiHoiNhapImage = "/Images/hiendaivietnamhoinhap.jpg";
   const mapVietnamImage = "/Images/mapvn.jpg";
+
+  const scrollToMap = () => {
+    const el = document.querySelector(".home-map-section");
+    if (!el) return;
+    if (window.__lenis) window.__lenis.scrollTo(el, { offset: -60 });
+    else el.scrollIntoView({ behavior: "smooth" });
+  };
 
   const [bgIndex, setBgIndex] = useState(0);
 
@@ -406,34 +414,70 @@ export default function HomePage() {
   return (
     <MainLayout>
       <main className="home-landing home-storyboard">
-        <section className="home-hero-card">
+        <section className="vx-hero">
           {heroBgs.map((src, i) => (
             <div
               key={i}
-              className="home-hero-bg"
-              style={{
-                backgroundImage: `url(${src})`,
-                opacity: i === bgIndex ? 1 : 0,
-              }}
+              className={`vx-hero__bg${i === bgIndex ? " is-active" : ""}`}
+              style={{ backgroundImage: `url("${src}")` }}
             />
           ))}
+          <div className="vx-hero__veil" />
+
           <motion.div
-            className="home-hero-copy"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            className="vx-hero__inner"
+            initial="hidden"
+            animate="show"
+            variants={{ show: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } } }}
           >
-            <span className="home-hero-kicker">Bản sắc Việt Nam</span>
-            <h1>Hành trình di sản &amp; bản sắc Việt Nam</h1>
-            <p>
+            <motion.span
+              className="vx-eyebrow vx-hero__eyebrow"
+              variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              Bản sắc Việt Nam · 34 tỉnh thành
+            </motion.span>
+
+            <motion.h1
+              className="vx-hero__title"
+              variants={{ hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            >
+              Hành trình <em>di sản</em> &amp; bản sắc Việt Nam
+            </motion.h1>
+
+            <motion.p
+              className="vx-hero__lead"
+              variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            >
               Khám phá vẻ đẹp ẩm thực, lịch sử và văn hóa của 34 tỉnh thành theo một bố
               cục trang nhã, tối giản và giàu cảm xúc.
-            </p>
-            <div className="home-hero-actions">
-              <button type="button" className="btn btn-hero" onClick={() => navigate('/search?keyword=')}>
+            </motion.p>
+
+            <motion.div
+              className="vx-hero__actions"
+              variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Button premium variant="light" magnetic onClick={() => navigate('/search?keyword=')}>
                 Khám phá ngay
-              </button>
-            </div>
+              </Button>
+              <Button premium variant="ondark" onClick={scrollToMap}>
+                Xem bản đồ
+              </Button>
+            </motion.div>
+
+            <motion.div
+              className="vx-hero__meta"
+              variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
+              transition={{ duration: 1, delay: 0.3 }}
+            >
+              <span className="vx-hero__scroll">
+                Cuộn để khám phá
+                <span className="vx-hero__scroll-line" />
+              </span>
+            </motion.div>
           </motion.div>
         </section>
 
@@ -471,6 +515,7 @@ export default function HomePage() {
               <div
                 className="home-map-image"
                 ref={mapRef}
+                data-lenis-prevent
               >
                 <div
                   ref={imgRef}
@@ -604,7 +649,7 @@ export default function HomePage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.55 }}
                 >
-                  <div className="home-region-image" style={{ backgroundImage: `url(${item.image})` }} />
+                  <div className="home-region-image" style={{ backgroundImage: `url("${item.image}")` }} />
                   <div className="home-region-body">
                     <span>{item.region}</span>
                     <h3>{item.title}</h3>

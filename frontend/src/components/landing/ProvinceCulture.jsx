@@ -32,7 +32,7 @@ export default function ProvinceCulture({ province, bgColor }) {
             >
               <div
                 className="province-heritage-image"
-                style={{ backgroundImage: `url(${item.image})` }}
+                style={{ backgroundImage: `url("${item.image}")` }}
               >
                 {item.yearBuilt && (
                   <div className="province-heritage-year">{item.yearBuilt}</div>
@@ -69,7 +69,7 @@ export default function ProvinceCulture({ province, bgColor }) {
               >
                 <div
                   className="province-culture-mini-image"
-                  style={{ backgroundImage: `url(${item.image})` }}
+                  style={{ backgroundImage: `url("${item.image}")` }}
                 />
                 <div className="province-culture-mini-body">
                   <h4>{item.name}</h4>

@@ -11,11 +11,23 @@ export default function Header() {
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [scrolled, setScrolled] = useState(false);
   const accountRef = useRef(null);
+
+  const isHome = location.pathname === "/";
+  // Navbar trong suốt khi ở đỉnh trang chủ (đè lên hero tối), đặc lại khi cuộn
+  const transparent = isHome && !scrolled;
 
   useEffect(() => {
     setIsAuthenticated(Boolean(localStorage.getItem("accessToken")));
   }, [location.pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -57,29 +69,36 @@ export default function Header() {
 
   return (
     <>
-    <header className="site-header">
-      <div className="container header-content">
-        <a href="/" className="logo">
+    {!isHome && <div className="vx-nav-pad" aria-hidden="true" />}
+    <header className={`vx-nav ${transparent ? "is-transparent" : "is-solid"}`}>
+      <div className="vx-nav__inner">
+        <Link to="/" className="vx-nav__logo">
           Vietnam Identity
-        </a>
-        <nav className="header-nav">
-          <form onSubmit={handleSearchSubmit} className="header-search">
-            <input
-              type="search"
-              className="header-search-input"
-              placeholder="Tìm kiếm..."
-              value={searchKeyword}
-              onChange={(event) => setSearchKeyword(event.target.value)}
-            />
-            <button type="submit" className="btn btn-primary btn-sm">Tìm</button>
-          </form>
-        </nav>
-        <div className="header-right">
+        </Link>
+
+        <div className="vx-nav__spacer" />
+
+        <form onSubmit={handleSearchSubmit} className="vx-search" role="search">
+          <svg className="vx-search__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.6" />
+            <path d="m20 20-3.2-3.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+          <input
+            type="search"
+            className="vx-search__input"
+            placeholder="Tìm kiếm…"
+            aria-label="Tìm kiếm"
+            value={searchKeyword}
+            onChange={(event) => setSearchKeyword(event.target.value)}
+          />
+        </form>
+
+        <div className="vx-nav__links">
           {isAuthenticated ? (
             <div ref={accountRef} className="account-menu">
               <button
                 type="button"
-                className="btn btn-outline btn-sm account-trigger"
+                className="vx-nav__account"
                 onClick={() => setIsAccountOpen((prev) => !prev)}
                 aria-expanded={isAccountOpen}
                 aria-haspopup="menu"
@@ -91,25 +110,16 @@ export default function Header() {
                   <div className="account-dropdown-label">Đăng nhập với</div>
                   <div className="account-dropdown-name">{displayName}</div>
                 </div>
-                <Link
-                  to="/account"
-                  onClick={() => setIsAccountOpen(false)}
-                >
+                <Link to="/account" onClick={() => setIsAccountOpen(false)}>
                   Tài khoản
                 </Link>
                 {isAdminOrEditor && (
-                  <Link
-                    to="/editor"
-                    onClick={() => setIsAccountOpen(false)}
-                  >
+                  <Link to="/editor" onClick={() => setIsAccountOpen(false)}>
                     Editor Dashboard
                   </Link>
                 )}
                 {isAdmin && (
-                  <Link
-                    to="/admin"
-                    onClick={() => setIsAccountOpen(false)}
-                  >
+                  <Link to="/admin" onClick={() => setIsAccountOpen(false)}>
                     Admin Dashboard
                   </Link>
                 )}
@@ -126,10 +136,10 @@ export default function Header() {
             </div>
           ) : (
             <>
-              <Link to="/login" className="header-link">
+              <Link to="/login" className="vx-nav__link">
                 Đăng nhập
               </Link>
-              <Link to="/register" className="header-cta">
+              <Link to="/register" className="vx-nav__link vx-nav__link--cta">
                 Đăng ký
               </Link>
             </>

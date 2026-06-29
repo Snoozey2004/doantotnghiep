@@ -221,7 +221,7 @@ export default function AIChatWidget() {
           )}
 
           {/* Messages */}
-          <div className="ai-chat-messages">
+          <div className="ai-chat-messages" data-lenis-prevent>
             {messages.map((msg, i) => (
               <div
                 key={i}

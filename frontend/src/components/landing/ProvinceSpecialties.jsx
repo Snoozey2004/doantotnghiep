@@ -44,7 +44,7 @@ export default function ProvinceSpecialties({ province, bgColor }) {
             >
               <div
                 className="province-food-image"
-                style={{ backgroundImage: `url(${item.image})` }}
+                style={{ backgroundImage: `url("${item.image}")` }}
               >
                 {item.icon && (
                   <div className="province-food-icon">{item.icon}</div>

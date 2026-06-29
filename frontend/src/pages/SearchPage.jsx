@@ -188,7 +188,9 @@ const SearchPage = () => {
       const allLocal = buildLocalProvinceResults(filters);
       const pageSize = 10;
       const start = (currentPage - 1) * pageSize;
-      setResults(allLocal.slice(start, start + pageSize).map(r => ({ ...r, imageUrl: bgMap[r.slug] || r.imageUrl })));
+      // Ưu tiên ảnh heroImage tuyển chọn riêng của từng tỉnh; chỉ dùng background
+      // từ backend khi tỉnh chưa có heroImage (tránh ảnh mặc định homepage.png trùng lặp).
+      setResults(allLocal.slice(start, start + pageSize).map(r => ({ ...r, imageUrl: r.imageUrl || bgMap[r.slug] })));
       setTotalCount(allLocal.length);
       setShowSuggestions(false);
       setLoading(false);
@@ -200,7 +202,9 @@ const SearchPage = () => {
       const allLocal = buildLocalProvinceResults(filters, trimmedKeyword);
       const pageSize = 10;
       const start = (currentPage - 1) * pageSize;
-      setResults(allLocal.slice(start, start + pageSize).map(r => ({ ...r, imageUrl: bgMap[r.slug] || r.imageUrl })));
+      // Ưu tiên ảnh heroImage tuyển chọn riêng của từng tỉnh; chỉ dùng background
+      // từ backend khi tỉnh chưa có heroImage (tránh ảnh mặc định homepage.png trùng lặp).
+      setResults(allLocal.slice(start, start + pageSize).map(r => ({ ...r, imageUrl: r.imageUrl || bgMap[r.slug] })));
       setTotalCount(allLocal.length);
       setShowSuggestions(false);
       setLoading(false);

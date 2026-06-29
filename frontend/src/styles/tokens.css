@@ -1,0 +1,96 @@
+/* =====================================================================
+   DESIGN TOKENS — Vietnam Identity (Phase 1 · Foundation)
+   Hệ thống token tập trung: màu, typography, spacing, motion.
+   File này CHỈ khai báo biến + tiện ích nền, KHÔNG ghi đè layout cũ.
+   Bảng màu: Kem + mực đen, điểm nhấn xanh rừng / xanh biển (tiết chế).
+   ===================================================================== */
+
+:root {
+  /* ---- Surfaces (kem / giấy) ---- */
+  --paper:        #F4F0E8;   /* nền chính, tông kem ấm */
+  --paper-soft:   #EFE9DD;   /* nền phụ, section xen kẽ */
+  --paper-deep:   #E7DFD0;   /* viền/khối nhẹ */
+  --white:        #FFFFFF;
+
+  /* ---- Ink (mực đen ấm) + thang xám trung tính ---- */
+  --ink:          #16130E;   /* chữ tiêu đề / nền tối */
+  --ink-soft:     #312B22;   /* chữ thân */
+  --ink-muted:    #6E665A;   /* chú thích, kicker */
+  --ink-faint:    #9A9182;   /* placeholder, meta mờ */
+
+  /* ---- Hairlines ---- */
+  --line:         rgba(22, 19, 14, 0.12);
+  --line-strong:  rgba(22, 19, 14, 0.22);
+  --line-ondark:  rgba(255, 255, 255, 0.16);
+
+  /* ---- Accents (dùng RẤT tiết chế) ---- */
+  --forest:       #1F3A2E;   /* xanh rừng — nhấn chính */
+  --forest-2:     #2E5641;
+  --ocean:        #1C3D52;   /* xanh biển — nhấn phụ */
+  --ocean-2:      #2A5A78;
+  --sunset:       #C2552D;   /* cam hoàng hôn — chỉ cho điểm nóng */
+  --sun:          #C9A227;   /* vàng nắng — gạch chân / chi tiết nhỏ */
+
+  /* Token ngữ nghĩa: đổi 1 dòng là đổi cả accent toàn site */
+  --accent:       var(--forest);
+  --accent-2:     var(--ocean);
+  --accent-ink:   #F4F0E8;   /* chữ trên nền accent */
+
+  /* ---- Typography ---- */
+  --font-display: "Playfair Display", "Cormorant Garamond", Georgia, serif;
+  --font-sans:    "Inter", "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+  --font-mono:    "Outfit", "Inter", system-ui, sans-serif;
+
+  /* Thang chữ Swiss — fluid clamp() */
+  --fs-display:   clamp(3rem, 8vw, 7.5rem);    /* tiêu đề điện ảnh */
+  --fs-h1:        clamp(2.4rem, 5.5vw, 5rem);
+  --fs-h2:        clamp(1.9rem, 3.6vw, 3.4rem);
+  --fs-h3:        clamp(1.3rem, 2vw, 1.9rem);
+  --fs-lead:      clamp(1.05rem, 1.4vw, 1.35rem);
+  --fs-body:      1rem;
+  --fs-sm:        0.875rem;
+  --fs-eyebrow:   0.72rem;
+
+  --lh-tight:     1.04;
+  --lh-snug:      1.18;
+  --lh-body:      1.75;
+  --tracking-tight: -0.02em;
+  --tracking-wide:  0.18em;
+
+  /* ---- Spacing (8pt) ---- */
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+  --space-5: 24px;  --space-6: 32px;  --space-7: 48px;  --space-8: 64px;
+  --space-9: 96px;  --space-10: 128px;
+  /* Nhịp section editorial — nhiều khoảng trắng */
+  --section-y: clamp(72px, 11vw, 180px);
+  --gutter:    clamp(20px, 5vw, 64px);
+  --maxw:      1280px;
+  --maxw-text: 68ch;
+
+  /* ---- Radius ---- */
+  --r-sm: 6px;  --r-md: 12px;  --r-lg: 20px;  --r-xl: 28px;  --r-pill: 999px;
+
+  /* ---- Shadow (tối giản, mềm) ---- */
+  --shadow-xs: 0 1px 2px rgba(22, 19, 14, 0.06);
+  --shadow-sm: 0 6px 18px rgba(22, 19, 14, 0.08);
+  --shadow-md: 0 18px 44px rgba(22, 19, 14, 0.12);
+  --shadow-lg: 0 32px 80px rgba(22, 19, 14, 0.18);
+
+  /* ---- Motion ---- */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);     /* mượt, sang */
+  --ease-inout:  cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast:    0.25s;
+  --dur-base:    0.5s;
+  --dur-slow:    0.9s;
+
+  --z-cursor: 9999;
+  --z-progress: 9000;
+  --z-loader: 9500;
+  --z-nav: 100;
+}
+
+/* Tôn trọng người dùng tắt hiệu ứng */
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0.01ms; --dur-base: 0.01ms; --dur-slow: 0.01ms; }
+}

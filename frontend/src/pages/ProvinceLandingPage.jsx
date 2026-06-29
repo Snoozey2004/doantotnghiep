@@ -295,9 +295,18 @@ export default function ProvinceLandingPage() {
     ? config.sectionOrder
     : ["hero","intro","video","charts","timeline","culture","specialties","craftVillages","festivals","gallery","info"];
   const sectionVisibility = config?.sectionVisibility || {};
-  const heroImage = config?.backgroundUrl
+  // backgroundUrl từ backend được seed mặc định = "/Images/homepage.png" cho rất nhiều
+  // tỉnh, khiến ảnh mặc định đè lên heroImage tuyển chọn của tỉnh. Bỏ qua đúng giá trị
+  // mặc định đó; mọi ảnh editor tự đặt qua workspace đều khác homepage.png nên vẫn được
+  // ưu tiên hàng đầu như cũ (editor đổi & lưu hình nền hero vẫn hoạt động bình thường).
+  const editorBackground =
+    config?.backgroundUrl && !config.backgroundUrl.endsWith("homepage.png")
+      ? config.backgroundUrl
+      : null;
+  const heroImage = editorBackground
     || featuredMedia.find((item) => item.mediaType === "hero")?.url
-    || province.heroImage;
+    || province.heroImage
+    || config?.backgroundUrl;
   const introImage = featuredMedia.find((item) => item.mediaType === "intro")?.url
     || province.introImage;
 

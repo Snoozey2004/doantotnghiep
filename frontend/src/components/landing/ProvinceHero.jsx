@@ -6,7 +6,7 @@ export default function ProvinceHero({ province, bgColor }) {
   return (
     <section
       className="province-hero"
-      style={{ backgroundImage: `url(${province.heroImage})`, ...(bgColor ? { backgroundColor: bgColor } : {}) }}
+      style={{ backgroundImage: `url("${province.heroImage}")`, ...(bgColor ? { backgroundColor: bgColor } : {}) }}
     >
       <div className="province-hero-overlay" />
       <div className="container province-hero-content">

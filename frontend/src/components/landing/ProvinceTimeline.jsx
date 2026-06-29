@@ -36,7 +36,7 @@ export default function ProvinceTimeline({ province, bgColor }) {
                     <div className="province-timeline-card">
                       <div
                         className="province-timeline-image"
-                        style={{ backgroundImage: `url(${item.image})` }}
+                        style={{ backgroundImage: `url("${item.image}")` }}
                       />
                       <div className="province-timeline-body">
                         <span className="province-timeline-year-badge">{item.year}</span>
@@ -62,7 +62,7 @@ export default function ProvinceTimeline({ province, bgColor }) {
                     <div className="province-timeline-card">
                       <div
                         className="province-timeline-image"
-                        style={{ backgroundImage: `url(${item.image})` }}
+                        style={{ backgroundImage: `url("${item.image}")` }}
                       />
                       <div className="province-timeline-body">
                         <span className="province-timeline-year-badge">{item.year}</span>

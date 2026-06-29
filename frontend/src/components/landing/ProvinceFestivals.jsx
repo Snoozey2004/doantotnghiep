@@ -30,7 +30,7 @@ export default function ProvinceFestivals({ province, bgColor }) {
             >
               <div
                 className="province-festival-image"
-                style={{ backgroundImage: `url(${item.image})` }}
+                style={{ backgroundImage: `url("${item.image}")` }}
               >
                 <div className="province-festival-date-badge">
                   <span>📅 {item.date}</span>
