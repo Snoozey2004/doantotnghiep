@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Application.DTOs.ProductDTOs;
 using WebApplication1.Application.Interfaces.Services;
@@ -34,6 +34,13 @@ public class ProductsController : ControllerBase
     public async Task<ActionResult<List<ProductDto>>> GetByProvinceId(Guid provinceId, CancellationToken cancellationToken)
     {
         var products = await _productService.GetByProvinceIdAsync(provinceId, cancellationToken);
+        return Ok(products);
+    }
+
+    [HttpGet("province/slug/{slug}")]
+    public async Task<ActionResult<List<ProductDto>>> GetByProvinceSlug(string slug, CancellationToken cancellationToken)
+    {
+        var products = await _productService.GetByProvinceSlugAsync(slug, cancellationToken);
         return Ok(products);
     }
 

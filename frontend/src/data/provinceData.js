@@ -60,31 +60,13 @@ const provinces = [
     ],
     specialties: [
       {
-        slug: "pho-ha-noi",
-        name: "Phở Hà Nội",
-        description:
-          "Nước dùng trong, vị ngọt thanh từ xương hầm lâu, bánh phở mềm mượt – biểu tượng ẩm thực đất kinh kỳ.",
-        origin: "Phố cổ Hà Nội",
-        image: "/Images/Landingpagehanoi/pexels-fox-58267-1265626.jpg",
-        icon: "🍜",
-      },
-      {
         slug: "bun-cha-ha-noi",
         name: "Bún Chả Hà Nội",
         description:
           "Hương khói than hoa quyện trong từng sợi bún trắng – nét tinh tế ẩm thực phố cổ mà cựu Tổng thống Obama từng thưởng thức.",
         origin: "Phố cổ Hà Nội",
-        image: "/Images/Landingpagehanoi/pexels-nhavan-33082608.jpg",
+        image: "/uploads/products/buncha1.jpg",
         icon: "🥢",
-      },
-      {
-        slug: "banh-cuon-ha-noi",
-        name: "Bánh Cuốn Hà Nội",
-        description:
-          "Tinh tế từ lớp vỏ mỏng tang làm bằng bột gạo hấp, thơm hương nhân thịt nấm – món ăn sáng trứ danh của đất Thăng Long.",
-        origin: "Phố cổ Hà Nội",
-        image: "/Images/Landingpagehanoi/pexels-nhavan-36930594.jpg",
-        icon: "🫔",
       },
       {
         slug: "che-ha-noi",
@@ -92,28 +74,27 @@ const provinces = [
         description:
           "Ngọt ngào thanh mát với hạt sen, long nhãn và thạch – tinh hoa quà vặt nghìn năm của đất kinh kỳ.",
         origin: "Phố Hàng Đường, Hà Nội",
-        image: "/Images/Landingpagehanoi/pexels-soc-nang-d-ng-2150345854-36204083.jpg",
+        image: "/uploads/products/che1.jpg",
         icon: "🍮",
       },
-      // {
-      //   slug: "cha-ca-la-vong",
-      //   name: "Chả Cá Lã Vọng",
-      //   description:
-      //     "Cá lăng nướng nghệ thì là trên bếp than, ăn kèm bún và mắm tôm – món ăn trứ danh từ thế kỷ XIX.",
-      //   origin: "Phố Chả Cá",
-      //   image: "/Images/Landingpagehanoi/pexels-nguyendesigner-14192638.jpg",
-      //   icon: "🐟",
-      // },
-      // {
-      //   slug: "ca-phe-trung",
-      //   name: "Cà Phê Trứng",
-      //   description:
-      //     "Sáng tạo độc đáo của Hà Nội: cà phê robusta đậm đặc pha cùng lòng đỏ trứng đánh bông, béo ngậy và thơm nồng.",
-      //   origin: "Phố Đinh Tiên Hoàng",
-      //   image:
-      //     "/Images/Landingpagehanoi/pexels-soc-nang-d-ng-2150345854-35775552.jpg",
-      //   icon: "☕",
-      // },
+      {
+        slug: "pho-ha-noi",
+        name: "Phở Hà Nội",
+        description:
+          "Nước dùng trong, vị ngọt thanh từ xương hầm lâu, bánh phở mềm mượt – biểu tượng ẩm thực đất kinh kỳ.",
+        origin: "Phố cổ Hà Nội",
+        image: "/uploads/products/pho1.jpg",
+        icon: "🍜",
+      },
+      {
+        slug: "banh-cuon-thanh-tri",
+        name: "Bánh Cuốn Thanh Trì",
+        description:
+          "Đặc sản Thanh Trì nổi tiếng với lớp vỏ bánh mỏng tang, mềm mượt được tráng bằng hơi nước nóng và ăn kèm với nước mắm chua ngọt.",
+        origin: "Thanh Trì, Hà Nội",
+        image: "/uploads/products/banhcuon1.jpg",
+        icon: "🫔",
+      },
     ],
     tourism: [
       {

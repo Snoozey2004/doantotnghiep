@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebApplication1.Application.Interfaces.Repositories;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Infrastructure.Data;
@@ -35,6 +35,15 @@ public class ProductRepository : IProductRepository
             .Include(x => x.Galleries)
             .AsNoTracking()
             .Where(p => p.ProvinceId == provinceId)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<Product>> GetByProvinceSlugAsync(string provinceSlug, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Products
+            .Include(x => x.Galleries)
+            .AsNoTracking()
+            .Where(p => p.Province.Slug == provinceSlug)
             .ToListAsync(cancellationToken);
     }
 

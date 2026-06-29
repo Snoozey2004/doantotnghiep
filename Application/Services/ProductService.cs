@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using WebApplication1.Application.DTOs.ProductDTOs;
 using WebApplication1.Application.Interfaces.Repositories;
 using WebApplication1.Application.Interfaces.Services;
@@ -34,6 +34,12 @@ public class ProductService : IProductService
     public async Task<List<ProductDto>> GetByProvinceIdAsync(Guid provinceId, CancellationToken cancellationToken)
     {
         var products = await _productRepository.GetByProvinceIdAsync(provinceId, cancellationToken);
+        return _mapper.Map<List<ProductDto>>(products);
+    }
+
+    public async Task<List<ProductDto>> GetByProvinceSlugAsync(string provinceSlug, CancellationToken cancellationToken)
+    {
+        var products = await _productRepository.GetByProvinceSlugAsync(provinceSlug, cancellationToken);
         return _mapper.Map<List<ProductDto>>(products);
     }
 

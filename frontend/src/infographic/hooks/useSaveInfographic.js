@@ -1,5 +1,15 @@
 import { useState } from 'react';
 import { productInfographicApi } from '../services/productInfographicApi';
+const mapLayoutToBlockType = (layout) => {
+  switch (layout) {
+    case 'HeroBanner': return 'Hero';
+    case 'Statistics': return 'Statistics';
+    case 'Timeline': return 'Timeline';
+    case 'FAQ': return 'FAQ';
+    case 'CTA': return 'CTA';
+    default: return 'Content';
+  }
+};
 
 export function useSaveInfographic() {
   const [isSaving, setIsSaving] = useState(false);
@@ -12,7 +22,7 @@ export function useSaveInfographic() {
         blocks: blocks.map((block, index) => ({
           productInfographicId: infographicId || "00000000-0000-0000-0000-000000000000",
           layoutType: block.layoutType,
-          blockType: "Default",
+          blockType: block.blockType !== "Default" && block.blockType ? block.blockType : mapLayoutToBlockType(block.layoutType),
           sortOrder: index,
           isVisible: block.isVisible !== false,
           dataJson: JSON.stringify(block.data)

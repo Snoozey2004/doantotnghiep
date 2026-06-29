@@ -1,4 +1,6 @@
-﻿namespace WebApplication1.Domain.Entities;
+using WebApplication1.Domain.Enums;
+
+namespace WebApplication1.Domain.Entities;
 
 public class Product
 {
@@ -8,6 +10,7 @@ public class Product
     public string ImageUrl { get; set; } = string.Empty;
     public string VideoUrl { get; set; } = string.Empty;
     public decimal? Price { get; set; }
+    public ProductType Type { get; set; } = ProductType.Sellable;
     public bool IsFeatured { get; set; }
     public bool IsPublished { get; set; }
     public Guid ProvinceId { get; set; }

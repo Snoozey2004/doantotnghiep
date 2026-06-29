@@ -24,5 +24,13 @@ public enum InfographicLayoutType
 
     TextTopImageBottom = 12,
 
-    FeatureCards = 13
+    FeatureCards = 13,
+    
+    FeaturesGrid = 14,
+    
+    Video = 15,
+
+    RestaurantList = 16,
+
+    TextImageText = 17
 }

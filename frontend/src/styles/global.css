@@ -4428,3 +4428,11 @@ a {
   text-decoration: none;
   font-weight: 600;
 }
+/* --- CKEditor HTML Content Reset --- */
+.ck-html-content p { margin-bottom: 0.8em; }
+.ck-html-content ul { list-style-type: disc; margin-left: 1.5em; margin-bottom: 0.8em; }
+.ck-html-content ol { list-style-type: decimal; margin-left: 1.5em; margin-bottom: 0.8em; }
+.ck-html-content h1, .ck-html-content h2, .ck-html-content h3 { margin-top: 1em; margin-bottom: 0.5em; }
+.ck-html-content strong, .ck-html-content b { font-weight: bold; }
+.ck-html-content i, .ck-html-content em { font-style: italic; }
+.ck-html-content u { text-decoration: underline; }
