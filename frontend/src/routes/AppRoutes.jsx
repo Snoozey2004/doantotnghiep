@@ -37,6 +37,7 @@ import AdminProductDelete from "../pages/AdminProductDelete.jsx";
 import AdminOrdersDashboard from "../pages/AdminOrdersDashboard.jsx";
 import EditorDashboard from "../pages/EditorDashboard.jsx";
 import EditorAnalytics from "../pages/EditorAnalytics.jsx";
+import EditorMapPage from "../pages/EditorMapPage.jsx";
 import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
 import RequireAuth from "./RequireAuth.jsx";
 
@@ -87,6 +88,14 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute requiredRoles={[1]}>
             <EditorAnalytics />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/editor/map"
+        element={
+          <ProtectedRoute requiredRoles={[1]}>
+            <EditorMapPage />
           </ProtectedRoute>
         }
       />

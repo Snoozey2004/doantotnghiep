@@ -1,8 +1,10 @@
 ﻿import { motion } from "framer-motion";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState, useCallback, useEffect } from "react";
 import MainLayout from "../layouts/MainLayout.jsx";
 import HomeCharts from "../components/landing/HomeCharts.jsx";
+import Button from "../components/common/Button.jsx";
 import phoImage from "/Images/pho-bo-ha-noi.jpeg";
 import hueImage from "/Images/bunbohue.jpg";
 import huTieuImage from "/Images/hutieu.jpg";
@@ -19,6 +21,29 @@ import heroBg5 from "/Images/background5.jpg";
 import heroBg6 from "/Images/background6.jpg";
 
 const heroBgs = [heroBg0, heroBg1, heroBg2, heroBg3, heroBg4, heroBg5, heroBg6];
+const MARKER_ZOOM_THRESHOLD = 1.5;
+import { PROVINCE_MARKERS, defaultMarkerPositions, mergeMarkerPositions } from "../data/provinceMarkers.js";
+import { mapMarkerApi } from "../api/mapMarkerApi.js";
+import provinceData from "../data/provinceData.js";
+import { PROVINCE_CARD_INFO } from "../data/provinceCardInfo.js";
+
+const HERO_BY_SLUG = Object.fromEntries(provinceData.map((p) => [p.slug, p.heroImage]));
+
+// Thông tin hiển thị trên card hover của marker (tên, ảnh hero, mô tả ngắn, đặc sản)
+const PROVINCE_INFO = Object.fromEntries(
+  PROVINCE_MARKERS.map((m) => {
+    const card = PROVINCE_CARD_INFO[m.slug] || {};
+    return [
+      m.slug,
+      {
+        name: m.name,
+        heroImage: HERO_BY_SLUG[m.slug] || null,
+        shortDescription: card.desc || null,
+        specialty: card.specialty || null,
+      },
+    ];
+  })
+);
 import congCuoiDoiMoiImage from "/Images/congcuocdoimoi.jpg";
 import thongNhat1975Image from "/Images/1975.jpg";
 import nhaNuocVanLangImage from "/Images/nhanuocvanlang.jpg";
@@ -41,6 +66,13 @@ export default function HomePage() {
   const hienDaiHoiNhapImage = "/Images/hiendaivietnamhoinhap.jpg";
   const mapVietnamImage = "/Images/mapvn.jpg";
 
+  const scrollToMap = () => {
+    const el = document.querySelector(".home-map-section");
+    if (!el) return;
+    if (window.__lenis) window.__lenis.scrollTo(el, { offset: -60 });
+    else el.scrollIntoView({ behavior: "smooth" });
+  };
+
   const [bgIndex, setBgIndex] = useState(0);
 
   useEffect(() => {
@@ -51,6 +83,7 @@ export default function HomePage() {
   }, []);
 
   const [hasTransformed, setHasTransformed] = useState(false);
+  const [markersVisible, setMarkersVisible] = useState(false);
   const mapRef = useRef(null);
   const imgRef = useRef(null);
   const dragState = useRef(null);
@@ -58,6 +91,51 @@ export default function HomePage() {
   const scaleRef = useRef(1);
   const rafRef = useRef(null);
   const hasTransformedRef = useRef(false);
+  const markersVisibleRef = useRef(false);
+
+  // Vị trí marker 34 tỉnh — tải từ server (editor chỉnh ở /editor/map), fallback mặc định
+  const [markerPos, setMarkerPos] = useState(defaultMarkerPositions);
+
+  useEffect(() => {
+    mapMarkerApi
+      .getAll()
+      .then((list) => {
+        if (Array.isArray(list) && list.length > 0) {
+          setMarkerPos(mergeMarkerPositions(list));
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  // ── Card thông tin khi hover vào marker ──
+  const [hoverCard, setHoverCard] = useState(null);
+  const hoverTimerRef = useRef(null);
+
+  const clearHoverTimer = () => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+  };
+
+  const showHoverCard = (slug, el) => {
+    clearHoverTimer();
+    const info = PROVINCE_INFO[slug];
+    if (!info) return;
+    const rect = el.getBoundingClientRect();
+    const cardW = 300;
+    const margin = 14;
+    const placeRight = rect.right + margin + cardW <= window.innerWidth - 8;
+    const left = placeRight ? rect.right + margin : Math.max(8, rect.left - margin - cardW);
+    const half = 90;
+    const centerY = Math.min(Math.max(rect.top + rect.height / 2, half + 8), window.innerHeight - half - 8);
+    setHoverCard({ ...info, slug, left, top: centerY, side: placeRight ? "right" : "left" });
+  };
+
+  const scheduleHideCard = () => {
+    clearHoverTimer();
+    hoverTimerRef.current = setTimeout(() => setHoverCard(null), 200);
+  };
 
   const clamp = (val, min, max) => Math.min(max, Math.max(min, val));
 
@@ -81,10 +159,16 @@ export default function HomePage() {
         ? "transform 0.08s ease-out"
         : "none";
     img.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+    img.style.setProperty("--map-scale", s);
     const now = s !== 1 || x !== 0 || y !== 0;
     if (now !== hasTransformedRef.current) {
       hasTransformedRef.current = now;
       setHasTransformed(now);
+    }
+    const showMarkers = s >= MARKER_ZOOM_THRESHOLD;
+    if (showMarkers !== markersVisibleRef.current) {
+      markersVisibleRef.current = showMarkers;
+      setMarkersVisible(showMarkers);
     }
   };
 
@@ -119,6 +203,8 @@ export default function HomePage() {
     };
 
     const handleMouseDown = (e) => {
+      // Đừng pan khi đang bấm vào một marker (để click / kéo marker hoạt động)
+      if (e.target.closest && e.target.closest(".home-map-marker")) return;
       e.preventDefault();
       dragState.current = {
         startX: e.clientX,
@@ -328,34 +414,70 @@ export default function HomePage() {
   return (
     <MainLayout>
       <main className="home-landing home-storyboard">
-        <section className="home-hero-card">
+        <section className="vx-hero">
           {heroBgs.map((src, i) => (
             <div
               key={i}
-              className="home-hero-bg"
-              style={{
-                backgroundImage: `url(${src})`,
-                opacity: i === bgIndex ? 1 : 0,
-              }}
+              className={`vx-hero__bg${i === bgIndex ? " is-active" : ""}`}
+              style={{ backgroundImage: `url("${src}")` }}
             />
           ))}
+          <div className="vx-hero__veil" />
+
           <motion.div
-            className="home-hero-copy"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            className="vx-hero__inner"
+            initial="hidden"
+            animate="show"
+            variants={{ show: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } } }}
           >
-            <span className="home-hero-kicker">Bản sắc Việt Nam</span>
-            <h1>Hành trình di sản &amp; bản sắc Việt Nam</h1>
-            <p>
+            <motion.span
+              className="vx-eyebrow vx-hero__eyebrow"
+              variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              Bản sắc Việt Nam · 34 tỉnh thành
+            </motion.span>
+
+            <motion.h1
+              className="vx-hero__title"
+              variants={{ hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            >
+              Hành trình <em>di sản</em> &amp; bản sắc Việt Nam
+            </motion.h1>
+
+            <motion.p
+              className="vx-hero__lead"
+              variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            >
               Khám phá vẻ đẹp ẩm thực, lịch sử và văn hóa của 34 tỉnh thành theo một bố
               cục trang nhã, tối giản và giàu cảm xúc.
-            </p>
-            <div className="home-hero-actions">
-              <button type="button" className="btn btn-hero" onClick={() => navigate('/search?keyword=')}>
+            </motion.p>
+
+            <motion.div
+              className="vx-hero__actions"
+              variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Button premium variant="light" magnetic onClick={() => navigate('/search?keyword=')}>
                 Khám phá ngay
-              </button>
-            </div>
+              </Button>
+              <Button premium variant="ondark" onClick={scrollToMap}>
+                Xem bản đồ
+              </Button>
+            </motion.div>
+
+            <motion.div
+              className="vx-hero__meta"
+              variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
+              transition={{ duration: 1, delay: 0.3 }}
+            >
+              <span className="vx-hero__scroll">
+                Cuộn để khám phá
+                <span className="vx-hero__scroll-line" />
+              </span>
+            </motion.div>
           </motion.div>
         </section>
 
@@ -368,6 +490,83 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           />
+        </section>
+
+        <section className="home-section home-map-section">
+          <div className="container">
+            <div className="home-map-layout">
+              <div className="home-map-info">
+                <span className="section-kicker">Địa lý & lãnh thổ</span>
+                <h2>Khám Phá Bản Đồ Việt Nam</h2>
+                <p>Việt Nam trải dài hơn 1.650 km từ địa đầu Hà Giang đến mũi Cà Mau, với diện tích đất liền khoảng 331.000 km² và đường bờ biển dài hơn 3.260 km. Thủ đô Hà Nội ở phía Bắc và thành phố Hồ Chí Minh ở phía Nam là hai đô thị lớn nhất, là trung tâm kinh tế, văn hóa và chính trị của cả nước.</p>
+                <p>Lãnh thổ quốc gia bao gồm vùng đất liền, vùng biển và hai quần đảo Hoàng Sa và Trường Sa — là phần lãnh thổ thiêng liêng không thể tách rời của Tổ quốc Việt Nam.</p>
+                <ul className="home-map-stats">
+                  <li>
+                    <span className="home-map-stat-num">34</span>
+                    <span>tỉnh thành</span>
+                    <span className="home-map-stat-note">(sau sáp nhập từ 63 tỉnh thành)</span>
+                  </li>
+                  <li><span className="home-map-stat-num">3.260 km</span><span>đường bờ biển</span></li>
+                  <li><span className="home-map-stat-num">54</span><span>dân tộc</span></li>
+                </ul>
+                <p className="home-map-hint-text">🖱 Cuộn chuột để zoom · Kéo để di chuyển<br />Zoom vào để xem chi tiết thông tin tỉnh thành</p>
+              </div>
+
+              <div
+                className="home-map-image"
+                ref={mapRef}
+                data-lenis-prevent
+              >
+                <div
+                  ref={imgRef}
+                  className={`home-map-inner${markersVisible ? " markers-on" : ""}`}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  <img
+                    src={mapVietnamImage}
+                    alt="Bản đồ Việt Nam"
+                    draggable="false"
+                    style={{ userSelect: "none", pointerEvents: "none", display: "block", width: "100%" }}
+                  />
+                  <div className="home-map-markers">
+                    {PROVINCE_MARKERS.map((m) => {
+                      const pos = markerPos[m.slug] || { x: m.x, y: m.y };
+                      return (
+                        <button
+                          key={m.slug}
+                          type="button"
+                          className="home-map-marker"
+                          style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          onMouseEnter={(e) => showHoverCard(m.slug, e.currentTarget)}
+                          onMouseLeave={scheduleHideCard}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/province/${m.slug}`);
+                          }}
+                        >
+                          <span className="home-map-marker-dot" />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+                {hasTransformed && (
+                  <button
+                    className="home-map-reset"
+                    onClick={() => {
+                      scaleRef.current = 1;
+                      offsetRef.current = { x: 0, y: 0 };
+                      applyTransform(true);
+                    }}
+                    title="Về mặc định"
+                  >
+                    ↺ Mặc định
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
         </section>
 
         <section className="home-section home-festivals-section">
@@ -450,7 +649,7 @@ export default function HomePage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.55 }}
                 >
-                  <div className="home-region-image" style={{ backgroundImage: `url(${item.image})` }} />
+                  <div className="home-region-image" style={{ backgroundImage: `url("${item.image}")` }} />
                   <div className="home-region-body">
                     <span>{item.region}</span>
                     <h3>{item.title}</h3>
@@ -546,56 +745,36 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="home-section home-map-section">
-          <div className="container">
-            <div className="home-map-layout">
-              <div className="home-map-info">
-                <span className="section-kicker">Địa lý & lãnh thổ</span>
-                <h2>Khám Phá Bản Đồ Việt Nam</h2>
-                <p>Việt Nam trải dài hơn 1.650 km từ địa đầu Hà Giang đến mũi Cà Mau, với diện tích đất liền khoảng 331.000 km² và đường bờ biển dài hơn 3.260 km. Thủ đô Hà Nội ở phía Bắc và thành phố Hồ Chí Minh ở phía Nam là hai đô thị lớn nhất, là trung tâm kinh tế, văn hóa và chính trị của cả nước.</p>
-                <p>Lãnh thổ quốc gia bao gồm vùng đất liền, vùng biển và hai quần đảo Hoàng Sa và Trường Sa — là phần lãnh thổ thiêng liêng không thể tách rời của Tổ quốc Việt Nam.</p>
-                <ul className="home-map-stats">
-                  <li>
-                    <span className="home-map-stat-num">34</span>
-                    <span>tỉnh thành</span>
-                    <span className="home-map-stat-note">(sau sáp nhập từ 63 tỉnh thành)</span>
-                  </li>
-                  <li><span className="home-map-stat-num">3.260 km</span><span>đường bờ biển</span></li>
-                  <li><span className="home-map-stat-num">54</span><span>dân tộc</span></li>
-                </ul>
-                <p className="home-map-hint-text">🖱 Cuộn chuột để zoom · Kéo để di chuyển</p>
-              </div>
-
-              <div
-                className="home-map-image"
-                ref={mapRef}
-                title="Cuộn chuột để phóng to / thu nhỏ"
-              >
-                <img
-                  ref={imgRef}
-                  src={mapVietnamImage}
-                  alt="Bản đồ Việt Nam"
-                  draggable="false"
-                  style={{ transformOrigin: "center center", userSelect: "none", pointerEvents: "none" }}
-                />
-                {hasTransformed && (
-                  <button
-                    className="home-map-reset"
-                    onClick={() => {
-                      scaleRef.current = 1;
-                      offsetRef.current = { x: 0, y: 0 };
-                      applyTransform(true);
-                    }}
-                    title="Về mặc định"
-                  >
-                    ↺ Mặc định
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
+
+      {hoverCard &&
+        createPortal(
+          <div
+            className={`map-hover-card map-hover-card--${hoverCard.side}`}
+            style={{ left: hoverCard.left, top: hoverCard.top }}
+            onMouseEnter={clearHoverTimer}
+            onMouseLeave={scheduleHideCard}
+            onClick={() => navigate(`/province/${hoverCard.slug}`)}
+          >
+            {hoverCard.heroImage && (
+              <div className="map-hover-card__img">
+                <img src={hoverCard.heroImage} alt={hoverCard.name} />
+              </div>
+            )}
+            <div className="map-hover-card__body">
+              <div className="map-hover-card__name">{hoverCard.name}</div>
+              {hoverCard.shortDescription && (
+                <div className="map-hover-card__desc">{hoverCard.shortDescription}</div>
+              )}
+              {hoverCard.specialty && (
+                <div className="map-hover-card__specialty">
+                  <span>Đặc sản:</span> {hoverCard.specialty}
+                </div>
+              )}
+            </div>
+          </div>,
+          document.body
+        )}
     </MainLayout>
   );
 }

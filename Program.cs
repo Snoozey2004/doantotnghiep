@@ -58,7 +58,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "http://localhost:5174", "https://localhost:5173", "https://localhost:5174")
+        policy.WithOrigins("http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176", "https://localhost:5173", "https://localhost:5174", "https://localhost:5175", "https://localhost:5176")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -97,6 +97,7 @@ builder.Services.AddScoped<IEmailNotificationService, EmailNotificationService>(
 builder.Services.AddScoped<IHtmlSanitizationService, HtmlSanitizationService>();
 builder.Services.AddScoped<IProductInfographicService, ProductInfographicService>();
 builder.Services.AddSingleton<IRichTextConfigService, RichTextConfigService>();
+builder.Services.AddSingleton<IMapMarkerService, MapMarkerService>();
 
 var app = builder.Build();
 

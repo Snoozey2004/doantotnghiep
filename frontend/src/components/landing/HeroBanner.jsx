@@ -5,7 +5,7 @@ export default function HeroBanner({ title, subtitle, imageUrl }) {
   const ref = useRevealOnScroll();
 
   return (
-    <section className="hero" style={{ backgroundImage: `url(${imageUrl})` }}>
+    <section className="hero" style={{ backgroundImage: `url("${imageUrl}")` }}>
       <div className="hero-overlay" />
       <div className="container hero-content reveal" ref={ref}>
         <span className="highlight">Discover Vietnam</span>
