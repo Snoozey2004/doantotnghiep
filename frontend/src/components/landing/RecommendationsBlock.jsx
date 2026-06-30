@@ -21,6 +21,8 @@ export default function RecommendationsBlock({ title, provinces }) {
               <img
                 src={province.imageUrl}
                 alt={province.name}
+                loading="lazy"
+                decoding="async"
                 style={{ width: "100%", height: 180, objectFit: "cover", borderRadius: 16 }}
               />
               <div style={{ marginTop: 16 }}>

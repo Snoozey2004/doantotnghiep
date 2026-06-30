@@ -412,7 +412,7 @@ export default function ProvinceLandingPage() {
       </Helmet>
       <div
         className={["province-page", layout !== "default" ? `province-layout-${layout}` : ""].filter(Boolean).join(" ")}
-        style={{ "--accent": accentColor, ...(fontFamily ? { fontFamily } : {}) }}
+        style={{ "--accent": accentColor, ...(fontFamily ? { fontFamily, "--province-heading-font": fontFamily } : {}) }}
       >
         {sectionOrder.map((key) => sectionVisibility[key] === false ? null : (sectionElements[key] ?? null))}
       </div>

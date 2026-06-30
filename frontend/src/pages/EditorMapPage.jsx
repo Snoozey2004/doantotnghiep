@@ -173,6 +173,7 @@ export default function EditorMapPage() {
           <div
             className="home-map-image"
             ref={mapRef}
+            data-lenis-prevent
             style={{ cursor: "grab" }}
             title="Cuộn để zoom, kéo marker để chỉnh"
           >

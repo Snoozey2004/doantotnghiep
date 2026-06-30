@@ -415,13 +415,22 @@ export default function HomePage() {
     <MainLayout>
       <main className="home-landing home-storyboard">
         <section className="vx-hero">
-          {heroBgs.map((src, i) => (
-            <div
-              key={i}
-              className={`vx-hero__bg${i === bgIndex ? " is-active" : ""}`}
-              style={{ backgroundImage: `url("${src}")` }}
-            />
-          ))}
+          {heroBgs.map((src, i) => {
+            // Chỉ gắn ảnh nền cho lớp đang hiện + liền trước/sau → tránh giải mã
+            // cả 7 ảnh lớn cùng lúc, vẫn đủ để crossfade mượt.
+            const len = heroBgs.length;
+            const near =
+              i === bgIndex ||
+              i === (bgIndex - 1 + len) % len ||
+              i === (bgIndex + 1) % len;
+            return (
+              <div
+                key={i}
+                className={`vx-hero__bg${i === bgIndex ? " is-active" : ""}`}
+                style={near ? { backgroundImage: `url("${src}")` } : undefined}
+              />
+            );
+          })}
           <div className="vx-hero__veil" />
 
           <motion.div
@@ -525,6 +534,8 @@ export default function HomePage() {
                   <img
                     src={mapVietnamImage}
                     alt="Bản đồ Việt Nam"
+                    loading="lazy"
+                    decoding="async"
                     draggable="false"
                     style={{ userSelect: "none", pointerEvents: "none", display: "block", width: "100%" }}
                   />
@@ -587,7 +598,7 @@ export default function HomePage() {
                 >
                   <div className="home-festival-image">
                     {item.image
-                      ? <img src={item.image} alt={item.title} />
+                      ? <img src={item.image} alt={item.title} loading="lazy" decoding="async" />
                       : <div className="home-festival-placeholder" />
                     }
                   </div>
@@ -621,7 +632,7 @@ export default function HomePage() {
                   transition={{ duration: 0.55 }}
                 >
                   <div className="home-landmark-image">
-                    <img src={item.image} alt={item.name} />
+                    <img src={item.image} alt={item.name} loading="lazy" decoding="async" />
                   </div>
                   <div className="home-landmark-content">
                     <span>{item.category}</span>
@@ -673,7 +684,7 @@ export default function HomePage() {
                   <div className="home-timeline-card">
                     <div className="home-timeline-image">
                       {item.image
-                        ? <img src={item.image} alt={item.title} />
+                        ? <img src={item.image} alt={item.title} loading="lazy" decoding="async" />
                         : <div className="home-timeline-image-placeholder" style={{ background: item.accent }} />
                       }
                     </div>
@@ -731,6 +742,8 @@ export default function HomePage() {
                       src={item.image}
                       alt={item.title}
                       className={item.imageClass}
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="home-culture-image-overlay" />
                   </div>
@@ -758,7 +771,7 @@ export default function HomePage() {
           >
             {hoverCard.heroImage && (
               <div className="map-hover-card__img">
-                <img src={hoverCard.heroImage} alt={hoverCard.name} />
+                <img src={hoverCard.heroImage} alt={hoverCard.name} loading="lazy" decoding="async" />
               </div>
             )}
             <div className="map-hover-card__body">

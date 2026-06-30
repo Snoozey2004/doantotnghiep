@@ -21,6 +21,8 @@ export default function ArticleBlock({ title, posts }) {
                 <img
                   src={post.imageUrl}
                   alt={post.title}
+                  loading="lazy"
+                  decoding="async"
                   style={{ width: "100%", height: 160, objectFit: "cover", borderRadius: 16 }}
                 />
                 <h3 style={{ marginTop: 16 }}>{post.title}</h3>

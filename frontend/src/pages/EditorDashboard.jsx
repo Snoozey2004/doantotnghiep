@@ -29,21 +29,22 @@ const SECTIONS = [
   { key: "info",          label: "Thông tin tổng quát" },
 ];
 
+// Màu nền THẬT mà landingpage đang render cho từng section (khớp global.css +
+// override Phase 5b). Dùng làm preset "Màu mặc định" và fallback hiển thị — để
+// ô màu trong editor phản ánh đúng màu thật của trang khi tỉnh chưa tùy chỉnh.
 const DEFAULT_COLORS = {
-  hero:          "#1c1917",
-  intro:         "#faf8f3",
-  video:         "#0f172a",
-  charts:        "#f0f9ff",
-  timeline:      "#fffbeb",
-  culture:       "#f0fdf4",
-  specialties:   "#fff7ed",
-  craftVillages: "#f5f5f4",
-  festivals:     "#fdf4ff",
-  gallery:       "#111827",
-  info:          "#fefce8",
+  hero:          "#1c1917", // hero nền ảnh + phủ mực tối
+  intro:         "#f4f0e8", // nhịp xen kẽ kem (--paper)
+  video:         "#ffffff", // trắng
+  charts:        "#f4f0e8", // kem
+  timeline:      "#ffffff", // trắng
+  culture:       "#f4f0e8", // kem (.province-heritage-section)
+  specialties:   "#ffffff", // trắng
+  craftVillages: "#f4f0e8", // kem
+  festivals:     "#ffffff", // trắng
+  gallery:       "#f4f0e8", // kem
+  info:          "#ffffff", // trắng
 };
-
-const EMPTY_COLORS = Object.fromEntries(SECTIONS.map((s) => [s.key, "#ffffff"]));
 
 const FONTS = [
   { value: "'Inter', sans-serif",          label: "Inter",             desc: "Hiện đại & sắc nét",    category: "sans" },
@@ -312,9 +313,11 @@ export default function EditorDashboard() {
   };
 
   const clearColors = (provinceId) => {
+    // Xóa override → trang dùng lại màu mặc định thật (CSS). Ô màu sẽ hiển thị
+    // màu thật qua fallback DEFAULT_COLORS bên dưới.
     setSectionColors((prev) => ({
       ...prev,
-      [provinceId]: { ...EMPTY_COLORS },
+      [provinceId]: {},
     }));
   };
 
@@ -519,7 +522,7 @@ export default function EditorDashboard() {
                     {/* Color preview dots */}
                     <div style={{ display: "flex", gap: "3px", flexShrink: 0 }}>
                       {SECTIONS.map((s) => (
-                        <div key={s.key} title={s.label} style={{ width: "10px", height: "10px", borderRadius: "2px", background: colors[s.key] || "#e8e2d9", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
+                        <div key={s.key} title={s.label} style={{ width: "10px", height: "10px", borderRadius: "2px", background: colors[s.key] || DEFAULT_COLORS[s.key] || "#e8e2d9", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
                       ))}
                     </div>
                     <div style={{ minWidth: 0 }}>
@@ -759,7 +762,7 @@ export default function EditorDashboard() {
                             title={s.label}
                             style={{
                               flex: 1,
-                              background: colors[s.key] || "#f0ebe3",
+                              background: colors[s.key] || DEFAULT_COLORS[s.key] || "#f0ebe3",
                               position: "relative",
                             }}
                           />
@@ -792,7 +795,7 @@ export default function EditorDashboard() {
                       marginBottom: "16px",
                     }}>
                       {SECTIONS.map((section) => {
-                        const color = colors[section.key] || "#ffffff";
+                        const color = colors[section.key] || DEFAULT_COLORS[section.key] || "#ffffff";
                         return (
                           <div
                             key={section.key}

@@ -1498,68 +1498,77 @@ a {
 
 .province-hero {
   position: relative;
-  min-height: 92vh;
-  display: grid;
-  align-items: center;
+  min-height: 90vh;
+  display: flex;
+  align-items: flex-end;          /* chữ neo về đáy — editorial, đồng bộ hero trang chủ */
   background-size: cover;
   background-position: center;
-  color: #fef8ef;
+  color: var(--paper);
   overflow: hidden;
 }
 
+/* Veil mực sạch (bỏ lớp nâu đục cũ): tối ở đáy cho chữ rõ, nhạt dần lên trên */
 .province-hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(
-      circle at 25% 20%,
-      rgba(255, 255, 255, 0.15),
-      transparent 55%
-    ),
-    linear-gradient(140deg, rgba(44, 24, 10, 0.88), rgba(132, 88, 36, 0.55));
+  background: linear-gradient(
+    to top,
+    rgba(10, 9, 7, 0.82) 0%,
+    rgba(10, 9, 7, 0.30) 48%,
+    rgba(10, 9, 7, 0.40) 100%
+  );
   z-index: 0;
 }
 
+/* Lớp phủ thứ 2 giờ chỉ làm mờ nhẹ phần đỉnh để navbar trong suốt đọc được */
 .province-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.65));
+  background: linear-gradient(180deg, rgba(10, 9, 7, 0.35), transparent 26%);
   z-index: 1;
+  pointer-events: none;
 }
 
 .province-hero-content {
   position: relative;
   z-index: 2;
-  padding: 120px 0;
-  max-width: 720px;
+  /* top: chừa navbar fixed · bottom: chừa thanh stats neo đáy */
+  padding: 150px 0 clamp(140px, 20vh, 200px);
+  max-width: 760px;
   display: grid;
-  gap: 20px;
+  gap: var(--space-5);
 }
 
 .province-hero-eyebrow {
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: var(--tracking-wide);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  color: rgba(244, 240, 232, 0.82);
 }
 
 .province-hero-title {
-  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-family: var(--province-heading-font, var(--font-display));
+  font-size: clamp(2.6rem, 5.2vw, 4.6rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
 }
 
 .province-hero-slogan {
-  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-size: clamp(1.3rem, 2.6vw, 2rem);
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.3;
+  color: rgba(244, 240, 232, 0.94);
 }
 
 .province-hero-description {
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.78);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-body);
+  color: rgba(244, 240, 232, 0.78);
+  max-width: 56ch;
 }
 
 .province-hero-actions {
@@ -1820,8 +1829,7 @@ a {
   left: 0;
   right: 0;
   z-index: 3;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(10px);
+  background: rgba(10, 9, 7, 0.72);
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
@@ -2132,8 +2140,7 @@ a {
   right: 14px;
   width: 42px;
   height: 42px;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
+  background: rgba(10, 9, 7, 0.62);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -2308,8 +2315,7 @@ a {
   position: absolute;
   bottom: 12px;
   left: 12px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
+  background: rgba(10, 9, 7, 0.72);
   color: #fff;
   font-size: 0.78rem;
   font-weight: 600;
@@ -2461,68 +2467,84 @@ a {
 }
 
 .home-map-info h2 {
-  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
-  font-weight: 800;
-  color: #2b251f;
-  line-height: 1.2;
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
 }
 
 .home-map-info p {
-  color: #5c4a32;
-  font-size: 0.95rem;
-  line-height: 1.8;
+  color: var(--ink-soft);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  max-width: 56ch;
 }
 
 .home-map-stats {
   list-style: none;
   display: flex;
-  gap: 28px;
-  margin-top: 8px;
+  gap: var(--space-7);
+  margin-top: var(--space-3);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
   flex-wrap: wrap;
 }
 
 .home-map-stats li {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-1);
 }
 
 .home-map-stat-num {
-  font-size: 1.5rem !important;
-  font-weight: 800 !important;
-  color: #b45309 !important;
+  font-family: var(--font-display) !important;
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: var(--accent) !important;
   line-height: 1 !important;
+  letter-spacing: var(--tracking-tight);
 }
 
 .home-map-stat-note {
   font-size: 0.72rem !important;
-  color: #9a8775 !important;
+  color: var(--ink-faint) !important;
   font-style: italic !important;
   line-height: 1.3;
 }
 
 .home-map-stats li span {
-  font-size: 0.78rem;
-  color: #8a7a68;
+  font-size: var(--fs-sm);
+  color: var(--ink-muted);
   font-weight: 500;
 }
 
 .home-map-hint-text {
-  font-size: 0.78rem !important;
-  color: #8a7a68 !important;
-  margin-top: 4px !important;
+  font-size: var(--fs-sm) !important;
+  color: var(--ink-muted) !important;
+  margin-top: var(--space-2) !important;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 6px;
 }
 
 .home-map-image {
   width: 100%;
-  border-radius: 20px;
+  border-radius: var(--r-lg);
   overflow: hidden;
-  background: #fffaf2;
-  border: 1px solid rgba(155, 138, 112, 0.18);
-  box-shadow: 0 20px 60px rgba(73, 60, 42, 0.14);
-  padding: 16px;
+  background:
+    radial-gradient(circle at 1px 1px, rgba(22, 19, 14, 0.05) 1px, transparent 0) 0 0 / 22px 22px,
+    var(--paper-soft);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-md), inset 0 0 0 1px var(--white);
+  padding: var(--space-4);
   cursor: grab;
   position: relative;
+}
+
+.home-map-image:active {
+  cursor: grabbing;
 }
 
 @media (max-width: 900px) {
@@ -2578,10 +2600,10 @@ a {
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background: #e11d48;
-  border: 2px solid #fff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
-  transition: transform 0.15s ease, background 0.15s ease;
+  background: var(--sunset);
+  border: 2px solid var(--white);
+  box-shadow: var(--shadow-xs), 0 1px 5px rgba(22, 19, 14, 0.4);
+  transition: transform var(--dur-fast) var(--ease-spring), background var(--dur-fast) var(--ease-out);
 }
 
 .home-map-marker-dot::after {
@@ -2592,9 +2614,9 @@ a {
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background: rgba(225, 29, 72, 0.45);
+  background: rgba(194, 85, 45, 0.4);
   transform: translate(-50%, -50%);
-  animation: markerPulse 1.8s ease-out infinite;
+  animation: markerPulse 2s var(--ease-out) infinite;
   z-index: -1;
 }
 
@@ -2603,20 +2625,26 @@ a {
   100% { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .home-map-marker-dot::after { animation: none; }
+}
+
 .home-map-marker-label {
   position: absolute;
-  bottom: calc(100% + 4px);
+  bottom: calc(100% + 5px);
   left: 50%;
   transform: translateX(-50%) translateY(-2px);
+  font-family: var(--font-sans);
   font-size: 10px;
-  font-weight: 700;
-  color: #fff;
-  background: rgba(28, 25, 23, 0.82);
-  padding: 2px 7px;
-  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--paper);
+  background: var(--ink);
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
   white-space: nowrap;
   opacity: 0;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
   pointer-events: none;
 }
 
@@ -2625,8 +2653,8 @@ a {
 }
 
 .home-map-marker:hover .home-map-marker-dot {
-  transform: scale(1.35);
-  background: #f43f5e;
+  transform: scale(1.4);
+  background: var(--forest);
 }
 
 .home-map-marker:hover .home-map-marker-label {
@@ -2644,13 +2672,13 @@ a {
 }
 
 .home-map-marker.is-calib .home-map-marker-dot {
-  background: #2563eb;
+  background: var(--ocean);
 }
 
 .home-map-marker.is-active .home-map-marker-dot {
-  background: #16a34a;
-  transform: scale(1.4);
-  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.35), 0 1px 4px rgba(0, 0, 0, 0.35);
+  background: var(--forest);
+  transform: scale(1.45);
+  box-shadow: 0 0 0 3px rgba(31, 58, 46, 0.3), 0 1px 5px rgba(22, 19, 14, 0.4);
 }
 
 /* ── Card thông tin tỉnh khi hover marker ── */
@@ -2662,15 +2690,11 @@ a {
   display: flex;
   gap: 12px;
   padding: 12px;
-  border-radius: 18px;
-  background: rgba(15, 23, 42, 0.86);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(56, 189, 248, 0.55);
-  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.12),
-    0 14px 44px rgba(0, 0, 0, 0.45),
-    0 0 26px rgba(56, 189, 248, 0.28);
-  color: #fff;
+  border-radius: var(--r-lg);
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+  color: var(--ink);
   cursor: pointer;
   transform: translateY(-50%);
   transform-origin: left center;
@@ -2696,9 +2720,9 @@ a {
   width: 100px;
   height: 100px;
   flex-shrink: 0;
-  border-radius: 12px;
+  border-radius: var(--r-md);
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--paper-deep);
 }
 
 .map-hover-card__img img {
@@ -2717,27 +2741,29 @@ a {
 }
 
 .map-hover-card__name {
-  font-size: 1.08rem;
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
 }
 
 .map-hover-card__desc {
-  font-size: 0.78rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--ink-muted);
 }
 
 .map-hover-card__specialty {
   font-size: 0.78rem;
   font-weight: 600;
-  color: #fde68a;
-  margin-top: 1px;
+  color: var(--sunset);
+  margin-top: var(--space-1);
 }
 
 .map-hover-card__specialty span {
-  color: #38bdf8;
+  color: var(--accent);
   font-weight: 700;
 }
 
@@ -2756,14 +2782,13 @@ a {
   bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(43, 37, 31, 0.72);
-  color: #fff;
+  background: rgba(22, 19, 14, 0.82);
+  color: var(--paper);
   font-size: 0.75rem;
   font-weight: 600;
   padding: 5px 14px;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   pointer-events: none;
-  backdrop-filter: blur(6px);
   white-space: nowrap;
 }
 
@@ -2772,33 +2797,32 @@ a {
   bottom: 24px;
   left: 50%;
   translate: -50% 0;
-  background: rgba(43, 37, 31, 0.65);
-  color: #fff;
+  background: rgba(22, 19, 14, 0.7);
+  color: var(--paper);
   font-size: 0.75rem;
   padding: 5px 14px;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   pointer-events: none;
-  backdrop-filter: blur(6px);
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .home-map-reset {
   position: absolute;
   top: 14px;
   right: 14px;
-  background: rgba(43, 37, 31, 0.72);
-  color: #fff;
+  background: rgba(22, 19, 14, 0.82);
+  color: var(--paper);
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 5px 13px;
-  border-radius: 999px;
+  letter-spacing: 0.01em;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
   border: none;
   cursor: pointer;
-  backdrop-filter: blur(6px);
-  transition: background 0.2s;
+  transition: background var(--dur-fast) var(--ease-out);
 }
 .home-map-reset:hover {
-  background: rgba(180, 83, 9, 0.85);
+  background: var(--accent);
 }
 
 .home-landmarks-zigzag {
@@ -4436,3 +4460,183 @@ a {
 .ck-html-content strong, .ck-html-content b { font-weight: bold; }
 .ck-html-content i, .ck-html-content em { font-style: italic; }
 .ck-html-content u { text-decoration: underline; }
+
+/* =====================================================================
+   PHASE 4 — CÁC CHƯƠNG NỘI DUNG (storytelling) · editorial typography
+   Chỉ đổi font/màu/nền/viền/shadow, scope dưới .home-section để KHÔNG
+   ảnh hưởng province pages (cùng dùng .section-heading/.section-kicker).
+   Không đụng layout/grid/responsive.
+   ===================================================================== */
+
+/* — Tiêu đề chương — */
+.home-section .section-kicker {
+  font-size: var(--fs-eyebrow);
+  letter-spacing: var(--tracking-wide);
+  color: var(--accent);
+  font-weight: 600;
+}
+.home-section .section-heading h2,
+.home-section .section-heading--center h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+}
+.home-section .section-heading p {
+  color: var(--ink-muted);
+  line-height: var(--lh-body);
+  font-weight: 400;
+}
+/* Gạch nhấn nhỏ dưới tiêu đề căn giữa */
+.home-section .section-heading--center h2::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 2px;
+  margin: var(--space-4) auto 0;
+  background: var(--accent);
+  opacity: 0.7;
+}
+
+/* — Tên thẻ (card titles) → Playfair — */
+.home-festival-content h3,
+.home-landmark-content h3,
+.home-region-body h3,
+.home-timeline-body h3,
+.home-culture-body h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: var(--tracking-tight);
+}
+.home-festival-content p,
+.home-landmark-content p,
+.home-region-body p,
+.home-timeline-body p,
+.home-culture-body p {
+  color: var(--ink-muted);
+  line-height: var(--lh-body);
+}
+
+/* — Nhãn eyebrow trong thẻ → accent forest, uppercase — */
+.home-festival-time,
+.home-landmark-content > span,
+.home-region-body > span,
+.home-culture-kicker {
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* — Mốc năm timeline → pill mực editorial — */
+.home-timeline-year-badge {
+  font-family: var(--font-mono);
+  background: var(--ink);
+  color: var(--paper);
+  letter-spacing: 0.04em;
+}
+.home-timeline-dot {
+  background: var(--accent);
+}
+
+/* — Bề mặt thẻ → tông kem/trắng + hairline + shadow mềm — */
+.home-region-card,
+.home-culture-card,
+.home-timeline-card,
+.home-landmark-row {
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+
+/* =====================================================================
+   PHASE 5b — THÂN TRANG TỈNH editorial · TÔN TRỌNG CẤU HÌNH EDITOR
+   - Heading: font = var(--province-heading-font) do editor chọn (ProvinceLandingPage
+     set từ config.fontFamily); KHÔNG set → mặc định display serif (Playfair).
+   - Nhấn (kicker/label): var(--accent) = themeColor editor || accentColor tỉnh.
+   - Nền section: editor set qua bgColor inline vẫn thắng (specificity inline cao hơn).
+   Scope .province-page → không đụng homepage/trang khác. Không đổi layout/JSX logic.
+   ===================================================================== */
+
+/* — Heading → font editor (mặc định Playfair) + mực — */
+.province-page h2,
+.province-page h3,
+.province-page h4,
+.province-page .province-section-title,
+.province-page .province-chart-title,
+.province-page .province-timeline-body h3,
+.province-page .province-festival-body h3,
+.province-page .province-craft-content h3,
+.province-page .province-culture-body h3,
+.province-page .province-food-body h3 {
+  font-family: var(--province-heading-font, var(--font-display));
+  color: var(--ink);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* — Kicker + nhãn eyebrow → màu nhấn editor — */
+.province-page .province-section-kicker {
+  color: var(--accent);
+  letter-spacing: var(--tracking-wide);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+}
+.province-page .province-craft-product {
+  color: var(--accent);
+  letter-spacing: var(--tracking-wide);
+}
+
+/* — Text mô tả → mực dịu — */
+.province-page .province-section-text,
+.province-page .province-intro-content p,
+.province-page .province-craft-content p,
+.province-page .province-festival-body p,
+.province-page .province-food-body p,
+.province-page .province-culture-body p,
+.province-page .province-culture-mini-body p,
+.province-page .province-timeline-body p,
+.province-page .province-gallery-content p,
+.province-page .province-chart-subtitle {
+  color: var(--ink-muted);
+  line-height: var(--lh-body);
+}
+
+/* — Bề mặt thẻ → kem/trắng + hairline + shadow mềm (thay nền nâu #fffaf2) — */
+.province-page .province-chart-card,
+.province-page .province-festival-card,
+.province-page .province-food-card,
+.province-page .province-culture-card,
+.province-page .province-culture-mini-card,
+.province-page .province-timeline-card,
+.province-page .province-gallery-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+
+/* — Tag pill (ý nghĩa/tuổi nghề) → trung tính editorial thay vì nâu cam — */
+.province-page .province-festival-significance,
+.province-page .province-craft-age {
+  background: var(--paper-deep);
+  color: var(--ink-soft);
+}
+
+/* — Nền section chuẩn hóa: nhịp xen kẽ kem (--paper) / trắng cho đều mắt.
+     Hero giữ ảnh. Editor vẫn override từng section qua bgColor inline (specificity
+     inline > class). Khi đổi bộ màu này PHẢI cập nhật DEFAULT_COLORS ở EditorDashboard. */
+.province-page .province-intro            { background: var(--paper); }
+.province-page .province-video-section    { background: var(--white); }
+.province-page .province-charts-section   { background: var(--paper); }
+.province-page .province-timeline-section { background: var(--white); }
+.province-page .province-heritage-section { background: var(--paper); }
+.province-page .province-specialties      { background: var(--white); }
+.province-page .province-craft-section    { background: var(--paper); }
+.province-page .province-festivals-section{ background: var(--white); }
+.province-page .province-gallery          { background: var(--paper); }
+.province-page .province-info-banner      { background: var(--white); }
+}
