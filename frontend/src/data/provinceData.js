@@ -3622,7 +3622,7 @@ const provinces = [
         description:
           "Lễ hội cồng chiêng của người K'Ho Lang Biang tái hiện không gian văn hóa Tây Nguyên với các điệu múa và nhạc cụ truyền thống.",
         significance: "Di sản văn hóa cồng chiêng",
-        image: "/Images/Landingpagelamdong/521-kon_tum-phuocsonkt%40gmailcom-le_hoi_mung_lua_moi.jpg",
+        image: "/Images/Landingpagelamdong/521-kon_tum-le-hoi-cong-chieng.jpg",
       },
       {
         name: "Lễ hội trà Bảo Lộc",
@@ -3687,7 +3687,7 @@ const provinces = [
       {
         name: "Không gian cồng chiêng",
         description: "Di sản văn hóa Tây Nguyên.",
-        image: "/Images/Landingpagelamdong/231-gia_lai-huytinhphoto%40gmail.jpg",
+        image: "/Images/Landingpagelamdong/231-gia_lai-cong-chieng.jpg",
       },
     ],
     gallery: [
@@ -5639,7 +5639,7 @@ const provinces = [
         name: "Vịt quay",
         description: "Da giòn, thịt thơm vị mắc mật.",
         origin: "Thành phố Lạng Sơn",
-        image: "/Images/Landingpagelangson/vn-11134259-7ra0g-m9y5lsb14opm63@resize_ss1242x600!@crop_w1242_h600_cT%20(1).jpg",
+        image: "/Images/Landingpagelangson/vn-langson-thanh-nha-mac.jpg",
       },
       {
         name: "Khâu nhục",
@@ -5686,7 +5686,7 @@ const provinces = [
     gallery: [
       "/Images/Landingpagelangson/1280px-Mẫu_Sơn.jpg",
       "/Images/Landingpagelangson/1280px-Trong_động_Tam_Thanh.jpg",
-      "/Images/Landingpagelangson/vn-11134259-7ra0g-m9y5lsb14opm63@resize_ss1242x600!@crop_w1242_h600_cT%20(1).jpg",
+      "/Images/Landingpagelangson/vn-langson-thanh-nha-mac.jpg",
       "/Images/Landingpagelangson/MUA%20RONG.jpg",
       "/Images/Landingpagelangson/Chợ_Đông_Kinh.jpg",
       "/Images/Landingpagelangson/hoa-hoi-nosaco-01.jpg",

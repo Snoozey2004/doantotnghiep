@@ -15,6 +15,8 @@ export default function ProductBlock({ title, products }) {
               <img
                 src={product.imageUrl}
                 alt={product.name}
+                loading="lazy"
+                decoding="async"
                 style={{ width: "100%", height: 180, objectFit: "cover", borderRadius: 16 }}
               />
               <h3 style={{ marginTop: 16 }}>{product.name}</h3>

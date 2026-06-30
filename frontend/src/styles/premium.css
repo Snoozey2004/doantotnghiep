@@ -145,6 +145,7 @@ html.lenis, html.lenis body { height: auto; }
   pointer-events: none;
   z-index: var(--z-cursor);
   transform: translate(-50%, -50%);
+  will-change: transform;
   mix-blend-mode: difference;
   border-color: #fff;
   transition: width var(--dur-fast) var(--ease-out),
@@ -259,8 +260,7 @@ html.lenis, html.lenis body { height: auto; }
   background: transparent;
   border-bottom: 1px solid transparent;
   transition: background var(--dur-base) var(--ease-out),
-              border-color var(--dur-base) var(--ease-out),
-              backdrop-filter var(--dur-base) var(--ease-out);
+              border-color var(--dur-base) var(--ease-out);
 }
 .vx-nav__inner {
   width: min(var(--maxw), 100% - 2 * var(--gutter));
@@ -273,10 +273,11 @@ html.lenis, html.lenis body { height: auto; }
 }
 /* Trạng thái đặc (đã cuộn hoặc không phải trang chủ) */
 .vx-nav.is-solid {
-  background: rgba(244, 240, 232, 0.82);
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  /* Nền kem gần đặc thay cho backdrop-filter blur — tránh blur lại nền mỗi
+     khung hình khi cuộn (nguyên nhân chính gây giật ở navbar fixed). */
+  background: rgba(244, 240, 232, 0.96);
   border-bottom-color: var(--line);
+  box-shadow: var(--shadow-xs);
 }
 .vx-nav.is-solid .vx-nav__inner { padding: 14px 0; }
 /* Chừa chỗ cho navbar fixed trên các trang không có hero full-screen */
@@ -401,6 +402,7 @@ html.lenis, html.lenis body { height: auto; }
 .vx-hero__bg.is-active {
   opacity: 1;
   animation: vxKenBurns 7s linear forwards;
+  will-change: transform;
 }
 @keyframes vxKenBurns { from { transform: scale(1.06); } to { transform: scale(1.14); } }
 .vx-hero__veil {
