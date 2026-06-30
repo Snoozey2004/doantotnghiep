@@ -1,7 +1,69 @@
-﻿import { useState } from "react";
+﻿import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout.jsx";
 import { authApi } from "../api/authApi";
+
+const ROLE_OPTIONS = [
+  { value: "1", label: "Editor", hint: "Cần admin duyệt" },
+  { value: "2", label: "Seller", hint: "Bán đặc sản" },
+  { value: "3", label: "Customer", hint: "Khách tham quan" },
+];
+
+// Dropdown tùy biến cho vai trò — thay <select> native để đồng bộ tông editorial.
+function RoleDropdown({ value, onChange }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  const current = ROLE_OPTIONS.find((o) => o.value === value) || ROLE_OPTIONS[2];
+
+  return (
+    <div className="auth-select-wrap" ref={ref}>
+      <button
+        type="button"
+        className={`auth-select-trigger${open ? " is-open" : ""}`}
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+      >
+        <span className="auth-select-current">
+          <strong>{current.label}</strong>
+          <span>{current.hint}</span>
+        </span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="m6 9 6 6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      {open && (
+        <ul className="auth-select-panel" role="listbox">
+          {ROLE_OPTIONS.map((o) => (
+            <li
+              key={o.value}
+              role="option"
+              aria-selected={o.value === value}
+              className={`auth-select-option${o.value === value ? " is-selected" : ""}`}
+              onClick={() => { onChange(o.value); setOpen(false); }}
+            >
+              <span className="auth-select-option__text">
+                <strong>{o.label}</strong>
+                <span>{o.hint}</span>
+              </span>
+              {o.value === value && <span className="auth-select-check" aria-hidden="true">✓</span>}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -79,11 +141,10 @@ export default function RegisterPage() {
                   onChange={handleChange}
                   required
                 />
-                <select name="role" value={form.role} onChange={handleChange} required>
-                  <option value="1">Editor (cần admin duyệt)</option>
-                  <option value="2">Seller</option>
-                  <option value="3">Customer</option>
-                </select>
+                <RoleDropdown
+                  value={form.role}
+                  onChange={(v) => setForm((prev) => ({ ...prev, role: v }))}
+                />
                 <div className="password-field">
                   <input
                     type={showPassword ? "text" : "password"}

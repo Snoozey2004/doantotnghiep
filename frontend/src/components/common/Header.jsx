@@ -17,8 +17,12 @@ export default function Header() {
   const accountRef = useRef(null);
 
   const isHome = location.pathname === "/";
-  // Navbar trong suốt khi ở đỉnh trang chủ (đè lên hero tối), đặc lại khi cuộn
-  const transparent = isHome && !scrolled;
+  // Trang tỉnh (/province/:slug) cũng có hero ảnh full-bleed → dùng chung hiệu ứng
+  // navbar trong suốt như trang chủ. KHÔNG áp cho route con (đặc sản, sản phẩm…).
+  const isProvinceLanding = /^\/province\/[^/]+$/.test(location.pathname);
+  const overlayHero = isHome || isProvinceLanding;
+  // Navbar trong suốt khi ở đỉnh trang có hero tối, đặc lại khi cuộn
+  const transparent = overlayHero && !scrolled;
 
   useEffect(() => {
     setIsAuthenticated(Boolean(localStorage.getItem("accessToken")));
@@ -77,7 +81,7 @@ export default function Header() {
 
   return (
     <>
-      {!isHome && <div className="vx-nav-pad" aria-hidden="true" />}
+      {!overlayHero && <div className="vx-nav-pad" aria-hidden="true" />}
       <header className={`vx-nav ${transparent ? "is-transparent" : "is-solid"}`}>
         <div className="vx-nav__inner">
           <Link to="/" className="vx-nav__logo">

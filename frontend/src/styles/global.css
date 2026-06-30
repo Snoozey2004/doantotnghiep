@@ -3504,24 +3504,26 @@ a {
 .auth-kicker,
 .auth-card-kicker {
   text-transform: uppercase;
-  letter-spacing: 0.28em;
-  font-size: 0.75rem;
-  color: #9b8a70;
-  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  font-size: var(--fs-eyebrow);
+  color: var(--accent);
+  font-weight: 600;
 }
 
 .auth-hero h1 {
+  font-family: var(--font-display);
   font-size: clamp(2.6rem, 4vw, 4.2rem);
-  line-height: 1.08;
-  color: #2b251f;
-  max-width: 12ch;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
+  max-width: 14ch;
 }
 
 .auth-hero p {
   max-width: 54ch;
-  color: #6b6152;
-  line-height: 1.8;
-  font-size: 1.02rem;
+  color: var(--ink-muted);
+  line-height: var(--lh-body);
+  font-size: var(--fs-lead);
 }
 
 .auth-highlights {
@@ -3533,23 +3535,24 @@ a {
 
 .auth-highlights div {
   padding: 16px 18px;
-  border-radius: 18px;
-  background: rgba(255, 250, 242, 0.75);
-  border: 1px solid rgba(155, 138, 112, 0.16);
-  box-shadow: 0 10px 24px rgba(73, 60, 42, 0.08);
+  border-radius: var(--r-md);
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
 }
 
 .auth-highlights strong {
   display: block;
-  color: #2b251f;
-  font-size: 1.1rem;
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-size: 1.25rem;
 }
 
 .auth-highlights span {
   display: block;
   margin-top: 4px;
   font-size: 0.84rem;
-  color: #6b6152;
+  color: var(--ink-muted);
 }
 
 @keyframes slideUpFade {
@@ -3565,15 +3568,14 @@ a {
 
 .auth-card {
   width: min(420px, 100%);
-  background: rgba(255, 250, 242, 0.84);
-  padding: 32px;
-  border-radius: 24px;
-  box-shadow: 0 24px 70px rgba(73, 60, 42, 0.14);
+  background: var(--white);
+  padding: 36px;
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-md);
   display: grid;
   gap: 16px;
   animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  border: 1px solid rgba(155, 138, 112, 0.16);
-  backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
 }
 
 .auth-card--glass {
@@ -3586,12 +3588,14 @@ a {
 }
 
 .auth-card h2 {
-  font-size: 1.8rem;
-  color: #2b251f;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
 }
 
 .auth-card p {
-  color: #64748b;
+  color: var(--ink-muted);
   line-height: 1.6;
 }
 
@@ -3601,15 +3605,16 @@ a {
 }
 
 .auth-form input {
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(155, 138, 112, 0.22);
+  padding: 13px 16px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-strong);
   font-size: 0.95rem;
+  color: var(--ink);
   outline: none;
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--paper);
 }
 
 .password-field {
@@ -3628,28 +3633,91 @@ a {
   transform: translateY(-50%);
   border: none;
   background: transparent;
-  color: #b15a2b;
+  color: var(--accent);
   font-weight: 600;
   cursor: pointer;
   padding: 6px 8px;
 }
 
 .password-toggle:hover {
-  color: #8f421a;
+  color: var(--ink);
 }
 
 .auth-form select {
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(155, 138, 112, 0.22);
+  padding: 13px 16px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-strong);
   font-size: 0.95rem;
   outline: none;
-  background: rgba(255, 255, 255, 0.8);
-  color: #2b251f;
+  background: var(--paper);
+  color: var(--ink);
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
+
+/* ── Dropdown tùy biến (vai trò ở trang đăng ký) ── */
+.auth-select-wrap { position: relative; }
+.auth-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.auth-select-trigger:hover { border-color: var(--accent); }
+.auth-select-trigger.is-open,
+.auth-select-trigger:focus-visible {
+  border-color: var(--accent);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(31, 58, 46, 0.14);
+  outline: none;
+}
+.auth-select-current { display: grid; gap: 1px; min-width: 0; }
+.auth-select-current strong { font-size: 0.95rem; font-weight: 600; color: var(--ink); line-height: 1.25; }
+.auth-select-current span { font-size: 0.72rem; color: var(--ink-muted); }
+.auth-select-trigger svg { flex: none; color: var(--ink-muted); transition: transform 0.2s var(--ease-out), color 0.2s; }
+.auth-select-trigger.is-open svg { transform: rotate(180deg); color: var(--accent); }
+
+.auth-select-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-lg);
+}
+.auth-select-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.auth-select-option:hover { background: var(--paper); }
+.auth-select-option.is-selected { background: var(--paper-deep); }
+.auth-select-option__text { display: grid; gap: 1px; }
+.auth-select-option__text strong { font-size: 0.92rem; font-weight: 600; color: var(--ink); line-height: 1.25; }
+.auth-select-option__text span { font-size: 0.72rem; color: var(--ink-muted); }
+.auth-select-option.is-selected .auth-select-option__text strong { color: var(--accent); }
+.auth-select-check { color: var(--accent); font-weight: 700; flex: none; }
 
 .card input,
 .card textarea,
@@ -3666,29 +3734,47 @@ a {
   resize: vertical;
 }
 
-.auth-form input:focus {
-  border-color: #b15a2b;
-  box-shadow: 0 0 0 3px rgba(177, 90, 43, 0.14);
-}
-
-.auth-form select:focus {
-  border-color: #b15a2b;
-  box-shadow: 0 0 0 3px rgba(177, 90, 43, 0.14);
+.auth-form input:focus,
+.auth-form input:focus-visible,
+.auth-form select:focus,
+.auth-form select:focus-visible {
+  border-color: var(--accent);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(31, 58, 46, 0.14);
 }
 
 .auth-submit {
-  margin-top: 4px;
+  margin-top: 8px;
+  width: 100%;
+  padding: 14px 28px;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  font-size: 0.98rem;
+  border: none;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.auth-submit:hover {
+  background: var(--accent);
+}
+
+.auth-submit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .auth-footer {
   display: flex;
   justify-content: space-between;
   font-size: 0.95rem;
-  color: #6b6152;
+  color: var(--ink-muted);
 }
 
 .auth-footer a {
-  color: #b15a2b;
+  color: var(--accent);
   font-weight: 600;
 }
 
@@ -4639,4 +4725,3 @@ a {
 .province-page .province-festivals-section{ background: var(--white); }
 .province-page .province-gallery          { background: var(--paper); }
 .province-page .province-info-banner      { background: var(--white); }
-}
