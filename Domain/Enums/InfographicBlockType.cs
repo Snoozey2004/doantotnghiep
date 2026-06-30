@@ -12,5 +12,11 @@ public enum InfographicBlockType
 
     FAQ = 6,
 
-    CTA = 7
+    CTA = 7,
+    
+    FeaturesGrid = 8,
+    
+    Video = 9,
+
+    LocationRecommendation = 10
 }

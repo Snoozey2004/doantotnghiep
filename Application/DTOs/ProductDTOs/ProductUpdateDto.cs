@@ -1,4 +1,6 @@
-﻿namespace WebApplication1.Application.DTOs.ProductDTOs;
+using WebApplication1.Domain.Enums;
+
+namespace WebApplication1.Application.DTOs.ProductDTOs;
 
 public class ProductUpdateDto
 {
@@ -10,4 +12,5 @@ public class ProductUpdateDto
     public string VideoUrl { get; set; } = string.Empty;
     public bool IsFeatured { get; set; }
     public bool IsPublished { get; set; }
+    public ProductType Type { get; set; }
 }

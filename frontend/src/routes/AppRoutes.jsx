@@ -8,6 +8,7 @@ import PostDetailPage from "../pages/PostDetailPage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 import RegisterPage from "../pages/RegisterPage.jsx";
 import SearchPage from "../pages/SearchPage.jsx";
+import CheckoutPage from "../pages/CheckoutPage.jsx";
 import AdminDashboard from "../pages/AdminDashboard.jsx";
 import AccountPage from "../pages/AccountPage.jsx";
 import AdminProvinceCreate from "../pages/AdminProvinceCreate.jsx";
@@ -29,6 +30,11 @@ import AdminLandingEdit from "../pages/AdminLandingEdit.jsx";
 import AdminLandingDelete from "../pages/AdminLandingDelete.jsx";
 import AdminFeaturedContent from "../pages/AdminFeaturedContent.jsx";
 import AdminContentStatistics from "../pages/AdminContentStatistics.jsx";
+import AdminProductsDashboard from "../pages/AdminProductsDashboard.jsx";
+import AdminProductCreate from "../pages/AdminProductCreate.jsx";
+import AdminProductEdit from "../pages/AdminProductEdit.jsx";
+import AdminProductDelete from "../pages/AdminProductDelete.jsx";
+import AdminOrdersDashboard from "../pages/AdminOrdersDashboard.jsx";
 import EditorDashboard from "../pages/EditorDashboard.jsx";
 import EditorAnalytics from "../pages/EditorAnalytics.jsx";
 import EditorMapPage from "../pages/EditorMapPage.jsx";
@@ -45,6 +51,7 @@ export default function AppRoutes() {
       <Route path="/province/:slug" element={<ProvinceLandingPage />} />
       <Route path="/post/:id" element={<PostDetailPage />} />
       <Route path="/search" element={<SearchPage />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/account" element={<AccountPage />} />
@@ -57,8 +64,15 @@ export default function AppRoutes() {
         path="/province/:provinceSlug/dac-san/:productSlug"
         element={<ProductInfographicPage />}
       />
+      <Route
+        path="/province/:provinceSlug/dac-san/:slug/edit"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <TestEditorPage />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/test-infographic" element={<TestInfographicForm />} />
-      <Route path="/test-editor" element={<TestEditorPage />} />
 
       {/* Editor routes - Editor (1) only */}
       <Route
@@ -184,6 +198,14 @@ export default function AppRoutes() {
         }
       />
       <Route
+        path="/admin/orders"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <AdminOrdersDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/admin/users"
         element={
           <ProtectedRoute requiredRoles={[0]}>
@@ -244,6 +266,38 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute requiredRoles={[0, 1]}>
             <AdminContentStatistics />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/products"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <AdminProductsDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/products/new"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <AdminProductCreate />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/products/:id/edit"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <AdminProductEdit />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/products/:id/delete"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <AdminProductDelete />
           </ProtectedRoute>
         }
       />

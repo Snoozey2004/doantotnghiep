@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using WebApplication1.Application.DTOs.OrderDTOs;
 using WebApplication1.Application.Interfaces.Repositories;
 using WebApplication1.Application.Interfaces.Services;
@@ -67,6 +67,11 @@ public class OrderService : IOrderService
         {
             Id = Guid.NewGuid(),
             UserId = user.Id,
+            CustomerName = dto.CustomerName,
+            PhoneNumber = dto.PhoneNumber,
+            ShippingAddress = dto.ShippingAddress,
+            Notes = dto.Notes,
+            PaymentMethod = dto.PaymentMethod,
             Status = OrderStatus.Pending,
             CreatedAt = DateTime.UtcNow
         };
