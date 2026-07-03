@@ -2,9 +2,10 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import provinces from "../../data/provinceData.js";
 
-const AI_API_KEY = "AQ.Ab8RN6IWmAvTl6Xrxb3W7Zm1MNfJsGnY4qqnVdwVKKfkddRQkA";
-const AI_API_URL = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
-const AI_MODEL = "gemma-4-31b-it";
+// Gọi qua backend proxy — API key AI được giấu ở server (appsettings), KHÔNG lộ ra
+// frontend. Backend tự gắn key + chọn model rồi forward sang Google.
+const AI_PROXY_URL =
+  (import.meta.env.VITE_API_BASE_URL || "http://localhost:5134") + "/api/ai/chat";
 
 const SUGGESTIONS = [
   "🍜 Quán phở ngon ở Hà Nội?",
@@ -132,20 +133,14 @@ export default function AIChatWidget() {
     setIsLoading(true);
 
     try {
-      const res = await fetch(AI_API_URL, {
+      const res = await fetch(AI_PROXY_URL, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${AI_API_KEY}`,
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: AI_MODEL,
           messages: [
             { role: "system", content: buildSystemPrompt(provinceName) },
             ...updatedMessages.map((m) => ({ role: m.role, content: m.content }))
-          ],
-          max_tokens: 1024,
-          temperature: 0.7
+          ]
         })
       });
 
