@@ -11,6 +11,12 @@ const NAV_ITEMS = [
     desc: "Màu sắc, font chữ, thứ tự section",
   },
   {
+    path: "/editor/content",
+    icon: "✏️",
+    label: "Nội dung Landing Page",
+    desc: "Sửa chữ từng section theo tỉnh",
+  },
+  {
     path: "/editor/analytics",
     icon: "📊",
     label: "Thống kê tương tác",

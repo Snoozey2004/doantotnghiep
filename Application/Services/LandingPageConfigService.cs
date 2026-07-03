@@ -54,12 +54,24 @@ public class LandingPageConfigService : ILandingPageConfigService
     private static string SerializeSectionVisibility(Dictionary<string, bool>? dict) =>
         dict != null && dict.Count > 0 ? JsonSerializer.Serialize(dict) : string.Empty;
 
+    // Nội dung section: lưu/đọc JSON opaque (object lồng mảng do editor sửa).
+    private static JsonElement? DeserializeSectionContent(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json)) return null;
+        try { return JsonSerializer.Deserialize<JsonElement>(json); }
+        catch { return null; }
+    }
+
+    private static string SerializeSectionContent(JsonElement? el) =>
+        el.HasValue ? el.Value.GetRawText() : string.Empty;
+
     private LandingPageConfigDto ToDto(LandingPageConfig config)
     {
         var dto = _mapper.Map<LandingPageConfigDto>(config);
         dto.SectionColors = DeserializeSectionColors(config.SectionColorsJson);
         dto.SectionOrder = DeserializeSectionOrder(config.SectionOrderJson);
         dto.SectionVisibility = DeserializeSectionVisibility(config.SectionVisibilityJson);
+        dto.SectionContent = DeserializeSectionContent(config.SectionContentJson);
         return dto;
     }
 
@@ -100,6 +112,7 @@ public class LandingPageConfigService : ILandingPageConfigService
         config.SectionColorsJson = SerializeSectionColors(dto.SectionColors);
         config.SectionOrderJson = SerializeSectionOrder(dto.SectionOrder);
         config.SectionVisibilityJson = SerializeSectionVisibility(dto.SectionVisibility);
+        config.SectionContentJson = SerializeSectionContent(dto.SectionContent);
         config.Blocks = dto.Blocks.Select(MapCreateBlock).ToList();
         await _configRepository.AddAsync(config, cancellationToken);
         return ToDto(config);
@@ -119,6 +132,8 @@ public class LandingPageConfigService : ILandingPageConfigService
             config.SectionOrderJson = SerializeSectionOrder(dto.SectionOrder);
         if (dto.SectionVisibility != null)
             config.SectionVisibilityJson = SerializeSectionVisibility(dto.SectionVisibility);
+        if (dto.SectionContent != null)
+            config.SectionContentJson = SerializeSectionContent(dto.SectionContent);
         if (dto.Blocks != null)
             config.Blocks = dto.Blocks.Select(block => MapUpdateBlock(block, config.Id)).ToList();
         await _configRepository.UpdateAsync(config, cancellationToken);

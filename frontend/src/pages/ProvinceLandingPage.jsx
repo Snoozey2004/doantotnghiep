@@ -310,6 +310,18 @@ export default function ProvinceLandingPage() {
   const introImage = featuredMedia.find((item) => item.mediaType === "intro")?.url
     || province.introImage;
 
+  // Nội dung section do editor sửa (subset: slogan/description/stats/specialties/culture)
+  // đè lên provinceData mặc định. Không có thì dùng nguyên provinceData.
+  const sectionContent = config?.sectionContent || {};
+  const mergedProvince = {
+    ...province,
+    ...(sectionContent.slogan != null ? { slogan: sectionContent.slogan } : {}),
+    ...(sectionContent.description != null ? { description: sectionContent.description } : {}),
+    ...(Array.isArray(sectionContent.stats) ? { stats: sectionContent.stats } : {}),
+    ...(Array.isArray(sectionContent.specialties) ? { specialties: sectionContent.specialties } : {}),
+    ...(Array.isArray(sectionContent.culture) ? { culture: sectionContent.culture } : {}),
+  };
+
   const infoImageMap = {
     "ha-noi": "/Images/infohanoi.png",
     "hai-phong": "/Images/infohaiphong.png",
@@ -358,8 +370,8 @@ export default function ProvinceLandingPage() {
   const provinceVideo = provinceVideoMap[slug];
 
   const sectionElements = {
-    hero: <ProvinceHero key="hero" province={{ ...province, heroImage }} bgColor={sc.hero} />,
-    intro: <ProvinceIntro key="intro" province={{ ...province, introImage }} bgColor={sc.intro} />,
+    hero: <ProvinceHero key="hero" province={{ ...mergedProvince, heroImage }} bgColor={sc.hero} />,
+    intro: <ProvinceIntro key="intro" province={{ ...mergedProvince, introImage }} bgColor={sc.intro} />,
     video: provinceVideo ? (
       <div key="video" className="province-video-section" style={sc.video ? { backgroundColor: sc.video } : undefined}>
         <div className="container">
@@ -369,13 +381,13 @@ export default function ProvinceLandingPage() {
         </div>
       </div>
     ) : null,
-    charts: layout !== "minimal" ? <ProvinceCharts key="charts" province={province} bgColor={sc.charts} /> : null,
-    timeline: layout !== "minimal" ? <ProvinceTimeline key="timeline" province={province} bgColor={sc.timeline} /> : null,
-    culture: <ProvinceCulture key="culture" province={province} bgColor={sc.culture} />,
-    specialties: <ProvinceSpecialties key="specialties" province={{ ...province, id: provinceData?.id }} bgColor={sc.specialties} />,
-    craftVillages: <ProvinceCraftVillages key="craftVillages" province={province} bgColor={sc.craftVillages} />,
-    festivals: <ProvinceFestivals key="festivals" province={province} bgColor={sc.festivals} />,
-    gallery: <ProvinceGallery key="gallery" province={province} bgColor={sc.gallery} />,
+    charts: layout !== "minimal" ? <ProvinceCharts key="charts" province={mergedProvince} bgColor={sc.charts} /> : null,
+    timeline: layout !== "minimal" ? <ProvinceTimeline key="timeline" province={mergedProvince} bgColor={sc.timeline} /> : null,
+    culture: <ProvinceCulture key="culture" province={mergedProvince} bgColor={sc.culture} />,
+    specialties: <ProvinceSpecialties key="specialties" province={{ ...mergedProvince, id: provinceData?.id }} bgColor={sc.specialties} />,
+    craftVillages: <ProvinceCraftVillages key="craftVillages" province={mergedProvince} bgColor={sc.craftVillages} />,
+    festivals: <ProvinceFestivals key="festivals" province={mergedProvince} bgColor={sc.festivals} />,
+    gallery: <ProvinceGallery key="gallery" province={mergedProvince} bgColor={sc.gallery} />,
     info: infoImage ? (
       <div key="info" className="province-info-banner" style={sc.info ? { backgroundColor: sc.info } : undefined}>
         <div className="province-info-banner__inner">
@@ -390,7 +402,7 @@ export default function ProvinceLandingPage() {
     ) : null,
   };
 
-  const metaDescription = province.description
+  const metaDescription = mergedProvince.description
     || province.overview
     || province.introduction
     || `Khám phá ${province.name} – vùng đất với bản sắc văn hóa độc đáo, ẩm thực phong phú và danh thắng nổi tiếng.`;
