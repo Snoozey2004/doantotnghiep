@@ -2,13 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { authApi } from "../../api/authApi";
 import { useAuth } from "../../contexts/AuthContext.jsx";
-import { useCart } from "../../contexts/CartContext.jsx";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
-  const { cartCount, setIsCartOpen } = useCart();
   const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem("accessToken")));
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);

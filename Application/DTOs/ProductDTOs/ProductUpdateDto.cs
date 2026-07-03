@@ -13,4 +13,5 @@ public class ProductUpdateDto
     public bool IsFeatured { get; set; }
     public bool IsPublished { get; set; }
     public ProductType Type { get; set; }
+    public List<ProductShopDto> Shops { get; set; } = new();
 }

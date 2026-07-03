@@ -18,6 +18,7 @@ public class ProductRepository : IProductRepository
     {
         return await _dbContext.Products
             .Include(x => x.Galleries)
+            .Include(x => x.Shops)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
@@ -26,6 +27,7 @@ public class ProductRepository : IProductRepository
     {
         return await _dbContext.Products
             .Include(x => x.Galleries)
+            .Include(x => x.Shops)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
@@ -33,6 +35,7 @@ public class ProductRepository : IProductRepository
     {
         return await _dbContext.Products
             .Include(x => x.Galleries)
+            .Include(x => x.Shops)
             .AsNoTracking()
             .Where(p => p.ProvinceId == provinceId)
             .ToListAsync(cancellationToken);
@@ -42,6 +45,7 @@ public class ProductRepository : IProductRepository
     {
         return await _dbContext.Products
             .Include(x => x.Galleries)
+            .Include(x => x.Shops)
             .AsNoTracking()
             .Where(p => p.Province.Slug == provinceSlug)
             .ToListAsync(cancellationToken);
@@ -52,6 +56,8 @@ public class ProductRepository : IProductRepository
         CancellationToken cancellationToken)
     {
         return await _dbContext.Products
+            .Include(x => x.Galleries)
+            .Include(x => x.Shops)
             .AsNoTracking()
             .FirstOrDefaultAsync(
                 x => x.Slug == slug,
