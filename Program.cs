@@ -19,7 +19,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 builder.Services.AddHttpClient(); // cho AI chat proxy
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -137,6 +141,7 @@ static async Task SeedSampleDataAsync(IServiceProvider services)
     await DataSeeder.SeedAsync(dbContext, CancellationToken.None);
 }
 
+app.UseDeveloperExceptionPage();
 app.UseCors("Frontend");
 
 if (!app.Environment.IsDevelopment())
