@@ -1,4 +1,5 @@
-﻿using WebApplication1.Application.DTOs.UIBlockDTOs;
+﻿using System.Text.Json;
+using WebApplication1.Application.DTOs.UIBlockDTOs;
 
 namespace WebApplication1.Application.DTOs.LandingPageConfigDTOs;
 
@@ -12,5 +13,6 @@ public class LandingPageConfigCreateDto
     public Dictionary<string, string> SectionColors { get; set; } = new();
     public List<string> SectionOrder { get; set; } = new();
     public Dictionary<string, bool> SectionVisibility { get; set; } = new();
+    public JsonElement? SectionContent { get; set; }
     public List<UIBlockCreateDto> Blocks { get; set; } = new();
 }

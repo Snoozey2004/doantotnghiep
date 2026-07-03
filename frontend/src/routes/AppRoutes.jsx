@@ -38,6 +38,7 @@ import AdminOrdersDashboard from "../pages/AdminOrdersDashboard.jsx";
 import EditorDashboard from "../pages/EditorDashboard.jsx";
 import EditorAnalytics from "../pages/EditorAnalytics.jsx";
 import EditorMapPage from "../pages/EditorMapPage.jsx";
+import EditorContentPage from "../pages/EditorContentPage.jsx";
 import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
 import RequireAuth from "./RequireAuth.jsx";
 
@@ -96,6 +97,14 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute requiredRoles={[1]}>
             <EditorMapPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/editor/content"
+        element={
+          <ProtectedRoute requiredRoles={[1]}>
+            <EditorContentPage />
           </ProtectedRoute>
         }
       />
