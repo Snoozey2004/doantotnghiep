@@ -4,8 +4,8 @@ import MainLayout from '../layouts/MainLayout';
 import BlockRenderer from '../infographic/renderers/BlockRenderer';
 import { productInfographicApi } from '../infographic/services/productInfographicApi';
 import { productApi } from '../api/productApi';
+import { landingConfigApi } from '../api/landingConfigApi';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { useCart } from '../contexts/CartContext';
 import '../styles/ProductInfographicPage.css';
 
 export default function ProductInfographicPage() {
@@ -13,8 +13,9 @@ export default function ProductInfographicPage() {
   const navigate = useNavigate();
   const [infographic, setInfographic] = useState(null);
   const [product, setProduct] = useState(null);
+  const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { addToCart } = useCart();
+  const [isShopModalOpen, setIsShopModalOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -27,9 +28,10 @@ export default function ProductInfographicPage() {
       try {
         setLoading(true);
         // Fetch both infographic and product data
-        const [infoRes, productRes] = await Promise.all([
+        const [infoRes, productRes, configRes] = await Promise.all([
           productInfographicApi.getByProductSlug(productSlug).catch(() => null),
-          productApi.getBySlug(productSlug).catch(() => null)
+          productApi.getBySlug(productSlug).catch(() => null),
+          landingConfigApi.getByProvinceSlug(provinceSlug).catch(() => null)
         ]);
         
         if (infoRes && infoRes.data) {
@@ -38,6 +40,9 @@ export default function ProductInfographicPage() {
         if (productRes) {
           setProduct(productRes);
           document.title = `${productRes.name || 'Đặc sản'} - Tinh hoa ẩm thực`;
+        }
+        if (configRes) {
+          setConfig(configRes);
         }
       } catch (err) {
         console.error("Failed to load data:", err);
@@ -93,6 +98,8 @@ export default function ProductInfographicPage() {
 
   // Sắp xếp blocks theo SortOrder
   const sortedBlocks = [...infographic.blocks].sort((a, b) => a.sortOrder - b.sortOrder);
+  
+  const fontFamily = config?.fontFamily || "";
 
   return (
     <MainLayout>
@@ -104,16 +111,7 @@ export default function ProductInfographicPage() {
             <span className="product-name">{product?.name || 'Đặc sản'}</span>
           </div>
           {(!product?.type || product?.type === 1) && (
-            <button className="btn-buy-header" onClick={() => {
-              addToCart({
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                imageUrl: product.imageUrl,
-                slug: product.slug,
-                provinceId: product.provinceId
-              }, 1);
-            }}>
+            <button className="btn-buy-header" onClick={() => setIsShopModalOpen(true)}>
               🛒 Đặt hàng ngay
             </button>
           )}
@@ -139,6 +137,7 @@ export default function ProductInfographicPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
+        style={fontFamily ? { fontFamily, "--province-heading-font": fontFamily } : {}}
       >
         {sortedBlocks.map(block => {
           if (block.isVisible === false) return null;
@@ -156,6 +155,46 @@ export default function ProductInfographicPage() {
           );
         })}
       </motion.div>
+
+      {/* Shop Modal */}
+      {isShopModalOpen && (
+        <div className="shop-modal-overlay" onClick={() => setIsShopModalOpen(false)}>
+          <div className="shop-modal-content" onClick={e => e.stopPropagation()}>
+            <div className="shop-modal-header">
+              <h3>Đặt mua {product?.name}</h3>
+              <button className="shop-modal-close" onClick={() => setIsShopModalOpen(false)}>×</button>
+            </div>
+            <div className="shop-modal-body">
+              {(!product?.shops || product.shops.length === 0) ? (
+                <div className="shop-empty">
+                  <p>Hiện chưa có cửa hàng nào liên kết bán sản phẩm này.</p>
+                </div>
+              ) : (
+                <ul className="shop-list">
+                  {product.shops.map((shop, idx) => (
+                    <li key={idx} className="shop-item">
+                      <div className="shop-info-wrapper">
+                        {shop.imageUrl ? (
+                          <img src={shop.imageUrl} alt={shop.shopName} className="shop-avatar" />
+                        ) : (
+                          <div className="shop-avatar-placeholder">🏪</div>
+                        )}
+                        <div className="shop-info">
+                          <strong>{shop.shopName}</strong>
+                          <span className="shop-platform">{shop.platform}</span>
+                        </div>
+                      </div>
+                      <a href={shop.shopUrl} target="_blank" rel="noopener noreferrer" className="btn-shop-link">
+                        Đến cửa hàng
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </MainLayout>
   );
 }

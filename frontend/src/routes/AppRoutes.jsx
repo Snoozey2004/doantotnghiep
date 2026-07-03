@@ -8,7 +8,6 @@ import PostDetailPage from "../pages/PostDetailPage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 import RegisterPage from "../pages/RegisterPage.jsx";
 import SearchPage from "../pages/SearchPage.jsx";
-import CheckoutPage from "../pages/CheckoutPage.jsx";
 import AdminDashboard from "../pages/AdminDashboard.jsx";
 import AccountPage from "../pages/AccountPage.jsx";
 import AdminProvinceCreate from "../pages/AdminProvinceCreate.jsx";
@@ -34,7 +33,6 @@ import AdminProductsDashboard from "../pages/AdminProductsDashboard.jsx";
 import AdminProductCreate from "../pages/AdminProductCreate.jsx";
 import AdminProductEdit from "../pages/AdminProductEdit.jsx";
 import AdminProductDelete from "../pages/AdminProductDelete.jsx";
-import AdminOrdersDashboard from "../pages/AdminOrdersDashboard.jsx";
 import EditorDashboard from "../pages/EditorDashboard.jsx";
 import EditorAnalytics from "../pages/EditorAnalytics.jsx";
 import EditorMapPage from "../pages/EditorMapPage.jsx";
@@ -52,7 +50,6 @@ export default function AppRoutes() {
       <Route path="/province/:slug" element={<ProvinceLandingPage />} />
       <Route path="/post/:id" element={<PostDetailPage />} />
       <Route path="/search" element={<SearchPage />} />
-      <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/account" element={<AccountPage />} />
@@ -206,14 +203,7 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      <Route
-        path="/admin/orders"
-        element={
-          <ProtectedRoute requiredRoles={[0, 1]}>
-            <AdminOrdersDashboard />
-          </ProtectedRoute>
-        }
-      />
+
       <Route
         path="/admin/users"
         element={
