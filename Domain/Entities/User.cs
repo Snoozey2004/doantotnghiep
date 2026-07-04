@@ -1,4 +1,4 @@
-﻿using WebApplication1.Domain.Enums;
+using WebApplication1.Domain.Enums;
 
 namespace WebApplication1.Domain.Entities;
 
@@ -10,5 +10,4 @@ public class User
     public string PasswordHash { get; set; } = string.Empty;
     public UserRole Role { get; set; } = UserRole.Customer;
     public bool IsApproved { get; set; } = true;
-    public ICollection<Order> Orders { get; set; } = new List<Order>();
 }

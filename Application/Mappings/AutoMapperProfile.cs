@@ -1,7 +1,6 @@
-﻿using AutoMapper;
+using AutoMapper;
 using WebApplication1.Application.DTOs.AnalyticsDTOs;
 using WebApplication1.Application.DTOs.LandingPageConfigDTOs;
-using WebApplication1.Application.DTOs.OrderDTOs;
 using WebApplication1.Application.DTOs.MediaDTOs;
 using WebApplication1.Application.DTOs.PostDTOs;
 using WebApplication1.Application.DTOs.ProductDTOs;
@@ -47,8 +46,8 @@ public class AutoMapperProfile : Profile
         CreateMap<ProductCreateDto, Product>();
         CreateMap<ProductUpdateDto, Product>();
 
-        CreateMap<Order, OrderDto>();
-        CreateMap<OrderItem, OrderItemDto>();
+        CreateMap<ProductShop, ProductShopDto>();
+        CreateMap<ProductShopDto, ProductShop>();
 
         CreateMap<Post, PostDto>();
         CreateMap<PostCreateDto, Post>();

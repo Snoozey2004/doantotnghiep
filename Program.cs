@@ -59,9 +59,19 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176", "https://localhost:5173", "https://localhost:5174", "https://localhost:5175", "https://localhost:5176")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        var frontendUrls = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+        if (frontendUrls != null && frontendUrls.Any())
+        {
+            policy.WithOrigins(frontendUrls)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
+        else
+        {
+            policy.WithOrigins("http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176", "https://localhost:5173", "https://localhost:5174", "https://localhost:5175", "https://localhost:5176")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
     });
 });
 
@@ -74,7 +84,6 @@ builder.Services.AddScoped<IProvinceRepository, ProvinceRepository>();
 builder.Services.AddScoped<ILandingPageConfigRepository, LandingPageConfigRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IMediaItemRepository, MediaItemRepository>();
 builder.Services.AddScoped<ISearchRepository, SearchRepository>();
@@ -85,7 +94,6 @@ builder.Services.AddScoped<IProvinceService, ProvinceService>();
 builder.Services.AddScoped<ILandingPageConfigService, LandingPageConfigService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IMediaItemService, MediaItemService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
@@ -101,6 +109,13 @@ builder.Services.AddSingleton<IRichTextConfigService, RichTextConfigService>();
 builder.Services.AddSingleton<IMapMarkerService, MapMarkerService>();
 
 var app = builder.Build();
+
+// Run migrations automatically
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await dbContext.Database.MigrateAsync();
+}
 
 await SeedDefaultAdminAsync(app.Services, builder.Configuration);
 await SeedSampleDataAsync(app.Services);

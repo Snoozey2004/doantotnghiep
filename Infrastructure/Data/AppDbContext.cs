@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebApplication1.Domain.Entities;
 using WebApplication1.Domain.Enums;
 
@@ -16,8 +16,7 @@ public class AppDbContext : DbContext
     public DbSet<Product> Products => Set<Product>();
     public DbSet<ProductGallery> ProductGalleries => Set<ProductGallery>();
     public DbSet<User> Users => Set<User>();
-    public DbSet<Order> Orders => Set<Order>();
-    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+    public DbSet<ProductShop> ProductShops => Set<ProductShop>();
     public DbSet<Post> Posts => Set<Post>();
     public DbSet<MediaItem> MediaItems => Set<MediaItem>();
     public DbSet<AnalyticsEvent> AnalyticsEvents => Set<AnalyticsEvent>();
@@ -140,30 +139,16 @@ public class AppDbContext : DbContext
                 .HasSentinel(true);
         });
 
-        modelBuilder.Entity<Order>(entity =>
+        modelBuilder.Entity<ProductShop>(entity =>
         {
             entity.HasKey(x => x.Id);
-            entity.Property(x => x.TotalAmount).HasColumnType("decimal(18,2)");
-            entity.Property(x => x.Status).HasConversion<int>();
-            entity.HasOne(x => x.User)
-                .WithMany(u => u.Orders)
-                .HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-        });
-
-        modelBuilder.Entity<OrderItem>(entity =>
-        {
-            entity.HasKey(x => x.Id);
-            entity.Property(x => x.ProductName).IsRequired().HasMaxLength(200);
-            entity.Property(x => x.UnitPrice).HasColumnType("decimal(18,2)");
-            entity.HasOne(x => x.Order)
-                .WithMany(o => o.Items)
-                .HasForeignKey(x => x.OrderId)
-                .OnDelete(DeleteBehavior.Cascade);
+            entity.Property(x => x.ShopName).IsRequired().HasMaxLength(200);
+            entity.Property(x => x.ShopUrl).IsRequired();
+            entity.Property(x => x.Platform).HasMaxLength(50);
             entity.HasOne(x => x.Product)
-                .WithMany(p => p.OrderItems)
+                .WithMany(p => p.Shops)
                 .HasForeignKey(x => x.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.ApplyConfiguration(

@@ -15,8 +15,8 @@ public class Product
     public bool IsPublished { get; set; }
     public Guid ProvinceId { get; set; }
     public Province Province { get; set; } = null!;
-    public ICollection<OrderItem> OrderItems { get; set; }
-    = new List<OrderItem>();
+    public ICollection<ProductShop> Shops { get; set; }
+    = new List<ProductShop>();
     public ICollection<ProductGallery> Galleries { get; set; }
     = new List<ProductGallery>();
     public ProductInfographic? Infographic { get; set; }
