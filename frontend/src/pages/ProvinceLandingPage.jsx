@@ -423,6 +423,7 @@ export default function ProvinceLandingPage() {
         {metaImage && <meta name="twitter:image" content={metaImage} />}
       </Helmet>
       <div
+        data-province-slug={slug}
         className={["province-page", layout !== "default" ? `province-layout-${layout}` : ""].filter(Boolean).join(" ")}
         style={{ "--accent": accentColor, ...(fontFamily ? { fontFamily, "--province-heading-font": fontFamily } : {}) }}
       >
