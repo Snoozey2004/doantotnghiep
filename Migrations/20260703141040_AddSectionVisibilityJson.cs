@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -10,7 +10,13 @@ namespace WebApplication1.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.Sql(@"
+                ALTER TABLE ""LandingPageConfigs"" 
+                ADD COLUMN IF NOT EXISTS ""SectionVisibilityJson"" text NOT NULL DEFAULT '';
+                
+                ALTER TABLE ""LandingPageConfigs"" 
+                ADD COLUMN IF NOT EXISTS ""SectionContentJson"" text NOT NULL DEFAULT '';
+            ");
         }
 
         /// <inheritdoc />
