@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import searchApi from '../api/searchApi';
 import { landingConfigApi } from '../api/landingConfigApi';
+import { provinceApi } from '../api/provinceApi';
 import localProvinces from '../data/provinceData';
 import '../styles/search.css';
 
@@ -37,7 +38,7 @@ function normalizeVi(str) {
     .replace(/đ/g, 'd').replace(/Đ/g, 'd');
 }
 
-function buildLocalProvinceResults(filters = {}, keyword = '') {
+function buildLocalProvinceResults(filters = {}, keyword = '', highlightMap = {}) {
   if (filters.contentType && filters.contentType !== 'Province') return [];
   const normKw = normalizeVi(keyword.trim());
   return PROVINCE_SLUGS_ORDERED
@@ -49,6 +50,7 @@ function buildLocalProvinceResults(filters = {}, keyword = '') {
         const haystack = normalizeVi([p.name, p.description, p.slogan].join(' '));
         if (!haystack.includes(normKw)) return null;
       }
+      const hl = highlightMap[slug];
       return {
         id: slug,
         itemType: 'Province',
@@ -56,14 +58,20 @@ function buildLocalProvinceResults(filters = {}, keyword = '') {
         title: p.name,
         description: p.description,
         imageUrl: typeof p.heroImage === 'string' ? p.heroImage : null,
-        isHighlighted: false,
+        isHighlighted: hl?.isHighlighted || false,
+        highlightOrder: hl?.highlightOrder ?? 999,
         relevanceScore: normKw ? (normalizeVi(p.name).includes(normKw) ? 100 : 60) : 100 - index,
         region: PROVINCE_REGION_MAP[slug] || null,
         category: null,
         tags: null
       };
     }).filter(Boolean)
-    .sort((a, b) => b.relevanceScore - a.relevanceScore);
+    // Tỉnh nổi bật (admin tích ở /admin/featured) lên đầu, theo highlightOrder; còn lại theo độ liên quan.
+    .sort((a, b) => {
+      if (a.isHighlighted !== b.isHighlighted) return a.isHighlighted ? -1 : 1;
+      if (a.isHighlighted && b.isHighlighted) return (a.highlightOrder ?? 999) - (b.highlightOrder ?? 999);
+      return b.relevanceScore - a.relevanceScore;
+    });
 }
 
 const CATEGORIES = [
@@ -130,6 +138,7 @@ const SearchPage = () => {
   const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1);
   const inputRef = useRef(null);
   const [bgMap, setBgMap] = useState({});
+  const [highlightMap, setHighlightMap] = useState({});
 
   const [filters, setFilters] = useState({
     region: searchParams.get('region') || '',
@@ -152,6 +161,19 @@ const SearchPage = () => {
         const map = {};
         (list || []).forEach((item) => { if (item.slug && item.backgroundUrl) map[item.slug] = item.backgroundUrl; });
         setBgMap(map);
+      })
+      .catch(() => {});
+  }, []);
+
+  // Nạp cờ "nổi bật" của tỉnh (admin tích ở /admin/featured) để badge + đẩy lên đầu.
+  useEffect(() => {
+    provinceApi.getAll()
+      .then((list) => {
+        const map = {};
+        (list || []).forEach((p) => {
+          if (p.slug) map[p.slug] = { isHighlighted: !!p.isHighlighted, highlightOrder: p.highlightOrder ?? 999 };
+        });
+        setHighlightMap(map);
       })
       .catch(() => {});
   }, []);
@@ -185,7 +207,7 @@ const SearchPage = () => {
     const trimmedKeyword = keyword.trim();
 
     if (!trimmedKeyword) {
-      const allLocal = buildLocalProvinceResults(filters);
+      const allLocal = buildLocalProvinceResults(filters, '', highlightMap);
       const pageSize = 10;
       const start = (currentPage - 1) * pageSize;
       // Ưu tiên ảnh heroImage tuyển chọn riêng của từng tỉnh; chỉ dùng background
@@ -199,7 +221,7 @@ const SearchPage = () => {
 
     // Province: search local data, no API needed
     if (!filters.contentType || filters.contentType === 'Province') {
-      const allLocal = buildLocalProvinceResults(filters, trimmedKeyword);
+      const allLocal = buildLocalProvinceResults(filters, trimmedKeyword, highlightMap);
       const pageSize = 10;
       const start = (currentPage - 1) * pageSize;
       // Ưu tiên ảnh heroImage tuyển chọn riêng của từng tỉnh; chỉ dùng background
@@ -246,7 +268,7 @@ const SearchPage = () => {
     }, 350);
 
     return () => clearTimeout(timer);
-  }, [keyword, filters, currentPage, setSearchParams, isComposing, bgMap]);
+  }, [keyword, filters, currentPage, setSearchParams, isComposing, bgMap, highlightMap]);
 
   const handleSuggestionClick = (suggestion) => {
     setKeyword(suggestion);
