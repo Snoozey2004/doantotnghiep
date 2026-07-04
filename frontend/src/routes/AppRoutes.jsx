@@ -24,6 +24,7 @@ import AdminMediaDelete from "../pages/AdminMediaDelete.jsx";
 import AdminUsersDashboard from "../pages/AdminUsersDashboard.jsx";
 import AdminUserEdit from "../pages/AdminUserEdit.jsx";
 import AdminLandingDashboard from "../pages/AdminLandingDashboard.jsx";
+import AdminLandingContent from "../pages/AdminLandingContent.jsx";
 import AdminLandingCreate from "../pages/AdminLandingCreate.jsx";
 import AdminLandingEdit from "../pages/AdminLandingEdit.jsx";
 import AdminLandingDelete from "../pages/AdminLandingDelete.jsx";
@@ -225,6 +226,14 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute requiredRoles={[0, 1]}>
             <AdminLandingDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/landing/content"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <AdminLandingContent />
           </ProtectedRoute>
         }
       />
