@@ -134,7 +134,7 @@ export default function Header() {
                     <Link to="/account" onClick={() => setIsAccountOpen(false)}>
                       Tài khoản
                     </Link>
-                    {isAdminOrEditor && (
+                    {isEditor && (
                       <Link to="/editor" onClick={() => setIsAccountOpen(false)}>
                         Editor Dashboard
                       </Link>

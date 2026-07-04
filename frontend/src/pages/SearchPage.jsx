@@ -441,8 +441,8 @@ const SearchPage = () => {
             {/* Result cards */}
             {!loading && results.length > 0 && (
               <div className="results-list">
-                {results.map((item) => (
-                  <div key={item.id} className="result-card" onClick={() => handleItemClick(item)}>
+                {results.map((item, i) => (
+                  <div key={item.id} data-region={item.region || undefined} className={`result-card${i % 2 === 1 ? " result-card--reversed" : ""}`} onClick={() => handleItemClick(item)}>
                     {item.imageUrl ? (
                       <div className="result-card-img">
                         <img src={item.imageUrl} alt={item.title} loading="lazy" />
