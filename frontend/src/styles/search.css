@@ -5,19 +5,27 @@
 
 .search-page {
   min-height: calc(100vh - 80px);
-  background:
-    radial-gradient(
-      circle at 15% 0%,
-      rgba(233, 218, 195, 0.55),
-      transparent 46%
-    ),
-    radial-gradient(
-      circle at 88% 10%,
-      rgba(198, 166, 128, 0.22),
-      transparent 40%
-    ),
-    #f6f1e8;
+  /* Nền hình subtle-prism.svg + lớp phủ kem nhẹ để chữ/thẻ vẫn đọc rõ. */
+  background-color: #f6f1e8;
+  background-image:
+    linear-gradient(rgba(246, 241, 232, 0.34), rgba(246, 241, 232, 0.34)),
+    url("/bg/subtle-prism.svg");
+  background-repeat: no-repeat, no-repeat;
+  /* lớp veil giữ cover; lớp prism phóng to 180% để có chỗ trôi (flow như Lăng kính). */
+  background-size: cover, 180% 180%;
+  background-position: center, 0% 20%;
+  background-attachment: fixed, fixed;
+  animation: searchPrismFlow 34s ease-in-out infinite;
   color: #2b251f;
+}
+/* Prism trôi chéo qua lại (chỉ lớp thứ 2 di chuyển; veil đồng màu nên không đổi). */
+@keyframes searchPrismFlow {
+  0%   { background-position: center, 0% 20%; }
+  50%  { background-position: center, 100% 80%; }
+  100% { background-position: center, 0% 20%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .search-page { animation: none; }
 }
 
 /* ── Hero search header ──────────────────── */

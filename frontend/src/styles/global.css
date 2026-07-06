@@ -5938,3 +5938,110 @@ a {
 .province-page[data-province-slug="ca-mau"] :is(.province-festival-image::after,.province-food-image::after,.province-craft-image::after,.province-timeline-image::after,.province-culture-image::after,.province-gallery-image::after){box-shadow:inset 0 0 0 1px rgba(44,111,138,0.4);background-image:radial-gradient(130% 120% at 50% 36%,transparent 54%,rgba(29,74,62,0.32) 100%),linear-gradient(180deg,rgba(47,111,90,0.10),rgba(29,74,62,0.12));}
 
 
+
+/* =====================================================================
+   BO watermark motif o goc section (Dong Son/Khue Van Cac/song...) - 34 trang
+   ===================================================================== */
+.province-page .province-section::before { display: none; }
+
+/* Bo luon watermark motif trong HERO - 34 trang (giu anh + veil + khung vang) */
+.province-page .province-hero::before { display: none; }
+
+/* =====================================================================
+   SECTION BG TEMPLATE (tuy chon) - editor chon template + 2 mau (nen/pattern).
+   Bien --sbg-<key> (each mode) / --sbg-all (all mode) set inline tren
+   .province-page tu ProvinceLandingPage. Khong chon template -> bien khong set
+   -> var() rong -> section dung mau thuong nhu cu (khong anh huong gi).
+   background-image (sub-property) nen mau section inline cua editor van con duoi.
+   ===================================================================== */
+.province-page .province-intro,
+.province-page .province-charts-section,
+.province-page .province-timeline-section,
+.province-page .province-heritage-section,
+.province-page .province-specialties,
+.province-page .province-craft-section,
+.province-page .province-festivals-section,
+.province-page .province-gallery,
+.province-page .province-info-banner,
+.province-page .province-video-section {
+  /* 2 lớp: [ink=trong suốt (trên), full=nền+hoa văn (dưới)]. Animate ngược chiều X
+     → hàng lẻ trôi trái, hàng chẵn trôi phải, xen kẽ như dệt. */
+  /* recolor: tile 360 + weave; "màu gốc" ghi đè qua --sbg-size/rep/pos = cover. */
+  background-repeat: var(--sbg-rep, repeat, repeat);
+  background-size: var(--sbg-size, 360px 360px, 360px 360px);
+  background-position: var(--sbg-pos, 0 180px, 0 0);
+  /* Mode "áp chung": --sbg-attach = fixed → nền neo theo viewport, mọi section
+     cùng gốc tile → hoa văn liền mạch, không đứt khúc ở ranh giới. Mode "từng
+     section" không set biến → scroll (mỗi section tile riêng như bình thường). */
+  background-attachment: var(--sbg-attach, scroll);
+  /* Chỉ chạy khi có template (--sbg-anim set từ JS); không thì none, không tốn CPU. */
+  animation: var(--sbg-anim, none);
+}
+@keyframes vxSecWeave {
+  from { background-position: 0px 180px, 0px 0px; }
+  to   { background-position: -360px 180px, 360px 0px; }
+}
+/* Template gốc (màu gốc): phóng to nhẹ + trôi chéo qua lại → gradient chuyển động mượt. */
+@keyframes vxOrigFlow {
+  0%   { background-position: 0% 20%; }
+  50%  { background-position: 100% 80%; }
+  100% { background-position: 0% 20%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .province-page .province-intro,
+  .province-page .province-charts-section,
+  .province-page .province-timeline-section,
+  .province-page .province-heritage-section,
+  .province-page .province-specialties,
+  .province-page .province-craft-section,
+  .province-page .province-festivals-section,
+  .province-page .province-gallery,
+  .province-page .province-info-banner,
+  .province-page .province-video-section { animation: none !important; }
+}
+.province-page .province-intro             { background-image: var(--sbg-intro,         var(--sbg-all)); }
+.province-page .province-video-section     { background-image: var(--sbg-video,         var(--sbg-all)); }
+.province-page .province-charts-section    { background-image: var(--sbg-charts,        var(--sbg-all)); }
+.province-page .province-timeline-section  { background-image: var(--sbg-timeline,      var(--sbg-all)); }
+.province-page .province-heritage-section  { background-image: var(--sbg-culture,       var(--sbg-all)); }
+.province-page .province-specialties       { background-image: var(--sbg-specialties,   var(--sbg-all)); }
+.province-page .province-craft-section     { background-image: var(--sbg-craftVillages, var(--sbg-all)); }
+.province-page .province-festivals-section { background-image: var(--sbg-festivals,     var(--sbg-all)); }
+.province-page .province-gallery           { background-image: var(--sbg-gallery,       var(--sbg-all)); }
+.province-page .province-info-banner       { background-image: var(--sbg-info,          var(--sbg-all)); }
+
+/* =====================================================================
+   MÀU CHỮ NỘI DUNG (tùy chọn) - editor đặt --province-text trên .province-page.
+   Không đặt → var() dùng fallback = màu gốc → giữ nguyên. Đặt → đổi toàn bộ
+   chữ đậm (tiêu đề #2b251f) và chữ phụ (--ink-muted / #6b6152) sang màu đó.
+   Hero (chữ trắng trên ảnh) & kicker (màu accent) KHÔNG đụng.
+   ===================================================================== */
+.province-page .province-section-title,
+.province-page .province-video-section__title,
+.province-page .province-info-banner__title,
+.province-page .province-chart-title,
+.province-page .province-chart-tooltip-value,
+.province-page .province-timeline-body h3,
+.province-page .province-heritage-body h3,
+.province-page .province-culture-body h3,
+.province-page .province-culture-mini-body h4,
+.province-page .province-food-body h3,
+.province-page .province-craft-content h3,
+.province-page .province-festival-body h3,
+.province-page .province-gallery-content h3 {
+  color: var(--province-text, #2b251f);
+}
+.province-page .province-section-text {
+  color: var(--province-text, #6b6152);
+}
+.province-page .province-food-body p,
+.province-page .province-culture-body p,
+.province-page .province-culture-mini-body p,
+.province-page .province-timeline-body p,
+.province-page .province-gallery-content p {
+  color: var(--province-text, var(--ink-muted));
+}
+.province-page .province-chart-subtitle,
+.province-page .province-chart-tooltip-label {
+  color: var(--province-text, #8a7a68);
+}
