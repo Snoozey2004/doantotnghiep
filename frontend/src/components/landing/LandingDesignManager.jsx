@@ -3,6 +3,85 @@ import { Link } from "react-router-dom";
 import { provinceApi } from "../../api/provinceApi";
 import { landingConfigApi } from "../../api/landingConfigApi";
 import localProvinces from "../../data/provinceData";
+import { SECTION_BG_TEMPLATES, BG_TEMPLATE_MAP, buildBgUri } from "../../data/sectionBgTemplates";
+import { ORIGINAL_BG_TEMPLATES, ORIGINAL_BG_MAP } from "../../data/sectionBgOriginal";
+import { getSectionBgDefault } from "../../data/sectionBgDefaults";
+
+// Dropdown tùy biến chọn template nền: có thumbnail hoa văn (recolor theo màu đang
+// chọn) cho từng lựa chọn, popover bo góc + đổ bóng, thay cho <select> mặc định.
+function TemplatePicker({ value, bg, fg, onChange, templates = SECTION_BG_TEMPLATES, mapObj = BG_TEMPLATE_MAP }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!open) return undefined;
+    const h = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener("mousedown", h);
+    return () => document.removeEventListener("mousedown", h);
+  }, [open]);
+  const swatch = (key) => (key ? buildBgUri(mapObj[key], bg || "#f4f0e8", fg || "#c9a24a") : null);
+  const cur = templates.find((t) => t.key === value);
+  const chip = (img) => ({
+    width: 32, height: 22, borderRadius: 5, flexShrink: 0,
+    border: "1px solid rgba(0,0,0,0.12)",
+    backgroundImage: img || "repeating-linear-gradient(45deg,#eee7dc 0 4px,#faf8f5 4px 8px)",
+    backgroundSize: img ? "cover" : "8px 8px",
+  });
+  const Opt = ({ k, label }) => {
+    const active = (value || "") === (k || "");
+    return (
+      <button
+        type="button"
+        onClick={() => { onChange(k); setOpen(false); }}
+        style={{
+          display: "flex", alignItems: "center", gap: 9, width: "100%", padding: "7px 9px",
+          border: "none", borderRadius: 7, background: active ? "#fef3e2" : "transparent",
+          cursor: "pointer", textAlign: "left", fontSize: "0.8rem", color: "#3f3a34",
+        }}
+        onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = "#f6f1ea"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = active ? "#fef3e2" : "transparent"; }}
+      >
+        <span style={chip(swatch(k))} />
+        <span style={{ flex: 1 }}>{label}</span>
+        {active && <span style={{ color: "#d97706", fontWeight: 700 }}>✓</span>}
+      </button>
+    );
+  };
+  return (
+    <div ref={ref} style={{ position: "relative", width: 216 }}>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        style={{
+          display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "6px 10px",
+          borderRadius: 9, border: `1px solid ${open ? "#d97706" : "#e0d9cf"}`, background: "#fff",
+          cursor: "pointer", fontSize: "0.8rem", color: cur ? "#3f3a34" : "#9a8f80",
+          boxShadow: open ? "0 0 0 3px rgba(217,119,6,0.12)" : "0 1px 2px rgba(0,0,0,0.03)",
+          transition: "border-color .15s, box-shadow .15s",
+        }}
+      >
+        <span style={chip(swatch(value))} />
+        <span style={{ flex: 1, textAlign: "left", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          {cur ? cur.name : "Không dùng (màu thường)"}
+        </span>
+        <span style={{ fontSize: "0.65rem", color: "#b0a595", transform: open ? "rotate(180deg)" : "none", transition: "transform .15s" }}>▼</span>
+      </button>
+      {open && (
+        <div
+          style={{
+            position: "absolute", top: "calc(100% + 5px)", left: 0, right: 0, zIndex: 60,
+            background: "#fff", borderRadius: 11, border: "1px solid #eadfce",
+            boxShadow: "0 16px 38px rgba(60,45,25,0.18), 0 3px 8px rgba(60,45,25,0.08)",
+            padding: 5, maxHeight: 308, overflowY: "auto",
+          }}
+        >
+          <Opt k="" label="Không dùng (màu thường)" />
+          <div style={{ height: 1, background: "#f0ebe3", margin: "4px 6px" }} />
+          {templates.map((t) => (<Opt key={t.key} k={t.key} label={t.name} />))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 const localColorMap = Object.fromEntries(
   localProvinces.map((p) => [p.slug, p.accentColor || "#b45309"])
@@ -222,7 +301,24 @@ export default function LandingDesignManager() {
         list.forEach((p, i) => {
           const cfg = results[i];
           cfgMap[p.id] = cfg || null;
-          colorsMap[p.id] = cfg?.sectionColors || {};
+          {
+            const savedSc = cfg?.sectionColors || {};
+            const hasBg = Object.keys(savedSc).some((k) => k.startsWith("__bg"));
+            if (hasBg) {
+              colorsMap[p.id] = savedSc;
+            } else {
+              // Chưa cấu hình template → nạp sẵn preset mặc định của tỉnh vào editor
+              // để khớp với những gì trang tỉnh đang hiển thị (fallback ở trang).
+              const preset = getSectionBgDefault(p.slug);
+              const seeded = { ...savedSc, __bgMode: "each" };
+              Object.entries(preset).forEach(([k, v]) => {
+                seeded[`__bgTpl_${k}`] = v.tpl;
+                seeded[`__bgBg_${k}`] = v.bg;
+                seeded[`__bgFg_${k}`] = v.fg;
+              });
+              colorsMap[p.id] = seeded;
+            }
+          }
           settingsMap[p.id] = {
             themeColor: cfg?.themeColor || localColorMap[p.slug] || "#b45309",
             fontFamily: cfg?.fontFamily || "",
@@ -304,19 +400,55 @@ export default function LandingDesignManager() {
     }));
   };
 
+  // Giữ lại các key template nền (tiền tố "__") khi reset màu section cơ bản,
+  // để chức năng template không bị mất khi bấm "Màu mặc định" / "Xóa màu".
+  const keepBgKeys = (map) =>
+    Object.fromEntries(Object.entries(map || {}).filter(([k]) => k.startsWith("__")));
+
   const applyDefaults = (provinceId) => {
     setSectionColors((prev) => ({
       ...prev,
-      [provinceId]: { ...DEFAULT_COLORS },
+      [provinceId]: { ...keepBgKeys(prev[provinceId]), ...DEFAULT_COLORS },
     }));
   };
 
   const clearColors = (provinceId) => {
     // Xóa override → trang dùng lại màu mặc định thật (CSS). Ô màu sẽ hiển thị
-    // màu thật qua fallback DEFAULT_COLORS bên dưới.
+    // màu thật qua fallback DEFAULT_COLORS bên dưới. Giữ nguyên template nền.
     setSectionColors((prev) => ({
       ...prev,
-      [provinceId]: {},
+      [provinceId]: { ...keepBgKeys(prev[provinceId]) },
+    }));
+  };
+
+  // Áp preset template nền mặc định theo bản sắc tỉnh (mode "each": mỗi section 1
+  // template + 2 màu riêng). Giữ nguyên màu section cơ bản; chỉ set các key __bg*.
+  const applyBgDefaults = (provinceId, slug) => {
+    const preset = getSectionBgDefault(slug);
+    setSectionColors((prev) => {
+      const next = { ...(prev[provinceId] || {}) };
+      next.__bgMode = "each";
+      next.__bgOrig = ""; // preset mặc định là recolor 2-màu, không phải màu gốc
+      Object.entries(preset).forEach(([k, v]) => {
+        next[`__bgTpl_${k}`] = v.tpl;
+        next[`__bgBg_${k}`] = v.bg;
+        next[`__bgFg_${k}`] = v.fg;
+      });
+      return { ...prev, [provinceId]: next };
+    });
+  };
+
+  // Xóa toàn bộ template nền → mọi section trở lại màu thường. Ghi dấu __bgMode="off"
+  // để trang tỉnh biết là "tắt có chủ đích" (không fallback về preset mặc định).
+  const clearBgTemplates = (provinceId) => {
+    setSectionColors((prev) => ({
+      ...prev,
+      [provinceId]: {
+        ...Object.fromEntries(
+          Object.entries(prev[provinceId] || {}).filter(([k]) => !k.startsWith("__bg"))
+        ),
+        __bgMode: "off",
+      },
     }));
   };
 
@@ -591,6 +723,37 @@ export default function LandingDesignManager() {
                           </div>
                         </div>
 
+                        {/* Màu chữ nội dung */}
+                        <div style={{ background: "#fff", border: "1px solid #e8e2d9", borderLeft: "3px solid #334155", borderRadius: "10px", padding: "14px 16px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
+                          {(() => {
+                            const tc = sectionColors[province.id]?.__textColor || "";
+                            const val = tc || "#2b251f";
+                            const setTc = (v) => handleColorChange(province.id, "__textColor", v);
+                            return (
+                              <>
+                                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" }}>
+                                  <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#334155", textTransform: "uppercase", letterSpacing: "0.08em" }}>Màu chữ</span>
+                                  {tc && <button type="button" onClick={() => setTc("")} title="Về màu đen mặc định" style={{ fontSize: "0.66rem", color: "#999", background: "none", border: "none", cursor: "pointer", padding: 0 }}>↺ Mặc định</button>}
+                                </div>
+                                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+                                  <div style={{ position: "relative", flexShrink: 0 }}>
+                                    <div style={{ width: "44px", height: "44px", borderRadius: "9px", background: val, boxShadow: "0 0 0 3px #fff, 0 0 0 4px #ddd, 0 2px 8px rgba(0,0,0,0.15)", cursor: "pointer", overflow: "hidden" }}>
+                                      <input type="color" value={val} onChange={(e) => setTc(e.target.value)} style={{ width: "200%", height: "200%", border: "none", cursor: "pointer", opacity: 0, position: "absolute", inset: "-25% -25%" }} />
+                                    </div>
+                                  </div>
+                                  <input type="text" value={tc} placeholder="Mặc định (đen)" onChange={(e) => setTc(e.target.value)} style={{ flex: 1, padding: "8px 10px", borderRadius: "7px", border: "1px solid #e5e0d8", fontSize: "0.85rem", fontFamily: "monospace", background: "#faf8f5", minWidth: 0 }} />
+                                </div>
+                                <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                                  <span style={{ fontSize: "0.68rem", color: "#bbb" }}>Nhanh:</span>
+                                  {["#2b251f", "#1e293b", "#14532d", "#3b0764", "#7c2d12", "#0c4a6e", "#450a0a"].map((c) => (
+                                    <div key={c} onClick={() => setTc(c)} title={c} style={{ width: "16px", height: "16px", borderRadius: "50%", background: c, cursor: "pointer", flexShrink: 0, boxShadow: tc === c ? `0 0 0 2px #fff, 0 0 0 3px ${c}` : "0 1px 3px rgba(0,0,0,0.2)" }} />
+                                  ))}
+                                </div>
+                              </>
+                            );
+                          })()}
+                        </div>
+
                         {/* Font chữ */}
                         <div style={{ background: "#fff", border: "1px solid #e8e2d9", borderLeft: "3px solid #6366f1", borderRadius: "10px", padding: "14px 16px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
                           <div style={{ fontSize: "0.7rem", fontWeight: 700, color: "#6366f1", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "0.08em" }}>Font chữ</div>
@@ -737,6 +900,141 @@ export default function LandingDesignManager() {
                         })}
                       </div>
                     </div>
+
+                    {/* ── Template nền (tùy chọn, không bắt buộc) ── */}
+                    {(() => {
+                      const sc = sectionColors[province.id] || {};
+                      const mode = sc.__bgMode || "all";
+                      const orig = sc.__bgOrig === "1"; // dùng template gốc (giữ màu gốc)
+                      const setK = (k, v) => handleColorChange(province.id, k, v);
+                      const colSt = { width: 30, height: 30, padding: 0, border: "1px solid #e0d9cf", borderRadius: 7, cursor: "pointer", background: "none" };
+                      // Gọi trực tiếp {renderRow(...)} (KHÔNG dùng <Row/>) để React giữ
+                      // nguyên DOM node của <input type=color> qua các re-render → bảng
+                      // màu OS không bị đóng khi đang kéo chọn màu.
+                      const renderRow = (t, b, f) => {
+                        const tpl = sc[t] || "";
+                        const bg = sc[b] || "#f4f0e8";
+                        const fg = sc[f] || "#c9a24a";
+                        return (
+                          <div style={{ display: "flex", gap: 7, alignItems: "center", flexWrap: "wrap" }}>
+                            <TemplatePicker
+                              value={tpl}
+                              bg={bg}
+                              fg={fg}
+                              templates={orig ? ORIGINAL_BG_TEMPLATES : SECTION_BG_TEMPLATES}
+                              mapObj={orig ? ORIGINAL_BG_MAP : BG_TEMPLATE_MAP}
+                              onChange={(v) => { setK(t, v); if (v && !orig) { if (!sc[b]) setK(b, "#f4f0e8"); if (!sc[f]) setK(f, "#c9a24a"); } }}
+                            />
+                            {tpl && !orig && (
+                              <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
+                                <label style={{ position: "relative", display: "inline-flex" }} title="Màu nền">
+                                  <input type="color" value={bg} onChange={(e) => setK(b, e.target.value)} style={colSt} />
+                                </label>
+                                <label style={{ position: "relative", display: "inline-flex" }} title="Màu pattern">
+                                  <input type="color" value={fg} onChange={(e) => setK(f, e.target.value)} style={colSt} />
+                                </label>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      };
+                      return (
+                        <div style={{ marginBottom: 16, padding: 12, borderRadius: 10, background: "#fbfaf7", border: "1px solid #f0ebe3" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12, flexWrap: "wrap" }}>
+                            <span style={{ fontSize: "0.72rem", fontWeight: 800, color: "#7c6a58", letterSpacing: "0.09em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: 5 }}>🖼 Template nền</span>
+
+                            {/* Segmented control: chọn phạm vi */}
+                            <div style={{ display: "inline-flex", background: "#efe8dd", borderRadius: 10, padding: 3, gap: 2 }}>
+                              {[["all", "Áp chung 11 section"], ["each", "Từng section riêng"]].map(([m, lbl]) => {
+                                const on = mode === m;
+                                return (
+                                  <button
+                                    key={m}
+                                    type="button"
+                                    onClick={() => setK("__bgMode", m)}
+                                    style={{
+                                      padding: "5px 13px", borderRadius: 8, border: "none", cursor: "pointer",
+                                      fontSize: "0.76rem", fontWeight: on ? 700 : 500,
+                                      background: on ? "#fff" : "transparent", color: on ? "#7c3aed" : "#8a7d6d",
+                                      boxShadow: on ? "0 1px 3px rgba(60,45,25,0.16)" : "none", transition: "all .15s",
+                                    }}
+                                  >
+                                    {lbl}
+                                  </button>
+                                );
+                              })}
+                            </div>
+
+                            {/* Toggle: dùng màu gốc */}
+                            <button
+                              type="button"
+                              onClick={() => setK("__bgOrig", orig ? "" : "1")}
+                              title="Dùng template nguyên bản, giữ nguyên màu gốc (kể cả bản gradient nhiều màu)"
+                              style={{
+                                display: "inline-flex", alignItems: "center", gap: 7, padding: "5px 12px 5px 8px",
+                                borderRadius: 10, cursor: "pointer", fontSize: "0.76rem", fontWeight: orig ? 700 : 600,
+                                border: `1px solid ${orig ? "#c4b5fd" : "#e0d9cf"}`,
+                                background: orig ? "linear-gradient(135deg,#f5f0ff,#ece2ff)" : "#fff",
+                                color: orig ? "#6d28d9" : "#8a7d6d", transition: "all .15s",
+                              }}
+                            >
+                              <span style={{
+                                width: 16, height: 16, borderRadius: 5, flexShrink: 0,
+                                border: `1.5px solid ${orig ? "#7c3aed" : "#cabfb0"}`,
+                                background: orig ? "#7c3aed" : "#fff", color: "#fff",
+                                fontSize: "0.62rem", lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center",
+                              }}>{orig ? "✓" : ""}</span>
+                              🎨 Màu gốc
+                            </button>
+
+                            <span style={{ flex: 1, minWidth: 8 }} />
+
+                            {/* Hành động */}
+                            <button
+                              type="button"
+                              onClick={() => applyBgDefaults(province.id, province.slug)}
+                              title="Áp template + màu theo bản sắc tỉnh"
+                              onMouseEnter={(e) => { e.currentTarget.style.background = "#fdeecb"; }}
+                              onMouseLeave={(e) => { e.currentTarget.style.background = "#fffaf0"; }}
+                              style={{
+                                display: "inline-flex", alignItems: "center", gap: 5, padding: "6px 14px", borderRadius: 10,
+                                border: "1px solid #e6c98a", background: "#fffaf0", color: "#b45309",
+                                fontSize: "0.76rem", fontWeight: 700, cursor: "pointer", transition: "background .15s",
+                              }}
+                            >
+                              🎨 Mặc định
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => clearBgTemplates(province.id)}
+                              title="Bỏ hết template, về màu thường"
+                              onMouseEnter={(e) => { e.currentTarget.style.background = "#fdf0ee"; e.currentTarget.style.color = "#c0392b"; e.currentTarget.style.borderColor = "#f0cbc3"; }}
+                              onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#9a8f80"; e.currentTarget.style.borderColor = "#e0d9cf"; }}
+                              style={{
+                                display: "inline-flex", alignItems: "center", gap: 5, padding: "6px 14px", borderRadius: 10,
+                                border: "1px solid #e0d9cf", background: "#fff", color: "#9a8f80",
+                                fontSize: "0.76rem", fontWeight: 600, cursor: "pointer", transition: "all .15s",
+                              }}
+                            >
+                              ✕ Xóa template
+                            </button>
+                          </div>
+                          {mode === "all" ? (
+                            renderRow("__bgTpl", "__bgBg", "__bgFg")
+                          ) : (
+                            <div style={{ display: "grid", gap: 7 }}>
+                              {SECTIONS.map((s) => (
+                                <div key={s.key} style={{ display: "grid", gridTemplateColumns: "132px 1fr", gap: 8, alignItems: "center" }}>
+                                  <span style={{ fontSize: "0.75rem", color: "#555" }}>{s.label}</span>
+                                  {renderRow(`__bgTpl_${s.key}`, `__bgBg_${s.key}`, `__bgFg_${s.key}`)}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          <div style={{ fontSize: "0.7rem", color: "#a99", marginTop: 8 }}>Để trống "— Không dùng —" thì section vẫn dùng màu thường bên dưới. Bật <b>🎨 Màu gốc</b> để dùng template nguyên bản giữ nguyên màu gốc (kể cả bản gradient nhiều màu), phủ full nền.</div>
+                        </div>
+                      );
+                    })()}
 
                     {/* ── Section color toolbar ── */}
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "14px" }}>
