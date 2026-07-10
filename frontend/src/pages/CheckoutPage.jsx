@@ -13,11 +13,13 @@ export default function CheckoutPage() {
     const buyNowOffer = location.state?.buyNowOffer;
     const buyNowProduct = location.state?.product;
     const isBuyNow = !!buyNowOffer;
+    const [buyNowQuantity, setBuyNowQuantity] = useState(1);
+    
     const checkoutItems = isBuyNow
-        ? [{ product: buyNowProduct, offer: buyNowOffer, quantity: 1 }]
+        ? [{ product: buyNowProduct, offer: buyNowOffer, quantity: buyNowQuantity }]
         : cartItems;
     const checkoutTotal = isBuyNow
-        ? (buyNowOffer?.price || 0)
+        ? (buyNowOffer?.price || 0) * buyNowQuantity
         : cartTotal;
     const [formData, setFormData] = useState({
         shippingName: user?.fullName || '',
@@ -133,9 +135,20 @@ export default function CheckoutPage() {
                             <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "20px" }}>Đơn hàng của bạn</h3>
                             <div style={{ borderBottom: "1px solid #eee", paddingBottom: "20px", marginBottom: "20px" }}>
                                 {checkoutItems.map(item => (
-                                    <div key={item.offer.id} style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
-                                        <span>{item.product.name} ({item.offer.shopName}) <strong>x {item.quantity}</strong></span>
-                                        <span>{(item.offer.price * item.quantity).toLocaleString()}đ</span>
+                                    <div key={item.offer.id} style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", alignItems: "center" }}>
+                                        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                                            <span>{item.product.name} ({item.offer.shopName})</span>
+                                            {isBuyNow ? (
+                                                <div style={{ display: "inline-flex", alignItems: "center", border: "1px solid #ddd", borderRadius: "6px", overflow: "hidden", width: "fit-content" }}>
+                                                    <button type="button" onClick={() => setBuyNowQuantity(q => Math.max(1, q - 1))} style={{ padding: "4px 12px", background: "#f8fafc", border: "none", borderRight: "1px solid #ddd", cursor: "pointer", fontWeight: "bold" }}>-</button>
+                                                    <span style={{ padding: "4px 16px", fontSize: "0.95rem", fontWeight: "500", background: "white" }}>{item.quantity}</span>
+                                                    <button type="button" onClick={() => setBuyNowQuantity(q => Math.min(item.offer.stockQuantity || 99, q + 1))} style={{ padding: "4px 12px", background: "#f8fafc", border: "none", borderLeft: "1px solid #ddd", cursor: "pointer", fontWeight: "bold" }}>+</button>
+                                                </div>
+                                            ) : (
+                                                <strong style={{ color: "#475569" }}>Số lượng: {item.quantity}</strong>
+                                            )}
+                                        </div>
+                                        <span style={{ fontWeight: "600", fontSize: "1.1rem" }}>{(item.offer.price * item.quantity).toLocaleString()}đ</span>
                                     </div>
                                 ))}
                             </div>

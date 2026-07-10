@@ -107,16 +107,18 @@ export default function Header() {
           </form>
 
           <div className="vx-nav__links">
-            <Link to="/cart" className="vx-nav__link" style={{ position: "relative" }}>
-              🛒 Giỏ hàng
-              {cartCount > 0 && (
-                <span style={{
-                  position: "absolute", top: "-5px", right: "-10px",
-                  background: "#e11d48", color: "white", fontSize: "0.7rem",
-                  padding: "2px 6px", borderRadius: "10px", fontWeight: "bold"
-                }}>{cartCount}</span>
-              )}
-            </Link>
+            {!isAdmin && !isSeller && (
+              <Link to="/cart" className="vx-nav__link" style={{ position: "relative" }}>
+                🛒 Giỏ hàng
+                {cartCount > 0 && (
+                  <span style={{
+                    position: "absolute", top: "-5px", right: "-10px",
+                    background: "#e11d48", color: "white", fontSize: "0.7rem",
+                    padding: "2px 6px", borderRadius: "10px", fontWeight: "bold"
+                  }}>{cartCount}</span>
+                )}
+              </Link>
+            )}
             {isAuthenticated ? (
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                 {isAdminOrEditor && isInfographicPage && (

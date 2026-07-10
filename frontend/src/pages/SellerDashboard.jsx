@@ -85,7 +85,7 @@ export default function SellerDashboard() {
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", alignItems: "start" }}>
         <div>
           <div style={{ padding: "16px 24px", borderBottom: "1px solid #e2e8f0", fontWeight: 600, background: "white", borderRadius: "12px 12px 0 0" }}>
-            Cửa hàng của bạn ({offers.length})
+            Sản phẩm đang bán ({offers.length})
           </div>
           <div className="card" style={{ padding: 0, borderRadius: "0 0 12px 12px", borderTop: "none" }}>
             {offers.length === 0 ? <div style={{ padding: 24, color: "#64748b" }}>Chưa có đăng bán nào.</div> : (
@@ -93,8 +93,9 @@ export default function SellerDashboard() {
                 {offers.map(o => (
                   <div key={o.id} style={{ display: "flex", justifyContent: "space-between", padding: "16px 24px", borderBottom: "1px solid #e2e8f0" }}>
                     <div>
-                        <div style={{ fontWeight: 600 }}>Cửa hàng: {o.shopName}</div>
-                        <div style={{ fontSize: "0.85rem", color: "#64748b" }}>Kho: {o.stockQuantity || 0}</div>
+                        <div style={{ fontWeight: 600, fontSize: "1.05rem", color: "#0f172a" }}>{o.productName || "Sản phẩm"}</div>
+                        <div style={{ fontSize: "0.85rem", color: "#475569", marginTop: "4px" }}>🏢 Cửa hàng: <span style={{ fontWeight: 500 }}>{o.shopName}</span></div>
+                        <div style={{ fontSize: "0.85rem", color: "#64748b", marginTop: "2px" }}>📦 Kho: {o.stockQuantity || 0}</div>
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "8px" }}>
                       <strong style={{ color: "#e11d48" }}>{o.price?.toLocaleString()}đ</strong>

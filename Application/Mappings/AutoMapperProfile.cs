@@ -43,7 +43,8 @@ public class AutoMapperProfile : Profile
         CreateMap<UIBlockUpdateDto, UIBlock>();
 
         CreateMap<Product, ProductDto>();
-        CreateMap<ProductOffer, ProductOfferDto>();
+        CreateMap<ProductOffer, ProductOfferDto>()
+            .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product != null ? src.Product.Name : string.Empty));
         CreateMap<ProductOfferDto, ProductOffer>();
         CreateMap<ProductCreateDto, Product>();
         CreateMap<ProductUpdateDto, Product>();

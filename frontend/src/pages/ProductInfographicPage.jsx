@@ -8,6 +8,7 @@ import { landingConfigApi } from '../api/landingConfigApi';
 import { productOfferApi } from '../api/productOfferApi';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useCart } from '../contexts/CartContext';
+import { useAuth } from '../contexts/AuthContext';
 import '../styles/ProductInfographicPage.css';
 
 export default function ProductInfographicPage() {
@@ -19,6 +20,8 @@ export default function ProductInfographicPage() {
   const [loading, setLoading] = useState(true);
   const [isShopModalOpen, setIsShopModalOpen] = useState(false);
   const { addToCart } = useCart();
+  const { user } = useAuth();
+  const role = user ? (typeof user.role === 'number' ? user.role : parseInt(user.role ?? "0", 10)) : null;
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -124,7 +127,7 @@ export default function ProductInfographicPage() {
             <span className="back-link" onClick={() => navigate(-1)}>← Quay lại</span>
             <span className="product-name">{product?.name || 'Đặc sản'}</span>
           </div>
-          {(!product?.type || product?.type === 1) && (
+          {(!product?.type || product?.type === 1) && role !== 0 && role !== 2 && (
             <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
               <button className="btn-buy-header" onClick={handleOpenShopModal}>
                 🛒 Đặt mua từ các cửa hàng
@@ -180,14 +183,15 @@ export default function ProductInfographicPage() {
               <h3>Đặt mua {product?.name}</h3>
               <button className="shop-modal-close" onClick={() => setIsShopModalOpen(false)}>×</button>
             </div>
-            <div className="shop-modal-body">
-              {(!product?.offers || product.offers.length === 0) ? (
+            <div className="shop-modal-body" data-lenis-prevent>
+              {(!product?.offers?.length && !product?.shops?.length) ? (
                 <div className="shop-empty">
-                  <p>Hiện chưa có cửa hàng nào đăng bán sản phẩm này.</p>
+                  <p>Hiện chưa có thông tin cửa hàng nào cho sản phẩm này.</p>
                 </div>
               ) : (
                 <ul className="shop-list">
-                  {product.offers.map((offer) => (
+                  {/* Internal Sellers */}
+                  {product?.offers?.map((offer) => (
                     <li key={offer.id} className="shop-item" style={{ padding: "15px", borderBottom: "1px solid #eee", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <div className="shop-info-wrapper">
                         <div className="shop-avatar-placeholder">🏪</div>
@@ -216,6 +220,34 @@ export default function ProductInfographicPage() {
                       >
                         {!offer.isOpen ? "Đóng cửa" : offer.stockQuantity > 0 ? "Mua ngay" : "Hết hàng"}
                       </button>
+                    </li>
+                  ))}
+
+                  {/* External Shops (Seed Data) */}
+                  {product?.shops?.map((shop) => (
+                    <li key={shop.id || shop.shopUrl} className="shop-item external-shop" style={{ padding: "15px", borderBottom: "1px solid #eee", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div className="shop-info-wrapper" style={{ display: "flex", alignItems: "center" }}>
+                        {shop.imageUrl ? (
+                          <img src={shop.imageUrl} alt={shop.shopName} style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover" }} />
+                        ) : (
+                          <div className="shop-avatar-placeholder" style={{ background: "#f1f5f9", width: "40px", height: "40px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>🌐</div>
+                        )}
+                        <div className="shop-info" style={{ marginLeft: "15px" }}>
+                          <strong style={{ fontSize: "1.1rem" }}>{shop.shopName}</strong>
+                          <div style={{ color: "#0284c7", fontSize: "0.85rem", marginTop: "4px", fontWeight: "600" }}>{shop.platform}</div>
+                        </div>
+                      </div>
+                      <a 
+                        href={shop.shopUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="btn-buy-header" 
+                        style={{ padding: "8px 16px", background: "#f8fafc", border: "1.5px solid #0284c7", color: "#0284c7", borderRadius: "6px", textDecoration: "none", fontWeight: "bold", transition: "all 0.2s" }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = "#e0f2fe"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = "#f8fafc"; }}
+                      >
+                        Đến cửa hàng ↗
+                      </a>
                     </li>
                   ))}
                 </ul>

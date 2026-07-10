@@ -11,4 +11,5 @@ public class ProductOfferDto
     public string ShopAddress { get; set; } = string.Empty;
     public string BusinessHours { get; set; } = string.Empty;
     public bool IsOpen { get; set; } = true;
+    public string ProductName { get; set; } = string.Empty;
 }

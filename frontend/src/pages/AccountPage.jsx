@@ -3,15 +3,27 @@ import { useNavigate, Link } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { userApi } from "../api/userApi";
+import { orderApi } from "../api/orderApi";
 
-const ROLE_LABEL = { 0: "Thành viên", 1: "Editor", 2: "Quản trị viên" };
-const ROLE_COLOR = { 0: "#6b7280", 1: "#7c3aed", 2: "#b45309" };
-const ROLE_BG    = { 0: "#f3f4f6", 1: "#f5f3ff", 2: "#fff7ed" };
+const ROLE_LABEL = { 0: "Quản trị viên", 1: "Editor", 2: "Người bán", 3: "Thành viên" };
+const ROLE_COLOR = { 0: "#b45309", 1: "#7c3aed", 2: "#059669", 3: "#6b7280" };
+const ROLE_BG    = { 0: "#fff7ed", 1: "#f5f3ff", 2: "#ecfdf5", 3: "#f3f4f6" };
 
 function getInitials(name) {
   if (!name) return "U";
   return name.split(" ").map((w) => w[0]).slice(-2).join("").toUpperCase();
 }
+
+const getOrderStatus = (status) => {
+  switch (status) {
+    case 0: return { label: "Chờ xử lý", bg: "#fef3c7", color: "#b45309" };
+    case 1: return { label: "Đang chuẩn bị", bg: "#e0e7ff", color: "#3730a3" };
+    case 2: return { label: "Đang giao", bg: "#dbeafe", color: "#1e40af" };
+    case 3: return { label: "Hoàn thành", bg: "#dcfce3", color: "#166534" };
+    case 4: return { label: "Đã hủy", bg: "#fee2e2", color: "#991b1b" };
+    default: return { label: "Không rõ", bg: "#f3f4f6", color: "#6b7280" };
+  }
+};
 
 function InputField({ label, icon, ...props }) {
   const [focused, setFocused] = useState(false);
@@ -54,11 +66,31 @@ export default function AccountPage() {
   const [toast, setToast] = useState(null); // { type: "success"|"error", text }
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("profile");
+  const [orders, setOrders] = useState([]);
+  const [loadingOrders, setLoadingOrders] = useState(false);
 
   useEffect(() => {
     if (!user) { navigate("/login"); return; }
     setProfile({ fullName: user.fullName ?? "", email: user.email ?? "" });
   }, [user, navigate]);
+
+  useEffect(() => {
+    if (activeTab === "orders") {
+      loadOrders();
+    }
+  }, [activeTab]);
+
+  const loadOrders = async () => {
+    setLoadingOrders(true);
+    try {
+      const res = await orderApi.getMyOrders();
+      setOrders(res.data || []);
+    } catch {
+      showToast("error", "Lỗi tải lịch sử đặt hàng.");
+    } finally {
+      setLoadingOrders(false);
+    }
+  };
 
   const showToast = (type, text) => {
     setToast({ type, text });
@@ -157,14 +189,19 @@ export default function AccountPage() {
                   <span style={{ fontSize: "0.75rem", fontWeight: 700, padding: "4px 12px", borderRadius: "20px", background: ROLE_BG[role] || "#f3f4f6", color: ROLE_COLOR[role] || "#6b7280" }}>
                     {ROLE_LABEL[role] || "Thành viên"}
                   </span>
-                  {(role === 1 || role === 2) && (
+                  {(role === 0 || role === 1) && (
                     <Link to="/editor" style={{ fontSize: "0.75rem", fontWeight: 600, padding: "4px 12px", borderRadius: "20px", background: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.85)", textDecoration: "none", border: "1px solid rgba(255,255,255,0.2)" }}>
                       🎨 Editor Dashboard →
                     </Link>
                   )}
-                  {role === 2 && (
+                  {role === 0 && (
                     <Link to="/admin" style={{ fontSize: "0.75rem", fontWeight: 600, padding: "4px 12px", borderRadius: "20px", background: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.85)", textDecoration: "none", border: "1px solid rgba(255,255,255,0.2)" }}>
                       ⚙️ Admin Dashboard →
+                    </Link>
+                  )}
+                  {role === 2 && (
+                    <Link to="/seller" style={{ fontSize: "0.75rem", fontWeight: 600, padding: "4px 12px", borderRadius: "20px", background: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.85)", textDecoration: "none", border: "1px solid rgba(255,255,255,0.2)" }}>
+                      🏪 Seller Dashboard →
                     </Link>
                   )}
                 </div>
@@ -176,8 +213,9 @@ export default function AccountPage() {
           <div style={{ display: "flex", gap: "4px", background: "#fff", border: "1px solid #ede8e0", borderRadius: "12px", padding: "5px", marginBottom: "20px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
             {[
               { key: "profile", label: "👤 Thông tin cá nhân" },
+              { key: "orders", label: "📦 Lịch sử đặt hàng" },
               { key: "password", label: "🔒 Đổi mật khẩu" },
-            ].map((tab) => (
+            ].filter(tab => tab.key !== "orders" || (role !== 0 && role !== 2)).map((tab) => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
@@ -258,6 +296,68 @@ export default function AccountPage() {
                 </button>
               </div>
             </form>
+          )}
+
+          {/* Orders tab */}
+          {activeTab === "orders" && (
+            <div style={{ background: "#fff", border: "1px solid #ede8e0", borderRadius: "16px", padding: "28px", boxShadow: "0 2px 8px rgba(0,0,0,0.05)", marginBottom: "16px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "24px", paddingBottom: "16px", borderBottom: "1px solid #f0ebe3" }}>
+                <div style={{ width: "3px", height: "18px", borderRadius: "2px", background: "linear-gradient(to bottom,#16a34a,#22c55e)" }} />
+                <h2 style={{ margin: 0, fontSize: "1rem", fontWeight: 700, color: "#1a1a1a" }}>Lịch sử đặt hàng</h2>
+              </div>
+              
+              {loadingOrders ? (
+                <div style={{ textAlign: "center", padding: "40px", color: "#6b7280" }}>⏳ Đang tải đơn hàng...</div>
+              ) : orders.filter(o => o.status === 3 || o.status === 4).length === 0 ? (
+                <div style={{ textAlign: "center", padding: "40px", color: "#6b7280" }}>
+                  <div style={{ fontSize: "2rem", marginBottom: "10px" }}>🛍️</div>
+                  Bạn chưa có đơn hàng lịch sử nào.
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  {orders.filter(o => o.status === 3 || o.status === 4).map((order) => {
+                    const statusInfo = getOrderStatus(order.status);
+                    return (
+                      <div key={order.id} style={{ border: "1px solid #e5e7eb", borderRadius: "12px", padding: "20px" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px", paddingBottom: "16px", borderBottom: "1px dashed #e5e7eb" }}>
+                          <div>
+                            <div style={{ fontSize: "0.85rem", color: "#6b7280", marginBottom: "4px" }}>
+                              Mã đơn: <strong style={{ color: "#111827" }}>#{order.id.split("-")[0].toUpperCase()}</strong>
+                            </div>
+                            <div style={{ fontSize: "0.8rem", color: "#9ca3af" }}>
+                              {new Date(order.orderDate).toLocaleString("vi-VN")}
+                            </div>
+                          </div>
+                          <span style={{ 
+                            fontSize: "0.75rem", fontWeight: 700, padding: "6px 12px", borderRadius: "20px",
+                            background: statusInfo.bg, color: statusInfo.color
+                          }}>
+                            {statusInfo.label}
+                          </span>
+                        </div>
+                        
+                        <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "20px" }}>
+                          {order.items?.map((item) => (
+                            <div key={item.id} style={{ display: "flex", justifyContent: "space-between", fontSize: "0.95rem" }}>
+                              <div style={{ display: "flex", gap: "8px", alignItems: "baseline" }}>
+                                <span style={{ fontWeight: 600, color: "#4b5563" }}>{item.quantity}x</span>
+                                <span style={{ color: "#1f2937" }}>{item.productName}</span>
+                              </div>
+                              <strong style={{ color: "#1f2937" }}>{(item.unitPrice * item.quantity).toLocaleString("vi-VN")} đ</strong>
+                            </div>
+                          ))}
+                        </div>
+                        
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "16px", borderTop: "1px solid #e5e7eb" }}>
+                          <span style={{ fontSize: "0.95rem", fontWeight: 600, color: "#4b5563" }}>Tổng tiền:</span>
+                          <strong style={{ fontSize: "1.2rem", color: "#b45309" }}>{order.totalAmount.toLocaleString("vi-VN")} đ</strong>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           )}
 
           {/* Logout */}

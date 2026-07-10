@@ -29,6 +29,7 @@ public class ProductOfferService : IProductOfferService
     public async Task<List<ProductOfferDto>> GetOffersBySellerAsync(Guid sellerId, CancellationToken cancellationToken)
     {
         var offers = await _context.ProductOffers
+            .Include(o => o.Product)
             .Where(o => o.SellerId == sellerId)
             .ToListAsync(cancellationToken);
         return _mapper.Map<List<ProductOfferDto>>(offers);

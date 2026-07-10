@@ -136,8 +136,11 @@ public class OrderService : IOrderService
         var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == orderId);
         if (order == null) return false;
 
-        // Chỉ Admin hoặc Seller sở hữu đơn hàng mới được update
-        if (role != UserRole.Admin && order.SellerId != userId)
+        bool isAdmin = role == UserRole.Admin;
+        bool isSeller = order.SellerId == userId;
+        bool isCustomerCancelling = order.CustomerId == userId && status == OrderStatus.Cancelled && (order.Status == OrderStatus.Pending || order.Status == OrderStatus.Processing);
+
+        if (!isAdmin && !isSeller && !isCustomerCancelling)
         {
             return false;
         }

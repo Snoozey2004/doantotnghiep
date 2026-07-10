@@ -5,8 +5,8 @@ import { authApi } from "../api/authApi";
 
 const ROLE_OPTIONS = [
   { value: "1", label: "Editor", hint: "Cần admin duyệt" },
-  { value: "3", label: "Seller", hint: "Bán đặc sản" },
-  { value: "2", label: "Customer", hint: "Khách tham quan" },
+  { value: "2", label: "Seller", hint: "Bán đặc sản" },
+  { value: "3", label: "Customer", hint: "Khách tham quan" },
 ];
 
 // Dropdown tùy biến cho vai trò — thay <select> native để đồng bộ tông editorial.
@@ -83,7 +83,7 @@ export default function RegisterPage() {
     try {
       const payload = { ...form, role: Number(form.role) };
       await authApi.register(payload);
-      const selectedRole = form.role === "1" ? "Editor" : form.role === "3" ? "Seller" : "Customer";
+      const selectedRole = form.role === "1" ? "Editor" : form.role === "2" ? "Seller" : "Customer";
       setSuccess(`✅ Đăng ký thành công! ${form.role === "1" ? "Tài khoản của bạn đang chờ Admin phê duyệt." : ""}`);
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
