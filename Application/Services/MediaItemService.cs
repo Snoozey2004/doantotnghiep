@@ -92,6 +92,11 @@ public class MediaItemService : IMediaItemService
         item.RevisionNumber = 1;
         item.LastUpdatedAt = createdAt;
         item.VersionHistoryJson = "[]";
+        // Keep the single Url field in sync with the first gallery URL
+        if (string.IsNullOrEmpty(item.Url) && dto.Urls?.Count > 0)
+        {
+            item.Url = dto.Urls[0];
+        }
         await _mediaRepository.AddAsync(item, cancellationToken);
         return _mapper.Map<MediaItemDto>(item);
     }

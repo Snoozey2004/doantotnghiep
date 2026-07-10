@@ -44,7 +44,12 @@ public class AppDbContext : DbContext
             entity.HasKey(x => x.Id);
             entity.Property(x => x.ThemeColor).HasMaxLength(50);
             entity.Property(x => x.FontFamily).HasMaxLength(100);
+            entity.Property(x => x.BackgroundUrl).HasColumnType("text");
             entity.Property(x => x.Layout).HasMaxLength(100);
+            entity.Property(x => x.SectionColorsJson).HasColumnType("text");
+            entity.Property(x => x.SectionOrderJson).HasColumnType("text");
+            entity.Property(x => x.SectionVisibilityJson).HasColumnType("text");
+            entity.Property(x => x.SectionContentJson).HasColumnType("text");
             entity.HasMany(x => x.Blocks)
                 .WithOne(x => x.LandingPageConfig)
                 .HasForeignKey(x => x.LandingPageConfigId)
