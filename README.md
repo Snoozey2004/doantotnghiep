@@ -111,6 +111,7 @@ Người dùng có thể:
 
 - Admin
 - Editor
+- Seller
 - Customer
 
 ---
@@ -166,6 +167,7 @@ npm run dev
 | -------- | --------------------- |
 | Admin    | Quản lý toàn hệ thống |
 | Editor   | Quản lý nội dung      |
+| Seller   | Quản lý bán hàng      |
 | Customer | Mua hàng              |
 
 ---

@@ -112,6 +112,8 @@ builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 builder.Services.AddScoped<IEmailNotificationService, EmailNotificationService>();
 builder.Services.AddScoped<IHtmlSanitizationService, HtmlSanitizationService>();
 builder.Services.AddScoped<IProductInfographicService, ProductInfographicService>();
+builder.Services.AddScoped<IProductOfferService, ProductOfferService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddSingleton<IRichTextConfigService, RichTextConfigService>();
 builder.Services.AddSingleton<IMapMarkerService, MapMarkerService>();
 

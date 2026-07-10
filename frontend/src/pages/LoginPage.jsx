@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout.jsx";
 import { authApi } from "../api/authApi";
@@ -36,8 +36,17 @@ export default function LoginPage() {
         return;
       }
 
-      const roleValue = Number(result.role);
-      const normalizedRole = Number.isFinite(roleValue) ? roleValue : 3;
+      let roleValue = result.role;
+      if (typeof roleValue === "string") {
+        const num = parseInt(roleValue, 10);
+        if (!isNaN(num)) {
+          roleValue = num;
+        } else {
+          const roleMap = { admin: 0, editor: 1, seller: 2, customer: 3 };
+          roleValue = roleMap[roleValue.toLowerCase()] ?? roleValue;
+        }
+      }
+      const normalizedRole = roleValue;
 
       localStorage.setItem("accessToken", result.accessToken);
       login({
@@ -47,7 +56,7 @@ export default function LoginPage() {
         role: normalizedRole
       }, result.expiresAt);
 
-      const target = normalizedRole === 0 ? "/admin" : normalizedRole === 1 ? "/editor" : "/";
+      const target = normalizedRole === 0 ? "/admin" : normalizedRole === 1 ? "/editor" : normalizedRole === 2 ? "/seller" : "/";
       navigate(target, { replace: true });
     } catch (err) {
       setError(err?.response?.data?.message || "❌ Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");

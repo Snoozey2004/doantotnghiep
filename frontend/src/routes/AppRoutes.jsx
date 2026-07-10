@@ -10,6 +10,11 @@ import RegisterPage from "../pages/RegisterPage.jsx";
 import SearchPage from "../pages/SearchPage.jsx";
 import AdminDashboard from "../pages/AdminDashboard.jsx";
 import AccountPage from "../pages/AccountPage.jsx";
+import CartPage from "../pages/CartPage.jsx";
+import CheckoutPage from "../pages/CheckoutPage.jsx";
+import SellerDashboard from "../pages/SellerDashboard.jsx";
+import SellerProductCreate from "../pages/SellerProductCreate.jsx";
+import SellerProductEdit from "../pages/SellerProductEdit.jsx";
 import AdminProvinceCreate from "../pages/AdminProvinceCreate.jsx";
 import AdminProvinceEdit from "../pages/AdminProvinceEdit.jsx";
 import AdminProvinceDelete from "../pages/AdminProvinceDelete.jsx";
@@ -53,6 +58,8 @@ export default function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/account" element={<AccountPage />} />
+      <Route path="/cart" element={<CartPage />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
 
       <Route
         path="/province/:slug/dac-san"
@@ -102,6 +109,31 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute requiredRoles={[1]}>
             <EditorContentPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/seller"
+        element={
+          <ProtectedRoute requiredRoles={[0, 2]}>
+            <SellerDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/seller/products/new"
+        element={
+          <ProtectedRoute requiredRoles={[0, 2]}>
+            <SellerProductCreate />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/seller/products/:id/edit"
+        element={
+          <ProtectedRoute requiredRoles={[0, 2]}>
+            <SellerProductEdit />
           </ProtectedRoute>
         }
       />

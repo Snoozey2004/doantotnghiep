@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebApplication1.Infrastructure.Data;
@@ -11,9 +12,11 @@ using WebApplication1.Infrastructure.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260705032159_AddSalesAndSellerFeature")]
+    partial class AddSalesAndSellerFeature
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -308,12 +311,12 @@ namespace WebApplication1.Migrations
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<Guid>("ProductOfferId")
-                        .HasColumnType("uuid");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -325,7 +328,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("ProductOfferId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderItems");
                 });
@@ -432,12 +435,21 @@ namespace WebApplication1.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<Guid>("ProvinceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("SellerId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
@@ -450,51 +462,9 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("WebApplication1.Domain.Entities.ProductOffer", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("BusinessHours")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsOpen")
-                        .HasColumnType("boolean");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("SellerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("ShopAddress")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<string>("ShopName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<int>("StockQuantity")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
                     b.HasIndex("SellerId");
 
-                    b.ToTable("ProductOffers");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.ProductShop", b =>
@@ -664,7 +634,7 @@ namespace WebApplication1.Migrations
                     b.Property<int>("Role")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasDefaultValue(3);
+                        .HasDefaultValue(2);
 
                     b.HasKey("Id");
 
@@ -772,15 +742,15 @@ namespace WebApplication1.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication1.Domain.Entities.ProductOffer", "ProductOffer")
+                    b.HasOne("WebApplication1.Domain.Entities.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductOfferId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Order");
 
-                    b.Navigation("ProductOffer");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("WebApplication1.Domain.Entities.Post", b =>
@@ -802,24 +772,12 @@ namespace WebApplication1.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Province");
-                });
-
-            modelBuilder.Entity("WebApplication1.Domain.Entities.ProductOffer", b =>
-                {
-                    b.HasOne("WebApplication1.Domain.Entities.Product", "Product")
-                        .WithMany("Offers")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebApplication1.Domain.Entities.User", "Seller")
                         .WithMany()
                         .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.Navigation("Product");
+                    b.Navigation("Province");
 
                     b.Navigation("Seller");
                 });
@@ -866,8 +824,6 @@ namespace WebApplication1.Migrations
                     b.Navigation("Galleries");
 
                     b.Navigation("Infographic");
-
-                    b.Navigation("Offers");
 
                     b.Navigation("Shops");
                 });

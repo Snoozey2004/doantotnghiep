@@ -31,12 +31,16 @@ export function AuthProvider({ children }) {
       const token = localStorage.getItem("accessToken");
 
       if (token && roleValue) {
-        const parsedRole = Number(roleValue);
+        let parsedRoleNum = Number(roleValue);
+        if (isNaN(parsedRoleNum)) {
+            const roleMap = { admin: 0, editor: 1, customer: 2, seller: 3 };
+            parsedRoleNum = roleMap[roleValue.toLowerCase()] ?? roleValue;
+        }
         setUser({
           id: null,
           fullName: userName || "",
           email: "",
-          role: Number.isFinite(parsedRole) ? parsedRole : roleValue
+          role: parsedRoleNum
         });
       }
     }
@@ -44,9 +48,20 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = (userData, expiresAt = null) => {
+    let parsedRole = userData.role;
+    if (typeof parsedRole === "string") {
+      const num = parseInt(parsedRole, 10);
+      if (!isNaN(num)) {
+        parsedRole = num;
+      } else {
+        const roleMap = { admin: 0, editor: 1, customer: 2, seller: 3 };
+        parsedRole = roleMap[parsedRole.toLowerCase()] ?? parsedRole;
+      }
+    }
+
     const userWithRole = {
       ...userData,
-      role: typeof userData.role === "string" ? parseInt(userData.role, 10) : userData.role
+      role: parsedRole
     };
     setUser(userWithRole);
     localStorage.setItem("user", JSON.stringify(userWithRole));

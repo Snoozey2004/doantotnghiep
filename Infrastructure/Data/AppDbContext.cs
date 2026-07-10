@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<LandingPageConfig> LandingPageConfigs => Set<LandingPageConfig>();
     public DbSet<UIBlock> UIBlocks => Set<UIBlock>();
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<ProductOffer> ProductOffers => Set<ProductOffer>();
     public DbSet<ProductGallery> ProductGalleries => Set<ProductGallery>();
     public DbSet<User> Users => Set<User>();
     public DbSet<ProductShop> ProductShops => Set<ProductShop>();
@@ -24,6 +25,8 @@ public class AppDbContext : DbContext
         => Set<ProductInfographic>();
     public DbSet<InfographicBlock> InfographicBlocks
         => Set<InfographicBlock>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -62,7 +65,6 @@ public class AppDbContext : DbContext
         {
             entity.HasKey(x => x.Id);
             entity.Property(x => x.Name).IsRequired().HasMaxLength(200);
-            entity.Property(x => x.Price).HasColumnType("decimal(18,2)");
             entity.HasOne(x => x.Province)
                 .WithMany(p => p.Products)
                 .HasForeignKey(x => x.ProvinceId)
@@ -71,6 +73,57 @@ public class AppDbContext : DbContext
                 .WithOne(x => x.Product)
                 .HasForeignKey<ProductInfographic>(x => x.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<ProductOffer>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.Price).HasColumnType("decimal(18,2)");
+            entity.Property(x => x.ShopName).HasMaxLength(200);
+            entity.Property(x => x.ShopAddress).HasMaxLength(500);
+            
+            entity.HasOne(x => x.Product)
+                .WithMany(p => p.Offers)
+                .HasForeignKey(x => x.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            entity.HasOne(x => x.Seller)
+                .WithMany()
+                .HasForeignKey(x => x.SellerId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.TotalAmount).HasColumnType("decimal(18,2)");
+            entity.Property(x => x.Status).HasConversion<int>();
+            
+            entity.HasOne(x => x.Customer)
+                .WithMany()
+                .HasForeignKey(x => x.CustomerId)
+                .OnDelete(DeleteBehavior.SetNull);
+                
+            entity.HasOne(x => x.Seller)
+                .WithMany()
+                .HasForeignKey(x => x.SellerId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+        
+        modelBuilder.Entity<OrderItem>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.UnitPrice).HasColumnType("decimal(18,2)");
+            
+            entity.HasOne(x => x.Order)
+                .WithMany(o => o.Items)
+                .HasForeignKey(x => x.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            entity.HasOne(x => x.ProductOffer)
+                .WithMany()
+                .HasForeignKey(x => x.ProductOfferId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<ProductGallery>(entity =>

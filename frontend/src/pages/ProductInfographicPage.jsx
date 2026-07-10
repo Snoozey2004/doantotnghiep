@@ -5,7 +5,9 @@ import BlockRenderer from '../infographic/renderers/BlockRenderer';
 import { productInfographicApi } from '../infographic/services/productInfographicApi';
 import { productApi } from '../api/productApi';
 import { landingConfigApi } from '../api/landingConfigApi';
+import { productOfferApi } from '../api/productOfferApi';
 import { motion, useScroll, useSpring } from 'framer-motion';
+import { useCart } from '../contexts/CartContext';
 import '../styles/ProductInfographicPage.css';
 
 export default function ProductInfographicPage() {
@@ -16,6 +18,7 @@ export default function ProductInfographicPage() {
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isShopModalOpen, setIsShopModalOpen] = useState(false);
+  const { addToCart } = useCart();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -38,6 +41,12 @@ export default function ProductInfographicPage() {
           setInfographic(infoRes.data);
         }
         if (productRes) {
+          try {
+            const offersRes = await productOfferApi.getOffersByProduct(productRes.id);
+            productRes.offers = offersRes || [];
+          } catch (e) {
+            productRes.offers = [];
+          }
           setProduct(productRes);
           document.title = `${productRes.name || 'Đặc sản'} - Tinh hoa ẩm thực`;
         }
@@ -62,8 +71,13 @@ export default function ProductInfographicPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleBuy = () => {
-    alert(`Chức năng đặt hàng cho ${product?.name || 'đặc sản này'} đang được hoàn thiện!`);
+  const handleOpenShopModal = () => {
+    setIsShopModalOpen(true);
+  };
+
+  const handleBuyNow = (offer) => {
+    // Navigate directly to checkout with offer details
+    navigate('/checkout', { state: { buyNowOffer: offer, product: product } });
   };
 
   if (loading) {
@@ -111,9 +125,11 @@ export default function ProductInfographicPage() {
             <span className="product-name">{product?.name || 'Đặc sản'}</span>
           </div>
           {(!product?.type || product?.type === 1) && (
-            <button className="btn-buy-header" onClick={() => setIsShopModalOpen(true)}>
-              🛒 Đặt hàng ngay
-            </button>
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <button className="btn-buy-header" onClick={handleOpenShopModal}>
+                🛒 Đặt mua từ các cửa hàng
+              </button>
+            </div>
           )}
         </div>
       </div>
@@ -165,28 +181,41 @@ export default function ProductInfographicPage() {
               <button className="shop-modal-close" onClick={() => setIsShopModalOpen(false)}>×</button>
             </div>
             <div className="shop-modal-body">
-              {(!product?.shops || product.shops.length === 0) ? (
+              {(!product?.offers || product.offers.length === 0) ? (
                 <div className="shop-empty">
-                  <p>Hiện chưa có cửa hàng nào liên kết bán sản phẩm này.</p>
+                  <p>Hiện chưa có cửa hàng nào đăng bán sản phẩm này.</p>
                 </div>
               ) : (
                 <ul className="shop-list">
-                  {product.shops.map((shop, idx) => (
-                    <li key={idx} className="shop-item">
+                  {product.offers.map((offer) => (
+                    <li key={offer.id} className="shop-item" style={{ padding: "15px", borderBottom: "1px solid #eee", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <div className="shop-info-wrapper">
-                        {shop.imageUrl ? (
-                          <img src={shop.imageUrl} alt={shop.shopName} className="shop-avatar" />
-                        ) : (
-                          <div className="shop-avatar-placeholder">🏪</div>
-                        )}
-                        <div className="shop-info">
-                          <strong>{shop.shopName}</strong>
-                          <span className="shop-platform">{shop.platform}</span>
+                        <div className="shop-avatar-placeholder">🏪</div>
+                        <div className="shop-info" style={{ marginLeft: "15px" }}>
+                          <strong style={{ fontSize: "1.1rem" }}>{offer.shopName}</strong>
+                          <div style={{ color: "#666", fontSize: "0.9rem", marginTop: "4px" }}>{offer.shopAddress}</div>
+                          {offer.businessHours && (
+                            <div style={{ color: "#475569", fontSize: "0.85rem", marginTop: "2px" }}>🕒 Giờ mở cửa: {offer.businessHours}</div>
+                          )}
+                          <div style={{ marginTop: "4px", display: "flex", gap: "8px", alignItems: "center" }}>
+                            {offer.isOpen ? (
+                              <span style={{ fontSize: "0.75rem", padding: "2px 6px", background: "#dcfce7", color: "#166534", borderRadius: "4px", fontWeight: "bold" }}>Mở cửa</span>
+                            ) : (
+                              <span style={{ fontSize: "0.75rem", padding: "2px 6px", background: "#fee2e2", color: "#991b1b", borderRadius: "4px", fontWeight: "bold" }}>Đóng cửa</span>
+                            )}
+                            <div style={{ color: "#e11d48", fontWeight: "bold" }}>Giá: {offer.price?.toLocaleString()}đ</div>
+                          </div>
+                          <div style={{ color: "#888", fontSize: "0.85rem", marginTop: "4px" }}>Tồn kho: {offer.stockQuantity}</div>
                         </div>
                       </div>
-                      <a href={shop.shopUrl} target="_blank" rel="noopener noreferrer" className="btn-shop-link">
-                        Đến cửa hàng
-                      </a>
+                      <button 
+                        className="btn-buy-header" 
+                        style={{ padding: "8px 16px", background: (!offer.isOpen || offer.stockQuantity <= 0) ? "#cbd5e1" : "#e11d48", color: "white", border: "none", borderRadius: "6px", cursor: (!offer.isOpen || offer.stockQuantity <= 0) ? "not-allowed" : "pointer", fontWeight: "bold" }}
+                        onClick={() => handleBuyNow(offer)}
+                        disabled={!offer.isOpen || offer.stockQuantity <= 0}
+                      >
+                        {!offer.isOpen ? "Đóng cửa" : offer.stockQuantity > 0 ? "Mua ngay" : "Hết hàng"}
+                      </button>
                     </li>
                   ))}
                 </ul>

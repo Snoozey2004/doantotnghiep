@@ -43,6 +43,12 @@ public class ProductService : IProductService
         return _mapper.Map<List<ProductDto>>(products);
     }
 
+    public async Task<List<ProductDto>> GetBySellerIdAsync(Guid sellerId, CancellationToken cancellationToken)
+    {
+        var products = await _productRepository.GetBySellerIdAsync(sellerId, cancellationToken);
+        return _mapper.Map<List<ProductDto>>(products);
+    }
+
     public async Task<ProductDto?> GetBySlugAsync(
         string slug,
         CancellationToken cancellationToken)

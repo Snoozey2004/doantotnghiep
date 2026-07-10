@@ -43,6 +43,8 @@ public class AutoMapperProfile : Profile
         CreateMap<UIBlockUpdateDto, UIBlock>();
 
         CreateMap<Product, ProductDto>();
+        CreateMap<ProductOffer, ProductOfferDto>();
+        CreateMap<ProductOfferDto, ProductOffer>();
         CreateMap<ProductCreateDto, Product>();
         CreateMap<ProductUpdateDto, Product>();
 
