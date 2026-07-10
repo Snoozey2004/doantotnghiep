@@ -290,6 +290,7 @@ const SearchPage = () => {
   const handleItemClick = (item) => {
     if (item.itemType === 'Province') navigate(`/province/${item.slug}`);
     else if (item.itemType === 'Post') navigate(`/post/${item.id}`);
+    else if (item.itemType === 'Media') navigate(`/media/${item.id}`);
   };
 
   return (

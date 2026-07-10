@@ -115,6 +115,39 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await dbContext.Database.MigrateAsync();
+
+    // Ensure LandingPageConfigs has the SectionVisibilityJson column.
+    // Some environments are missing it due to incomplete migration history.
+    await dbContext.Database.ExecuteSqlRawAsync("""
+        DO $$
+        BEGIN
+            IF NOT EXISTS (
+                SELECT 1 FROM information_schema.columns
+                WHERE table_name = 'LandingPageConfigs'
+                  AND column_name = 'SectionVisibilityJson'
+            ) THEN
+                ALTER TABLE "LandingPageConfigs"
+                ADD COLUMN "SectionVisibilityJson" text NOT NULL DEFAULT '';
+            END IF;
+        END;
+        $$;
+    """);
+    
+    // Also ensure SectionOrderJson exists (same migration batch concern)
+    await dbContext.Database.ExecuteSqlRawAsync("""
+        DO $$
+        BEGIN
+            IF NOT EXISTS (
+                SELECT 1 FROM information_schema.columns
+                WHERE table_name = 'LandingPageConfigs'
+                  AND column_name = 'SectionOrderJson'
+            ) THEN
+                ALTER TABLE "LandingPageConfigs"
+                ADD COLUMN "SectionOrderJson" text NOT NULL DEFAULT '';
+            END IF;
+        END;
+        $$;
+    """);
 }
 
 await SeedDefaultAdminAsync(app.Services, builder.Configuration);

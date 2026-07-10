@@ -5,6 +5,7 @@ import ProvinceProductsPage from "../pages/ProvinceProductsPage.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import ProvinceLandingPage from "../pages/ProvinceLandingPage.jsx";
 import PostDetailPage from "../pages/PostDetailPage.jsx";
+import MediaDetailPage from "../pages/MediaDetailPage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 import RegisterPage from "../pages/RegisterPage.jsx";
 import SearchPage from "../pages/SearchPage.jsx";
@@ -50,6 +51,7 @@ export default function AppRoutes() {
       <Route path="/" element={<HomePage />} />
       <Route path="/province/:slug" element={<ProvinceLandingPage />} />
       <Route path="/post/:id" element={<PostDetailPage />} />
+      <Route path="/media/:id" element={<MediaDetailPage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
