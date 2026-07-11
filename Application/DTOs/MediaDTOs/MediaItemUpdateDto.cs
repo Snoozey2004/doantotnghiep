@@ -2,6 +2,7 @@
 
 public class MediaItemUpdateDto
 {
+    public Guid ProvinceId { get; set; }
     public string MediaType { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;

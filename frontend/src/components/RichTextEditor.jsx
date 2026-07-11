@@ -1,13 +1,31 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { richContentApi } from "../api/richContentApi";
 import "../styles/richTextEditor.css";
 
 export default function RichTextEditor({ value, onChange, maxLength = 50000, placeholder = "Nhập nội dung..." }) {
   const editorRef = useRef(null);
+  const isInternalRef = useRef(false);
   const [charCount, setCharCount] = useState(value ? value.replace(/<[^>]*>/g, "").length : 0);
   const [isUploading, setIsUploading] = useState(false);
 
+  // Initialize content on first mount only.
+  // For subsequent external value changes (e.g. loading different post),
+  // update the DOM without destroying cursor during typing.
+  useEffect(() => {
+    const el = editorRef.current;
+    if (!el) return;
+    // If the user is currently typing, don't overwrite the DOM
+    if (isInternalRef.current) {
+      isInternalRef.current = false;
+      return;
+    }
+    if (el.innerHTML !== value) {
+      el.innerHTML = value;
+    }
+  }, [value]);
+
   const handleInput = (e) => {
+    isInternalRef.current = true;
     const html = e.currentTarget.innerHTML;
     onChange(html);
 
@@ -156,7 +174,6 @@ export default function RichTextEditor({ value, onChange, maxLength = 50000, pla
         className={`editor-content ${isAtLimit ? "at-limit" : ""}`}
         onInput={handleInput}
         suppressContentEditableWarning
-        dangerouslySetInnerHTML={{ __html: value }}
       />
 
       <div className="editor-footer">

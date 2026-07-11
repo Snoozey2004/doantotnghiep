@@ -81,6 +81,7 @@ export default function AdminMediaEdit() {
       const urlList = urls.map((u) => u.url);
       const hasVideo = urls.some((u) => u.isVideo);
       await mediaApi.update(id, {
+        provinceId,
         mediaType: hasVideo ? "video" : "image",
         title,
         url: urlList[0],
