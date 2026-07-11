@@ -16,7 +16,8 @@ const emptyPost = {
   videoUrl: "",
   tags: "",
   isHighlighted: false,
-  highlightOrder: 0
+  highlightOrder: 0,
+  slug: ""
 };
 
 const contentCategories = ["history", "culture", "tourism", "cuisine", "festival"];
@@ -42,7 +43,8 @@ export default function AdminPostEdit() {
         videoUrl: data.videoUrl ?? "",
         tags: data.tags ?? "",
         isHighlighted: Boolean(data.isHighlighted),
-        highlightOrder: data.highlightOrder ?? 0
+        highlightOrder: data.highlightOrder ?? 0,
+        slug: data.slug ?? ""
       }))
       .catch(() => setMessage("Không tải được bài viết."));
   }, [id]);

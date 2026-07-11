@@ -61,7 +61,14 @@ export default function AdminPostCreate() {
     event.preventDefault();
     setMessage("");
     try {
-      await postApi.create(form);
+      // Auto-generate a unique slug from the title
+      const slugBase = form.title
+        .toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "") || "post";
+      const uniqueSlug = `${slugBase}-${Date.now()}`;
+      await postApi.create({ ...form, slug: uniqueSlug });
       navigate("/admin/posts");
     } catch {
       setMessage("Tạo bài viết thất bại.");
