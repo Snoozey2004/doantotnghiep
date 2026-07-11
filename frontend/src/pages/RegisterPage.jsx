@@ -5,8 +5,7 @@ import { authApi } from "../api/authApi";
 
 const ROLE_OPTIONS = [
   { value: "1", label: "Editor", hint: "Cần admin duyệt" },
-  { value: "2", label: "Seller", hint: "Bán đặc sản" },
-  { value: "3", label: "Customer", hint: "Khách tham quan" },
+  { value: "2", label: "Customer", hint: "Khách tham quan" },
 ];
 
 // Dropdown tùy biến cho vai trò — thay <select> native để đồng bộ tông editorial.
@@ -23,7 +22,7 @@ function RoleDropdown({ value, onChange }) {
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
-  const current = ROLE_OPTIONS.find((o) => o.value === value) || ROLE_OPTIONS[2];
+  const current = ROLE_OPTIONS.find((o) => o.value === value) || ROLE_OPTIONS.at(-1);
 
   return (
     <div className="auth-select-wrap" ref={ref}>
@@ -67,7 +66,7 @@ function RoleDropdown({ value, onChange }) {
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ fullName: "", email: "", password: "", role: "3" });
+  const [form, setForm] = useState({ fullName: "", email: "", password: "", role: "2" });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -83,7 +82,7 @@ export default function RegisterPage() {
     try {
       const payload = { ...form, role: Number(form.role) };
       await authApi.register(payload);
-      const selectedRole = form.role === "1" ? "Editor" : form.role === "2" ? "Seller" : "Customer";
+      const selectedRole = form.role === "1" ? "Editor" : "Customer";
       setSuccess(`✅ Đăng ký thành công! ${form.role === "1" ? "Tài khoản của bạn đang chờ Admin phê duyệt." : ""}`);
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
