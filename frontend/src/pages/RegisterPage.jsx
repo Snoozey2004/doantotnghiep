@@ -22,7 +22,7 @@ function RoleDropdown({ value, onChange }) {
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
-  const current = ROLE_OPTIONS.find((o) => o.value === value) || ROLE_OPTIONS[2];
+  const current = ROLE_OPTIONS.find((o) => o.value === value) || ROLE_OPTIONS.at(-1);
 
   return (
     <div className="auth-select-wrap" ref={ref}>
@@ -66,7 +66,7 @@ function RoleDropdown({ value, onChange }) {
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ fullName: "", email: "", password: "", role: "3" });
+  const [form, setForm] = useState({ fullName: "", email: "", password: "", role: "2" });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
