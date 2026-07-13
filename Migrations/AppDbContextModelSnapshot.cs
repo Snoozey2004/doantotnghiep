@@ -243,6 +243,10 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("UrlsJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("VersionHistoryJson")
                         .IsRequired()
                         .HasColumnType("text");

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminLayout from "../layouts/AdminLayout.jsx";
-import RichTextEditor from "../components/RichTextEditor.jsx";
 import { provinceApi } from "../api/provinceApi";
 import { uploadApi } from "../api/uploadApi";
 
@@ -30,10 +29,6 @@ export default function AdminProvinceCreate() {
   const handleChange = (event) => {
     const value = event.target.type === "checkbox" ? event.target.checked : event.target.value;
     setForm((prev) => ({ ...prev, [event.target.name]: value }));
-  };
-
-  const handleBodyChange = (html) => {
-    setForm((prev) => ({ ...prev, body: html }));
   };
 
   const handleUpload = async (event, fieldName) => {
@@ -78,12 +73,7 @@ export default function AdminProvinceCreate() {
               <input type="file" accept="image/*" onChange={(event) => handleUpload(event, "imageUrl")} />
               <input name="videoUrl" placeholder="Video URL" value={form.videoUrl} onChange={handleChange} />
               <input type="file" accept="video/*" onChange={(event) => handleUpload(event, "videoUrl")} />
-              <input name="overview" placeholder="Tổng quan" value={form.overview} onChange={handleChange} />
-              <input name="keyFeatures" placeholder="Điểm nhấn" value={form.keyFeatures} onChange={handleChange} />
-              <textarea name="description" placeholder="Mô tả" value={form.description} onChange={handleChange} rows={3} />
-              <textarea name="introduction" placeholder="Giới thiệu (VI)" value={form.introduction} onChange={handleChange} rows={3} />
-              <textarea name="introductionEn" placeholder="Introduction (EN)" value={form.introductionEn} onChange={handleChange} rows={3} />
-              <input name="tags" placeholder="Tags (comma)" value={form.tags} onChange={handleChange} />
+              <input name="tags" placeholder="Tags (phân tách bằng dấu phẩy) — dùng cho tìm kiếm" value={form.tags} onChange={handleChange} />
               <label style={{ display: "flex", gap: 8, alignItems: "center" }}>
                 <input type="checkbox" name="isHighlighted" checked={form.isHighlighted} onChange={handleChange} />
                 Highlight
@@ -105,15 +95,9 @@ export default function AdminProvinceCreate() {
               )}
             </div>
           </div>
-          <div style={{ marginTop: 16 }}>
-            <label style={{ display: "block", marginBottom: 8, fontWeight: 600 }}>Nội dung chi tiết (Rich Text)</label>
-            <RichTextEditor
-              value={form.body}
-              onChange={handleBodyChange}
-              maxLength={50000}
-              placeholder="Nhập nội dung chi tiết với định dạng..."
-            />
-          </div>
+          <p style={{ marginTop: 16, fontSize: 13, color: "#94a3b8", lineHeight: 1.6 }}>
+            ℹ️ Chỉ cần thông tin định danh (tên, slug, khu vực), hình/video, tags và nổi bật. Nội dung trang tỉnh công khai do dữ liệu dựng sẵn + trình <strong>Sửa nội dung</strong> của editor quản lý.
+          </p>
           <button className="btn btn-primary" type="submit" style={{ marginTop: 16 }}>Lưu Province</button>
         </form>
       </div>

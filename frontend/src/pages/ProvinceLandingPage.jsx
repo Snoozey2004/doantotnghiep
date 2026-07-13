@@ -13,6 +13,9 @@ import ProvinceGallery from "../components/landing/ProvinceGallery.jsx";
 import ProvinceCTA from "../components/landing/ProvinceCTA.jsx";
 import ProvinceCharts from "../components/landing/ProvinceCharts.jsx";
 import provinces from "../data/provinceData";
+import { BG_TEMPLATE_MAP, BG_TEMPLATE_INK, buildBgUri } from "../data/sectionBgTemplates";
+import { ORIGINAL_BG_MAP } from "../data/sectionBgOriginal";
+import { getSectionBgDefault } from "../data/sectionBgDefaults";
 import { provinceApi } from "../api/provinceApi";
 import { landingConfigApi } from "../api/landingConfigApi";
 import { postApi } from "../api/postApi";
@@ -288,9 +291,71 @@ export default function ProvinceLandingPage() {
   }
 
   const accentColor = config?.themeColor || province.accentColor;
-  const sc = config?.sectionColors || {};
+  // Template nền: nếu editor đã cấu hình (có key __bg*) → dùng cấu hình đó (kể cả
+  // __bgMode="off" = tắt có chủ đích). Nếu CHƯA cấu hình → tự dùng preset mặc định
+  // theo bản sắc tỉnh (mỗi tỉnh khác nhau) để trang luôn có nền đặc trưng.
+  const scRaw = config?.sectionColors || {};
+  const sc = Object.keys(scRaw).some((k) => k.startsWith("__bg"))
+    ? scRaw
+    : (() => {
+        const preset = getSectionBgDefault(slug);
+        const o = { ...scRaw, __bgMode: "each" };
+        Object.entries(preset).forEach(([k, v]) => {
+          o[`__bgTpl_${k}`] = v.tpl;
+          o[`__bgBg_${k}`] = v.bg;
+          o[`__bgFg_${k}`] = v.fg;
+        });
+        return o;
+      })();
   const fontFamily = config?.fontFamily || "";
   const layout = config?.layout || "default";
+  // Template nền section (tùy chọn). Không chọn template → không set var → section
+  // dùng màu thường như cũ. Có 2 mode: "all" (1 template cho mọi section) và "each".
+  const bgVars = (() => {
+    const vars = {};
+    // 3 chế độ: recolor 2-màu (mặc định) dùng 2 lớp ink+full animate dệt;
+    // "màu gốc" (__bgOrig) dùng template gốc giữ nguyên màu, 1 lớp phủ cover, tĩnh.
+    const orig = sc.__bgOrig === "1";
+    const uri = (tpl, bg, fg) => {
+      if (orig) {
+        const raw = tpl && ORIGINAL_BG_MAP[tpl];
+        return raw ? buildBgUri(raw, "", "") : null;
+      }
+      const full = tpl && BG_TEMPLATE_MAP[tpl];
+      if (!full) return null;
+      const ink = BG_TEMPLATE_INK[tpl] || full;
+      const b = bg || "#f4f0e8";
+      const f = fg || "#c9a24a";
+      return `${buildBgUri(ink, b, f)}, ${buildBgUri(full, b, f)}`;
+    };
+    let any = false;
+    if ((sc.__bgMode || "all") === "all") {
+      const u = uri(sc.__bgTpl, sc.__bgBg, sc.__bgFg);
+      if (u) {
+        vars["--sbg-all"] = u;
+        vars["--sbg-attach"] = "fixed"; // neo viewport → liền mạch giữa các section
+        any = true;
+      }
+    } else {
+      ["intro", "video", "charts", "timeline", "culture", "specialties", "craftVillages", "festivals", "gallery", "info"].forEach((k) => {
+        const u = uri(sc["__bgTpl_" + k], sc["__bgBg_" + k], sc["__bgFg_" + k]);
+        if (u) { vars["--sbg-" + k] = u; any = true; }
+      });
+    }
+    if (any) {
+      if (orig) {
+        // template gốc: phủ full-bleed giữ màu gốc; phóng to nhẹ + trôi chéo qua lại
+        // (flow) cho có chuyển động, hợp với các bản gradient.
+        vars["--sbg-size"] = "180% 180%";
+        vars["--sbg-rep"] = "no-repeat";
+        vars["--sbg-pos"] = "0% 20%";
+        vars["--sbg-anim"] = "vxOrigFlow 34s ease-in-out infinite";
+      } else {
+        vars["--sbg-anim"] = "vxSecWeave 26s linear infinite";
+      }
+    }
+    return vars;
+  })();
   const sectionOrder = config?.sectionOrder?.length > 0
     ? config.sectionOrder
     : ["hero","intro","video","charts","timeline","culture","specialties","craftVillages","festivals","gallery","info"];
@@ -423,8 +488,9 @@ export default function ProvinceLandingPage() {
         {metaImage && <meta name="twitter:image" content={metaImage} />}
       </Helmet>
       <div
+        data-province-slug={slug}
         className={["province-page", layout !== "default" ? `province-layout-${layout}` : ""].filter(Boolean).join(" ")}
-        style={{ "--accent": accentColor, ...(fontFamily ? { fontFamily, "--province-heading-font": fontFamily } : {}) }}
+        style={{ "--accent": accentColor, ...bgVars, ...(sc.__textColor ? { "--province-text": sc.__textColor } : {}), ...(fontFamily ? { fontFamily, "--province-heading-font": fontFamily } : {}) }}
       >
         {sectionOrder.map((key) => sectionVisibility[key] === false ? null : (sectionElements[key] ?? null))}
       </div>

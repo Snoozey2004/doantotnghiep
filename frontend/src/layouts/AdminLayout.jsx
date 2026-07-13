@@ -7,7 +7,8 @@ const navItems = [
   { label: "Quản lý bài viết", path: "/admin/posts" },
   { label: "Quản lý đặc sản", path: "/admin/products" },
   { label: "Media Library", path: "/admin/media" },
-  { label: "Landing Config", path: "/admin/landing" },
+  { label: "Thiết kế Landing", path: "/admin/landing" },
+  { label: "Nội dung Landing", path: "/admin/landing/content" },
   { label: "Quản lý đơn hàng", path: "/admin/orders" },
   { label: "Users", path: "/admin/users" }
 ];
@@ -26,8 +27,9 @@ export default function AdminLayout({ children }) {
             </div>
             {navItems.map((item) => {
               let isActive;
-              if (item.path === "/admin") {
-                // root admin page should only be active on exact match
+              if (item.path === "/admin" || item.path === "/admin/landing") {
+                // "/admin" và "/admin/landing" chỉ active khi khớp CHÍNH XÁC
+                // (để /admin/landing/content không làm sáng cả "Thiết kế Landing")
                 isActive = location.pathname === item.path;
               } else {
                 isActive = location.pathname === item.path || location.pathname.startsWith(`${item.path}/`);

@@ -56,9 +56,12 @@ public class AutoMapperProfile : Profile
         CreateMap<PostCreateDto, Post>();
         CreateMap<PostUpdateDto, Post>();
 
-        CreateMap<MediaItem, MediaItemDto>();
-        CreateMap<MediaItemCreateDto, MediaItem>();
-        CreateMap<MediaItemUpdateDto, MediaItem>();
+        CreateMap<MediaItem, MediaItemDto>()
+            .ForMember(dest => dest.Urls, opt => opt.MapFrom(src => MediaMappingHelper.DeserializeUrls(src.UrlsJson)));
+        CreateMap<MediaItemCreateDto, MediaItem>()
+            .ForMember(dest => dest.UrlsJson, opt => opt.MapFrom(src => MediaMappingHelper.SerializeUrls(src.Urls)));
+        CreateMap<MediaItemUpdateDto, MediaItem>()
+            .ForMember(dest => dest.UrlsJson, opt => opt.MapFrom(src => MediaMappingHelper.SerializeUrls(src.Urls)));
 
         CreateMap<AnalyticsEvent, AnalyticsEventDto>();
         CreateMap<AnalyticsEventCreateDto, AnalyticsEvent>();
@@ -66,5 +69,31 @@ public class AutoMapperProfile : Profile
         CreateMap<User, Application.DTOs.AuthDTOs.UserDto>();
         CreateMap<Application.DTOs.AuthDTOs.UserAdminUpdateDto, User>();
         CreateMap<Application.DTOs.AuthDTOs.UserProfileUpdateDto, User>();
+    }
+}
+
+/// <summary>Helper methods for MediaItem JSON serialization in AutoMapper.
+/// Avoids expression tree issues with optional arguments.</summary>
+internal static class MediaMappingHelper
+{
+    public static List<string> DeserializeUrls(string? urlsJson)
+    {
+        if (string.IsNullOrEmpty(urlsJson))
+            return new List<string>();
+        try
+        {
+            return System.Text.Json.JsonSerializer.Deserialize<List<string>>(urlsJson) ?? new List<string>();
+        }
+        catch
+        {
+            return new List<string>();
+        }
+    }
+
+    public static string SerializeUrls(List<string>? urls)
+    {
+        if (urls == null || urls.Count == 0)
+            return "[]";
+        return System.Text.Json.JsonSerializer.Serialize(urls);
     }
 }

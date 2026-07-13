@@ -5,6 +5,7 @@ import ProvinceProductsPage from "../pages/ProvinceProductsPage.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import ProvinceLandingPage from "../pages/ProvinceLandingPage.jsx";
 import PostDetailPage from "../pages/PostDetailPage.jsx";
+import MediaDetailPage from "../pages/MediaDetailPage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 import RegisterPage from "../pages/RegisterPage.jsx";
 import SearchPage from "../pages/SearchPage.jsx";
@@ -29,6 +30,7 @@ import AdminMediaDelete from "../pages/AdminMediaDelete.jsx";
 import AdminUsersDashboard from "../pages/AdminUsersDashboard.jsx";
 import AdminUserEdit from "../pages/AdminUserEdit.jsx";
 import AdminLandingDashboard from "../pages/AdminLandingDashboard.jsx";
+import AdminLandingContent from "../pages/AdminLandingContent.jsx";
 import AdminLandingCreate from "../pages/AdminLandingCreate.jsx";
 import AdminLandingEdit from "../pages/AdminLandingEdit.jsx";
 import AdminLandingDelete from "../pages/AdminLandingDelete.jsx";
@@ -55,6 +57,7 @@ export default function AppRoutes() {
       <Route path="/" element={<HomePage />} />
       <Route path="/province/:slug" element={<ProvinceLandingPage />} />
       <Route path="/post/:id" element={<PostDetailPage />} />
+      <Route path="/media/:id" element={<MediaDetailPage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
@@ -258,6 +261,14 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute requiredRoles={[0, 1]}>
             <AdminLandingDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/landing/content"
+        element={
+          <ProtectedRoute requiredRoles={[0, 1]}>
+            <AdminLandingContent />
           </ProtectedRoute>
         }
       />
