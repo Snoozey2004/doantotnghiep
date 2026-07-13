@@ -9,5 +9,6 @@ public interface IOrderService
     Task<List<OrderDto>> GetOrdersForCustomerAsync(Guid customerId);
     Task<List<OrderDto>> GetOrdersForSellerAsync(Guid sellerId);
     Task<OrderDto?> GetOrderByIdAsync(Guid id);
+    Task<List<OrderDto>> GetAllOrdersAsync();
     Task<bool> UpdateOrderStatusAsync(Guid orderId, OrderStatus status, Guid userId, UserRole role);
 }

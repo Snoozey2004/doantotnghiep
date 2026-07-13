@@ -81,6 +81,21 @@ public class OrdersController : ControllerBase
         return Ok(orders);
     }
 
+    [HttpGet("all")]
+    [Authorize]
+    public async Task<IActionResult> GetAllOrders()
+    {
+        var roleClaim = User.FindFirstValue(ClaimTypes.Role);
+        if (roleClaim != ((int)UserRole.Admin).ToString() && 
+            roleClaim != UserRole.Admin.ToString())
+        {
+            return Forbid();
+        }
+
+        var orders = await _orderService.GetAllOrdersAsync();
+        return Ok(orders);
+    }
+
     [HttpPut("{id}/status")]
     [Authorize]
     public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromBody] UpdateOrderStatusRequest request)

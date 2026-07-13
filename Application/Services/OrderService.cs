@@ -131,6 +131,20 @@ public class OrderService : IOrderService
         return order == null ? null : MapToDto(order);
     }
 
+    public async Task<List<OrderDto>> GetAllOrdersAsync()
+    {
+        var orders = await _context.Orders
+            .Include(o => o.Customer)
+            .Include(o => o.Seller)
+            .Include(o => o.Items)
+            .ThenInclude(i => i.ProductOffer)
+            .ThenInclude(po => po.Product)
+            .OrderByDescending(o => o.OrderDate)
+            .ToListAsync();
+
+        return orders.Select(MapToDto).ToList();
+    }
+
     public async Task<bool> UpdateOrderStatusAsync(Guid orderId, OrderStatus status, Guid userId, UserRole role)
     {
         var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == orderId);

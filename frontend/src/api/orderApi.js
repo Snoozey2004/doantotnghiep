@@ -12,5 +12,8 @@ export const orderApi = {
   },
   updateOrderStatus(id, status) {
     return axiosClient.put(`/api/orders/${id}/status`, { status });
+  },
+  getAllOrders() {
+    return axiosClient.get("/api/orders/all");
   }
 };

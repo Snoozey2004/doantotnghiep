@@ -8,6 +8,7 @@ const navItems = [
   { label: "Quản lý đặc sản", path: "/admin/products" },
   { label: "Media Library", path: "/admin/media" },
   { label: "Landing Config", path: "/admin/landing" },
+  { label: "Quản lý đơn hàng", path: "/admin/orders" },
   { label: "Users", path: "/admin/users" }
 ];
 
