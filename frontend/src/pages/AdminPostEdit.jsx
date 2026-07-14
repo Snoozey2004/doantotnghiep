@@ -9,7 +9,6 @@ import { uploadApi } from "../api/uploadApi";
 const emptyPost = {
   provinceId: "",
   title: "",
-  content: "",
   body: "",
   contentEn: "",
   category: "",
@@ -37,7 +36,6 @@ export default function AdminPostEdit() {
       .then((data) => setForm({
         provinceId: data.provinceId ?? "",
         title: data.title ?? "",
-        content: data.content ?? "",
         body: data.body ?? "",
         contentEn: data.contentEn ?? "",
         category: data.category ?? "",
@@ -105,7 +103,6 @@ export default function AdminPostEdit() {
                 ))}
               </select>
               <input name="title" placeholder="Tiêu đề" value={form.title} onChange={handleChange} required />
-              <input name="slug" placeholder="Slug" value={form.slug} onChange={handleChange} required />
               <select name="category" value={form.category} onChange={handleChange}>
                 <option value="">Chọn chủ đề</option>
                 {contentCategories.map((category) => (
@@ -116,7 +113,6 @@ export default function AdminPostEdit() {
               <input type="file" accept="image/*" onChange={(event) => handleUpload(event, "imageUrl")} />
               <input name="videoUrl" placeholder="Video URL" value={form.videoUrl} onChange={handleChange} />
               <input type="file" accept="video/*" onChange={(event) => handleUpload(event, "videoUrl")} />
-              <textarea name="content" placeholder="Nội dung (VI)" value={form.content} onChange={handleChange} rows={3} />
               <textarea name="contentEn" placeholder="Content (EN)" value={form.contentEn} onChange={handleChange} rows={3} />
               <input name="tags" placeholder="Tags (comma)" value={form.tags} onChange={handleChange} />
               <label style={{ display: "flex", gap: 8, alignItems: "center" }}>

@@ -51,6 +51,16 @@ public class ProductRepository : IProductRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<List<Product>> GetBySellerIdAsync(Guid sellerId, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Products
+            .Include(x => x.Galleries)
+            .Include(x => x.Shops)
+            .AsNoTracking()
+            .Where(p => p.Offers.Any(o => o.SellerId == sellerId))
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<Product?> GetBySlugAsync(
         string slug,
         CancellationToken cancellationToken)

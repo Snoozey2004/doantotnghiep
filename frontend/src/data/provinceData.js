@@ -3913,8 +3913,8 @@ const provinces = [
     description:
       "Đồng Nai sở hữu khu dự trữ sinh quyển, trái cây phong phú và không gian xanh rộng lớn.",
     accentColor: "#15803d",
-    heroImage: "/Images/Landingpagedongnai/vuon-quoc-gia-cat-tien.jpg",
-    introImage: "/Images/Landingpagedongnai/Dong-Nai-3.jpg",
+    heroImage: "/Images/LandingpageDongNai/vuon-quoc-gia-cat-tien.jpg",
+    introImage: "/Images/LandingpageDongNai/Dong-Nai-3.jpg",
     stats: [
       { value: "300+", label: "Năm lịch sử" },
       { value: "200+", label: "Di tích văn hóa" },
@@ -3928,7 +3928,7 @@ const provinces = [
         description:
           "Các lưu dân người Việt bắt đầu khai khẩn vùng đất Đồng Nai – Gia Định, xây dựng định cư đầu tiên tại Cù Lao Phố (Biên Hòa).",
         icon: "🚢",
-        image: "/Images/Landingpagedongnai/vuegeneraledelarroyochinoissagonpv0007573-read-only-17066713404091835128177.jpg",
+        image: "/Images/LandingpageDongNai/vuegeneraledelarroyochinoissagonpv0007573-read-only-17066713404091835128177.jpg",
       },
       {
         year: "1698",
@@ -3936,7 +3936,7 @@ const provinces = [
         description:
           "Chúa Nguyễn lập Phủ Gia Định gồm vùng Đồng Nai, mở đầu giai đoạn quản lý hành chính chính thức của người Việt tại đất phương Nam.",
         icon: "🏛️",
-        image: "/Images/Landingpagedongnai/Lich-su-Dong-Nai.jpg",
+        image: "/Images/LandingpageDongNai/Lich-su-Dong-Nai.jpg",
       },
       {
         year: "Thế kỷ XIX",
@@ -3944,7 +3944,7 @@ const provinces = [
         description:
           "Biên Hòa phát triển thành trung tâm thương mại quan trọng với gốm sứ, gỗ và nông sản trao đổi sôi động với Sài Gòn và quốc tế.",
         icon: "⚓",
-        image: "/Images/Landingpagedongnai/vanmieutranbienvov-1683876680.jpg",
+        image: "/Images/LandingpageDongNai/vanmieutranbienvov-1683876680.jpg",
       },
       {
         year: "Hiện đại",
@@ -3952,7 +3952,7 @@ const provinces = [
         description:
           "Đồng Nai trở thành trung tâm công nghiệp lớn nhất miền Nam với các khu công nghiệp thu hút đầu tư nước ngoài hàng tỷ đô.",
         icon: "🏭",
-        image: "/Images/Landingpagedongnai/Long-Thanh-3.jpg",
+        image: "/Images/LandingpageDongNai/Long-Thanh-3.jpg",
       },
     ],
     craftVillages: [
@@ -3961,7 +3961,7 @@ const provinces = [
         product: "Gốm mỹ nghệ",
         description:
           "Gốm Biên Hòa nổi tiếng từ thế kỷ XIX với men rạn đặc trưng màu xanh lam, được sưu tầm và trưng bày tại nhiều bảo tàng quốc tế.",
-        image: "/Images/Landingpagedongnai/thuong-hieu-gom-bien-hoa-vang-danh-the-gioi-mot-thoi-1635135453.jpg",
+        image: "/Images/LandingpageDongNai/thuong-hieu-gom-bien-hoa-vang-danh-the-gioi-mot-thoi-1635135453.jpg",
         age: "200+ năm",
       },
       {
@@ -3969,7 +3969,7 @@ const provinces = [
         product: "Đá ong xây dựng",
         description:
           "Vùng khai thác và chế tác đá ong – loại đá xây dựng tự nhiên đặc trưng Nam Bộ, được dùng xây nhà cổ và công trình văn hóa.",
-        image: "/Images/Landingpagedongnai/Cac_thanh_pham_deu_duoc_hoan_thien_mot_cach_chin_chu_nhat_a8e83064b9.jpg",
+        image: "/Images/LandingpageDongNai/Cac_thanh_pham_deu_duoc_hoan_thien_mot_cach_chin_chu_nhat_a8e83064b9.jpg",
         age: "200+ năm",
       },
       {
@@ -3977,7 +3977,7 @@ const provinces = [
         product: "Lục bình, mây tre",
         description:
           "Làng nghề đan lát lục bình, mây tre tạo ra sản phẩm thủ công mỹ nghệ xuất khẩu sang châu Âu và châu Á.",
-        image: "/Images/Landingpagedongnai/dan-lat-7-755.jpg",
+        image: "/Images/LandingpageDongNai/dan-lat-7-755.jpg",
         age: "100+ năm",
       },
       {
@@ -3985,7 +3985,7 @@ const provinces = [
         product: "Bưởi đặc sản",
         description:
           "Vùng trồng bưởi Tân Triều nổi tiếng cả nước với hương thơm đặc biệt và múi bưởi ngọt thanh được thị trường ưa chuộng.",
-        image: "/Images/Landingpagedongnai/lang-buoi-tan-trieu-o-dong-nai-ivivu-4.jpg",
+        image: "/Images/LandingpageDongNai/lang-buoi-tan-trieu-o-dong-nai-ivivu-4.jpg",
         age: "100+ năm",
       },
     ],
@@ -3996,7 +3996,7 @@ const provinces = [
         description:
           "Lễ hội cúng đình Kỳ Yên truyền thống của người miền Nam tại các đình làng Đồng Nai với hát bội, múa lân và lễ cầu an.",
         significance: "Lễ hội đình làng Nam Bộ",
-        image: "/Images/Landingpagedongnai/3433.NGHI%20THỨC%20NGHINH%20ÔNG-01102023.jpg",
+        image: "/Images/LandingpageDongNai/3433.NGHI%20THỨC%20NGHINH%20ÔNG-01102023.jpg",
       },
       {
         name: "Lễ hội trái cây Long Khánh",
@@ -4004,7 +4004,7 @@ const provinces = [
         description:
           "Lễ hội tôn vinh các loại trái cây đặc sản Long Khánh gồm sầu riêng, chôm chôm, bưởi... với nhiều hoạt động vui chơi hấp dẫn.",
         significance: "Lễ hội nông nghiệp đặc trưng",
-        image: "/Images/Landingpagedongnai/le-hoi-trai-cay-long-khanh-2770.jpg",
+        image: "/Images/LandingpageDongNai/le-hoi-trai-cay-long-khanh-2770.jpg",
       },
       {
         name: "Lễ Nguyên Tiêu Biên Hòa",
@@ -4012,7 +4012,7 @@ const provinces = [
         description:
           "Lễ hội rằm tháng Giêng tại Biên Hòa – nơi có cộng đồng Hoa lớn – với đèn lồng rực rỡ và các hoạt động văn hóa truyền thống.",
         significance: "Lễ hội cộng đồng Hoa người Việt",
-        image: "/Images/Landingpagedongnai/vi-sao-ram-thang-gieng-duoc-goi-la-tet-nguyen-tieu-2155.jpg",
+        image: "/Images/LandingpageDongNai/vi-sao-ram-thang-gieng-duoc-goi-la-tet-nguyen-tieu-2155.jpg",
       },
       {
         name: "Hội Chùa Ông Biên Hòa",
@@ -4020,7 +4020,7 @@ const provinces = [
         description:
           "Lễ hội tại Chùa Ông – Thất Phủ Cổ Miếu do người Hoa lập từ thế kỷ XVIII – với các nghi lễ cầu an và biểu diễn văn hóa truyền thống.",
         significance: "Di tích lịch sử cộng đồng Hoa",
-        image: "/Images/Landingpagedongnai/Le-Hoi-Chua-Ong-4.jpg",
+        image: "/Images/LandingpageDongNai/Le-Hoi-Chua-Ong-4.jpg",
       },
     ],
     specialties: [
@@ -4028,57 +4028,57 @@ const provinces = [
         name: "Gỏi cá Biên Hòa",
         description: "Vị chua cay hài hòa.",
         origin: "Biên Hòa",
-        image: "/Images/Landingpagedongnai/goi-ca-bien-hoa-avatar.jpg",
+        image: "/Images/LandingpageDongNai/goi-ca-bien-hoa-avatar.jpg",
       },
       {
         name: "Bưởi Tân Triều",
         description: "Trái cây đặc sản ngọt thanh.",
         origin: "Vĩnh Cửu",
-        image: "/Images/Landingpagedongnai/lang-buoi-tan-trieu-o-dong-nai-ivivu-4.jpg",
+        image: "/Images/LandingpageDongNai/lang-buoi-tan-trieu-o-dong-nai-ivivu-4.jpg",
       },
       {
         name: "Lẩu lá khổ qua",
         description: "Món ăn thanh mát đặc trưng.",
         origin: "Đồng Nai",
-        image: "/Images/Landingpagedongnai/lau-kho-qua-nam-thumbnail.jpg",
+        image: "/Images/LandingpageDongNai/lau-kho-qua-nam-thumbnail.jpg",
       },
     ],
     tourism: [
       {
         name: "Vườn quốc gia Cát Tiên",
         description: "Hệ sinh thái rừng nhiệt đới đa dạng.",
-        image: "/Images/Landingpagedongnai/9.5._Du_lich_xanh_o_Vuon_Quoc_gia_Cat_Tien_1.jpg",
+        image: "/Images/LandingpageDongNai/9.5._Du_lich_xanh_o_Vuon_Quoc_gia_Cat_Tien_1.jpg",
       },
       {
         name: "Khu du lịch Bửu Long",
         description: "Hồ nước và núi đá nên thơ.",
-        image: "/Images/Landingpagedongnai/khu_du_lich_buu_long.jpg",
+        image: "/Images/LandingpageDongNai/khu_du_lich_buu_long.jpg",
       },
       {
         name: "Thác Giang Điền",
         description: "Thác nước mát lành.",
-        image: "/Images/Landingpagedongnai/Thác-Giang-Điền.jpg",
+        image: "/Images/LandingpageDongNai/Thác-Giang-Điền.jpg",
       },
     ],
     culture: [
       {
         name: "Lễ hội trái cây",
         description: "Sắc màu nông sản Đông Nam Bộ.",
-        image: "/Images/Landingpagedongnai/212501-khai-mac-le-hoi-trai-cay-long-khanh.jpg",
+        image: "/Images/LandingpageDongNai/212501-khai-mac-le-hoi-trai-cay-long-khanh.jpg",
       },
       {
         name: "Đờn ca tài tử",
         description: "Không gian âm nhạc Nam Bộ.",
-        image: "/Images/Landingpagedongnai/le-hoi-dong-nai-4.jpg",
+        image: "/Images/LandingpageDongNai/le-hoi-dong-nai-4.jpg",
       },
     ],
     gallery: [
-      "/Images/Landingpagedongnai/vuon-quoc-gia-cat-tien.jpg",
-      "/Images/Landingpagedongnai/Thác-Giang-Điền.jpg",
-      "/Images/Landingpagedongnai/khu_du_lich_buu_long.jpg",
-      "/Images/Landingpagedongnai/Chua-Ong-1.jpg",
-      "/Images/Landingpagedongnai/Den-Long.jpg",
-      "/Images/Landingpagedongnai/le-hoi-trai-cay-long-khanh-2770.jpg",
+      "/Images/LandingpageDongNai/vuon-quoc-gia-cat-tien.jpg",
+      "/Images/LandingpageDongNai/Thác-Giang-Điền.jpg",
+      "/Images/LandingpageDongNai/khu_du_lich_buu_long.jpg",
+      "/Images/LandingpageDongNai/Chua-Ong-1.jpg",
+      "/Images/LandingpageDongNai/Den-Long.jpg",
+      "/Images/LandingpageDongNai/le-hoi-trai-cay-long-khanh-2770.jpg",
     ],
     charts: {
       barChart: {

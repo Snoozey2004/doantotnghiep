@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Application.Interfaces.Repositories;
@@ -139,7 +139,7 @@ public class SearchRepository : ISearchRepository
 
     public async Task<List<Product>> SearchProductsAsync(string? keyword, decimal? minPrice, decimal? maxPrice, CancellationToken cancellationToken)
     {
-        var query = _dbContext.Products.AsNoTracking().AsQueryable();
+        var query = _dbContext.Products.Include(p => p.Offers).AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(keyword))
         {
@@ -148,12 +148,12 @@ public class SearchRepository : ISearchRepository
 
         if (minPrice.HasValue)
         {
-            query = query.Where(p => p.Price >= minPrice.Value);
+            query = query.Where(p => p.Offers.Any(o => o.Price >= minPrice.Value));
         }
 
         if (maxPrice.HasValue)
         {
-            query = query.Where(p => p.Price <= maxPrice.Value);
+            query = query.Where(p => p.Offers.Any(o => o.Price <= maxPrice.Value));
         }
 
         return await query.ToListAsync(cancellationToken);

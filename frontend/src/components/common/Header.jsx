@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { authApi } from "../../api/authApi";
 import { useAuth } from "../../contexts/AuthContext.jsx";
+import { useCart } from "../../contexts/CartContext.jsx";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -58,8 +59,10 @@ export default function Header() {
   const userRole = user ? (typeof user.role === "string" ? parseInt(user.role, 10) : user.role) : null;
   const isAdmin = userRole === 0;
   const isEditor = userRole === 1;
+  const isSeller = userRole === 2;
   const isAdminOrEditor = isAdmin || isEditor;
   const displayName = user?.fullName || user?.name || user?.username || user?.email || "Tài khoản";
+  const { cartCount } = useCart();
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
@@ -104,6 +107,18 @@ export default function Header() {
           </form>
 
           <div className="vx-nav__links">
+            {!isAdmin && !isSeller && (
+              <Link to="/cart" className="vx-nav__link" style={{ position: "relative" }}>
+                🛒 Giỏ hàng
+                {cartCount > 0 && (
+                  <span style={{
+                    position: "absolute", top: "-5px", right: "-10px",
+                    background: "#e11d48", color: "white", fontSize: "0.7rem",
+                    padding: "2px 6px", borderRadius: "10px", fontWeight: "bold"
+                  }}>{cartCount}</span>
+                )}
+              </Link>
+            )}
             {isAuthenticated ? (
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                 {isAdminOrEditor && isInfographicPage && (
@@ -134,7 +149,7 @@ export default function Header() {
                     <Link to="/account" onClick={() => setIsAccountOpen(false)}>
                       Tài khoản
                     </Link>
-                    {isAdminOrEditor && (
+                    {isEditor && (
                       <Link to="/editor" onClick={() => setIsAccountOpen(false)}>
                         Editor Dashboard
                       </Link>
@@ -142,6 +157,11 @@ export default function Header() {
                     {isAdmin && (
                       <Link to="/admin" onClick={() => setIsAccountOpen(false)}>
                         Admin Dashboard
+                      </Link>
+                    )}
+                    {isSeller && (
+                      <Link to="/seller" onClick={() => setIsAccountOpen(false)}>
+                        Seller Dashboard
                       </Link>
                     )}
                     <button

@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BCrypt.Net;
@@ -44,7 +44,7 @@ public class AuthService : IAuthService
             throw new InvalidOperationException("Cannot register as admin.");
         }
 
-        if (dto.Role is not (UserRole.Editor or UserRole.Customer))
+        if (dto.Role is not (UserRole.Editor or UserRole.Seller or UserRole.Customer))
         {
             throw new InvalidOperationException("Invalid role selection.");
         }

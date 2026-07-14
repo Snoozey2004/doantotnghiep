@@ -5,19 +5,27 @@
 
 .search-page {
   min-height: calc(100vh - 80px);
-  background:
-    radial-gradient(
-      circle at 15% 0%,
-      rgba(233, 218, 195, 0.55),
-      transparent 46%
-    ),
-    radial-gradient(
-      circle at 88% 10%,
-      rgba(198, 166, 128, 0.22),
-      transparent 40%
-    ),
-    #f6f1e8;
+  /* Nền hình subtle-prism.svg + lớp phủ kem nhẹ để chữ/thẻ vẫn đọc rõ. */
+  background-color: #f6f1e8;
+  background-image:
+    linear-gradient(rgba(246, 241, 232, 0.34), rgba(246, 241, 232, 0.34)),
+    url("/bg/subtle-prism.svg");
+  background-repeat: no-repeat, no-repeat;
+  /* lớp veil giữ cover; lớp prism phóng to 180% để có chỗ trôi (flow như Lăng kính). */
+  background-size: cover, 180% 180%;
+  background-position: center, 0% 20%;
+  background-attachment: fixed, fixed;
+  animation: searchPrismFlow 34s ease-in-out infinite;
   color: #2b251f;
+}
+/* Prism trôi chéo qua lại (chỉ lớp thứ 2 di chuyển; veil đồng màu nên không đổi). */
+@keyframes searchPrismFlow {
+  0%   { background-position: center, 0% 20%; }
+  50%  { background-position: center, 100% 80%; }
+  100% { background-position: center, 0% 20%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .search-page { animation: none; }
 }
 
 /* ── Hero search header ──────────────────── */
@@ -305,13 +313,13 @@
 .results-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 20px;
 }
 
-/* ── Result card ────────────────────────── */
+/* ── Result card (zigzag editorial: ảnh lớn ~42%) ── */
 .result-card {
   display: grid;
-  grid-template-columns: 180px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
   gap: 0;
   border: 1.5px solid rgba(155, 138, 112, 0.16);
   border-radius: 18px;
@@ -333,8 +341,8 @@
 
 .result-card-img {
   position: relative;
-  width: 180px;
-  min-height: 160px;
+  width: 100%;
+  min-height: 230px;
   overflow: hidden;
   flex-shrink: 0;
   background: #ede5d8;
@@ -359,7 +367,7 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #e8dfd4, #d4c5b2);
-  min-height: 160px;
+  min-height: 230px;
 }
 
 .result-card-img--placeholder span {
@@ -370,10 +378,11 @@
 }
 
 .result-card-body {
-  padding: 18px 20px;
+  padding: 26px 30px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  justify-content: center;
+  gap: 11px;
   min-width: 0;
 }
 
@@ -729,3 +738,49 @@
     padding: 20px 16px 40px;
   }
 }
+
+/* Zigzag: thẻ lẻ đảo ảnh sang phải (tái dùng thủ thuật direction rtl của trang chủ) */
+.search-page .result-card--reversed { direction: rtl; }
+.search-page .result-card--reversed > * { direction: ltr; }
+
+/* Zigzag editorial: tiêu đề to hơn + mobile xuống 1 cột */
+.search-page .result-card-title { font-size: clamp(1.15rem, 1.6vw, 1.5rem); }
+@media (max-width: 640px) {
+  .result-card,
+  .result-card--reversed { grid-template-columns: 1fr; direction: ltr; }
+  .result-card-img,
+  .result-card-img--placeholder { min-height: 190px; }
+}
+
+/* Viền thẻ rõ hơn + khung đôi nhẹ + hover nhấn accent */
+.search-page .result-card {
+  border: 1.5px solid var(--line-strong);
+  box-shadow: var(--shadow-sm), inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+}
+.search-page .result-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+
+/* =====================================================================
+   VIEN HOANH PHI - khung son son thep vang (border-image SVG), 3 mau 3 mien
+   Bac=luc / Trung=do son / Nam=navy. Ket qua khong co region -> gold.
+   ===================================================================== */
+.search-page .result-card {
+  border: 17px solid transparent;
+  border-radius: 0;
+  border-image-slice: 50;
+  border-image-width: 17px;
+  border-image-outset: 0;
+  border-image-repeat: stretch;
+  border-image-source: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'%3E%3Crect x='4.5' y='4.5' width='211' height='211' rx='3' fill='none' stroke='%23c9a24a' stroke-width='3.2'/%3E%3Crect x='11' y='11' width='198' height='198' rx='2' fill='none' stroke='%23c9a24a' stroke-width='2.2'/%3E%3Crect x='15' y='15' width='190' height='190' fill='none' stroke='%23c9a24a' stroke-width='1'/%3E%3Cg fill='none' stroke='%23e6c66a' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 52 Q6 6 52 6'/%3E%3Cpath d='M6 34 Q6 6 34 6'/%3E%3Cpath d='M14 34 Q14 14 34 14 Q24 14 24 24 Q24 30 18 30'/%3E%3Ccircle cx='23' cy='23' r='2.6' fill='%23e6c66a'/%3E%3Cpath d='M34 6 q9 3 8 14 M6 34 q3 9 14 8'/%3E%3Cpath d='M42 20 q6 2 5 9 M20 42 q2 6 9 5'/%3E%3C/g%3E%3Cg transform='translate(220,0) scale(-1,1)'%3E%3Cg fill='none' stroke='%23e6c66a' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 52 Q6 6 52 6'/%3E%3Cpath d='M6 34 Q6 6 34 6'/%3E%3Cpath d='M14 34 Q14 14 34 14 Q24 14 24 24 Q24 30 18 30'/%3E%3Ccircle cx='23' cy='23' r='2.6' fill='%23e6c66a'/%3E%3Cpath d='M34 6 q9 3 8 14 M6 34 q3 9 14 8'/%3E%3Cpath d='M42 20 q6 2 5 9 M20 42 q2 6 9 5'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(0,220) scale(1,-1)'%3E%3Cg fill='none' stroke='%23e6c66a' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 52 Q6 6 52 6'/%3E%3Cpath d='M6 34 Q6 6 34 6'/%3E%3Cpath d='M14 34 Q14 14 34 14 Q24 14 24 24 Q24 30 18 30'/%3E%3Ccircle cx='23' cy='23' r='2.6' fill='%23e6c66a'/%3E%3Cpath d='M34 6 q9 3 8 14 M6 34 q3 9 14 8'/%3E%3Cpath d='M42 20 q6 2 5 9 M20 42 q2 6 9 5'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(220,220) scale(-1,-1)'%3E%3Cg fill='none' stroke='%23e6c66a' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 52 Q6 6 52 6'/%3E%3Cpath d='M6 34 Q6 6 34 6'/%3E%3Cpath d='M14 34 Q14 14 34 14 Q24 14 24 24 Q24 30 18 30'/%3E%3Ccircle cx='23' cy='23' r='2.6' fill='%23e6c66a'/%3E%3Cpath d='M34 6 q9 3 8 14 M6 34 q3 9 14 8'/%3E%3Cpath d='M42 20 q6 2 5 9 M20 42 q2 6 9 5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  box-shadow: 0 10px 30px rgba(43, 30, 18, 0.16);
+  background: var(--white);
+}
+.search-page .result-card:hover {
+  border-image-slice: 50;
+  box-shadow: 0 18px 44px rgba(43, 30, 18, 0.24);
+}
+/* Bo bg trang cua vung anh de anh sat khung */
+.search-page .result-card-img { min-height: 210px; }

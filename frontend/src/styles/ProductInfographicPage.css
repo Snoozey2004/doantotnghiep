@@ -383,6 +383,7 @@
   overflow-y: auto;
   background-color: #f9fafb;
   flex: 1;
+  min-height: 0;
 }
 
 .shop-empty {
