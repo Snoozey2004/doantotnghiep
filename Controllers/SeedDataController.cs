@@ -45,7 +45,7 @@ public class SeedDataController : ControllerBase
                 ProvinceId = hanoi.Id,
                 Name = "Phở Hà Nội",
                 Slug = "pho-ha-noi",
-                Price = 50000,
+                
                 ImageUrl = "/Images/pho-bo-ha-noi.jpeg",
                 IsPublished = true,
                 IsFeatured = true
@@ -110,7 +110,7 @@ public class SeedDataController : ControllerBase
             ProvinceId = hanoi.Id,
             Name = "Phở Hà Nội",
             Slug = "pho-ha-noi",
-            Price = 55000,
+            
             ImageUrl = "/Images/pho-bo-ha-noi.jpeg",
             IsPublished = true,
             IsFeatured = true
@@ -207,7 +207,7 @@ public class SeedDataController : ControllerBase
             ProvinceId = hanoi.Id,
             Name = "Bún Chả Hà Nội",
             Slug = "bun-cha-ha-noi",
-            Price = 60000,
+            
             ImageUrl = "/Images/Landingpagehanoi/pexels-nhavan-33082608.jpg",
             IsPublished = true,
             IsFeatured = true
@@ -291,7 +291,7 @@ public class SeedDataController : ControllerBase
             ProvinceId = hanoi.Id,
             Name = "Bánh Cuốn Hà Nội",
             Slug = "banh-cuon-ha-noi",
-            Price = 45000,
+            
             ImageUrl = "/Images/Landingpagehanoi/pexels-nhavan-36930594.jpg",
             IsPublished = true,
             IsFeatured = false
@@ -375,7 +375,7 @@ public class SeedDataController : ControllerBase
             ProvinceId = hanoi.Id,
             Name = "Chè Hà Nội",
             Slug = "che-ha-noi",
-            Price = 25000,
+            
             ImageUrl = "/Images/Landingpagehanoi/pexels-soc-nang-d-ng-2150345854-36204083.jpg",
             IsPublished = true,
             IsFeatured = false

@@ -52,7 +52,7 @@ public class FileStorageService : IFileStorageService
             throw new InvalidOperationException("Empty file.");
         }
 
-        var uploadsRoot = Path.Combine(_environment.ContentRootPath, "frontend", "Images", "uploads");
+        var uploadsRoot = Path.Combine(_environment.ContentRootPath, "frontend", "public", "uploads");
         var normalizedSubFolder = subFolder?.Trim().Trim('/', '\\');
         var folder = string.IsNullOrWhiteSpace(normalizedSubFolder) ? uploadsRoot : Path.Combine(uploadsRoot, normalizedSubFolder);
         Directory.CreateDirectory(folder);

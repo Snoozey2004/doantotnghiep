@@ -19,7 +19,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 builder.Services.AddHttpClient(); // cho AI chat proxy
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -59,18 +63,21 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>
     {
-        var frontendUrls = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
-        if (frontendUrls != null && frontendUrls.Any())
+        var frontendUrlsStr = builder.Configuration["AllowedOrigins"];
+        if (!string.IsNullOrEmpty(frontendUrlsStr))
         {
-            policy.WithOrigins(frontendUrls)
+            var urls = frontendUrlsStr.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            policy.WithOrigins(urls)
                   .AllowAnyHeader()
-                  .AllowAnyMethod();
+                  .AllowAnyMethod()
+                  .AllowCredentials(); // Thêm cái này phòng trường hợp Frontend gửi Cookie/Token
         }
         else
         {
-            policy.WithOrigins("http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176", "https://localhost:5173", "https://localhost:5174", "https://localhost:5175", "https://localhost:5176")
+            policy.WithOrigins("http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176", "https://localhost:5173", "https://localhost:5174", "https://localhost:5175", "https://localhost:5176", "https://vietnam-identity-system.vercel.app")
                   .AllowAnyHeader()
-                  .AllowAnyMethod();
+                  .AllowAnyMethod()
+                  .AllowCredentials();
         }
     });
 });
@@ -105,6 +112,8 @@ builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 builder.Services.AddScoped<IEmailNotificationService, EmailNotificationService>();
 builder.Services.AddScoped<IHtmlSanitizationService, HtmlSanitizationService>();
 builder.Services.AddScoped<IProductInfographicService, ProductInfographicService>();
+builder.Services.AddScoped<IProductOfferService, ProductOfferService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddSingleton<IRichTextConfigService, RichTextConfigService>();
 builder.Services.AddSingleton<IMapMarkerService, MapMarkerService>();
 
@@ -167,6 +176,7 @@ static async Task SeedSampleDataAsync(IServiceProvider services)
     await DataSeeder.SeedAsync(dbContext, CancellationToken.None);
 }
 
+app.UseDeveloperExceptionPage();
 app.UseCors("Frontend");
 
 if (!app.Environment.IsDevelopment())

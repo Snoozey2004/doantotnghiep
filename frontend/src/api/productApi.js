@@ -16,6 +16,9 @@ export const productApi = {
       .get(`/api/products/slug/${slug}`)
       .then((res) => res.data),
 
+  getBySellerId: (id) =>
+    axiosClient.get(`/api/products/seller/${id}`).then((res) => res.data),
+
   create: (data) =>
     axiosClient.post("/api/products", data).then((res) => res.data),
 

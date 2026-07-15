@@ -8,6 +8,7 @@ public interface IProductRepository
     Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task<List<Product>> GetByProvinceIdAsync(Guid provinceId, CancellationToken cancellationToken);
     Task<List<Product>> GetByProvinceSlugAsync(string provinceSlug, CancellationToken cancellationToken);
+    Task<List<Product>> GetBySellerIdAsync(Guid sellerId, CancellationToken cancellationToken);
     Task<Product?> GetBySlugAsync(
     string slug,
     CancellationToken cancellationToken);

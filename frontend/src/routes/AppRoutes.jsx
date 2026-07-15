@@ -11,6 +11,11 @@ import RegisterPage from "../pages/RegisterPage.jsx";
 import SearchPage from "../pages/SearchPage.jsx";
 import AdminDashboard from "../pages/AdminDashboard.jsx";
 import AccountPage from "../pages/AccountPage.jsx";
+import CartPage from "../pages/CartPage.jsx";
+import CheckoutPage from "../pages/CheckoutPage.jsx";
+import SellerDashboard from "../pages/SellerDashboard.jsx";
+import SellerProductCreate from "../pages/SellerProductCreate.jsx";
+import SellerProductEdit from "../pages/SellerProductEdit.jsx";
 import AdminProvinceCreate from "../pages/AdminProvinceCreate.jsx";
 import AdminProvinceEdit from "../pages/AdminProvinceEdit.jsx";
 import AdminProvinceDelete from "../pages/AdminProvinceDelete.jsx";
@@ -35,6 +40,7 @@ import AdminProductsDashboard from "../pages/AdminProductsDashboard.jsx";
 import AdminProductCreate from "../pages/AdminProductCreate.jsx";
 import AdminProductEdit from "../pages/AdminProductEdit.jsx";
 import AdminProductDelete from "../pages/AdminProductDelete.jsx";
+import AdminOrdersDashboard from "../pages/AdminOrdersDashboard.jsx";
 import EditorDashboard from "../pages/EditorDashboard.jsx";
 import EditorAnalytics from "../pages/EditorAnalytics.jsx";
 import EditorMapPage from "../pages/EditorMapPage.jsx";
@@ -56,6 +62,8 @@ export default function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/account" element={<AccountPage />} />
+      <Route path="/cart" element={<CartPage />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
 
       <Route
         path="/province/:slug/dac-san"
@@ -105,6 +113,31 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute requiredRoles={[1]}>
             <EditorContentPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/seller"
+        element={
+          <ProtectedRoute requiredRoles={[0, 2]}>
+            <SellerDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/seller/products/new"
+        element={
+          <ProtectedRoute requiredRoles={[0, 2]}>
+            <SellerProductCreate />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/seller/products/:id/edit"
+        element={
+          <ProtectedRoute requiredRoles={[0, 2]}>
+            <SellerProductEdit />
           </ProtectedRoute>
         }
       />
@@ -308,6 +341,14 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute requiredRoles={[0, 1]}>
             <AdminProductDelete />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/orders"
+        element={
+          <ProtectedRoute requiredRoles={[0]}>
+            <AdminOrdersDashboard />
           </ProtectedRoute>
         }
       />
