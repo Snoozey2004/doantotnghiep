@@ -1,5 +1,7 @@
 # 🌏 Hệ Thống Thông Tin & Kinh Doanh Đặc Sản Địa Phương
 
+Domain: https://dacsandiaphuong.vercel.app/
+
 Chuyên đề tốt nghiệp - Nhóm Phạm Minh Hiếu
 
 ## 📌 Mục lục
